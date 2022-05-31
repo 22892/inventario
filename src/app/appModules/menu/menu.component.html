@@ -1,0 +1,1766 @@
+<nz-tabset  style="padding-left: 50px; padding-right: 50px" [(nzSelectedIndex)]="index"  nzSize="large">
+    <nz-tab *ngFor="let tab of tabs" [nzTitle]="titleTemplate">
+        <ng-template #titleTemplate>
+            <i nz-icon [nzType]="tab.icon"></i>
+            {{ tab.name }}
+        </ng-template>
+
+        <nz-card>
+
+            <div class="steps-content">
+
+                <div *ngIf="index == 0">
+
+
+                    <div class="tabs">
+
+                        <input type="radio" name="tabs" id="tabone" checked="checked">
+                        <label for="tabone">Menús</label>
+                        <div class="tab">
+                            <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                            
+                                <nz-col class="gutter-row" nzSpan="24">
+                    
+                                    <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                    
+                    
+                                        <nz-col class="gutter-row" nzSpan="24" style="text-align: center;">
+                                            <nz-radio-group [(ngModel)]="radioValue">
+                                                <nz-space>
+                                                    <label *nzSpaceItem nz-radio-button nzValue="1" (click)="tipoMenuPlataforma(1)">Menú Web</label>
+                                                    <label *nzSpaceItem nz-radio-button nzValue="0" (click)="tipoMenuPlataforma(2)">Menú Movil</label>
+                        
+                                                </nz-space>
+                                            </nz-radio-group>
+                        
+                                        </nz-col>
+                                        
+                    
+                                    </nz-row>
+        
+        
+                                    <nz-row [nzGutter]="16">
+                                        <nz-col nzSpan="12" nzOffset="6">
+        
+        
+                                            <form nz-form [nzLayout]="'vertical'" style="margin-top: 30px;"
+                                                [formGroup]="menuForm" (ngSubmit)="submitForm()">
+        
+                                                <ng-container *ngIf="tipoPlataforma == 1; else tipoMovil">
+                                                    <nz-form-item>
+                                                        <nz-form-label [nzSm]="24" [nzXs]="24" nzRequired>Tipo de Menú
+                                                        </nz-form-label>
+                                                        <nz-form-control [nzSm]="24" [nzXs]="24"
+                                                            nzErrorTip="Selección no valida">
+                                                            <nz-select formControlName="men_tipo_menu"
+                                                                nzPlaceHolder="Seleccione un tipo de menu para ser creado" nzShowSearch
+                                                                [(ngModel)]="selectTipoMenu">
+                                                                <ng-container *ngFor="let item of listTipoMenu">
+                                                                    <nz-option [nzLabel]="item.tim_nombre" [nzValue]="item" >
+            
+                                                                    </nz-option>
+                                                                </ng-container>
+                                                                
+                                                            </nz-select>
+                                                        </nz-form-control>
+                                                    </nz-form-item>
+            
+            
+                                                    <nz-form-item>
+                                                        <nz-form-control [nzSm]="24" [nzXs]="24"
+                                                            nzErrorTip="Ingrese un titulo">
+                                                            <nz-form-label nzRequired>Titulo</nz-form-label>
+                                                            <input nz-input formControlName="men_titulo" type="text"/>
+                                                        </nz-form-control>
+                                                    </nz-form-item>
+            
+                                                    <nz-form-item>
+                                                        <nz-form-control [nzSm]="24" [nzXs]="24"
+                                                            nzErrorTip="Ingrese una descripción">
+                                                            <nz-form-label nzRequired>Descripción</nz-form-label>
+                                                            <input nz-input formControlName="men_descripcion" type="text"/>
+                                                        </nz-form-control>
+                                                    </nz-form-item>
+            
+                                                    <nz-form-item>
+                                                        <nz-form-control [nzSm]="24" [nzXs]="24"
+                                                            nzErrorTip="Ingrese un icono">
+                                                            <nz-form-label nzRequired>Icono</nz-form-label>
+                                                            <input nz-input formControlName="men_icono" type="text"/>
+                                                        </nz-form-control>
+                                                    </nz-form-item>
+        
+                                                    <nz-form-item>
+                                                        <nz-form-control [nzSm]="24" [nzXs]="24"
+                                                            nzErrorTip="Ingrese un nombre de tipo icono">
+                                                            <nz-form-label nzRequired>Tipo Icono</nz-form-label>
+                                                            <input nz-input formControlName="men_tipo_icono" type="text"/>
+                                                        </nz-form-control>
+                                                    </nz-form-item>
+            
+            
+                                                    <nz-form-item>
+                                                        <nz-form-control [nzSm]="24" [nzXs]="24"
+                                                            nzErrorTip="Ingrese una ruta">
+                                                            <nz-form-label nzRequired>Path</nz-form-label>
+                                                            <input nz-input formControlName="men_path" type="text"/>
+                                                        </nz-form-control>
+                                                    </nz-form-item>
+            
+                                                </ng-container>
+        
+                                                <ng-template #tipoMovil>
+        
+                                                    <nz-form-item>
+                                                        <nz-form-label [nzSm]="24" [nzXs]="24" nzRequired>Tipo de Menú
+                                                        </nz-form-label>
+                                                        <nz-form-control [nzSm]="24" [nzXs]="24"
+                                                            nzErrorTip="Selección no valida">
+                                                            <nz-select formControlName="men_tipo_menu"
+                                                                nzPlaceHolder="Seleccione un tipo de menu para ser creado" nzShowSearch
+                                                                [(ngModel)]="selectTipoMenu">
+                                                                <ng-container *ngFor="let item of listTipoMenu">
+                                                                    <nz-option [nzLabel]="item.tim_nombre" [nzValue]="item">
+            
+                                                                    </nz-option>
+                                                                </ng-container>
+                                                                
+                                                            </nz-select>
+                                                        </nz-form-control>
+                                                    </nz-form-item>
+            
+            
+                                                    <nz-form-item>
+                                                        <nz-form-control [nzSm]="24" [nzXs]="24"
+                                                            nzErrorTip="Ingrese un titulo">
+                                                            <nz-form-label nzRequired>Titulo</nz-form-label>
+                                                            <input nz-input formControlName="men_titulo" type="text"/>
+                                                        </nz-form-control>
+                                                    </nz-form-item>
+            
+                                                    <nz-form-item>
+                                                        <nz-form-control [nzSm]="24" [nzXs]="24"
+                                                            nzErrorTip="Ingrese una descripción">
+                                                            <nz-form-label nzRequired>Descripción</nz-form-label>
+                                                            <input nz-input formControlName="men_descripcion" type="text"/>
+                                                        </nz-form-control>
+                                                    </nz-form-item>
+            
+                                                    <nz-form-item>
+                                                        <nz-form-control [nzSm]="24" [nzXs]="24"
+                                                            nzErrorTip="Ingrese un icono">
+                                                            <nz-form-label nzRequired>Icono</nz-form-label>
+                                                            <input nz-input formControlName="men_icono" type="text"/>
+                                                        </nz-form-control>
+                                                    </nz-form-item>
+        
+                                                    <nz-form-item>
+                                                        <nz-form-control [nzSm]="24" [nzXs]="24"
+                                                            nzErrorTip="Ingrese un nombre de tipo icono">
+                                                            <nz-form-label nzRequired>Tipo Icono</nz-form-label>
+                                                            <input nz-input formControlName="men_tipo_icono" type="text"/>
+                                                        </nz-form-control>
+                                                    </nz-form-item>
+                                                    
+            
+            
+                                                    <nz-form-item>
+                                                        <nz-form-control [nzSm]="24" [nzXs]="24"
+                                                            nzErrorTip="Ingrese una ruta">
+                                                            <nz-form-label nzRequired>Path</nz-form-label>
+                                                            <input nz-input formControlName="men_path" type="text"/>
+                                                        </nz-form-control>
+                                                    </nz-form-item>
+            
+                                                    <nz-form-item>
+                                                        <nz-form-control [nzSm]="24" [nzXs]="24"
+                                                            nzErrorTip="Ingrese color icono">
+                                                            <nz-form-label nzRequired>Color Icono</nz-form-label>
+                                                            <input nz-input formControlName="men_color_icon" type="text"/>
+                                                        </nz-form-control>
+                                                    </nz-form-item>
+            
+                                                    <nz-form-item>
+                                                        <nz-form-control [nzSm]="24" [nzXs]="24"
+                                                            nzErrorTip="Ingrese un color de titulo">
+                                                            <nz-form-label nzRequired>Color Titulo</nz-form-label>
+                                                            <input nz-input formControlName="men_color_titulo" type="text"/>
+                                                        </nz-form-control>
+                                                    </nz-form-item>
+            
+                                                    <nz-form-item>
+                                                        <nz-form-control [nzSm]="24" [nzXs]="24"
+                                                            nzErrorTip="Ingrese un color de descripción">
+                                                            <nz-form-label nzRequired>Color Descripción</nz-form-label>
+                                                            <input nz-input formControlName="men_color_descripcion" type="text"/>
+                                                        </nz-form-control>
+                                                    </nz-form-item>
+            
+                                                    
+                                                </ng-template>
+        
+                                            </form>
+                                        
+                                        </nz-col>
+                                    </nz-row>
+        
+                                    <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+        
+                                        <nz-col class="gutter-row" nzSpan="24" style="text-align: center;">
+        
+                                            <button nz-button nzType="primary" [nzLoading]="isLoadingCrearMenu" (click)="crearMenus()" >
+                                            <span>Crear Menú</span>
+        
+                                        </button>
+        
+                                        </nz-col>
+        
+        
+                                    </nz-row>
+        
+                                        
+                                    
+                                </nz-col>
+                    
+                            </nz-row>
+                        </div>
+                    
+                        <input type="radio" name="tabs" id="tabtwo">
+                        <label for="tabtwo">Roles</label>
+                        <div class="tab">
+
+                            <nz-row [nzGutter]="16">
+                                <nz-col nzSpan="12" nzOffset="6">
+
+
+                                    <form nz-form [nzLayout]="'vertical'" style="margin-top: 30px;"
+                                        [formGroup]="rolForm" (ngSubmit)="submitFormRol()">
+
+                                        <nz-form-item>
+                                            <nz-form-control [nzSm]="24" [nzXs]="24"
+                                                nzErrorTip="Ingrese una descripcio para rol">
+                                                <nz-form-label nzRequired>Descripción Rol</nz-form-label>
+                                                <input nz-input formControlName="rol_descripcion" type="text"/>
+                                            </nz-form-control>
+                                        </nz-form-item>
+
+                                    </form>
+                                </nz-col>
+                            </nz-row>
+
+                            <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+        
+                                <nz-col class="gutter-row" nzSpan="24" style="text-align: center;">
+
+                                    <button nz-button nzType="primary" [nzLoading]="isLoadingCrearRol" (click)="createRol()" >
+                                    <span>Crear Rol</span>
+
+                                </button>
+
+                                </nz-col>
+
+
+                            </nz-row>
+
+                         
+                        </div>
+                        
+                        <input type="radio" name="tabs" id="tabthree">
+                        <label for="tabthree">Empresas</label>
+                        <div class="tab">
+
+                            <nz-row [nzGutter]="16">
+                                <nz-col nzSpan="12" nzOffset="6">
+
+                                    <form nz-form [nzLayout]="'vertical'" style="margin-top: 30px;" [formGroup]="empresaForm" (ngSubmit)="submitFormRol()">
+
+                                        <nz-form-item>
+                                            <nz-form-control [nzSm]="24" [nzXs]="24"
+                                                nzErrorTip="Ingrese una ID empresa">
+                                                <nz-form-label nzRequired>ID</nz-form-label>
+                                                <input nz-input formControlName="emp_id" type="text"/>
+                                            </nz-form-control>
+                                        </nz-form-item>
+
+                                        <nz-form-item>
+                                            <nz-form-control [nzSm]="24" [nzXs]="24"
+                                                nzErrorTip="Ingrese la razon social">
+                                                <nz-form-label nzRequired>Razon Social</nz-form-label>
+                                                <input nz-input formControlName="emp_razon_social" type="text"/>
+                                            </nz-form-control>
+                                        </nz-form-item>
+
+                                        <nz-form-item>
+                                            <nz-form-control [nzSm]="24" [nzXs]="24"
+                                                nzErrorTip="Ingrese un nombre comercial">
+                                                <nz-form-label nzRequired>Nombre Comercial</nz-form-label>
+                                                <input nz-input formControlName="emp_nombre_comercial" type="text"/>
+                                            </nz-form-control>
+                                        </nz-form-item>
+
+
+                                    </form>
+                                </nz-col>
+                            </nz-row>
+                          
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div *ngIf="index == 1">
+
+
+                    <div class="tabs">
+
+                        <input type="radio" name="tabs2" id="tabindex2" checked="checked">
+                        <label for="tabindex2">Listado Menús</label>
+                        <div class="tab">
+
+                            <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                                <nz-col nzSpan="12" class="gutter-row">
+                           
+                                    <div class="radioTipo">
+
+                                        <nz-radio-group style="width: 100%; margin-bottom: 10px" [(ngModel)]="radioTipoMenu">
+                                            <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                                                <nz-col nzSpan="12" class="gutter-row">
+                                                    <label nz-radio nzValue="A" (click)="getListMenuByType(0)" >Menús Principal</label>
+        
+                                                </nz-col>
+                                                <nz-col nzSpan="12" class="gutter-row">
+                                                    <label nz-radio nzValue="B" (click)="getListMenuByType(1)">Submenus</label>
+        
+                                                </nz-col>
+        
+                                            </nz-row>
+                                        </nz-radio-group>
+    
+
+                                    </div>
+
+                                </nz-col>
+                            </nz-row>
+                               
+
+                            <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+
+                                <nz-col class="gutter-row">
+        
+                                    <div nz-row *ngIf="listMenuPadre.length == 0 && !cargandoMenuPadre">
+                                        <div nz-col nzSpan="24">
+                                          
+                                          <nz-empty 
+                                            nzNotFoundImage="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg" [nzNotFoundContent]="contentTpl"
+                                            [nzNotFoundFooter]="footerTpl">
+                                            <ng-template #contentTpl>
+                                              <span> No Existe Menus Creados </span>
+                                            </ng-template>
+                                            <ng-template #footerTpl>
+                                              <!--<button nz-button nzType="primary" [routerLink]="['/pqrs/nuevopqr']">Crear Nuevo Accesorio</button>-->
+                                            </ng-template>
+                                          </nz-empty>
+                                        </div>
+                                    </div>
+        
+                                    <nz-table  #filterTable  [nzData]="listMenuPadre" nzTableLayout="fixed" [nzLoading]="cargandoMenuPadre">
+                                        <thead *ngIf="listMenuPadre.length > 0">
+                                          <tr>
+                                            <th 
+                                              *ngFor="let column of listOfColumns"
+                                              [nzSortOrder]="column.sortOrder"
+                                              [nzSortFn]="column.sortFn"
+                                              [nzSortDirections]="column.sortDirections"
+                                              [nzFilterMultiple]="column.filterMultiple"
+                                              [nzFilters]="column.listOfFilter"
+                                              [nzFilterFn]="column.filterFn"
+                                              [nzShowFilter]="column.filterFn ? true : false"
+                                              [nzWidth]="column.width ? column.width : null"
+                                              style="text-align: center; background-color: black; color: white; font-size: 13px;"
+                                            >
+                                              {{ column.name }}
+                                            </th>
+                                          </tr>
+                                        </thead>
+                                        <tbody style="text-align: center;" *ngIf="listMenuPadre.length > 0" >
+                                            <tr *ngFor="let item of filterTable.data">
+              
+                                                <ng-container *ngIf="item.men_codigo == 0; else muestraDatos">
+
+                                                </ng-container>
+
+                                                <ng-template #muestraDatos>
+                                                    <td>
+                                                        <small>
+                                                            <nz-tag style="border-radius: 10px; font-size: 10px;" [nzColor]="'yellow'"> {{item.men_titulo}}</nz-tag>
+                                                        </small>
+                                                    </td>
+                                                   
+                                                    <td>
+                                                        <small>
+                                                            {{item.men_descripcion}}
+                                                        </small>
+                                                    </td>
+                                                    
+                                                    <td>
+                                                        <small>
+                                                        
+                                                            <nz-tag style="border-radius: 10px; font-size: 10px;" [nzColor]="'red'"> {{item.men_icono}}</nz-tag>
+                
+                                                        </small>
+                                                    </td>
+            
+                                                    <td>
+                                                        <small>
+                
+                                                            <ng-container *ngIf="item.men_tipo_menu == 1; else tipoMovilDos">
+                                                                <nz-col class="gutter-row">
+                                                                
+                                                                    <nz-avatar nzIcon="global" style="background:white; color:#1890ff" [nzTooltipTitle]="'Menu web'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>
+                
+                                                                </nz-col>
+                                                                <nz-col class="gutter-row">
+                                                                    {{item.men_tipo_icono}}
+                                                                </nz-col>
+                                                            </ng-container>
+                
+                                                            <ng-template #tipoMovilDos>
+                
+                                                                <nz-col class="gutter-row">
+                                                                
+                                                                    <nz-avatar nzIcon="android" style="background:white; color:#a3e5a3" [nzTooltipTitle]="'Menu Movil'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>
+                                                                </nz-col>
+                                                                <nz-col class="gutter-row">
+                                                                    {{item.men_tipo_icono}}
+                                                                </nz-col>
+                
+                                                            </ng-template>
+                                                        
+                
+                
+                                                        </small>
+                                                    </td>
+                  
+                                                    <td>
+                                                        <small >
+                                                            <nz-col class="gutter-row">
+                                                                <i nz-icon nzType="environment" nzTheme="outline"></i>
+                                                            </nz-col>
+                                                            <nz-col class="gutter-row">
+                                                                {{item.men_path}}
+                                                            </nz-col>
+                                                        
+                                                        </small>
+                                                    </td>
+                                                  
+                                    
+                                                    <td>
+                                                        <nz-avatar [nzIcon]="'menu'" (click)="openModalMenu(item)"  style="background:white;border: solid 1px #1890ff; color:#1890ff" [nzTooltipTitle]="'Gestionar Menús'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>
+                                                        <nz-divider nzType="vertical"></nz-divider>
+                                                        <nz-avatar [nzIcon]="'edit'" (click)="openModalEditMenu(item)"  style="background:white;border: solid 1px #18ff24; color:#18ff24" [nzTooltipTitle]="'Editar Menú'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>
+                                                        
+                                                    </td>
+                                                </ng-template>
+              
+                                                
+                                
+                                            </tr>
+                                        </tbody>
+                                    </nz-table>
+              
+        
+                                </nz-col>
+        
+                            </nz-row>
+
+                            
+
+                        </div>
+
+                        <input type="radio" name="tabs2" id="tab2index2" >
+                        <label for="tab2index2">Listado Roles</label>
+                        <div class="tab">
+
+                            <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+
+                                <nz-col class="gutter-row">
+
+                                    <div nz-row *ngIf="listRol.length == 0 && !cargandoRol">
+                                        <div nz-col nzSpan="24">
+                                          
+                                          <nz-empty 
+                                            nzNotFoundImage="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg" [nzNotFoundContent]="contentTpl"
+                                            [nzNotFoundFooter]="footerTpl">
+                                            <ng-template #contentTpl>
+                                              <span> No Existe Roles Creados </span>
+                                            </ng-template>
+                                            <ng-template #footerTpl>
+                                              <!--<button nz-button nzType="primary" [routerLink]="['/pqrs/nuevopqr']">Crear Nuevo Accesorio</button>-->
+                                            </ng-template>
+                                          </nz-empty>
+        
+                                        </div>
+                                    </div>
+
+
+                                    <nz-table  #filterTableRol  [nzData]="listRol" nzTableLayout="fixed" [nzLoading]="cargandoRol">
+                                        <thead *ngIf="listRol.length > 0">
+                                          <tr>
+                                            <th 
+                                              *ngFor="let column of listOfColumnsRol"
+                                              [nzSortOrder]="column.sortOrder"
+                                              [nzSortFn]="column.sortFn"
+                                              [nzSortDirections]="column.sortDirections"
+                                              [nzFilterMultiple]="column.filterMultiple"
+                                              [nzFilters]="column.listOfFilter"
+                                              [nzFilterFn]="column.filterFn"
+                                              [nzShowFilter]="column.filterFn ? true : false"
+                                              [nzWidth]="column.width ? column.width : null"
+                                              style="text-align: center; background-color: black; color: white; font-size: 13px;"
+                                            >
+                                              {{ column.name }}
+                                            </th>
+                                          </tr>
+                                        </thead>
+                                        <tbody style="text-align: center;" *ngIf="listRol.length > 0" >
+                                            <tr *ngFor="let item of filterTableRol.data">
+              
+              
+                                              <td>
+                                                <small>
+                                                    <nz-tag style="border-radius: 10px; font-size: 10px;" [nzColor]="'blue'"> {{item.rol_descripcion}}</nz-tag>
+                                                </small>
+                                              </td>
+                                               
+                                              
+                                
+                                              <td>
+                                                  <nz-avatar [nzIcon]="'solution'" (click)="openModalGestionRol(item)"  style="background:white;border: solid 1px #1890ff; color:#1890ff" [nzTooltipTitle]="'Gestionar Roles'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>
+                                                  <!--<nz-divider nzType="vertical"></nz-divider>
+                                                  <nz-avatar [nzIcon]="'edit'" (click)="openModalEditRol(item)"  style="background:white;border: solid 1px #18ff24; color:#18ff24" [nzTooltipTitle]="'Editar Rol'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>-->
+                                                  <nz-divider nzType="vertical"></nz-divider>
+                                                  <nz-avatar [nzIcon]="'key'" (click)="openModalGestionPermisos(item)"  style="background:white;border: solid 1px #e399a7; color:#e399a7" [nzTooltipTitle]="'Gestionar Permisos'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>
+
+                                                  
+                                              </td>
+                                
+                                            </tr>
+                                        </tbody>
+                                    </nz-table>
+
+
+                                </nz-col>
+                            </nz-row>
+
+
+                        </div>
+
+
+                        <input type="radio" name="tabs2" id="tab3index2" >
+                        <label for="tab3index2">Listado Empresas</label>
+                        <div class="tab">
+
+                            <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+
+                                <nz-col class="gutter-row">
+
+                                    <div nz-row *ngIf="listEmpresa.length == 0 && !cargandoEmpresa">
+                                        <div nz-col nzSpan="24">
+                                          
+                                          <nz-empty 
+                                            nzNotFoundImage="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg" [nzNotFoundContent]="contentTpl"
+                                            [nzNotFoundFooter]="footerTpl">
+                                            <ng-template #contentTpl>
+                                              <span> No Existe Empresas</span>
+                                            </ng-template>
+                                            <ng-template #footerTpl>
+                                            </ng-template>
+                                          </nz-empty>
+        
+                                        </div>
+                                    </div>
+
+
+                                    <nz-table  #filterTableEmpresa  [nzData]="listEmpresa" nzTableLayout="fixed" [nzLoading]="cargandoEmpresa">
+                                        <thead *ngIf="listEmpresa.length > 0">
+                                          <tr>
+                                            <th 
+                                              *ngFor="let column of listOfColumnsEmpresa"
+                                              [nzSortOrder]="column.sortOrder"
+                                              [nzSortFn]="column.sortFn"
+                                              [nzSortDirections]="column.sortDirections"
+                                              [nzFilterMultiple]="column.filterMultiple"
+                                              [nzFilters]="column.listOfFilter"
+                                              [nzFilterFn]="column.filterFn"
+                                              [nzShowFilter]="column.filterFn ? true : false"
+                                              [nzWidth]="column.width ? column.width : null"
+                                              style="text-align: center; background-color: black; color: white; font-size: 13px;"
+                                            >
+                                              {{ column.name }}
+                                            </th>
+                                          </tr>
+                                        </thead>
+                                        <tbody style="text-align: center;" *ngIf="listEmpresa.length > 0" >
+                                            <tr *ngFor="let item of filterTableEmpresa.data">
+              
+              
+                                                <td>
+                                                    <small>
+                                                        <img nz-image  style="object-fit: contain;"  width="50px" height="50px" nzSrc="../../assets/images/edificio.png" alt="" />
+                                                      
+                                                    </small>
+                                                </td>
+                                               
+                                                <td>
+                                                    <small>
+                                                        <nz-tag style="border-radius: 10px; font-size: 10px;" [nzColor]="'blue'"> {{item.emp_ruc}}</nz-tag>
+                                                    </small>
+                                                </td>
+
+                                                <td>
+                                                    <small>
+                                                        {{item.emp_razon_social}}
+                                                    </small>
+                                                </td>
+
+                                                <td>
+                                                    <small>
+                                                        {{item.emp_direccion}}
+                                                    </small>
+                                                </td>
+
+                                                <td>
+                                                    <small>
+                                                        {{item.emp_telefono}}
+                                                    </small>
+                                                </td>
+                                
+                                            </tr>
+                                        </tbody>
+                                    </nz-table>
+
+
+                                </nz-col>
+                            </nz-row>
+
+
+                        </div>
+
+
+                    </div>
+                </div>
+
+                <div *ngIf="index == 2">
+
+                    <div class="tabs">
+
+                        <input type="radio" name="tabs" id="tabobs1" checked="checked">
+                        <label for="tabobs1">Grupo - Parte</label>
+                        <div class="tab">
+
+                            <nz-row style="margin-top: 20px;" [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                                <nz-col nzSpan="24" class="gutter-row">
+                                    <nz-card class="tarjetaGrupo" [nzTitle]="titleItem" [nzExtra]="extraTemplate">
+
+                                        <ng-template #titleItem>
+
+                                            <i nz-icon [nzType]="'car'" nzTheme="outline"></i> GRUPOS DE REVISIÓN
+    
+                                        </ng-template >
+
+                                        <ng-template #extraTemplate>
+
+                                            <a nz-button nzType="link" (click)="openModalcreateGrupo()">Crear Grupo</a>
+                                            
+                                        </ng-template>
+    
+
+                                        <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                                           
+                                            <nz-col nzSpan="24" class="gutter-row">
+
+                                                <nz-collapse nzAccordion>
+
+                                                    <nz-collapse-panel *ngFor="let panel of listGrupos" [nzHeader]="extraTpl">
+
+                                                        <ng-template #extraTpl>
+
+                                                            <nz-col nzSpan="6" class="gutter-row">
+                                                                {{panel.grp_nombre}}
+
+                                                            </nz-col>
+
+                                                            <nz-col style="text-align: start;" nzSpan="18" class="gutter-row">
+                                                                <!--<i nz-icon nzType="{{panel.grp_nombre_ico}}" nzTheme="outline"></i>-->
+                                                                <nz-avatar nzIcon="{{panel.grp_nombre_ico}}"  style="background:white;border: solid 1px #1890ff; color:#1890ff" nzTooltipPlacement="top" nz-tooltip></nz-avatar>
+
+                                                            </nz-col>
+
+                                                        </ng-template>
+
+                                                        <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+
+                                                            <nz-col class="gutter-row">
+
+                                                                <div nz-row *ngIf="panel.lista.length == 0 && !cargandoGrupos">
+                                                                    <div nz-col nzSpan="24">
+                                                                    
+                                                                    <nz-empty 
+                                                                        nzNotFoundImage="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg" [nzNotFoundContent]="contentTpl"
+                                                                        [nzNotFoundFooter]="footerTpl">
+                                                                        <ng-template #contentTpl>
+                                                                        <span> No Existe Grupos</span>
+                                                                        </ng-template>
+                                                                        <ng-template #footerTpl>
+                                                                        </ng-template>
+                                                                    </nz-empty>
+                                    
+                                                                    </div>
+                                                                </div>
+
+
+                                                                <nz-table  #filterTableGrupo  [nzData]="panel.lista" nzTableLayout="fixed" [nzLoading]="cargandoEmpresa">
+                                                                    <thead *ngIf="panel.lista.length > 0">
+                                                                    <tr>
+                                                                        <th 
+                                                                        *ngFor="let column of listOfColumnsGrupo"
+                                                                        [nzSortOrder]="column.sortOrder"
+                                                                        [nzSortFn]="column.sortFn"
+                                                                        [nzSortDirections]="column.sortDirections"
+                                                                        [nzFilterMultiple]="column.filterMultiple"
+                                                                        [nzFilters]="column.listOfFilter"
+                                                                        [nzFilterFn]="column.filterFn"
+                                                                        [nzShowFilter]="column.filterFn ? true : false"
+                                                                        [nzWidth]="column.width ? column.width : null"
+                                                                        style="text-align: center; background-color: black; color: white; font-size: 13px;"
+                                                                        >
+                                                                        {{ column.name }}
+                                                                        </th>
+                                                                    </tr>
+                                                                    </thead>
+                                                                    <tbody style="text-align: center;" *ngIf="panel.lista.length > 0" >
+                                                                        <tr *ngFor="let item of filterTableGrupo.data">
+                                        
+                                        
+                                                                            <td>
+                                                                                <small>
+                                                                                    {{item.par_nombre}}
+                                                                                </small>
+                                                                            </td>
+
+                                                                            <td>
+                                                                                <small>
+                                                                                </small>
+                                                                            </td>
+
+                                                                            <td>
+                                                                                <small>
+                                                                                </small>
+                                                                            </td>
+
+                                                                            <td>
+                                                                                <small>
+
+                                                                                    
+                                                                                    <nz-avatar [nzIcon]="'edit'" (click)="openModalCrudParte(item,panel)"  style="background:white;border: solid 1px #96e586; color:#96e586" [nzTooltipTitle]="'Editar Parte'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>
+                                                                                
+                                                                                
+                                                                                </small>
+                                                                            </td>
+                                                            
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </nz-table>
+
+
+                                                            </nz-col>
+                                                        </nz-row>
+
+                                                    </nz-collapse-panel>
+
+                                                   
+
+                                                </nz-collapse>
+
+                                            </nz-col>
+                                        </nz-row>
+                                 
+                                        <nz-empty [nzNotFoundContent]="contentTpl" *ngIf="listGrupos.length == 0">
+                                            <ng-template #contentTpl>
+                                              <span> No existen grupos</span>
+                                            </ng-template>
+                                        </nz-empty>    
+
+                                    </nz-card>
+                                </nz-col>
+                            </nz-row>
+
+                        </div>
+
+                        <input type="radio" name="tabs" id="tabobs2" >
+                        <label for="tabobs2">Tamaños</label>
+                        <div class="tab">
+
+                            <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+
+                                <nz-col class="gutter-row">
+
+                                    <div nz-row *ngIf="listTamano.length == 0 && !cargandoTamano">
+                                        <div nz-col nzSpan="24">
+                                        
+                                        <nz-empty 
+                                            nzNotFoundImage="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg" [nzNotFoundContent]="contentTpl"
+                                            [nzNotFoundFooter]="footerTpl">
+                                            <ng-template #contentTpl>
+                                            <span> No Existe Tamaños</span>
+                                            </ng-template>
+                                            <ng-template #footerTpl>
+                                            </ng-template>
+                                        </nz-empty>
+        
+                                        </div>
+                                    </div>
+
+
+                                    <nz-table  #filterTableTamano  [nzData]="listTamano" nzTableLayout="fixed" [nzLoading]="cargandoTamano">
+                                        <thead *ngIf="listTamano.length > 0">
+                                        <tr>
+                                            <th 
+                                            *ngFor="let column of listOfColumnsTamano"
+                                            [nzSortOrder]="column.sortOrder"
+                                            [nzSortFn]="column.sortFn"
+                                            [nzSortDirections]="column.sortDirections"
+                                            [nzFilterMultiple]="column.filterMultiple"
+                                            [nzFilters]="column.listOfFilter"
+                                            [nzFilterFn]="column.filterFn"
+                                            [nzShowFilter]="column.filterFn ? true : false"
+                                            [nzWidth]="column.width ? column.width : null"
+                                            style="text-align: center; background-color: black; color: white; font-size: 13px;"
+                                            >
+                                            {{ column.name }}
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody style="text-align: center;" *ngIf="listTamano.length > 0" >
+                                            <tr *ngFor="let item of filterTableTamano.data">
+            
+            
+                                                <td>
+                                                    <small>
+                                                        {{item.tam_nombre}}
+                                                    </small>
+                                                </td>
+
+                                                <td>
+                                                    <small>
+                                                    </small>
+                                                </td>
+
+                                                <td>
+                                                    <small>
+                                                    </small>
+                                                </td>
+
+                                                <td>
+                                                    <small>
+
+                                                        
+                                                        <nz-avatar [nzIcon]="'edit'" (click)="openModalCrudTamano(item)"  style="background:white;border: solid 1px #96e586; color:#96e586" [nzTooltipTitle]="'Editar Tamaño'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>
+                                                    
+                                                    
+                                                    </small>
+                                                </td>
+                                
+                                            </tr>
+                                        </tbody>
+                                    </nz-table>
+
+
+                                </nz-col>
+                            </nz-row>
+
+
+                        </div>
+
+
+                        <input type="radio" name="tabs" id="tabobs3" >
+                        <label for="tabobs3">Daños</label>
+                        <div class="tab">
+
+                            <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+
+                                <nz-col class="gutter-row">
+
+                                    <div nz-row *ngIf="listDano.length == 0 && !cargandoDano">
+                                        <div nz-col nzSpan="24">
+                                        
+                                        <nz-empty 
+                                            nzNotFoundImage="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg" [nzNotFoundContent]="contentTpl"
+                                            [nzNotFoundFooter]="footerTpl">
+                                            <ng-template #contentTpl>
+                                            <span> No Existe item de Daños</span>
+                                            </ng-template>
+                                            <ng-template #footerTpl>
+                                            </ng-template>
+                                        </nz-empty>
+        
+                                        </div>
+                                    </div>
+
+
+                                    <nz-table  #filterTableDano  [nzData]="listDano" nzTableLayout="fixed" [nzLoading]="cargandoDano">
+                                        <thead *ngIf="listDano.length > 0">
+                                        <tr>
+                                            <th 
+                                            *ngFor="let column of listOfColumnsDano"
+                                            [nzSortOrder]="column.sortOrder"
+                                            [nzSortFn]="column.sortFn"
+                                            [nzSortDirections]="column.sortDirections"
+                                            [nzFilterMultiple]="column.filterMultiple"
+                                            [nzFilters]="column.listOfFilter"
+                                            [nzFilterFn]="column.filterFn"
+                                            [nzShowFilter]="column.filterFn ? true : false"
+                                            [nzWidth]="column.width ? column.width : null"
+                                            style="text-align: center; background-color: black; color: white; font-size: 13px;"
+                                            >
+                                            {{ column.name }}
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody style="text-align: center;" *ngIf="listDano.length > 0" >
+                                            <tr *ngFor="let item of filterTableDano.data">
+            
+            
+                                                <td>
+                                                    <small>
+                                                        {{item.dan_nombre}}
+                                                    </small>
+                                                </td>
+
+                                                <td>
+                                                    <small>
+                                                    </small>
+                                                </td>
+
+                                                <td>
+                                                    <small>
+                                                    </small>
+                                                </td>
+
+                                                <td>
+                                                    <small>
+
+                                                        <nz-avatar [nzIcon]="'edit'" (click)="openModalCrudDano(item,1)"  style="background:white;border: solid 1px #96e586; color:#96e586" [nzTooltipTitle]="'Editar Daño'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>
+                                                        <nz-divider nzType="vertical"></nz-divider>
+                                                        <nz-avatar [nzIcon]="'save'" (click)="openModalCrudDano(item,2)"  style="background:white;border: solid 1px #4353cc; color:#4353cc" [nzTooltipTitle]="'Crear Daño'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>
+
+                                                    
+                                                    </small>
+                                                </td>
+                                
+                                            </tr>
+                                        </tbody>
+                                    </nz-table>
+
+
+                                </nz-col>
+                            </nz-row>
+
+
+
+                        </div>
+                        
+
+                    </div>
+
+
+
+
+                </div>
+            </div>
+        </nz-card>
+    </nz-tab>
+</nz-tabset>
+
+
+<nz-modal nzWrapClassName="vertical-center-modal"  [(nzVisible)]="modalCrudDano" nzTitle="{{titleCrudDano}}" 
+(nzOnCancel)="modalCrudDano = false"  (nzOnOk)="createUpdateDano()" nzWidth="650px" [nzOkLoading]="isLoadingCrudDano">
+    <ng-container *nzModalContent>
+
+        <div class="steps-content">
+
+            <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                            
+                <nz-col class="gutter-row" nzSpan="24">
+    
+                    <nz-row [nzGutter]="16">
+                        <nz-col nzSpan="12" nzOffset="6">
+    
+    
+                            <form nz-form [nzLayout]="'vertical'" style="margin-top: 30px;" [formGroup]="danoForm" (ngSubmit)="submitFormDano()">
+                                
+                                <nz-form-item>
+                                    <nz-form-control [nzSm]="24" [nzXs]="24"
+                                        nzErrorTip="Ingrese un nombre Daño">
+                                        <nz-form-label nzRequired>Nombre</nz-form-label>
+                                        <input nz-input formControlName="dan_nombre" type="text"/>
+                                    </nz-form-control>
+                                </nz-form-item>
+
+                                <nz-form-item>
+                                    <nz-form-control [nzSm]="24" [nzXs]="24"
+                                        nzErrorTip="Ingrese un nombre de Icono">
+                                        <nz-form-label nzRequired>Nombre Icono</nz-form-label>
+                                        <input nz-input formControlName="dan_nombre_ico" type="text"/>
+                                    </nz-form-control>
+                                </nz-form-item>
+
+                                <nz-form-item>
+                                    <nz-form-control [nzSm]="24" [nzXs]="24"
+                                        nzErrorTip="Ingrese el tipo de Icono">
+                                        <nz-form-label nzRequired>Tipo Icono</nz-form-label>
+                                        <input nz-input formControlName="dan_type_ico" type="text"/>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            
+                            </form>
+                        </nz-col>
+                    </nz-row>
+    
+                            
+    
+                            
+                </nz-col>
+    
+            </nz-row>
+
+        </div>
+    </ng-container>
+</nz-modal>
+
+
+
+<nz-modal nzWrapClassName="vertical-center-modal"  [(nzVisible)]="modalCrudGrupo" nzTitle="{{titleCrudGrupo}}" 
+(nzOnCancel)="modalCrudGrupo = false"  (nzOnOk)="createGrupo()" nzWidth="650px" [nzOkLoading]="isLoadingCrearGrupo">
+    <ng-container *nzModalContent>
+
+        <div class="steps-content">
+
+            <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                            
+                <nz-col class="gutter-row" nzSpan="24">
+    
+                    <nz-row [nzGutter]="16">
+                        <nz-col nzSpan="12" nzOffset="6">
+    
+    
+                            <form nz-form [nzLayout]="'vertical'" style="margin-top: 30px;" [formGroup]="grupoForm" (ngSubmit)="submitFormGrupo()">
+                                
+                                <nz-form-item>
+                                    <nz-form-control [nzSm]="24" [nzXs]="24"
+                                        nzErrorTip="Ingrese un nombre Grupo">
+                                        <nz-form-label nzRequired>Nombre</nz-form-label>
+                                        <input nz-input formControlName="grp_nombre" type="text"/>
+                                    </nz-form-control>
+                                </nz-form-item>
+
+                                <nz-form-item>
+                                    <nz-form-control [nzSm]="24" [nzXs]="24"
+                                        nzErrorTip="Ingrese un nombre de Icono">
+                                        <nz-form-label nzRequired>Nombre Icono</nz-form-label>
+                                        <input nz-input formControlName="grp_nombre_ico" type="text"/>
+                                    </nz-form-control>
+                                </nz-form-item>
+
+                                <nz-form-item>
+                                    <nz-form-control [nzSm]="24" [nzXs]="24"
+                                        nzErrorTip="Ingrese el tipo de Icono">
+                                        <nz-form-label nzRequired>Tipo Icono</nz-form-label>
+                                        <input nz-input formControlName="grp_tipo_ico" type="text"/>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            
+                            </form>
+                        </nz-col>
+                    </nz-row>
+    
+                            
+    
+                            
+                </nz-col>
+    
+            </nz-row>
+
+        </div>
+    </ng-container>
+</nz-modal>
+
+
+<nz-modal nzWrapClassName="vertical-center-modal"  [(nzVisible)]="modalCrudParte" nzTitle="{{titleCrudParte}}" 
+(nzOnCancel)="modalCrudParte = false"  (nzOnOk)="createUpdateParte()" nzWidth="650px" [nzOkLoading]="isLoadingCreateUpdateParte">
+    <ng-container *nzModalContent>
+
+        <div class="steps-content">
+
+            <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                            
+                <nz-col class="gutter-row" nzSpan="24">
+    
+                    <nz-row [nzGutter]="16">
+                        <nz-col nzSpan="12" nzOffset="6">
+    
+    
+                            <form nz-form [nzLayout]="'vertical'" style="margin-top: 30px;" [formGroup]="parteForm" (ngSubmit)="submitFormParte()">
+                                
+                                <nz-form-item>
+                                    <nz-form-control [nzSm]="24" [nzXs]="24"
+                                        nzErrorTip="Ingrese un titulo">
+                                        <nz-form-label nzRequired>Nombre</nz-form-label>
+                                        <input nz-input formControlName="par_nombre" type="text"/>
+                                    </nz-form-control>
+                                </nz-form-item>
+
+                                <nz-form-item>
+                                    <nz-form-control [nzSm]="24" [nzXs]="24"
+                                        nzErrorTip="Ingrese un nombre de Icono">
+                                        <nz-form-label nzRequired>Nombre Icono</nz-form-label>
+                                        <input nz-input formControlName="par_nombre_ico" type="text"/>
+                                    </nz-form-control>
+                                </nz-form-item>
+
+                                <nz-form-item>
+                                    <nz-form-control [nzSm]="24" [nzXs]="24"
+                                        nzErrorTip="Ingrese el tipo de Icono">
+                                        <nz-form-label nzRequired>Tipo Icono</nz-form-label>
+                                        <input nz-input formControlName="par_type_ico" type="text"/>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            
+                            </form>
+                        </nz-col>
+                    </nz-row>
+    
+                            
+    
+                            
+                </nz-col>
+    
+            </nz-row>
+
+        </div>
+
+
+
+    </ng-container>
+</nz-modal>
+
+
+
+<nz-modal nzWrapClassName="vertical-center-modal"  [(nzVisible)]="modalGestionMenu" nzTitle="Gestionar Menú" 
+(nzOnCancel)="modalGestionMenu = false"  (nzOnOk)="GuardarCambios()" nzWidth="950px">
+    <ng-container *nzModalContent>
+
+        <cdk-virtual-scroll-viewport itemSize="3" class="demo-infinite-container">
+       
+            <div class="steps-content">
+
+               
+                    
+                    <div cdkDropListGroup>
+
+                        <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+
+                            <nz-col class="gutter-row" nzSpan="12">
+
+                                <div class="example-container">
+
+                                    <div
+                                        cdkDropList
+                                        [cdkDropListData]="listAsignado"
+                                        class="example-list"
+                                        (cdkDropListDropped)="drop($event, 'asignado')">
+
+                                        <nz-card nzTitle="Asignados" style="background-color: #fafafa;">
+
+                                            <div class="example-box" *ngFor="let item of listAsignado" cdkDrag>
+
+                                           
+                                                <nz-col style="text-align: start;" class="gutter-row" nzSpan="6">
+                                                    <nz-avatar nzIcon="{{item.men_icono}}" style="background:white;border: solid 1px #1890ff; color:#1890ff" [nzTooltipTitle]="'Gestionar Menús'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>
+                                                    <p style="color: rgb(161, 161, 161);">Icono</p>
+    
+                                                </nz-col>
+                                                <nz-col style="text-align: start;" class="gutter-row" nzSpan="18">
+
+                                                    <nz-row style="margin-bottom: 5px;" [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                                                        <nz-col  class="gutter-row" nzSpan="18">
+                                                            <nz-tag style="border-radius: 10px;" [nzColor]="'#2db7f5'">Titulo: {{item.men_titulo}}</nz-tag>
+                                                        </nz-col>
+
+                                                    </nz-row>
+
+                                                    <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                                                        <nz-col  class="gutter-row" nzSpan="18">
+                                                            <p style="color: rgb(161, 161, 161);">Ruta: {{item.men_path}}</p>
+                                                        </nz-col>
+
+                                                    </nz-row>
+
+                                                   
+    
+                                                    
+                                                </nz-col>
+    
+                                               
+                                            </div>
+    
+
+                                        </nz-card>
+
+                                    </div>
+                                
+                                </div>
+
+                            </nz-col>
+
+                            <nz-col class="gutter-row" nzSpan="12">
+
+                                <div class="example-container">
+
+                                    <div
+                                        cdkDropList
+                                        [cdkDropListData]="listSinAsignado"
+                                        class="example-list"
+                                        (cdkDropListDropped)="drop($event, 'asignar')">
+
+
+                                        <nz-card nzTitle="Asignar" style="background-color: #fafafa;">
+
+                                            <div class="example-box" *ngFor="let item of listSinAsignado" cdkDrag>
+
+                                           
+                                                <nz-col style="text-align: start;" class="gutter-row" nzSpan="6">
+                                                    <nz-avatar nzIcon="{{item.men_icono}}" style="background:white;border: solid 1px #1890ff; color:#1890ff" [nzTooltipTitle]="'Gestionar Menús'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>
+                                                    <p style="color: rgb(161, 161, 161);">Icono</p>
+    
+                                                </nz-col>
+                                                <nz-col style="text-align: start;" class="gutter-row" nzSpan="18">
+
+                                                    <nz-row style="margin-bottom: 5px;" [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                                                        <nz-col  class="gutter-row" nzSpan="18">
+                                                            <nz-tag style="border-radius: 10px;" [nzColor]="'#2db7f5'">Titulo: {{item.men_titulo}}</nz-tag>
+                                                        </nz-col>
+
+                                                    </nz-row>
+
+                                                    <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                                                        <nz-col  class="gutter-row" nzSpan="18">
+                                                            <p style="color: rgb(161, 161, 161);">Ruta: {{item.men_path}}</p>
+                                                        </nz-col>
+
+                                                    </nz-row>
+
+                                                   
+    
+                                                    
+                                                </nz-col>
+    
+                                               
+                                            </div>
+    
+
+                                        </nz-card>
+
+
+                                    </div>
+                                </div>
+        
+
+
+                            </nz-col>
+
+
+                        </nz-row>
+
+                        
+                      
+                    </div>
+            </div>
+        </cdk-virtual-scroll-viewport>
+
+      
+  </ng-container>
+</nz-modal>
+
+
+<nz-modal nzWrapClassName="vertical-center-modal"  [(nzVisible)]="modalUpdateMenu" nzTitle="Editar Menú" 
+(nzOnCancel)="modalUpdateMenu = false"  (nzOnOk)="updateMenus()" nzWidth="950px" [nzOkLoading]="isLoadingUpdate">
+    <ng-container *nzModalContent>
+
+        
+        <div class="steps-content">
+
+            <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                            
+                <nz-col class="gutter-row" nzSpan="24">
+    
+                    <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+    
+    
+                        <nz-col class="gutter-row" nzSpan="24" style="text-align: center;">
+                            <nz-radio-group [(ngModel)]="radioValue">
+                                <nz-space>
+                                    <label *nzSpaceItem nz-radio-button nzValue="1" (click)="tipoMenuPlataforma(1)">Menú Web</label>
+                                    <label *nzSpaceItem nz-radio-button nzValue="0" (click)="tipoMenuPlataforma(2)">Menú Movil</label>
+        
+                                </nz-space>
+                            </nz-radio-group>
+        
+                        </nz-col>
+                        
+    
+                    </nz-row>
+
+
+                    <nz-row [nzGutter]="16">
+                        <nz-col nzSpan="12" nzOffset="6">
+
+
+                            <form nz-form [nzLayout]="'vertical'" style="margin-top: 30px;"
+                                [formGroup]="menuForm" (ngSubmit)="submitForm()">
+
+                                <ng-container *ngIf="tipoPlataforma == 1; else tipoMovil">
+                                    <!--<nz-form-item>
+                                        <nz-form-label [nzSm]="24" [nzXs]="24" nzRequired>Tipo de Menú
+                                        </nz-form-label>
+                                        <nz-form-control [nzSm]="24" [nzXs]="24"
+                                            nzErrorTip="Selección no valida">
+                                            <nz-select formControlName="men_tipo_menu"
+                                                nzPlaceHolder="Seleccione un tipo de menu para ser creado" nzShowSearch
+                                                [(ngModel)]="selectTipoMenu">
+                                                <ng-container *ngFor="let item of listTipoMenu">
+                                                    <nz-option [nzLabel]="item.tim_nombre" [nzValue]="item" >
+
+                                                    </nz-option>
+                                                </ng-container>
+                                                
+                                            </nz-select>
+                                        </nz-form-control>
+                                    </nz-form-item>-->
+
+
+                                    <nz-form-item>
+                                        <nz-form-control [nzSm]="24" [nzXs]="24"
+                                            nzErrorTip="Ingrese un titulo">
+                                            <nz-form-label nzRequired>Titulo</nz-form-label>
+                                            <input nz-input formControlName="men_titulo" type="text"/>
+                                        </nz-form-control>
+                                    </nz-form-item>
+
+                                    <nz-form-item>
+                                        <nz-form-control [nzSm]="24" [nzXs]="24"
+                                            nzErrorTip="Ingrese una descripción">
+                                            <nz-form-label nzRequired>Descripción</nz-form-label>
+                                            <input nz-input formControlName="men_descripcion" type="text"/>
+                                        </nz-form-control>
+                                    </nz-form-item>
+
+                                    <nz-form-item>
+                                        <nz-form-control [nzSm]="24" [nzXs]="24"
+                                            nzErrorTip="Ingrese un icono">
+                                            <nz-form-label nzRequired>Icono</nz-form-label>
+                                            <input nz-input formControlName="men_icono" type="text"/>
+                                        </nz-form-control>
+                                    </nz-form-item>
+
+                                    <nz-form-item>
+                                        <nz-form-control [nzSm]="24" [nzXs]="24"
+                                            nzErrorTip="Ingrese un nombre de tipo icono">
+                                            <nz-form-label nzRequired>Tipo Icono</nz-form-label>
+                                            <input nz-input formControlName="men_tipo_icono" type="text"/>
+                                        </nz-form-control>
+                                    </nz-form-item>
+
+
+                                    <nz-form-item>
+                                        <nz-form-control [nzSm]="24" [nzXs]="24"
+                                            nzErrorTip="Ingrese una ruta">
+                                            <nz-form-label nzRequired>Path</nz-form-label>
+                                            <input nz-input formControlName="men_path" type="text"/>
+                                        </nz-form-control>
+                                    </nz-form-item>
+
+                                </ng-container>
+
+                                <ng-template #tipoMovil>
+
+                                    <!--<nz-form-item>
+                                        <nz-form-label [nzSm]="24" [nzXs]="24" nzRequired>Tipo de Menú
+                                        </nz-form-label>
+                                        <nz-form-control [nzSm]="24" [nzXs]="24"
+                                            nzErrorTip="Selección no valida">
+                                            <nz-select formControlName="men_tipo_menu"
+                                                nzPlaceHolder="Seleccione un tipo de menu para ser creado" nzShowSearch
+                                                [(ngModel)]="selectTipoMenu">
+                                                <ng-container *ngFor="let item of listTipoMenu">
+                                                    <nz-option [nzLabel]="item.tim_nombre" [nzValue]="item">
+
+                                                    </nz-option>
+                                                </ng-container>
+                                                
+                                            </nz-select>
+                                        </nz-form-control>
+                                    </nz-form-item>-->
+
+
+                                    <nz-form-item>
+                                        <nz-form-control [nzSm]="24" [nzXs]="24"
+                                            nzErrorTip="Ingrese un titulo">
+                                            <nz-form-label nzRequired>Titulo</nz-form-label>
+                                            <input nz-input formControlName="men_titulo" type="text"/>
+                                        </nz-form-control>
+                                    </nz-form-item>
+
+                                    <nz-form-item>
+                                        <nz-form-control [nzSm]="24" [nzXs]="24"
+                                            nzErrorTip="Ingrese una descripción">
+                                            <nz-form-label nzRequired>Descripción</nz-form-label>
+                                            <input nz-input formControlName="men_descripcion" type="text"/>
+                                        </nz-form-control>
+                                    </nz-form-item>
+
+                                    <nz-form-item>
+                                        <nz-form-control [nzSm]="24" [nzXs]="24"
+                                            nzErrorTip="Ingrese un icono">
+                                            <nz-form-label nzRequired>Icono</nz-form-label>
+                                            <input nz-input formControlName="men_icono" type="text"/>
+                                        </nz-form-control>
+                                    </nz-form-item>
+
+                                    <nz-form-item>
+                                        <nz-form-control [nzSm]="24" [nzXs]="24"
+                                            nzErrorTip="Ingrese un nombre de tipo icono">
+                                            <nz-form-label nzRequired>Tipo Icono</nz-form-label>
+                                            <input nz-input formControlName="men_tipo_icono" type="text"/>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                    
+
+
+                                    <nz-form-item>
+                                        <nz-form-control [nzSm]="24" [nzXs]="24"
+                                            nzErrorTip="Ingrese una ruta">
+                                            <nz-form-label nzRequired>Path</nz-form-label>
+                                            <input nz-input formControlName="men_path" type="text"/>
+                                        </nz-form-control>
+                                    </nz-form-item>
+
+                                    <nz-form-item>
+                                        <nz-form-control [nzSm]="24" [nzXs]="24"
+                                            nzErrorTip="Ingrese color icono">
+                                            <nz-form-label nzRequired>Color Icono</nz-form-label>
+                                            <input nz-input formControlName="men_color_icon" type="text"/>
+                                        </nz-form-control>
+                                    </nz-form-item>
+
+                                    <nz-form-item>
+                                        <nz-form-control [nzSm]="24" [nzXs]="24"
+                                            nzErrorTip="Ingrese un color de titulo">
+                                            <nz-form-label nzRequired>Color Titulo</nz-form-label>
+                                            <input nz-input formControlName="men_color_titulo" type="text"/>
+                                        </nz-form-control>
+                                    </nz-form-item>
+
+                                    <nz-form-item>
+                                        <nz-form-control [nzSm]="24" [nzXs]="24"
+                                            nzErrorTip="Ingrese un color de descripción">
+                                            <nz-form-label nzRequired>Color Descripción</nz-form-label>
+                                            <input nz-input formControlName="men_color_descripcion" type="text"/>
+                                        </nz-form-control>
+                                    </nz-form-item>
+
+                                    
+                                </ng-template>
+
+                            </form>
+                        
+                        </nz-col>
+                    </nz-row>
+                    
+                </nz-col>
+    
+            </nz-row>
+
+        </div>
+    </ng-container>
+</nz-modal>
+
+
+
+<nz-modal nzWrapClassName="vertical-center-modal"  [(nzVisible)]="modalUpdateRol" nzTitle="Editar Rol" 
+(nzOnCancel)="modalUpdateRol = false"  (nzOnOk)="updateRol()" nzWidth="650px" [nzOkLoading]="isLoadingUpdateRol">
+    <ng-container *nzModalContent>
+
+        
+        <div class="steps-content-edit-rol">
+
+            <nz-row [nzGutter]="16">
+                <nz-col nzSpan="12" nzOffset="6">
+
+
+                    <form nz-form [nzLayout]="'vertical'" style="margin-top: 30px;" [formGroup]="rolForm" (ngSubmit)="submitFormRol()">
+
+                        <nz-form-item>
+                            <nz-form-control [nzSm]="24" [nzXs]="24"
+                                nzErrorTip="Ingrese una descripcio para rol">
+                                <nz-form-label nzRequired>Descripción Rol</nz-form-label>
+                                <input nz-input formControlName="rol_descripcion" type="text"/>
+                            </nz-form-control>
+                        </nz-form-item>
+
+                    </form>
+                
+                </nz-col>
+            </nz-row>
+
+        </div>
+    </ng-container>
+</nz-modal>
+
+
+<nz-modal nzWrapClassName="vertical-center-modal"  [(nzVisible)]="modalGestionRol" nzTitle="Gestionar Roles" 
+(nzOnCancel)="modalGestionRol = false"  (nzOnOk)="aceptarRol()" nzWidth="950px">
+    <ng-container *nzModalContent>
+
+        <cdk-virtual-scroll-viewport itemSize="3" class="demo-infinite-container">
+       
+            <div class="steps-content">
+
+                    <div cdkDropListGroup>
+
+                        <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+
+                            <nz-col class="gutter-row" nzSpan="12">
+
+                                <div class="example-container">
+
+                                    <div
+                                        cdkDropList
+                                        [cdkDropListData]="listAsignadoRol"
+                                        class="example-list"
+                                        (cdkDropListDropped)="dropRol($event, 'asignado')">
+
+                                        <nz-card nzTitle="Asignados" style="background-color: #fafafa;">
+
+                                            <div class="example-box" *ngFor="let item of listAsignadoRol" cdkDrag>
+
+                                           
+                                                <nz-col style="text-align: start;" class="gutter-row" nzSpan="6">
+                                                    <nz-avatar nzIcon="{{item.men_icono}}" style="background:white;border: solid 1px #1890ff; color:#1890ff" [nzTooltipTitle]="'Gestionar Menús'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>
+                                                    <p style="color: rgb(161, 161, 161);">Icono</p>
+    
+                                                </nz-col>
+                                                <nz-col style="text-align: start;" class="gutter-row" nzSpan="18">
+
+                                                    <nz-row style="margin-bottom: 5px;" [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                                                        <nz-col  class="gutter-row" nzSpan="18">
+                                                            <nz-tag style="border-radius: 10px;" [nzColor]="'#2db7f5'">Titulo: {{item.men_titulo}}</nz-tag>
+                                                        </nz-col>
+
+                                                    </nz-row>
+
+                                                    <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                                                        <nz-col  class="gutter-row" nzSpan="18">
+                                                            <p style="color: rgb(161, 161, 161);">Ruta: {{item.men_path}}</p>
+                                                        </nz-col>
+
+                                                    </nz-row>
+                                                    
+                                                </nz-col>
+    
+                                               
+                                            </div>
+    
+
+                                        </nz-card>
+
+                                    </div>
+                                
+                                </div>
+
+                            </nz-col>
+
+                            <nz-col class="gutter-row" nzSpan="12">
+
+                                <div class="example-container">
+
+                                    <div
+                                        cdkDropList
+                                        [cdkDropListData]="listSinAsignadoRol"
+                                        class="example-list"
+                                        (cdkDropListDropped)="dropRol($event, 'asignar')">
+
+
+                                        <nz-card nzTitle="Asignar" style="background-color: #fafafa;">
+
+                                            <div class="example-box" *ngFor="let item of listSinAsignadoRol" cdkDrag>
+
+                                           
+                                                <nz-col style="text-align: start;" class="gutter-row" nzSpan="6">
+                                                    <nz-avatar nzIcon="{{item.men_icono}}" style="background:white;border: solid 1px #1890ff; color:#1890ff" [nzTooltipTitle]="'Gestionar Menús'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>
+                                                    <p style="color: rgb(161, 161, 161);">Icono</p>
+    
+                                                </nz-col>
+                                                <nz-col style="text-align: start;" class="gutter-row" nzSpan="18">
+
+                                                    <nz-row style="margin-bottom: 5px;" [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                                                        <nz-col  class="gutter-row" nzSpan="18">
+                                                            <nz-tag style="border-radius: 10px;" [nzColor]="'#2db7f5'">Titulo: {{item.men_titulo}}</nz-tag>
+                                                        </nz-col>
+
+                                                    </nz-row>
+
+                                                    <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                                                        <nz-col  class="gutter-row" nzSpan="18">
+                                                            <p style="color: rgb(161, 161, 161);">Ruta: {{item.men_path}}</p>
+                                                        </nz-col>
+
+                                                    </nz-row>
+                                                </nz-col>
+    
+                                               
+                                            </div>
+    
+
+                                        </nz-card>
+
+
+                                    </div>
+                                </div>
+        
+
+
+                            </nz-col>
+
+
+                        </nz-row>
+                      
+                    </div>
+            </div>
+        </cdk-virtual-scroll-viewport>
+
+      
+  </ng-container>
+</nz-modal>
+
+
+
+<nz-modal nzWrapClassName="vertical-center-modal"  [(nzVisible)]="modalGestionPermiso" nzTitle="Gestionar Permisos" 
+(nzOnCancel)="modalGestionPermiso = false"  (nzOnOk)="aceptarPermisos()" nzWidth="950px">
+    <ng-container *nzModalContent>
+
+        <cdk-virtual-scroll-viewport itemSize="3" class="demo-infinite-container">
+       
+            <div class="steps-content">
+
+                    <div cdkDropListGroup>
+
+                        <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+
+                            <nz-col class="gutter-row" nzSpan="12">
+
+                                <div class="example-container">
+
+                                    <div
+                                        cdkDropList
+                                        [cdkDropListData]="listAsignadoPermiso"
+                                        class="example-list"
+                                        (cdkDropListDropped)="dropPermiso($event, 'asignado')">
+
+                                        <nz-card nzTitle="Asignados" style="background-color: #fafafa;">
+
+                                            <div class="example-box" *ngFor="let item of listAsignadoPermiso" cdkDrag>
+
+                                           
+                                              
+                                                <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+
+                                                    <nz-col style="text-align: start;"  class="gutter-row" nzSpan="24">
+                                                        <nz-tag style="border-radius: 10px;" [nzColor]="'#2db7f5'">Nombre: {{item.per_nombre}}</nz-tag>
+                                                    </nz-col>
+
+                                                    <nz-col style="text-align: start;" class="gutter-row" nzSpan="24">
+                                                        <p style="color: rgb(161, 161, 161);">Descripción: {{item.per_descripcion}}</p>
+                                                    </nz-col>
+
+                                                </nz-row>
+                                                
+    
+                                               
+                                            </div>
+    
+
+                                        </nz-card>
+
+                                    </div>
+                                
+                                </div>
+
+                            </nz-col>
+
+                            <nz-col class="gutter-row" nzSpan="12">
+
+                                <div class="example-container">
+
+                                    <div
+                                        cdkDropList
+                                        [cdkDropListData]="listSinAsignadoPermiso"
+                                        class="example-list"
+                                        (cdkDropListDropped)="dropPermiso($event, 'asignar')">
+
+
+                                        <nz-card nzTitle="Asignar" style="background-color: #fafafa;">
+
+                                            <div class="example-box" *ngFor="let item of listSinAsignadoPermiso" cdkDrag>
+
+
+                                                <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+
+                                                    <nz-col style="text-align: start;"  class="gutter-row" nzSpan="24">
+                                                        <nz-tag style="border-radius: 10px;" [nzColor]="'#2db7f5'">Nombre: {{item.per_nombre}}</nz-tag>
+                                                    </nz-col>
+
+                                                    <nz-col style="text-align: start;" class="gutter-row" nzSpan="24">
+                                                        <p style="color: rgb(161, 161, 161);">Descripción: {{item.per_descripcion}}</p>
+                                                    </nz-col>
+
+                                                </nz-row>
+                                                    
+                                              
+                                               
+                                            </div>
+    
+
+                                        </nz-card>
+
+
+                                    </div>
+                                </div>
+        
+
+
+                            </nz-col>
+
+
+                        </nz-row>
+                      
+                    </div>
+            </div>
+        </cdk-virtual-scroll-viewport>
+
+      
+  </ng-container>
+</nz-modal>
+
+

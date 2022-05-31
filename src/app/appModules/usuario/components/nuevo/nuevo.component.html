@@ -1,0 +1,159 @@
+<nz-page-header class="site-page-header" nzBackIcon nzTitle="Nuevo Usuario" nzSubtitle="Gestión de Usuarios">
+    <nz-page-header-extra>
+    </nz-page-header-extra>
+</nz-page-header>
+
+<nz-tabset nzLinkRouter style="padding-left: 50px;padding-right: 50px;">
+    <nz-tab> <a *nzTabLink nz-tab-link [routerLink]="['.']" [queryParams]="{ tab: 'crear' }"
+        queryParamsHandling="merge">Crear Nuevo Usuario</a>
+      <div nz-row>
+        <div nz-col nzSpan="24">
+          <nz-card>
+            <nz-steps (nzIndexChange)="onIndexChange($event)">
+              <nz-step nzTitle="Usuario" [nzStatus]="usuariostep.status" nzIcon="solution"></nz-step>
+              <nz-step nzTitle="Roles" [nzStatus]="rolstep.status" nzIcon="form"></nz-step>
+              <!--<nz-step nzTitle="Menus" [nzStatus]="documentostep.status" nzIcon="snippets"></nz-step>-->
+              <nz-step nzTitle="Hecho" [nzStatus]="hechostep.status" nzIcon="check"></nz-step>
+            </nz-steps>
+            <div class="steps-content">
+              <nz-row [nzGutter]="16">
+                <nz-col nzSpan="24">
+                    <div *ngIf="index == 0" nzOffset="6">
+  
+                        <nz-row [nzGutter]="16">
+                            <nz-col nzSpan="12" nzOffset="6">
+                                <form nz-form [nzLayout]="'vertical'" style="margin-top: 30px;" [formGroup]="usuarioForm" (ngSubmit)="submitForm()">
+
+                                    <nz-form-item>
+                                        <nz-form-control [nzSm]="24" [nzXs]="24"
+                                            nzErrorTip="Ingrese Id de Usuario">
+                                            <nz-form-label nzRequired>Id Usuario</nz-form-label>
+                                            <input nz-input formControlName="usr_id" type="text"/>
+                                        </nz-form-control>
+                                    </nz-form-item>
+
+                                    <nz-form-item>
+                                        <nz-form-control [nzSm]="24" [nzXs]="24"
+                                            nzErrorTip="Ingrese la cédula">
+                                            <nz-form-label nzRequired>Cédula o DNI</nz-form-label>
+                                            <input nz-input formControlName="usr_cedula" type="text"/>
+                                        </nz-form-control>
+                                    </nz-form-item>
+
+                                    <nz-form-item>
+                                        <nz-form-control [nzSm]="24" [nzXs]="24"
+                                            nzErrorTip="Ingrese un nombre">
+                                            <nz-form-label nzRequired>Nombres</nz-form-label>
+                                            <input nz-input formControlName="usr_nombre" type="text"/>
+                                        </nz-form-control>
+                                    </nz-form-item>
+
+                                    <nz-form-item>
+                                        <nz-form-control [nzSm]="24" [nzXs]="24"
+                                            nzErrorTip="Ingrese un telefono">
+                                            <nz-form-label nzRequired>Telefono</nz-form-label>
+                                            <input nz-input formControlName="usr_telefono" type="text"/>
+                                        </nz-form-control>
+                                    </nz-form-item>
+
+                                    <nz-form-item>
+                                        <nz-form-control [nzSm]="24" [nzXs]="24"
+                                            nzErrorTip="Ingrese un email">
+                                            <nz-form-label nzRequired>Email</nz-form-label>
+                                            <input nz-input formControlName="usr_email" type="text"/>
+                                        </nz-form-control>
+                                    </nz-form-item>
+
+                                    <nz-form-item>
+                                        <nz-form-control [nzSm]="24" [nzXs]="24"
+                                            nzErrorTip="Ingrese una clave">
+                                            <nz-form-label nzRequired>Contraseña</nz-form-label>
+                                            <input nz-input formControlName="usr_clave" type="password"/>
+                                        </nz-form-control>
+                                    </nz-form-item>
+        
+        
+                                </form>
+                            </nz-col>
+                        </nz-row>
+  
+                    </div>
+                    <div *ngIf="index == 1" nzOffset="6">
+                        <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                            <nz-col  class="gutter-row" nzSpan="8" nzOffset="7">
+
+                                <nz-card style="margin-left: 5%; margin-top: 5%;" class="cardRol">
+
+                                    <cdk-virtual-scroll-viewport itemSize="5" class="demo-infinite-ckecklist"
+                                        orientation="horizontal">
+                                        <div>
+                                            <table class="table table-striped">
+                                                <thead >
+                                                    <tr >
+                                                        <td style="width: 80px;color: blue;" scope="col">Código</td>
+                                                        <td style="width: 150px; color: blue; text-align: center;" scope="col">Descripción</td>
+                                                        <td scope="col" style="color: blue;">Agregar</td>
+                                                    </tr>
+                                                </thead>
+                                                <br>
+                                                <tbody >
+                                                    <tr *ngFor="let rol of listRol; index as i">
+                                                        <th scope="row">{{ rol.rol_codigo }}</th>
+                                                        <th>
+                                                            {{rol.rol_descripcion}}
+                                                        </th>
+                                                        <th>
+                                                            <input type="checkbox"
+                                                                [(ngModel)]="rol.rol_verificacion_check"
+                                                                (click)="saveSelectRolCheckList(rol)"
+                                                                class="form-check-input" id="exampleCheck1">
+                                                        </th>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </cdk-virtual-scroll-viewport>
+
+                                </nz-card>
+
+                            </nz-col>
+                        </nz-row>
+                    </div>
+  
+                    <div *ngIf="index == 2" nzOffset="6">
+
+                        <nz-result nzStatus="success" nzTitle="Usuario Creado!!!">
+                            <div nz-result-extra>
+                              <button nz-button nzType="primary" (click)="irListaUsuario()" style="margin: 20px;">Ver Usuario</button>
+                            
+                            </div>
+                        </nz-result>
+                    
+                    
+                    </div>
+  
+  
+  
+                </nz-col>
+              </nz-row>
+            </div>
+  
+            <div nz-row class="steps-action" nzJustify="space-around" nzAlign="middle">
+              <button nz-button nzType="default" (click)="pre()" *ngIf="index > 0 && index < 2"
+                [disabled]="isLoadingCrearUsuario">
+                <span>Anterior</span>
+              </button>
+              <button nz-button nzType="primary" (click)="next()" *ngIf="index < 1" [disabled]="isLoadingCrearUsuario">
+                <span>Siguiente</span>
+              </button>
+              <button nz-button nzType="primary" (click)="done()" *ngIf="index === 1" [nzLoading]="isLoadingCrearUsuario">
+                <span>Crear Usuario</span>
+              </button>
+            </div>
+          </nz-card>
+        </div>
+      </div>
+    </nz-tab>
+  
+</nz-tabset>
+  

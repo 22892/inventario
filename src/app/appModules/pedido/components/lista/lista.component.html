@@ -1,0 +1,625 @@
+<nz-page-header class="site-page-header" nzBackIcon nzTitle="Listado Vins" [nzSubtitle]="subtitle" (nzBack)="inicio()">
+    <ng-template #subtitle>
+
+        <nz-space>
+            <div *nzSpaceItem>
+              <button nz-button nzType="dashed" nzShape="round" (click)="openModalVin()"><i nz-icon nzType="plus"></i>Nuevo</button>
+            </div>
+            <ng-container *ngIf="estadoExcel == false">
+                <div  *nzSpaceItem>
+                    <nz-input-group [nzSuffix]="suffixIconSearch">
+                      <input type="text" [(ngModel)]="buscarPedido" nz-input placeholder="Buscar Vin" />
+                    </nz-input-group>
+                    <ng-template #suffixIconSearch>
+                      <i (click)="filtroBuscarPedido()" nz-icon nzType="search"></i>
+                    </ng-template>
+                </div>
+      
+            </ng-container>
+            <div *nzSpaceItem>
+              
+
+                <ng-container *ngIf="estadoExcel == false; else returnListado">
+                    <nz-col style="text-align: end" class="gutter-row">
+                        <nz-avatar  [nzIcon]="'file-excel'" style="background:white;border: solid 1px #2bff18; color:#2bff18" (click)="visualizaSubirExcel(1)" [nzTooltipTitle]="'Subir Excel'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>
+
+                    </nz-col>
+                    <nz-col style="text-align: start" class="gutter-row">
+                        <nz-tag [nzColor]="'lime'">Subir Datos Excel</nz-tag>
+                    </nz-col>
+
+                </ng-container>
+
+                <ng-template #returnListado>
+
+                    <nz-col style="text-align: end" class="gutter-row">
+                        <nz-avatar  [nzIcon]="'ordered-list'" style="background:white;border: solid 1px #1890ff; color:#1890ff" (click)="visualizaSubirExcel(2)" [nzTooltipTitle]="'Subir Excel'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>
+
+                    </nz-col>
+                    <nz-col style="text-align: start" class="gutter-row">
+                        <nz-tag [nzColor]="'blue'">Listado Vins</nz-tag>
+                    </nz-col>
+
+                </ng-template>
+
+
+               
+        
+            </div>
+      
+        </nz-space>
+      
+  
+    </ng-template>
+    <nz-page-header-extra>
+
+      <nz-space *ngIf="estadoExcel == false">
+
+        <div *nzSpaceItem>
+          <nz-date-picker nzTooltipTitle="Fecha desde" nzTooltipPlacement="bottom" nz-tooltip nzPlaceHolder="Desde"
+            [nzMode]="mode" [(ngModel)]="desde" style="margin-bottom:8px" (nzOnOpenChange)="actualizarFecha($event)">
+          </nz-date-picker>
+        </div>
+        <div *nzSpaceItem>
+          <nz-date-picker nzTooltipTitle="Fecha hasta" nzTooltipPlacement="bottom" nz-tooltip nzPlaceHolder="Hasta"
+            [nzMode]="mode" [(ngModel)]="hasta" style="margin-bottom:8px" (nzOnOpenChange)="actualizarFecha($event)">
+          </nz-date-picker>
+        </div>
+      
+      </nz-space>
+     
+      <i nz-icon nzType="reload" nzTheme="outline" style="cursor: pointer;" (click)="realoadPedido()"></i>
+    </nz-page-header-extra>
+</nz-page-header>
+
+
+<nz-card>
+    <div class="steps-content">
+
+        <ng-container *ngIf="estadoExcel; else listaPedido">
+
+            <div style="margin-left: 5%; margin-right: 5%; margin-bottom: 2%;">
+                <nz-upload nzType="drag" [nzMultiple]="true" [(nzFileList)]="fileList" [nzBeforeUpload]="beforeUpload"
+                    [nzFileType]="typeFile">
+                    <p class="ant-upload-drag-icon">
+                    <i nz-icon nzType="inbox"></i>
+                    </p>
+                    <p class="ant-upload-text">Adjuntar archivo EXCEL</p>
+                    <p class="ant-upload-hint">
+                    Click o arrastrar archivos de tipo Excel
+                    </p>
+                </nz-upload>
+    
+            </div>
+    
+            <nz-table *ngIf="listExcel.length > 0" #filterTable [nzData]="listExcel" nzBordered nzSize="middle" nzTableLayout="fixed"
+                    [nzLoading]="cargarPedido" [nzFrontPagination]="true" [nzScroll]="{ x: '3000px' }">
+                    <thead *ngIf="listExcel.length > 0">
+                        <tr>
+    
+                            <th *ngFor="let column of listOfColumns" [nzSortOrder]="column.sortOrder"
+                                [nzSortFn]="column.sortFn" [nzSortDirections]="column.sortDirections"
+                                [nzFilterMultiple]="column.filterMultiple" [nzFilters]="column.listOfFilter"
+                                [nzFilterFn]="column.filterFn" [nzShowFilter]="column.filterFn ? true : false"
+                                [nzWidth]="column.width ? column.width : null" style="text-align: center; background-color: black; color: white; font-size: 13px;">
+    
+                                {{ column.name }}
+    
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="listExcel.length > 0">
+                        <tr *ngFor="let item of filterTable.data" style="font-size: 12px;">
+    
+                            <td>
+                                <small>
+                                   {{item['Unit Order No.']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.VIN}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.MOTOR}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.MARCA}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                   {{item.FAMILIA}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['VERSIÓN']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['Fecha creación pedido']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['Pack ↵(año mes)']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['Año Producción']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['Mes Producción (Fatura)']}}
+                                </small>
+                            </td>
+    
+                            <td style="text-align: center;">
+                                <small>
+                                    {{item['Fecha de llegada']}}
+                                </small>
+                            </td>
+    
+                            <td>
+                                <small>
+                                    {{item['Nombre Buque']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['Año Modelo']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.SSC}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.Grade}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.OCN}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['Código color Ext']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['Nombre Color Exterior']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['Código SAP color Ext']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['Descripción color SAP']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['Código color Int']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.Material}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.Lote}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['Orden compra']}}
+                                </small>
+                            </td>
+    
+                          
+                        </tr>
+                    </tbody>
+            </nz-table>
+
+            <nz-row style="display: flex; justify-content: center; margin-bottom: 15px;" [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                <button nz-button nzType="primary" (click)="uploadDataExcel()" *ngIf="listExcel.length > 0" [nzLoading]="isLoadingUploadExcel">
+                    <i nz-icon nzType="upload"></i>
+                    <span>Subir Datos Excel</span>
+                </button>                
+            </nz-row>
+
+
+        </ng-container>
+
+        <ng-template #listaPedido>
+
+            <div nz-row *ngIf="listVin.length == 0 && !cargarPedido">
+                <div nz-col nzSpan="24">
+                  
+                  <nz-empty 
+                    nzNotFoundImage="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg" [nzNotFoundContent]="contentTpl"
+                    [nzNotFoundFooter]="footerTpl">
+                    <ng-template #contentTpl>
+                      <span> No Existe Vins</span>
+                    </ng-template>
+                    <ng-template #footerTpl>
+                    </ng-template>
+                  </nz-empty>
+
+                </div>
+            </div>
+
+
+            <nz-table #filterTable [nzData]="listVin" nzBordered nzSize="middle" nzTableLayout="fixed"
+                    [nzLoading]="cargarPedido" [nzFrontPagination]="true" [nzScroll]="{ x: '1000px' }">
+                    <thead *ngIf="listVin.length > 0">
+                        <tr>
+    
+                            <th *ngFor="let column of listOfColumnsLista" [nzSortOrder]="column.sortOrder"
+                                [nzSortFn]="column.sortFn" [nzSortDirections]="column.sortDirections"
+                                [nzFilterMultiple]="column.filterMultiple" [nzFilters]="column.listOfFilter"
+                                [nzFilterFn]="column.filterFn" [nzShowFilter]="column.filterFn ? true : false"
+                                [nzWidth]="column.width ? column.width : null" style="text-align: center; background-color: black; color: white; font-size: 13px;">
+    
+                                {{ column.name }}
+    
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="listVin.length > 0">
+                        <tr *ngFor="let item of filterTable.data" style="font-size: 12px;">
+
+                            <td>
+                                <small>
+                                    <nz-row  [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                                        <nz-col style="text-align: center; margin-left: 10px; height: 50px;" class="gutter-row">
+                                            <!--<img src="../../../assets/images/hyundai.jpg" alt="" width="60px" style="margin: 0rem 0rem 2rem 0rem">-->
+                                            
+                                            <ng-container *ngIf="item.veh_url_img_modelo; else noImage">
+                                                <img nz-image  style="object-fit: contain;"  width="50px" height="50px" [nzSrc]="item.veh_url_img_modelo" alt="" />
+
+                                            </ng-container>
+
+                                            <ng-template #noImage>
+                                                <img nz-image  style="object-fit: contain;"  width="40px" height="40px" nzSrc="../../../assets/images/no-photo.png" alt="" />
+                                               
+                                            </ng-template>
+
+
+                                            
+                                        </nz-col>
+ 
+                                    </nz-row>
+                                    <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                                        <nz-col style="margin-left: 12px;" class="gutter-row">
+                                            {{item.veh_cod_color_ext}}/{{item.veh_cod_color_int}}
+
+                                        </nz-col>
+                                    </nz-row>
+                                    
+                                </small>
+                            </td>
+                           
+                            <td>
+                                <small>
+                                   {{item.veh_vin}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.veh_year_modelo}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.veh_year_produccion}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.veh_motor}}
+                                </small>
+                            </td>
+                            <td style="text-align: center;">
+                                <small>
+
+                                    <nz-col class="gutter-row">
+                                        <i nz-icon nzType="car" nzTheme="outline"></i>
+                                    </nz-col>
+                                    <nz-col class="gutter-row">
+                                        {{item.veh_modelo}} 
+                                    </nz-col>
+                                
+                                   
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    <nz-tag style="border-radius: 10px; font-size: 10px;" [nzColor]="'yellow'">{{item.veh_marca_vehiculo}}</nz-tag>
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.veh_mes_produccion}}
+                                </small>
+                            </td>
+
+                            <td>
+                                <small>
+                                   {{item.veh_act_estado}}
+                                </small>
+                            </td>
+
+                            <td>
+                                <nz-avatar [nzIcon]="'file-search'" [routerLink]="['/pedido/detalle',item.veh_vin]" style="background:white;border: solid 1px #1890ff; color:#1890ff" [nzTooltipTitle]="'Detalle Vin'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>
+                                <nz-divider nzType="vertical"></nz-divider>
+                                <nz-avatar [nzIcon]="'check-circle'" [routerLink]="['/observacion']" style="background:white;border: solid 1px #18ff4a; color:#18ff4a" [nzTooltipTitle]="'Revisión Vin'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>
+
+                            </td>
+                          
+                        </tr>
+                    </tbody>
+            </nz-table>
+
+        </ng-template>
+
+
+
+    </div>
+    
+</nz-card>
+
+<nz-modal nzWrapClassName="vertical-center-modal"  [(nzVisible)]="modalCreate" nzTitle="Creación de Vin" 
+(nzOnCancel)="modalCreate = false"  (nzOnOk)="createVinPedido()" nzWidth="950px">
+    <ng-container *nzModalContent>
+
+        
+            <div class="steps-content">
+
+                <form nz-form [nzLayout]="'vertical'" style="margin-top: 30px;" [formGroup]="vinForm" (ngSubmit)="submitForm()">
+
+                    <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                            
+                        <nz-col class="gutter-row" nzSpan="12">
+
+                            <nz-form-item>
+                                <nz-form-control [nzSm]="24" [nzXs]="24"
+                                    nzErrorTip="Ingrese Vin">
+                                    <nz-form-label nzRequired>Vin</nz-form-label>
+                                    <input nz-input formControlName="veh_vin" type="text"/>
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <nz-form-item>
+                                <nz-form-control [nzSm]="24" [nzXs]="24"
+                                    nzErrorTip="Ingrese Marca">
+                                    <nz-form-label nzRequired>Marca</nz-form-label>
+                                    <input nz-input formControlName="veh_marca" type="text"/>
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <nz-form-item>
+                                <nz-form-control [nzSm]="24" [nzXs]="24"
+                                    nzErrorTip="Ingrese Observación">
+                                    <nz-form-label nzRequired>Revisión Observación</nz-form-label>
+                                    <input nz-input formControlName="veh_rev_observacion" type="text"/>
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <nz-form-item>
+                                <nz-form-control [nzSm]="24" [nzXs]="24"
+                                    nzErrorTip="Ingrese Fecha Revisión">
+                                    <nz-form-label nzRequired>Fecha Revisión</nz-form-label>
+                                    <input nz-input formControlName="veh_rev_fecha" type="text"/>
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <nz-form-item>
+                                <nz-form-control [nzSm]="24" [nzXs]="24"
+                                    nzErrorTip="Ingrese Estado Revisión">
+                                    <nz-form-label nzRequired>Estado Revisión</nz-form-label>
+                                    <input nz-input formControlName="veh_rev_estado" type="text"/>
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <nz-form-item>
+                                <nz-form-control [nzSm]="24" [nzXs]="24"
+                                    nzErrorTip="Ingrese ACT Observación">
+                                    <nz-form-label nzRequired>ACT Observación</nz-form-label>
+                                    <input nz-input formControlName="veh_act_observacion" type="text"/>
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <nz-form-item>
+                                <nz-form-control [nzSm]="24" [nzXs]="24"
+                                    nzErrorTip="Ingrese ACT Fecha">
+                                    <nz-form-label nzRequired>ACT Fecha</nz-form-label>
+                                    <input nz-input formControlName="veh_act_fecha" type="text"/>
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <nz-form-item>
+                                <nz-form-control [nzSm]="24" [nzXs]="24"
+                                    nzErrorTip="Ingrese ACT Estado">
+                                    <nz-form-label nzRequired>ACT Estado</nz-form-label>
+                                    <input nz-input formControlName="veh_act_estado" type="text"/>
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <nz-form-item>
+                                <nz-form-control [nzSm]="24" [nzXs]="24"
+                                    nzErrorTip="Ingrese orden de compra">
+                                    <nz-form-label nzRequired>Orden Compra</nz-form-label>
+                                    <input nz-input formControlName="veh_orden_compra" type="text"/>
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <nz-form-item>
+                                <nz-form-control [nzSm]="24" [nzXs]="24"
+                                    nzErrorTip="Ingrese lote">
+                                    <nz-form-label nzRequired>Lote</nz-form-label>
+                                    <input nz-input formControlName="veh_lote" type="text"/>
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <nz-form-item>
+                                <nz-form-control [nzSm]="24" [nzXs]="24"
+                                    nzErrorTip="Ingrese codigo color interior">
+                                    <nz-form-label nzRequired>Color Interior</nz-form-label>
+                                    <input nz-input formControlName="veh_cod_color_int" type="text"/>
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <nz-form-item>
+                                <nz-form-control [nzSm]="24" [nzXs]="24"
+                                    nzErrorTip="Ingrese descripción color sap">
+                                    <nz-form-label nzRequired>Descripción Color</nz-form-label>
+                                    <input nz-input formControlName="veh_des_color_sap" type="text"/>
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <nz-form-item>
+                                <nz-form-control [nzSm]="24" [nzXs]="24"
+                                    nzErrorTip="Ingrese codigo color de sap">
+                                    <nz-form-label nzRequired>Código color sap</nz-form-label>
+                                    <input nz-input formControlName="veh_cod_sap_color_ex" type="text"/>
+                                </nz-form-control>
+                            </nz-form-item>
+
+                        </nz-col>
+
+                        <nz-col class="gutter-row" nzSpan="12">
+
+                            <nz-form-item>
+                                <nz-form-control [nzSm]="24" [nzXs]="24"
+                                    nzErrorTip="Ingrese motor">
+                                    <nz-form-label nzRequired>Motor</nz-form-label>
+                                    <input nz-input formControlName="veh_motor" type="text"/>
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <nz-form-item>
+                                <nz-form-control [nzSm]="24" [nzXs]="24"
+                                    nzErrorTip="Ingrese fecha creación">
+                                    <nz-form-label nzRequired>Fecha Creación</nz-form-label>
+                                    <input nz-input formControlName="veh_fecha_crea_pedido" type="text"/>
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <nz-form-item>
+                                <nz-form-control [nzSm]="24" [nzXs]="24"
+                                    nzErrorTip="Ingrese pack">
+                                    <nz-form-label nzRequired>Pack</nz-form-label>
+                                    <input nz-input formControlName="veh_pack" type="text"/>
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <nz-form-item>
+                                <nz-form-control [nzSm]="24" [nzXs]="24"
+                                    nzErrorTip="Ingrese año producción">
+                                    <nz-form-label nzRequired>Año Producción</nz-form-label>
+                                    <input nz-input formControlName="veh_year_produccion" type="text"/>
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <nz-form-item>
+                                <nz-form-control [nzSm]="24" [nzXs]="24"
+                                    nzErrorTip="Ingrese mes de producción">
+                                    <nz-form-label nzRequired>Mes de Producción</nz-form-label>
+                                    <input nz-input formControlName="veh_mes_produccion" type="text"/>
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <nz-form-item>
+                                <nz-form-control [nzSm]="24" [nzXs]="24"
+                                    nzErrorTip="Ingrese fecha de llegada">
+                                    <nz-form-label nzRequired>Fecha Llegada</nz-form-label>
+                                    <input nz-input formControlName="veh_fecha_llegada" type="text"/>
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <nz-form-item>
+                                <nz-form-control [nzSm]="24" [nzXs]="24"
+                                    nzErrorTip="Ingrese nombre buque">
+                                    <nz-form-label nzRequired>Buque</nz-form-label>
+                                    <input nz-input formControlName="veh_nombre_buque" type="text"/>
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <nz-form-item>
+                                <nz-form-control [nzSm]="24" [nzXs]="24"
+                                    nzErrorTip="Ingrese año del modelo">
+                                    <nz-form-label nzRequired>Año Modelo</nz-form-label>
+                                    <input nz-input formControlName="veh_year_modelo" type="text"/>
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <nz-form-item>
+                                <nz-form-control [nzSm]="24" [nzXs]="24"
+                                    nzErrorTip="Ingrese SSC">
+                                    <nz-form-label nzRequired>SSC</nz-form-label>
+                                    <input nz-input formControlName="veh_ssc" type="text"/>
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <nz-form-item>
+                                <nz-form-control [nzSm]="24" [nzXs]="24"
+                                    nzErrorTip="Ingrese grade">
+                                    <nz-form-label nzRequired>Grade</nz-form-label>
+                                    <input nz-input formControlName="veh_grade" type="text"/>
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <nz-form-item>
+                                <nz-form-control [nzSm]="24" [nzXs]="24"
+                                    nzErrorTip="Ingrese OCN">
+                                    <nz-form-label nzRequired>OCN</nz-form-label>
+                                    <input nz-input formControlName="veh_ocn" type="text"/>
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <nz-form-item>
+                                <nz-form-control [nzSm]="24" [nzXs]="24"
+                                    nzErrorTip="Ingrese codigo color exterior">
+                                    <nz-form-label nzRequired>Color Exterior</nz-form-label>
+                                    <input nz-input formControlName="veh_cod_color_ext" type="text"/>
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <nz-form-item>
+                                <nz-form-control [nzSm]="24" [nzXs]="24"
+                                    nzErrorTip="Ingrese nombre color exterior">
+                                    <nz-form-label nzRequired>Nombre Color Exterior</nz-form-label>
+                                    <input nz-input formControlName="veh_nombre_color_ext" type="text"/>
+                                </nz-form-control>
+                            </nz-form-item>
+
+                        </nz-col>
+
+                    </nz-row>
+
+                </form>
+
+            </div>
+        
+
+    </ng-container>
+</nz-modal>

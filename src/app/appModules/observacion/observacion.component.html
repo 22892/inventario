@@ -1,0 +1,158 @@
+<nz-page-header class="site-page-header" nzBackIcon nzTitle="INVENTARIO RECEPCIÓN DE VEHICULOS PARA VIN: " [nzSubtitle]="subtitle">
+    <ng-template #subtitle> </ng-template>
+    <nz-page-header-extra>
+        <button nz-button nzType="primary" [nzSize]="size" nzShape="round" [nzLoading]="isLoadinCreateObs"
+            (click)="saveObservacionVin()">
+            <i nz-icon nzType="save"></i>
+            Finalizar Verificación
+        </button>
+        <nz-badge [nzCount]="listObservacionVin.length">
+            <a class="head-example"></a>
+        </nz-badge>
+    </nz-page-header-extra>
+</nz-page-header>
+
+<div class="card-container">
+
+    <nz-tabset  style="padding-left: 20px; padding-right: 20px" [(nzSelectedIndex)]="index"  nzSize="large" nzType="card">
+        <nz-tab *ngFor="let tab of tabs" [nzTitle]="titleTemplate" nzType="card">
+            <ng-template #titleTemplate>
+                <i nz-icon [nzType]="tab.icon"></i>
+                {{ tab.name }}
+            </ng-template>
+    
+    
+            <div *ngIf="index == 0">
+
+                <div nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                    <div nz-col class="gutter-row" [nzSpan]="24">
+
+                        <div style="text-align: center; margin-top: 1%; margin-left: 37%; margin-right: 37%; ">
+                            <nz-space>
+                                <button *nzSpaceItem nz-button nzType="primary" nzGhost
+                                    (click)="checkObservacion(1)">Interior</button>
+                                <button *nzSpaceItem nz-button nzType="primary" nzGhost
+                                    (click)="checkObservacion(2)">Exterior</button>
+                                <button *nzSpaceItem nz-button nzType="primary" nzGhost
+                                    (click)="checkObservacion(3)">Vidrios</button>
+                                <button *nzSpaceItem nz-button nzType="primary" nzGhost
+                                    (click)="checkObservacion(4)">Llantas/Rines</button>
+
+                            </nz-space>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div style="margin-top: 2%;" nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                    <div nz-col class="gutter-row" [nzSpan]="16">
+
+                        <div style="margin-bottom: 2%;">
+                            <nz-upload [(nzFileList)]="fileList" [nzBeforeUpload]="beforeUpload"
+                                nzFileType="image/png,image/jpeg,image/jpg" [nzShowUploadList]="false">
+                                <button nz-button>
+                                    <i nz-icon nzType="upload"></i>
+                                    Seleccionar Foto
+                                </button>
+                            </nz-upload>
+                        </div>
+
+
+                        <cdk-virtual-scroll-viewport itemSize="5" class="demo-infinite-container2"
+                            orientation="horizontal">
+                            <nz-list nzGrid style="margin-top: 20px;">
+                                <div nz-row [nzGutter]="16">
+                                    <div *ngFor="let item of listFoto">
+                                        <nz-list-item>
+                                            <nz-card style="width:200px; margin-left: 5px;" [nzTitle]="item.name"
+                                                [nzExtra]="extraTemplate">
+                                                <img style="object-fit: contain;" [src]="item.url" alt=""
+                                                    width="100%" height="100%">
+
+                                            </nz-card>
+                                            <ng-template #extraTemplate>
+                                                <nz-avatar [nzIcon]="'close-circle'" (click)="deleteItemFoto(item)"
+                                                    style="background:white;border: solid 1px #fc3a54; color:#fc3a54"
+                                                    [nzTooltipTitle]="'Quitar'" nzTooltipPlacement="top" nz-tooltip>
+                                                </nz-avatar>
+                                            </ng-template>
+                                        </nz-list-item>
+                                    </div>
+                                </div>
+                                <div style="margin-left: 350px; margin-top: 30px;" *ngIf="listFoto.length === 0">
+                                    <nz-empty [nzNotFoundContent]="null"></nz-empty>
+                                    <nz-tag style="margin-left: 40px;" [nzColor]="'red'">Cargar Aqui Fotos
+                                        Observación</nz-tag>
+                                </div>
+                            </nz-list>
+                        </cdk-virtual-scroll-viewport>
+
+                        <div>
+                            <form nz-form [nzLayout]="'vertical'" style="margin-top: 10px;"
+                                [formGroup]="observacionForm" (ngSubmit)="submitFormObs()">
+
+                                <nz-form-item>
+                                    <nz-form-label nzRequired>Observación Estado Fisico</nz-form-label>
+                                    <nz-form-control [nzSm]="24" [nzXs]="24"
+                                        nzErrorTip="Ingrese una Observación de Estado Fisico">
+                                        <input nz-input formControlName="dov_observaciones_estado_fisico"
+                                            type="text" placeholder="Ingrese observación estado fisico" />
+                                    </nz-form-control>
+                                </nz-form-item>
+
+                            </form>
+                        </div>
+
+                    </div>
+
+                    <div nz-col class="gutter-row" [nzSpan]="8">
+                        <nz-card style="margin-top: 0%;" class="cardLista2">
+
+                            <div nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                                <div nz-col class="gutter-row" [nzSpan]="24">
+                                    <div style="text-align: center;">
+                                        <nz-tag [nzColor]="'geekblue'">Daños de Vehiculo</nz-tag>
+                                        <i nz-icon nzType="reload" nzTheme="outline" style="cursor: pointer;"
+                                            (click)="limpiarLienzo()"></i>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                                <div nz-col class="gutter-row" [nzSpan]="24">
+                                    <div style="height: 370px; margin-top: 2%; display: hidden">
+                                        <!--<app-image-dano [limpiarLienzo]="limpiarDibujo"></app-image-dano>-->
+                                        <canvas #sigPad width="400" height="370" (click)="onMouseDown($event)"
+                                            (click)="onMouseMove($event)"></canvas>
+
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </nz-card>
+                    </div>
+                </div>
+
+    
+    
+            </div>
+    
+    
+    
+            <div *ngIf="index == 1">
+    
+    
+            </div>
+          
+           
+        </nz-tab>
+    </nz-tabset>
+    
+
+</div>
+
+

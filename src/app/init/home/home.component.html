@@ -1,0 +1,110 @@
+<nz-layout style=" height: 100%;">
+    <nz-sider #sidebarcolor nzCollapsible [(nzCollapsed)]="isCollapsed" [ngStyle]="{ 'background-color': colorPrimario }" [nzTrigger]="null" style="overflow: hidden;overflow-y: auto;">
+      <div class="logo">
+        <!--<img [routerLink]="['//dashboard']" *ngIf='isCollapsed' [src]="logo1" alt="" width="100%" height="100%" >
+        <img [routerLink]="['//dashboard']" *ngIf='!isCollapsed' [src]="logo2" alt="" width="100%" height="70%" >-->
+      </div>
+      <ul nz-menu [ngStyle]="{ 'background-color': colorPrimario }" nzMode="inline" *ngIf="menus">
+        <ng-container  *ngTemplateOutlet="menuTpl; context: { $implicit: menus }"></ng-container>
+        <ng-template #menuTpl let-menus>
+          <ng-container *ngFor="let menu of menus">
+            <li
+            [ngStyle]="{ 'background-color': colorPrimario }"
+              *ngIf="!menu.menusHijos"
+              nz-menu-item
+              [nzPaddingLeft]="menu.level * 24"
+              [nzDisabled]="menu.disabled"
+              [nzSelected]="menu.selected"
+              [routerLink]="[menu.men_path]"
+            >
+              <i nz-icon [nzType]="menu.men_icono" *ngIf="menu.men_icono"></i>
+              <span [ngStyle]="{ 'background-color': colorPrimario }">{{ menu.men_titulo }}</span>
+            </li>
+            <li
+             
+            
+              *ngIf="menu.menusHijos"
+              nz-submenu
+              [nzPaddingLeft]="menu.level * 24"
+              [nzOpen]="menu.open"
+              [nzTitle]="menu.men_titulo"
+              [nzIcon]="menu.men_icono"
+              [nzDisabled]="menu.disabled"
+             
+            >
+              <ul [ngStyle]="{ 'background-color': colorPrimario }">
+                <ng-container *ngTemplateOutlet="menuTpl; context: { $implicit: menu.menusHijos }"></ng-container>
+              </ul>
+            </li>
+          </ng-container>
+        </ng-template>
+      </ul>
+  
+    </nz-sider>
+    <nz-layout>
+      <nz-header>
+        <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+          <nz-col class="gutter-row" nzSpan="18" >
+
+            <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+              <nz-col class="gutter-row" nzSpan="2" >
+                <i class="trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'" (click)="isCollapsed = !isCollapsed"></i>
+
+              </nz-col>
+              <nz-col class="gutter-row" nzSpan="22" >
+                <nz-select 
+                  nzPlaceHolder="Seleccione Empresa" nzShowSearch
+                  (ngModelChange)="getSelectNewEmpresa() "
+                  [(ngModel)]="empresaSelect">
+                  <ng-container *ngFor="let item of listEmpresas">
+                      <nz-option *ngIf="cargandoMenus == false"
+                          [nzLabel]="item.emp_nombre_comercial" [nzValue]="item">
+
+                      </nz-option>
+                  </ng-container>
+                  <nz-option *ngIf="cargandoMenus == true" nzDisabled
+                      nzCustomContent>
+                      <i nz-icon nzType="loading" class="loading-icon"></i>
+                      Cargando...
+                  </nz-option>
+                </nz-select>
+              </nz-col>
+            </nz-row>
+
+            <!--<img *ngIf='isCollapsed' [src]="logo2" alt="" width="150px" height="22px" >-->
+          </nz-col>
+  
+          <nz-col class="gutter-row" nzSpan="6" style="text-align: right;">
+            <a nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu" *ngIf="usuario">
+              <i nz-icon nzType="down"></i>
+              {{usuario.usr_nombre}}
+              <nz-avatar nzIcon="user" style="background-color:#f0f2f5;"></nz-avatar>
+            </a>
+            <nz-dropdown-menu #menu="nzDropdownMenu">
+              <ul nz-menu>
+                <li nz-menu-item>Mi perfil</li>
+                <li nz-menu-divider></li>
+                <li nz-menu-item (click)="cerrarSesion()">Cerrar sesión</li>
+              </ul>
+            </nz-dropdown-menu>
+          </nz-col>
+        </nz-row>
+      </nz-header>
+      <nz-content style="overflow: hidden; overflow-y: auto;">
+        <div class="inner-content">
+          <router-outlet></router-outlet>
+        </div>
+      </nz-content>
+      <div *ngIf="usuario">
+        <nz-footer>{{usuario.usr_nombre}} ©{{date}}</nz-footer>
+      </div>
+      
+    </nz-layout>
+</nz-layout>
+
+
+<ng-template #drawerTemplate let-data let-drawerRef="drawerRef" >
+    
+</ng-template>
+ 
+  

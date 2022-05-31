@@ -1,0 +1,41 @@
+.card-container ::ng-deep p {
+  margin: 0;
+}
+.card-container ::ng-deep > .ant-tabs-card .ant-tabs-content {
+  min-height: 120px;
+  margin-top: -16px;
+}
+.card-container ::ng-deep > .ant-tabs-card .ant-tabs-content > .ant-tabs-tabpane {
+  background: #fff;
+  padding: 16px;
+}
+.card-container ::ng-deep > .ant-tabs-card > .ant-tabs-nav::before {
+  display: none;
+}
+.card-container ::ng-deep > .ant-tabs-card .ant-tabs-tab {
+  border-color: transparent;
+  background: transparent;
+}
+.card-container ::ng-deep > .ant-tabs-card .ant-tabs-tab-active {
+  border-color: #fff;
+  background: #fff;
+}
+
+.tarjetaDatos{
+  background-color: rgb(250, 250, 250);
+  border-radius: 25px;
+}
+
+.tarjetaEstados{
+  background-color: rgb(250, 250, 250);
+  border-radius: 25px;
+
+
+}
+
+.tarjetaItems{
+  background-color: rgb(255, 255, 255);
+  border-radius: 20px;
+  border-color: rgb(203, 203, 203);
+  min-height: 200px;
+}

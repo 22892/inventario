@@ -1,0 +1,288 @@
+<nz-page-header class="site-page-header" nzBackIcon nzTitle="Detalle Vin" [nzSubtitle]="subtitle">
+  <ng-template #subtitle> </ng-template>
+  <nz-page-header-extra>
+    <i
+      nz-icon
+      nzType="reload"
+      nzTheme="outline"
+      style="cursor: pointer"
+     
+    ></i>
+  </nz-page-header-extra>
+</nz-page-header>
+
+
+<div class="card-container">
+    <nz-tabset [(nzSelectedIndex)]="index" nzType="card" nzSize="large">
+        <nz-tab *ngFor="let tab of tabs"  [nzTitle]="titleTemplate" nzType="card">
+            <ng-template #titleTemplate>
+                <i nz-icon [nzType]="tab.icon" nzTheme="outline"></i>
+                {{ tab.name }}
+            </ng-template>
+
+            <div *ngIf="index == 0">
+                <nz-card style="background-color: rgb(238, 238, 238);" >
+                    <nz-skeleton [nzActive]="true" [nzLoading]="cargandoDatosVin" [nzAvatar]="{ size: 'large' }">
+                        <nz-card-meta
+                           
+                            [nzDescription]="descTemplate"
+                        ></nz-card-meta>
+                    </nz-skeleton>
+                </nz-card>
+                <ng-template #descTemplate>
+                    <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                        <nz-col nzSpan="15" class="gutter-row">
+                            
+                            <nz-card class="tarjetaDatos">
+                            
+                                <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                                    <nz-col nzSpan="24" nzOffset="9" class="gutter-row">
+                                        <nz-tag nzColor="success">
+                                            <i nz-icon nzType="check-circle"></i>
+                                            <span>VIN: {{veh_codigo}}</span>
+                                        </nz-tag>
+                                    </nz-col>
+                                   
+                                </nz-row>
+
+                                <ng-container *ngIf="detalleVin">
+
+                                    <nz-row style="margin-top: 20px;" [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                                        <nz-col nzSpan="24" class="gutter-row">
+                                            <nz-card class="tarjetaItems" [nzTitle]="titleItem">
+    
+                                                <ng-template #titleItem>
+                                                    <i nz-icon [nzType]="'car'" nzTheme="outline"></i> Vehiculo
+                                                </ng-template>
+    
+                                                <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                                                   
+    
+                                                    <nz-col nzSpan="10" class="gutter-row">
+                                                        <p>Fecha Asignación:</p>
+                                                        <p>Fecha Homologado:</p>
+                                                        <p>Cantidad:</p>
+                                                        <p>Estado Activo:</p>
+                                                        <p>Estado Homologado:</p>
+                                                        <p>Disponible:</p>
+                                                        <p>Estado Reserva:</p>
+                                                        <p>Estado Factura:</p>
+                                                    </nz-col>
+    
+                                                    <nz-col nzSpan="10" class="gutter-row">
+                                                        <p>{{detalleVin.dve_pro_fecha_asignado | date:"d MMMM 'de', y "}}</p>
+                                                        <p>{{detalleVin.dve_pro_fecha_homologado | date:"d MMMM 'de', y "}}</p>
+                                                        <p>{{detalleVin.dve_pro_cantidad}}</p>
+                                                        <p>{{detalleVin.dve_pro_estado_activo}}</p>
+                                                        <p>{{detalleVin.dve_pro_estado_homologado}}</p>
+                                                        <p>{{detalleVin.dve_pro_disponible}}</p>
+                                                        <p>{{detalleVin.dve_con_estado_reserve}}</p>
+                                                        <p>{{detalleVin.dve_pro_estado_facturado}}</p>
+                                                    </nz-col>
+
+                                                    <nz-col nzSpan="4" class="gutter-row">
+
+                                                    </nz-col>
+    
+                                                </nz-row>
+                                                
+    
+                                            </nz-card>
+                                        </nz-col>
+    
+    
+                                    </nz-row>
+    
+                                    <nz-row style="margin-top: 20px;" [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                                        <nz-col nzSpan="12" class="gutter-row">
+                                            <nz-card class="tarjetaItems" [nzTitle]="titleItemTres">
+    
+                                                <ng-template #titleItemTres>
+                                                    <i nz-icon [nzType]="'profile'" nzTheme="outline"></i> Nacionalización
+                                                </ng-template>
+
+                                                <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                                                   
+                                                    <nz-col nzSpan="10" class="gutter-row">
+                                                        <p>Número Nacionali:</p>
+                                                        <p>Mes Arribo:</p>
+                                                        <p>Factura Porteo:</p>
+                                                        <p># de Factura:</p>
+                                                        <p>Fecha Factura:</p>
+                                                        <p>FSC:</p>
+                                                        <p>Puerto Arribo:</p>
+                                                        <p>Puerto Embarque:</p>
+                                                    </nz-col>
+    
+                                                    <nz-col nzSpan="14" class="gutter-row">
+                                                        <p>{{detalleVin.dve_nac_nro_nacionalizacion }}</p>
+                                                        <p>{{detalleVin.dve_nac_mes_arribo}}</p>
+                                                        <p>{{detalleVin.dve_nac_factura_porteo}}</p>
+                                                        <p>{{detalleVin.dve_nac_factura}}</p>
+                                                        <p>{{detalleVin.dve_nac_fecha_factura | date:"d MMMM 'de', y "}}</p>
+                                                        <p>{{detalleVin.dve_nac_fsc}}</p>
+                                                        <p>{{detalleVin.dve_nac_puerto_embarque}}</p>
+                                                        <p>{{detalleVin.dve_nac_puerto_arribo}}</p>
+                                                    </nz-col>
+    
+                                                </nz-row>
+
+        
+                                            </nz-card>
+    
+                                        </nz-col>
+    
+                                        <nz-col nzSpan="12" class="gutter-row">
+                                            <nz-card class="tarjetaItems" [nzTitle]="titleItemCuatro">
+    
+                                                <ng-template #titleItemCuatro>
+                                                    <i nz-icon [nzType]="'profile'" nzTheme="outline"></i> Facturación
+                                                </ng-template>
+
+                                                <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                                                   
+                                                    <nz-col nzSpan="10" class="gutter-row">
+                                                        <p>Fecha Factura:</p>
+                                                        <p>Responsable:</p>
+                                                        <p>Doc. Venta:</p>
+                                                        <p>Sector:</p>
+                                                        <p>Centro:</p>
+                                                        <p>Referencia:</p>
+                                                        <p>Bultos:</p>
+                                                        <p>Valor Venta:</p>
+                                                    </nz-col>
+    
+                                                    <nz-col nzSpan="14" class="gutter-row">
+                                                        <p>{{detalleVin.dve_fac_dea_factura | date:"d MMMM 'de', y "}}</p>
+                                                        <p>{{detalleVin.dve_fac_dea_nombre_responsable}}</p>
+                                                        <p>{{detalleVin.dve_fac_dea_doc_venta}}</p>
+                                                        <p>{{detalleVin.dve_fac_dea_sector}}</p>
+                                                        <p>{{detalleVin.dve_fac_dea_centro}}</p>
+                                                        <p>{{detalleVin.dve_fac_dea_referencia}}</p>
+                                                        <p>{{detalleVin.dve_fac_dea_bultos}}</p>
+                                                        <p>{{detalleVin.dve_fac_dea_valor_venta}}</p>
+                                                    </nz-col>
+    
+                                                </nz-row>
+
+        
+                                            </nz-card>
+    
+                                        </nz-col>
+                                    </nz-row>
+    
+
+                                </ng-container>
+
+                            </nz-card>
+
+                        </nz-col>
+
+                        <nz-col nzSpan="9" class="gutter-row">
+                    
+                            <nz-card class="tarjetaEstados">
+
+                                <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                                    <nz-col nzSpan="24" nzOffset="9" class="gutter-row">
+                                        <nz-tag nzColor="processing">
+                                            <i nz-icon nzType="check-circle"></i>
+                                            <span>ESTADOS VIN</span>
+                                        </nz-tag>
+                                    </nz-col>
+                                   
+                                </nz-row>
+
+                                <ng-container *ngIf="detalleVin">
+
+                                    <nz-row style="margin-top: 20px;" [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                                        <nz-col nzSpan="24" class="gutter-row">
+                                            <nz-card class="tarjetaItems" [nzTitle]="titleItem">
+    
+                                                <ng-template #titleItem>
+                                                    <i nz-icon [nzType]="'car'" nzTheme="outline"></i> Estados Vin
+                                                </ng-template>
+
+                                                <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                                                   
+                                                    <nz-col nzSpan="24" class="gutter-row">
+
+                                                        <nz-collapse>
+
+                                                            <nz-collapse-panel *ngFor="let panel of detalleVin.listaEstado" [nzHeader]="extraTpl">
+
+                                                                <ng-template #extraTpl>
+
+                                                                    <nz-row  [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                                                   
+                                                                        <nz-col nzSpan="12" class="gutter-row">
+                                                                            {{panel.estadoEtapa.est_nombre}}
+
+                                                                        </nz-col>
+                                                                        <nz-col style="text-align: end;" nzSpan="12" class="gutter-row">
+
+                                                                            <ng-container *ngIf="panel.estadoEtapa.est_codigo == 1">
+                                                                                <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/pedido.png" nzTheme="outline"></nz-avatar>
+                                                                            </ng-container>
+
+                                                                            <ng-container *ngIf="panel.estadoEtapa.est_codigo == 2">
+                                                                                <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/revision.png" nzTheme="outline"></nz-avatar>
+                                                                            </ng-container>
+
+                                                                            <ng-container *ngIf="panel.estadoEtapa.est_codigo == 3">
+                                                                                <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/actividad.png" nzTheme="outline"></nz-avatar>
+                                                                            </ng-container>
+
+                                                                            <ng-container *ngIf="panel.estadoEtapa.est_codigo == 4">
+                                                                                <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/nacionalizacion.png" nzTheme="outline"></nz-avatar>
+                                                                            </ng-container>
+
+                                                                            <ng-container *ngIf="panel.estadoEtapa.est_codigo == 5">
+                                                                                <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/facturacion.png" nzTheme="outline"></nz-avatar>
+                                                                            </ng-container>
+                                                                            
+
+                                                                        </nz-col>
+                                                                    </nz-row>
+                                                                </ng-template>
+
+                                                                <nz-timeline>
+                                                                    <nz-timeline-item>{{panel.veh_est_veh_vin}}</nz-timeline-item>
+                                                                    <nz-timeline-item>{{panel.veh_est_fecha}}</nz-timeline-item>
+                                                                </nz-timeline>
+                                                                
+                                                            </nz-collapse-panel>
+
+                                                           
+ 
+                                                        </nz-collapse>
+
+                                                    </nz-col>
+                                                </nz-row>
+
+                                            </nz-card>
+                                        </nz-col>
+                                    </nz-row>
+
+                                </ng-container>
+                                
+                            </nz-card>
+                            
+                        </nz-col>
+
+                    </nz-row>
+                </ng-template>
+            </div>
+
+            <div *ngIf="index == 1">
+                
+            </div>
+    
+           
+        </nz-tab>
+    </nz-tabset>
+</div>
+
+    
+
+
+
