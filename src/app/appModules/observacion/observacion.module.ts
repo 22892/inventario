@@ -5,6 +5,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { ObservacionComponent } from './observacion.component';
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { FortawesomeModule } from 'src/app/fortawesome.module'
 
 
 const routes: Routes = [
@@ -21,6 +23,9 @@ const routes: Routes = [
     FormsModule,
     ScrollingModule,  
     ReactiveFormsModule,
+    FontAwesomeModule,
+    FortawesomeModule
+
 
   ]
 })

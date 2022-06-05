@@ -6,7 +6,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MenuComponent } from './menu.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import { ScrollingModule } from '@angular/cdk/scrolling';
-
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { FortawesomeModule } from 'src/app/fortawesome.module'
 
 const routes: Routes = [
   { path: '', component: MenuComponent },   
@@ -23,6 +24,8 @@ const routes: Routes = [
     DragDropModule,
     ScrollingModule,  
     ReactiveFormsModule,
+    FontAwesomeModule,
+    FortawesomeModule
 
   ]
 })

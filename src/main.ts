@@ -7,8 +7,8 @@ import { environment } from "./environments/environment";
 export function getBaseUrl() {
   if (!environment.production)
      //return 'https://192.168.43.3:5000/';
-     return 'http://192.168.1.105:5000/';
-     //return 'http://localhost:5000/'
+     //return 'http://192.168.1.105:5000/';
+     return 'http://localhost:5000/'
      //return 'https://192.168.18.10:5000/'
   else
   return 'https://api.comercial.curbe.com.ec/'

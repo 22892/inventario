@@ -8,6 +8,8 @@ import { NzTableFilterFn, NzTableFilterList, NzTableSortFn, NzTableSortOrder } f
 import { MenuService } from '../menu/services/menu.service'
 import { AuthService } from '../../core/auth.service'
 import { ObservacionService } from '../observacion/services/observacion.service'
+import { faCoffee } from '@fortawesome/free-solid-svg-icons';
+
 
 interface ColumnItem {
   
@@ -28,6 +30,8 @@ interface ColumnItem {
   styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent implements OnInit {
+
+  faCoffee = faCoffee;
 
   listOfColumns: ColumnItem[] = [
     {
@@ -327,6 +331,7 @@ export class MenuComponent implements OnInit {
   parteForm!: FormGroup;
   grupoForm!: FormGroup;
   danoForm!: FormGroup;
+  tamanoForm!: FormGroup;
 
   tipoPlataforma: number = 1
 
@@ -406,7 +411,7 @@ export class MenuComponent implements OnInit {
   cargandoGrupos: boolean = false
   modalCrudParte: boolean = false
   tipoCrudParte: number = 0
-  titleCrudParte: string = "Crear Parte"
+  titleCrudParte: string = "CREAR PARTE"
   isLoadingCreateUpdateParte: boolean = false
 
   listTamano: any[] = [];
@@ -425,10 +430,20 @@ export class MenuComponent implements OnInit {
   isLoadingCrearGrupo: boolean = false
   modalCrudGrupo: boolean = false
   titleCrudGrupo: string = "CREAR GRUPO"
+  tipoCrudGrupo: number = 0
 
   modalCrudDano: boolean = false
   isLoadingCrudDano: boolean = false
   titleCrudDano: string = "CREAR DAÑO"
+  tipoCrudDano: number = 0
+  dano: any
+
+  modalCrudTamano: boolean = false
+  isLoadingCrudTamano: boolean = false
+  titleCrudTamano: string = "CREAR TAMAÑO"
+  tipoCrudTamano: number = 0
+  tamano: any
+
 
   constructor( private fb: FormBuilder,
     @Inject('BASE_URL') baseUrl: string,
@@ -439,6 +454,14 @@ export class MenuComponent implements OnInit {
     private router: Router,
     private serviceObservacion: ObservacionService
     ) {
+
+      this.tamanoForm = this.fb.group({
+       
+        tam_nombre: [null, [Validators.required]],
+        tam_type_ico: [null, [Validators.required]],
+        tam_nombre_ico: [null, [Validators.required]],
+       
+      });
 
       this.danoForm = this.fb.group({
        
@@ -533,6 +556,26 @@ export class MenuComponent implements OnInit {
   }
 
 
+  validateFormsTamano(): boolean {
+    let v = true;
+      if(!this.danoForm.valid){
+        this.msg.warning("Ingrese todos los datos requeridos para Crear un Tamaño");
+        this.submitFormTamano()
+        return false;
+      }
+    return v;
+  }
+
+
+  submitFormTamano(): void {
+    for (const key in this.danoForm.controls) {
+      this.danoForm.controls[key].markAsDirty();
+      this.danoForm.controls[key].updateValueAndValidity();
+    }
+  }
+
+
+
   validateFormsDano(): boolean {
     let v = true;
       if(!this.danoForm.valid){
@@ -573,7 +616,7 @@ export class MenuComponent implements OnInit {
 
   validateFormsParte(): boolean {
     let v = true;
-      if(!this.menuForm.valid){
+      if(!this.parteForm.valid){
         this.msg.warning("Ingrese todos los datos requeridos para Crear Parte");
         this.submitFormParte()
         return false;
@@ -648,10 +691,15 @@ export class MenuComponent implements OnInit {
 
   openModalCrudParte(parte: any, grupo: any){
 
+   
+    
     this.modalCrudParte = true
     this.parte = parte
     this.grupo = grupo
-    this.titleCrudParte = 'Editar Parte'
+    this.titleCrudParte = 'EDITAR PARTE'
+    this.tipoCrudParte = 2
+    console.log('opennnn');
+    
     console.log(this.parte);
     console.log(this.grupo);
 
@@ -663,41 +711,319 @@ export class MenuComponent implements OnInit {
     })
   }
 
+  createUpdateTamano(){
+
+    if(this.tipoCrudTamano == 1){
+
+      const valida = this.validateFormsTamano()
+
+      if(valida){
+
+        let tamano = {
+          tam_estado: 1,
+          tam_marca: 100,
+          tam_nombre: this.danoForm.get('tam_nombre')!.value,
+          tam_type_ico: this.danoForm.get('tam_type_ico')!.value,
+          tam_nombre_ico: this.danoForm.get('tam_nombre_ico')!.value,
+        }
+
+        this.isLoadingCrudTamano = true
+
+        this.serviceObservacion.createTamano(tamano).subscribe(
+          data => {
+            
+            console.log('tamano');
+            console.log(data);
+            this.msg.success('Tamaño Creado Correctamente')
+            this.tamanoForm.reset()
+            this.modalCrudTamano = false
+            this.isLoadingCrudTamano = false
+            this.getListTamano()
+            
+        
+        },
+        err => {
+          this.msg.error(`Ha ocurrido un error al Crear Tamaño, ${err.error.message}`);
+          this.isLoadingCrudTamano = false
+  
+        })
+      }
+
+    }else{
+
+      const valida = this.validateFormsTamano()
+
+      if(valida){
+
+        let tamano = {
+          tam_codigo: this.tamano.tam_codigo,
+          tam_estado: this.tamano.tam_estado,
+          tam_marca: 100,
+          tam_nombre: this.tamanoForm.get('tam_nombre')!.value,
+          tam_type_ico: this.tamanoForm.get('tam_type_ico')!.value,
+          tam_nombre_ico: this.tamanoForm.get('tam_nombre_ico')!.value,
+        }
+
+        this.isLoadingCrudTamano = true
+
+        this.serviceObservacion.updateTamano(tamano).subscribe(
+          data => {
+            
+            console.log('taamno');
+            console.log(data);
+            this.msg.success('Tamaño Actualizado Correctamente')
+            this.tamanoForm.reset()
+            this.modalCrudTamano = false
+            this.isLoadingCrudTamano = false
+            this.getListTamano()
+            
+        
+        },
+        err => {
+          this.msg.error(`Ha ocurrido un error al Actualizar Tamaño, ${err.error.message}`);
+          this.isLoadingCrudTamano = false
+  
+        })
+      }
+
+
+    }
+
+
+  }
+
+  openModalCreateDano(){
+
+    this.modalCrudDano = true
+    this.tipoCrudDano = 1
+    this.titleCrudDano = 'CREAR DAÑO'
+
+  }
+
 
   createUpdateDano(){
 
+    if(this.tipoCrudDano == 1){
+
+      const valida = this.validateFormsDano()
+
+      if(valida){
+
+        let dano = {
+          dan_estado: 1,
+          dan_marca: 100,
+          dan_nombre: this.danoForm.get('dan_nombre')!.value,
+          dan_type_ico: this.danoForm.get('dan_type_ico')!.value,
+          dan_nombre_ico: this.danoForm.get('dan_nombre_ico')!.value,
+        }
+
+        this.isLoadingCrudDano = true
+
+        this.serviceObservacion.createDano(dano).subscribe(
+          data => {
+            
+            console.log('dano');
+            console.log(data);
+            this.msg.success('Daño Creado Correctamente')
+            this.danoForm.reset()
+            this.modalCrudDano = false
+            this.isLoadingCrudDano = false
+            this.getListDano()
+            
+        
+        },
+        err => {
+          this.msg.error(`Ha ocurrido un error al Crear Daño, ${err.error.message}`);
+          this.isLoadingCrudDano = false
+  
+        })
+      }
+
+    }else{
+
+      const valida = this.validateFormsDano()
+
+      if(valida){
+
+        let dano = {
+          dan_codigo: this.dano.dan_codigo,
+          dan_estado: this.dano.dan_estado,
+          dan_nombre: this.danoForm.get('dan_nombre')!.value,
+          dan_type_ico: this.danoForm.get('dan_type_ico')!.value,
+          dan_nombre_ico: this.danoForm.get('dan_nombre_ico')!.value,
+          dan_marca: 100
+        }
+
+        this.isLoadingCrudDano = true
+
+        this.serviceObservacion.updateDano(dano).subscribe(
+          data => {
+            
+            console.log('dano');
+            console.log(data);
+            this.msg.success('Daño Actualizado Correctamente')
+            this.danoForm.reset()
+            this.modalCrudDano = false
+            this.isLoadingCrudDano = false
+            this.getListDano()
+            
+        
+        },
+        err => {
+          this.msg.error(`Ha ocurrido un error al Actualizar Daño, ${err.error.message}`);
+          this.isLoadingCrudDano = false
+  
+        })
+      }
+
+
+    }
+
   }
 
-  openModalCrudDano(dano: any, operacion: number){
 
 
-    if(operacion == 1){
-      this.modalCrudDano = true
-      this.titleCrudDano = 'EDITAR DAÑO'
-      this.danoForm.setValue({
-        dan_nombre: dano.dan_nombre,
-        dan_type_ico: dano.dan_type_ico,
-        dan_nombre_ico: dano.dan_nombre_ico,
+  openModalCrudDano(dano: any){
+
+    this.modalCrudDano = true
+    this.titleCrudDano = 'EDITAR DAÑO'
+    this.tipoCrudDano = 2
+    this.dano = dano
+    this.danoForm.setValue({
+      dan_nombre: dano.dan_nombre,
+      dan_type_ico: dano.dan_type_ico,
+      dan_nombre_ico: dano.dan_nombre_ico,
        
-      })
-    }
+    })
+    
+  }
 
-    if(operacion == 2){
-      this.modalCrudDano = true
-      this.titleCrudDano = 'CREAR DAÑO'
-    }
-
+  openModalCreateTamano(){
+    this.modalCrudTamano = true
+    this.titleCrudTamano = 'CREAR TAMAÑO'
+    this.tipoCrudTamano = 1
   }
 
   openModalCrudTamano(tamano: any){
+
+    this.modalCrudTamano = true
+    this.titleCrudTamano = 'EDITAR TAMAÑO'
+    this.tipoCrudTamano = 2
+    this.tamano = tamano
+    this.danoForm.setValue({
+      tam_nombre: tamano.tam_nombre,
+      tam_type_ico: tamano.tam_type_ico,
+      tam_nombre_ico: tamano.tam_nombre_ico,
+       
+    })
+
 
   }
 
   openModalcreateGrupo(){
     this.modalCrudGrupo = true
+    this.tipoCrudGrupo = 1
+
   }
 
-  createGrupo(){
+  openModalUpdateGrupo(grupo: any){
+
+    this.modalCrudGrupo = true
+    this.tipoCrudGrupo = 2
+    this.grupo = grupo
+    this.grupoForm.setValue({
+      grp_nombre: grupo.grp_nombre,
+      grp_tipo_ico: grupo.grp_tipo_ico,
+      grp_nombre_ico: grupo.grp_nombre_ico,
+       
+    })
+
+
+  }
+
+  createUpdateGrupo(){
+
+
+    if(this.tipoCrudGrupo == 1){
+
+      const valida = this.validateFormsGrupo()
+
+      if(valida){
+        let grupo = {
+          grp_estado: 1,
+          grp_nombre: this.grupoForm.get('grp_nombre')!.value,
+          grp_tipo_ico: this.grupoForm.get('grp_tipo_ico')!.value,
+          grp_nombre_ico: this.grupoForm.get('grp_nombre_ico')!.value,
+          grp_marca: 100
+        }
+        this.isLoadingCrearGrupo = true
+
+        console.log(grupo);
+        
+  
+        this.serviceObservacion.createGrupo(grupo).subscribe(
+          data => {
+            
+            console.log('grupo');
+            console.log(data);
+            this.msg.success('Grupo Creado Correctamente')
+            this.grupoForm.reset()
+            this.modalCrudGrupo = false
+            this.isLoadingCrearGrupo = false
+            this.getListGrupos()
+        
+        },
+        err => {
+          this.msg.error(`Ha ocurrido un error al Crear Grupo, ${err.error.message}`);
+          this.isLoadingCrearGrupo = false
+  
+        })
+  
+  
+      }
+  
+
+    }else{
+
+      const valida = this.validateFormsGrupo()
+
+      if(valida){
+
+        let grupo = {
+          grp_codigo: this.grupo.grp_codigo,
+          grp_estado: 1,
+          grp_nombre: this.grupoForm.get('grp_nombre')!.value,
+          grp_tipo_ico: this.grupoForm.get('grp_tipo_ico')!.value,
+          grp_nombre_ico: this.grupoForm.get('grp_nombre_ico')!.value,
+          grp_marca: 100
+        }
+        this.isLoadingCrearGrupo = true
+
+        console.log(grupo);
+        
+  
+        this.serviceObservacion.updateGrupo(grupo).subscribe(
+          data => {
+            
+            console.log('grupo');
+            console.log(data);
+            this.msg.success('Grupo Actualizado Correctamente')
+            this.grupoForm.reset()
+            this.modalCrudGrupo = false
+            this.isLoadingCrearGrupo = false
+            this.getListGrupos()
+        
+        },
+        err => {
+          this.msg.error(`Ha ocurrido un error al Actualizar Grupo, ${err.error.message}`);
+          this.isLoadingCrearGrupo = false
+  
+        })
+
+      }
+
+    }
+
 
   }
 
@@ -705,41 +1031,100 @@ export class MenuComponent implements OnInit {
 
   }
 
+  openModalcreateParte(grupo: any){
+
+    console.log(grupo);
+    
+    this.modalCrudParte = true
+    this.tipoCrudParte = 1
+    this.grupo = grupo
+
+  }
+
   createUpdateParte(){
 
 
-    const valida = this.validateFormsParte()
+    if(this.tipoCrudParte == 1){
 
-    if(valida){
+      const valida = this.validateFormsParte()
 
+      if(valida){
+  
+        let parte = {
+          
+          par_nombre: this.parteForm.get('par_nombre')!.value,
+          par_grp_codigo: this.grupo.grp_codigo,
+          par_estado: 1,
+          par_marca: 100,
+          par_type_ico: this.parteForm.get('par_type_ico')!.value,
+          par_nombre_ico: this.parteForm.get('par_nombre_ico')!.value
+        }
+  
+        this.isLoadingCreateUpdateParte = true
+        
+        this.serviceObservacion.createParte(parte).subscribe(
+          data => {
+            
+            console.log('parteeee');
+            console.log(data);
+            this.msg.success('Parte Grupo Creado Correctamente')
+            this.parteForm.reset()
+            this.modalCrudParte = false
+            this.isLoadingCrearParte = false
+            this.isLoadingCreateUpdateParte = false
+            this.getListGrupos()
+        
+        },
+        err => {
+          this.msg.error(`Ha ocurrido un error al Crear Parte, ${err.error.message}`);
+          this.isLoadingCreateUpdateParte = false
+  
+        })
+      }
+  
 
-      let parte = {
-        par_codigo: 1,
-        par_marca: 100,
-        par_id: '',
-        par_nombre: '',
-        par_grp_codigo: 1,
-        par_estado: 1,
-        par_type_ico: '',
-        par_nombre_ico: ''
+    }else{
+
+      const valida = this.validateFormsParte()
+
+      if(valida){
+
+         let parte = {
+          par_codigo: this.parte.par_codigo,
+          par_nombre: this.parteForm.get('par_nombre')!.value,
+          par_grp_codigo: this.grupo.grp_codigo,
+          par_estado: 1,
+          par_marca: 100,
+          par_type_ico: this.parteForm.get('par_type_ico')!.value,
+          par_nombre_ico: this.parteForm.get('par_nombre_ico')!.value
+        }
+
+        this.isLoadingCreateUpdateParte = true
+        console.log(parte);
+        
+        this.serviceObservacion.updateParte(parte).subscribe(
+          data => {
+            
+            console.log('parteeee');
+            console.log(data);
+            this.msg.success('Parte Grupo Actualizado Correctamente')
+            this.parteForm.reset()
+            this.modalCrudParte = false
+            this.isLoadingCrearParte = false
+            this.getListGrupos()
+            
+        
+        },
+        err => {
+          this.msg.error(`Ha ocurrido un error al Actualizar Parte, ${err.error.message}`);
+          this.isLoadingCreateUpdateParte = false
+  
+        })
+  
       }
 
-      this.isLoadingCreateUpdateParte = true
-
-      this.serviceObservacion.createParte(parte).subscribe(
-        data => {
-          
-          console.log('parteeee');
-          console.log(data);
-          
-      
-      },
-      err => {
-        this.msg.error(`Ha ocurrido un error al Actualizar Parte, ${err.error.message}`);
-        this.isLoadingCreateUpdateParte = false
-
-      })
     }
+
 
 
 
@@ -788,9 +1173,9 @@ export class MenuComponent implements OnInit {
       this.cargandoGrupos = p.cargando
 
       if(this.cargandoGrupos == false){
-        this.listGrupos.forEach((item: any)=>{
+        /*this.listGrupos.forEach((item: any)=>{
           item.grp_nombre_ico = 'car'
-        })
+        })*/
         this.subgrupo.unsubscribe()
       }
     });

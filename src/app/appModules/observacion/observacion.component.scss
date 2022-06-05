@@ -27,4 +27,157 @@
     border-radius: 4px; 
 }
     
+.listaHorizontal ::nz-card {
   
+  padding-right: 0.5em;
+  overflow-x: scroll;
+  width: 500px;
+  background-color: red;
+  
+}
+
+
+
+
+
+.contenedor {
+    
+  display: table-cell; 
+  padding: 10px; 
+  margin-left: 5px; 
+  justify-content: space-between; 
+  justify-content: space-around;
+  align-items: center;
+}
+
+.tarjeta{
+  background-color: rgb(242, 242, 242);
+  min-width: 200px;
+  min-height: 100px;
+  border-radius: 20px;
+  border: 2px solid #868484;
+}
+
+
+.tarjetaGrupo{
+  background-color: rgb(255, 255, 255);
+  border-radius: 20px;
+  border-color: rgb(155, 155, 155);
+  height: 600px;
+}
+
+.demo-infinite-container {
+  height: 426px;
+  border: 1px solid #cecece;
+  border-radius: 20px;
+  
+}
+
+.tarjeta:hover {
+  background: #c4c4c4 !important;
+}
+
+.tarjeta.selected {
+  background: #bdbdbd !important;
+  z-index: 1;
+}
+
+
+
+nz-list-item {
+  border-radius: 20px;
+}
+
+nz-list-item.selected {
+  background: #bdbdbd !important;
+  z-index: 1;
+}
+
+nz-list-item:hover {
+  background: #e3e3e3 !important;
+}
+
+.contenedorParte {
+  list-style: none;
+  padding: 15px 35px;
+  display: block;
+  cursor: pointer;
+  text-align: left;
+  margin-bottom: 1px;
+}
+
+.tarjetaDano{
+  height: 120px;
+  width: 180px;
+  background-color: rgb(245, 245, 245);
+  align-items: center;
+  align-content: center;
+  align-self: center;
+
+}
+
+.tarjetaDano:hover {
+  background: #c4c4c4 !important;
+}
+
+.tarjetaDano.selected {
+  background: #bdbdbd !important;
+  z-index: 1;
+}
+
+
+.tarjetaTamano{
+
+  height: 60px;
+  width: 180px;
+  background-color: rgb(245, 245, 245);
+ 
+}
+
+.tarjetaTamano:hover {
+  background: #c4c4c4 !important;
+}
+
+.tarjetaTamano.selected {
+  background: #bdbdbd !important;
+  z-index: 1;
+}
+
+
+.contenedorDano {
+    
+  display: inline-block; 
+  padding: 10px; 
+  margin-left: 5px; 
+  justify-content: space-between; 
+  justify-content: space-around;
+  align-items: center;
+}
+
+.contenedorTamano{
+
+  display: table-cell;  
+  padding: 10px; 
+  margin-left: 5px; 
+  justify-content: space-between; 
+  justify-content: space-around;
+  align-items: center;
+
+}
+
+
+.tarjetaCanvas{
+  height: 380px; 
+  width: 600px;
+  margin-top: 1%; 
+  display: hidden; 
+  //background-color: rgb(240, 240, 240);
+}
+
+.container-list{
+  height: 100px;
+  display: flex;
+  flex-direction:column;
+}
+
+

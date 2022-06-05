@@ -691,11 +691,30 @@
 
                                                             </nz-col>
 
-                                                            <nz-col style="text-align: start;" nzSpan="18" class="gutter-row">
-                                                                <!--<i nz-icon nzType="{{panel.grp_nombre_ico}}" nzTheme="outline"></i>-->
-                                                                <nz-avatar nzIcon="{{panel.grp_nombre_ico}}"  style="background:white;border: solid 1px #1890ff; color:#1890ff" nzTooltipPlacement="top" nz-tooltip></nz-avatar>
+                                                            <nz-col style="text-align: start;" nzSpan="12" class="gutter-row">
+                                                               
+                                                                <!--<nz-avatar nzIcon="{{panel.grp_nombre_ico}}"  style="background:white;border: solid 1px #1890ff; color:#1890ff" nzTooltipPlacement="top" nz-tooltip></nz-avatar>
+                                                                <fa-icon [icon]="panel.grp_nombre_ico"></fa-icon>-->
+                                                                <ng-container *ngIf="panel.grp_nombre_ico; else NoIcono">
+                                                                    <fa-icon [icon]="['fas', panel.grp_nombre_ico]"></fa-icon>
+                                                                </ng-container>
+                                                                <ng-template #NoIcono>
+
+                                                                </ng-template>
 
                                                             </nz-col>
+
+                                                            <nz-col style="text-align: end;" nzSpan="3" class="gutter-row">
+                                                                <a nz-button nzType="link" (click)="openModalUpdateGrupo(panel)">Actualizar Grupo</a>
+
+                                                            </nz-col>
+
+                                                            <nz-col style="text-align: end;" nzSpan="3" class="gutter-row">
+                                                                <a nz-button nzType="link" (click)="openModalcreateParte(panel)">Crear Parte</a>
+
+                                                            </nz-col>
+
+                                                           
 
                                                         </ng-template>
 
@@ -710,7 +729,7 @@
                                                                         nzNotFoundImage="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg" [nzNotFoundContent]="contentTpl"
                                                                         [nzNotFoundFooter]="footerTpl">
                                                                         <ng-template #contentTpl>
-                                                                        <span> No Existe Grupos</span>
+                                                                        <span> No Existe Partes para Grupo</span>
                                                                         </ng-template>
                                                                         <ng-template #footerTpl>
                                                                         </ng-template>
@@ -751,11 +770,18 @@
 
                                                                             <td>
                                                                                 <small>
+                                                                                    <ng-container *ngIf="item.par_nombre_ico">
+                                                                                        <fa-icon [icon]="['fas', item.par_nombre_ico]"></fa-icon>
+
+                                                                                    </ng-container>
+                                                                                   
+                                                                                    {{item.par_nombre_ico}}
                                                                                 </small>
                                                                             </td>
 
                                                                             <td>
                                                                                 <small>
+                                                                                    {{item.par_type_ico}}
                                                                                 </small>
                                                                             </td>
 
@@ -801,6 +827,16 @@
                         <input type="radio" name="tabs" id="tabobs2" >
                         <label for="tabobs2">Tamaños</label>
                         <div class="tab">
+
+                            <nz-row style="margin-bottom: 20px;" [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+
+                                <nz-col class="gutter-row">
+
+                                    <a nz-button nzType="link" (click)="openModalCreateTamano()">Crear Nuevo Tamaño</a>
+
+                                </nz-col>
+                            </nz-row>
+
 
                             <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
 
@@ -854,11 +890,13 @@
 
                                                 <td>
                                                     <small>
+                                                        {{item.tam_nombre_ico}}
                                                     </small>
                                                 </td>
 
                                                 <td>
                                                     <small>
+                                                        {{item.tam_type_ico}}
                                                     </small>
                                                 </td>
 
@@ -887,6 +925,15 @@
                         <input type="radio" name="tabs" id="tabobs3" >
                         <label for="tabobs3">Daños</label>
                         <div class="tab">
+
+                            <nz-row style="margin-bottom: 20px;" [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+
+                                <nz-col class="gutter-row">
+
+                                    <a nz-button nzType="link" (click)="openModalCreateDano()">Crear Nuevo Daño</a>
+
+                                </nz-col>
+                            </nz-row>
 
                             <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
 
@@ -951,9 +998,9 @@
                                                 <td>
                                                     <small>
 
-                                                        <nz-avatar [nzIcon]="'edit'" (click)="openModalCrudDano(item,1)"  style="background:white;border: solid 1px #96e586; color:#96e586" [nzTooltipTitle]="'Editar Daño'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>
+                                                        <nz-avatar [nzIcon]="'edit'" (click)="openModalCrudDano(item)"  style="background:white;border: solid 1px #96e586; color:#96e586" [nzTooltipTitle]="'Editar Daño'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>
                                                         <nz-divider nzType="vertical"></nz-divider>
-                                                        <nz-avatar [nzIcon]="'save'" (click)="openModalCrudDano(item,2)"  style="background:white;border: solid 1px #4353cc; color:#4353cc" [nzTooltipTitle]="'Crear Daño'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>
+                                                        <!--<nz-avatar [nzIcon]="'save'" (click)="openModalCrudDano(item,2)"  style="background:white;border: solid 1px #4353cc; color:#4353cc" [nzTooltipTitle]="'Crear Daño'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>-->
 
                                                     
                                                     </small>
@@ -982,6 +1029,63 @@
         </nz-card>
     </nz-tab>
 </nz-tabset>
+
+
+<nz-modal nzWrapClassName="vertical-center-modal"  [(nzVisible)]="modalCrudTamano" nzTitle="{{titleCrudTamano}}" 
+(nzOnCancel)="modalCrudTamano = false"  (nzOnOk)="createUpdateTamano()" nzWidth="650px" [nzOkLoading]="isLoadingCrudTamano">
+    <ng-container *nzModalContent>
+
+        <div class="steps-content">
+
+            <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                            
+                <nz-col class="gutter-row" nzSpan="24">
+    
+                    <nz-row [nzGutter]="16">
+                        <nz-col nzSpan="12" nzOffset="6">
+    
+    
+                            <form nz-form [nzLayout]="'vertical'" style="margin-top: 30px;" [formGroup]="tamanoForm" (ngSubmit)="submitFormTamano()">
+                                
+                                <nz-form-item>
+                                    <nz-form-control [nzSm]="24" [nzXs]="24"
+                                        nzErrorTip="Ingrese un nombre Daño">
+                                        <nz-form-label nzRequired>Nombre</nz-form-label>
+                                        <input nz-input formControlName="tam_nombre" type="text"/>
+                                    </nz-form-control>
+                                </nz-form-item>
+
+                                <nz-form-item>
+                                    <nz-form-control [nzSm]="24" [nzXs]="24"
+                                        nzErrorTip="Ingrese un nombre de Icono">
+                                        <nz-form-label nzRequired>Nombre Icono</nz-form-label>
+                                        <input nz-input formControlName="tam_nombre_ico" type="text"/>
+                                    </nz-form-control>
+                                </nz-form-item>
+
+                                <nz-form-item>
+                                    <nz-form-control [nzSm]="24" [nzXs]="24"
+                                        nzErrorTip="Ingrese el tipo de Icono">
+                                        <nz-form-label nzRequired>Tipo Icono</nz-form-label>
+                                        <input nz-input formControlName="tam_type_ico" type="text"/>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            
+                            </form>
+                        </nz-col>
+                    </nz-row>
+    
+                            
+    
+                            
+                </nz-col>
+    
+            </nz-row>
+
+        </div>
+    </ng-container>
+</nz-modal>
+
 
 
 <nz-modal nzWrapClassName="vertical-center-modal"  [(nzVisible)]="modalCrudDano" nzTitle="{{titleCrudDano}}" 
@@ -1042,7 +1146,7 @@
 
 
 <nz-modal nzWrapClassName="vertical-center-modal"  [(nzVisible)]="modalCrudGrupo" nzTitle="{{titleCrudGrupo}}" 
-(nzOnCancel)="modalCrudGrupo = false"  (nzOnOk)="createGrupo()" nzWidth="650px" [nzOkLoading]="isLoadingCrearGrupo">
+(nzOnCancel)="modalCrudGrupo = false"  (nzOnOk)="createUpdateGrupo()" nzWidth="650px" [nzOkLoading]="isLoadingCrearGrupo">
     <ng-container *nzModalContent>
 
         <div class="steps-content">

@@ -93,7 +93,7 @@ export class ObservacionService {
   }
 
   getTamano(marca: any){
-
+    
     this.listTamano = [];
     this.tamano$.next({ listTamano: this.listTamano, cargando: true });
     
@@ -139,6 +139,35 @@ export class ObservacionService {
   }
 
 
+  // CREAR GRUPO PARTE
+
+  createGrupo(grupo: any): Observable<any> {
+    console.log(`${this.baseUrl}api/observacion/createGParte/`);
+    
+    return this.http.post(`${this.baseUrl}api/observacion/createGParte/`, grupo, {
+      headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      //Authorization: 'Bearer ' + this.auth.token,
+      }),
+    });
+  }
+
+
+  // ACTUALIZAR GRUPO PARTE
+
+  updateGrupo(grupo: any): Observable<any> {
+   
+    return this.http.post(`${this.baseUrl}api/observacion/updateGParte/`, grupo, {
+      headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      //Authorization: 'Bearer ' + this.auth.token,
+      }),
+    });
+  }
+
+  
+
+
   // CREAR PARTE
 
   createParte(parte: any): Observable<any> {
@@ -160,6 +189,72 @@ export class ObservacionService {
       headers: new HttpHeaders({
       'Content-Type': 'application/json',
       //Authorization: 'Bearer ' + this.auth.token,
+      }),
+    });
+  }
+
+
+  // CREAR DAÑO
+
+  createDano(dano: any): Observable<any> {
+   
+    return this.http.post(`${this.baseUrl}api/observacion/createDano/`, dano, {
+      headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      //Authorization: 'Bearer ' + this.auth.token,
+      }),
+    });
+  }
+
+
+  // ACTUALIZAR DAÑO
+
+  updateDano(dano: any): Observable<any> {
+   
+    return this.http.post(`${this.baseUrl}api/observacion/updateDano/`, dano, {
+      headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      //Authorization: 'Bearer ' + this.auth.token,
+      }),
+    });
+  }
+
+  // CREAR TAMAÑO
+
+  createTamano(tamano: any): Observable<any> {
+   
+    return this.http.post(`${this.baseUrl}api/observacion/createTamano/`, tamano, {
+      headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      //Authorization: 'Bearer ' + this.auth.token,
+      }),
+    });
+  }
+
+
+  // ACTUALIZAR TAMAÑO
+
+  updateTamano(tamano: any): Observable<any> {
+   
+    return this.http.post(`${this.baseUrl}api/observacion/updateTamao/`, tamano, {
+      headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      //Authorization: 'Bearer ' + this.auth.token,
+      }),
+    });
+  }
+
+
+
+  //REALIZAR OBSERVACION VIN
+
+
+  createObservacionVin(listarevision: any): Observable<any> {
+   
+    return this.http.post(`${this.baseUrl}api/observacion/create/`, listarevision, {
+      headers: new HttpHeaders({
+     
+        Authorization: 'Bearer ' + this.serviceAuth.token,
       }),
     });
   }
