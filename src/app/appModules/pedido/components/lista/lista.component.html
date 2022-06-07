@@ -371,7 +371,15 @@
                             <td>
                                 <nz-avatar [nzIcon]="'file-search'" [routerLink]="['/pedido/detalle',item.veh_vin]" style="background:white;border: solid 1px #1890ff; color:#1890ff" [nzTooltipTitle]="'Detalle Vin'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>
                                 <nz-divider nzType="vertical"></nz-divider>
-                                <nz-avatar [nzIcon]="'check-circle'" [routerLink]="['/observacion']" style="background:white;border: solid 1px #18ff4a; color:#18ff4a" [nzTooltipTitle]="'Revisión Vin'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>
+
+                                <ng-container *ngIf="item.veh_estado_observacion == 0; else tieneObservacion">
+                                    <nz-avatar [nzIcon]="'check-circle'" [routerLink]="['/observacion', item.veh_vin]" style="background:white;border: solid 1px #eb767e; color:#eb767e" [nzTooltipTitle]="'Realizar Revisión Vin'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>
+                                </ng-container>
+
+                                <ng-template #tieneObservacion>
+                                    <nz-avatar [nzIcon]="'check-circle'" style="background:white;border: solid 1px #18ff4a; color:#18ff4a" [nzTooltipTitle]="'Revisado'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>
+                                </ng-template>
+
 
                             </td>
                           

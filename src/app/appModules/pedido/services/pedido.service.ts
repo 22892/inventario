@@ -16,6 +16,7 @@ export class PedidoService {
   private listVin:any[] =[] ;
   private vin$! : BehaviorSubject<any>;
 
+
   constructor(private notification: NzNotificationService,
     @Inject('BASE_URL') baseUrl: string,
     private http: HttpClient,
@@ -23,6 +24,7 @@ export class PedidoService {
 
       this.baseUrl = baseUrl;
       this.vin$ = new BehaviorSubject({listVin:[],cargando:false});
+    
       
   }
 
@@ -43,6 +45,34 @@ export class PedidoService {
       { nzPlacement: 'bottomLeft' }
     );
   }
+
+
+  getListAllVinMarca$(): Observable<any> {
+   
+    if(this.listVin)
+      this.getVinsMarca();
+    return this.vin$.asObservable();
+  }
+
+  getVinsMarca(){
+   
+    let marca = this.serviceGlobal.getCodigoMarca()
+    this.listVin = [];
+    this.vin$.next({ listVin: this.listVin, cargando: true });
+    
+    this.http.get(`${this.baseUrl}api/vehiculo/getAllVehiculosMarca/${marca}`,this.httpOptions).subscribe(
+      data => {
+
+        this.vin$.next({ listVin: data, cargando: false});
+      },
+      err => {
+        this.createNotification('error', 'Error', 'Ha ocurrido un error al listado de Vins');
+        this.vin$.next({ listVin: [], cargando: false });
+      }
+    );    
+
+  }
+
 
 
   getListAllVin$(): Observable<any> {

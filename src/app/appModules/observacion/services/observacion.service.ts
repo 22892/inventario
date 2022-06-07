@@ -21,6 +21,12 @@ export class ObservacionService {
   private listDano: any[] = [];
   private dano$!: BehaviorSubject<any>;
 
+  private listObservacionVin: any[] = [];
+  private observacionvin$!: BehaviorSubject<any>;
+
+  private listDocumentoGeneral: any[] = [];
+  private documentogeneral$!: BehaviorSubject<any>;
+
 
   constructor(private notification: NzNotificationService,
     @Inject('BASE_URL') baseUrl: string,
@@ -33,7 +39,8 @@ export class ObservacionService {
       this.grupos$ = new BehaviorSubject({listGrupos:[],cargando:false});
       this.tamano$ = new BehaviorSubject({listTamano:[],cargando:false});
       this.dano$ = new BehaviorSubject({listDano:[],cargando:false});
-
+      this.observacionvin$ = new BehaviorSubject({listObservacionVin:[],cargando:false});
+      this.documentogeneral$ = new BehaviorSubject({listDocumentoGeneral:[],cargando:false});
 
   }
 
@@ -52,6 +59,36 @@ export class ObservacionService {
       { nzPlacement: 'bottomLeft' }
     );
   }
+
+  //OBTENER DETALLE DE REVISION VIN
+
+  getListAllObservacionVin$(veh_codigo: any): Observable<any> {
+    let marca = this.serviceGlobal.getCodigoMarca()
+    if(this.listObservacionVin)
+      this.getObservacionVin(marca, veh_codigo);
+    return this.observacionvin$.asObservable();
+  }
+
+  getObservacionVin(marca: any, veh_codigo: any){
+
+    this.listObservacionVin = [];
+    this.observacionvin$.next({ listObservacionVin: this.listObservacionVin, cargando: true });
+    console.log(`${this.baseUrl}api/observacion/getObservacionVin/${marca}/${veh_codigo}`);
+    
+    this.http.get(`${this.baseUrl}api/observacion/getObservacionVin/${marca}/${veh_codigo}`,this.httpOptions).subscribe({
+      next: (data) => {
+
+        this.observacionvin$.next({ listObservacionVin: data, cargando: false});
+      },
+      error: (error) =>{
+        this.createNotification('error', 'Error', 'Ha ocurrido un error al listar las Observaciones de Vin '+error);
+        this.observacionvin$.next({ listObservacionVin: [], cargando: false });
+      }
+    });    
+
+  }
+
+
 
 
   //OBTENER LISTADO DE GRUPOS PARA OBSERVACIÓN
@@ -259,6 +296,48 @@ export class ObservacionService {
     });
   }
 
+
+  //SUBIR LISTADO DE COCUMENTOS PARA VIN
+
+  uploadFileGeneralVin(file: any, veh_codigo: any): Observable<any> {
+    let marca = this.serviceGlobal.getCodigoMarca()
+    
+    return this.http.post(`${this.baseUrl}api/documento/documento_vehiculo/${marca}/${veh_codigo}`,file,
+      {
+        headers: new HttpHeaders({
+          Authorization: 'Bearer ' + this.serviceAuth.token,
+        }),
+      }
+    );
+  }
+
+
+  //OBTENER LISTADO DE ARCHIVOS POR VIN
+
+  getListAllDocuemtoVin$(veh_codigo: any): Observable<any> {
+    let marca = this.serviceGlobal.getCodigoMarca()
+    if(this.listDocumentoGeneral)
+      this.getDocuemntoVin(marca, veh_codigo);
+    return this.documentogeneral$.asObservable();
+  }
+
+  getDocuemntoVin(marca: any, veh_codigo: any){
+
+    this.listDocumentoGeneral = [];
+    this.documentogeneral$.next({ listDocumentoGeneral: this.listDocumentoGeneral, cargando: true });
+    
+    this.http.get(`${this.baseUrl}api/documento/getDocumentosVin/${marca}/${veh_codigo}`,this.httpOptions).subscribe(
+      data => {
+
+        this.documentogeneral$.next({ listDocumentoGeneral: data, cargando: false});
+      },
+      err => {
+        this.createNotification('error', 'Error', 'Ha ocurrido un error al listar los Documentos');
+        this.documentogeneral$.next({ listDocumentoGeneral: [], cargando: false });
+      }
+    );    
+
+  }
 
 
 

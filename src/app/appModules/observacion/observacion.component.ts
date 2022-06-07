@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, HostListener, AfterViewInit, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener, AfterViewInit, ElementRef, Inject } from '@angular/core';
 import { NzButtonSize } from 'ng-zorro-antd/button';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import {FormBuilder,FormControl,FormGroup,ValidationErrors,Validators,} from '@angular/forms';
@@ -6,6 +6,9 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { ObservacionService } from '../observacion/services/observacion.service'
 import { Observable } from 'rxjs';
 import { NzTableFilterFn, NzTableFilterList, NzTableSortFn, NzTableSortOrder,} from 'ng-zorro-antd/table';
+import { ActivatedRoute, Params } from '@angular/router';
+import { GlobalserviceService } from '../../core/globalservice.service'
+import { Router } from '@angular/router';
 
 
 interface ColumnItem {
@@ -162,9 +165,11 @@ export class ObservacionComponent implements OnInit, AfterViewInit {
   cargandoGrupos: boolean = false
   cargandoParte: boolean = false
   grupo: any
+  grupoAccesorio: any
   parte: any
   indexList: any
   indexGrupo: any
+  indexAccesorio: any
   indexDano: any
   indexTamano: any
 
@@ -183,12 +188,11 @@ export class ObservacionComponent implements OnInit, AfterViewInit {
   ejex: any
   ejey: any
 
-  ancho: any = 600
-  alto: any = 400
-  ejexCanvas: any
-  ejeyCanvas: any
+  ancho: any = 0
+  alto: any = 0
   ejeYOpe: any = 0
   ejeXOpe: any = 0
+  
   
   windowWidth = window.innerWidth;
   windowHeight =  document.documentElement.scrollHeight;
@@ -196,34 +200,58 @@ export class ObservacionComponent implements OnInit, AfterViewInit {
   isVisibleModalFoto: boolean = false
   codObservacion: any
   cargandoDetalle: boolean = false
+  isLoadingFoto: boolean = false
+  verificaPuntoGrafica: boolean = false
+  veh_codigo: any
+
+  listCheckListAccesorio: any[] = []
+  listChecRespuesta: any[] = []
+  listAccesorios: any[] = []
+
+  fileListDoc: NzUploadFile[] = [];
+  typeFile: string = '';
+  listDocumentoGeneral: any[] = [];
+  documentogeneral$!: Observable<any>;
+  baseUrl: string = '';
+  loadingDocumento: boolean = false
+  subDocumento: any
+  cargandoDocumento: boolean = false
 
 
-  constructor(private element: ElementRef, 
+  constructor(@Inject('BASE_URL') baseUrl: string,
+    private element: ElementRef, 
     private fb: FormBuilder,
     private msg: NzMessageService,
-    private serviceObservacion: ObservacionService) {
+    private serviceObservacion: ObservacionService,
+    private rutaActiva: ActivatedRoute,
+    private serviceGlobal: GlobalserviceService,
+    private router: Router) {
 
-    this.observacionForm = this.fb.group({
-      dov_observaciones_estado_fisico: ['', [Validators.required]],
-      obs_tipo: [''],
-    });
+      this.baseUrl = baseUrl.substring(0, baseUrl.length-1);
+
+      this.observacionForm = this.fb.group({
+        dov_observaciones_estado_fisico: ['', [Validators.required]],
+        obs_tipo: [''],
+      });
 
   }
 
   ngOnInit(): void {
-    this.getListGrupos()
-    localStorage.removeItem('canvas'); 
 
-   
+    this.veh_codigo = this.rutaActiva.snapshot.paramMap.get('vin')
+    this.getListGrupos()
+    this.getListDocumentsVin()
+    this.ancho = this.porcentaje(40)
+    this.alto = this.ancho / 1.4036
 
   }
 
   ngAfterViewInit(): void {
-    console.log('entra after------------<<<<<<<<<<<<<<<>>>>>>>>>>>>>------------');
     this.initLienzo()
+  }
 
-    
-
+  porcentaje(porcen: any){
+    return (this.windowWidth * porcen) / 100
   }
 
   
@@ -232,32 +260,21 @@ export class ObservacionComponent implements OnInit, AfterViewInit {
 
     console.log('nitial');
     
-    console.log(this.windowWidth);
-    
-    
-    
-    this.ejexCanvas = this.sigPad.nativeElement.offsetLeft
-    this.ejeyCanvas = this.sigPad.nativeElement.offsetTop
-    
-
-
     this.sigPadElement = this.sigPad.nativeElement
     this.context = this.sigPadElement.getContext('2d');
     var img = new Image();
-    img.src = "../../../assets/images/imagencarro.png";
-    img.height = 10
-    img.width = 10
-    
-    this.context.drawImage(img, 0,0, this.ancho,this.alto);
+    img.src = "../../../assets/images/imagencarro.png";  
+
+    var dimensiones ={
+      x: this.ancho,
+      y: this.alto
+    }
     let self = this;
     img.onload = function(){
-      self.context.drawImage(img, 0,0, 600, 400);
+      self.context.drawImage(img, 0,0, dimensiones.x, dimensiones.y);
     }
-    
-  }
-
-  limpiarLienzo() {
    
+    
   }
 
   clear() {
@@ -265,52 +282,27 @@ export class ObservacionComponent implements OnInit, AfterViewInit {
     this.context.beginPath();
   }
 
-  /*@HostListener("wheel", ["$event"])
-  public onScroll(event: WheelEvent) {
-    console.log(event);
-    
-    this.element.nativeElement.scrollLeft += event.deltaY;
-  }*/
-
 
   @HostListener('document:mouseup', ['$event'])
   onMouseUp(e: any) {
    
-    //console.log('sraaaaaa');
-    console.log(e);
-
     
     var y = window.pageYOffset;
-    //console.log(y);
-    
-    
-    //console.log(this.isDrawing);
-    //console.log(e.offsetX);
-    
-    
-    //console.log(e.clientX +' >= ' + this.ejexCanvas +' && '+ e.clientX + ' <= ' +this.ancho +'&&'+ e.clientY +' >= '+ this.ejeyCanvas +' && '+ e.clientY +'<='+ this.alto );
-    
-    
     
     this.ejeYOpe = (e.screenY + e.y) 
     this.ejeXOpe = (e.x + e.screenX)
     var aux1 = (this.alto + this.windowHeight - 200) - this.ejeYOpe 
 
-    //console.log('rsulta');
-    
-    //console.log(this.ejeYOpe);
-    //console.log(e.screenY - e.y);
-    
-    //this.msg.info('resul '+this.ejeYOpe+' '+aux1)
-
     if(this.ejeXOpe < this.windowWidth-100){
       
       if(this.ejeYOpe >= aux1){
-        //console.log('antraaaaaaa');
+        if(this.isDrawing){   
+          console.log('antraaaaaaa'); 
         
-        if(this.isDrawing){    
           this.clear()
           this.initLienzo()
+        
+        
         }
         this.isDrawing = false
         this.ejeYOpe = 0
@@ -329,11 +321,8 @@ export class ObservacionComponent implements OnInit, AfterViewInit {
 
 
   onMouseDown(e: any) {
-    console.log('move');
-     console.log(e);
-     
+    
     this.isDrawing = true;
-    //this.initLienzo()
     const coords = this.relativeCoords(e);
     this.context.moveTo(coords.x, coords.y);
   }
@@ -347,28 +336,18 @@ export class ObservacionComponent implements OnInit, AfterViewInit {
 
         const coords = this.relativeCoords(e);
 
+        this.ejex = (e.offsetX * 100) / this.ancho
+        this.ejey = (e.offsetY * 100) / this.alto
+
         this.context.beginPath();
         this.context.fillStyle = 'red';
         this.context.strokeStyle = 'black';
-        
-        //console.log('dibujo');
-        //console.log(this.context.canvas.nodeName);
-        //console.log(this.context.canvas.offsetTop);
-        
-
-        
-
-        this.ejex = coords.x
-        this.ejey = coords.y
-
         this.context.arc(coords.x, coords.y, 10, 0, 2 * Math.PI);
-
-        
         this.context.fill();
         this.context.stroke();
         this.respaldoContext = this.context;
 
-        var imageBase64String = this.sigPadElement.toDataURL(); // get the base64 string from the canvas context
+        /*var imageBase64String = this.sigPadElement.toDataURL(); // get the base64 string from the canvas context
 
         if (typeof localStorage !== 'undefined') {
           console.log('guarda..........');
@@ -376,7 +355,7 @@ export class ObservacionComponent implements OnInit, AfterViewInit {
           localStorage.setItem('canvas', imageBase64String);
         } else {
           console.log('nooooooooooooooooooo');
-        }
+        }*/
       }, 50);
     }
   }
@@ -405,21 +384,25 @@ export class ObservacionComponent implements OnInit, AfterViewInit {
   addNewObservacionItem(){
 
 
-    //if(this.tamano && this.dano ){
+    if(this.tamano && this.dano ){
 
       let observacion = {
         cod_observacion: this.listObservacionVin.length + 1,
         obs_marca: 100,
         obs_comentario: this.observacionForm.get('dov_observaciones_estado_fisico')!.value,
-        obs_veh_vin: '9BHCP51CANP222579',
-        obs_grp_codigo: 1,//this.grupo.grp_codigo,
-        obs_dan_codigo: 1,//this.dano.dan_codigo,
-        obs_tam_codigo: 1,//this.tamano.tam_codigo,
-        obs_par_codigo: 1,//this.parte.par_codigo,
+        obs_veh_vin: this.veh_codigo,
+        obs_grp_codigo: this.grupo.grp_codigo,
+        obs_dan_codigo: this.dano.dan_codigo,
+        obs_tam_codigo: this.tamano.tam_codigo,
+        obs_par_codigo: this.parte.par_codigo,
         obs_pos_x: this.ejex,
         obs_pos_y: this.ejey,
         file: this.fileList,
-        fotos: this.listFoto
+        fotos: this.listFoto,
+        parte: this.parte.par_nombre,
+        dano: this.dano.dan_nombre,
+        tamano: this.tamano.tam_nombre,
+        grupo: this.grupo.grp_nombre,
       }
   
       console.log('item observacion');
@@ -431,11 +414,13 @@ export class ObservacionComponent implements OnInit, AfterViewInit {
       this.observacionForm.reset()
       this.fileList = []
       this.listFoto = []
+      this.clear()
+      this.initLienzo()
   
 
-    //}else{
-      //this.msg.warning('Tiene que seleccionar Daños y Tamanño')
-    //}
+    }else{
+      this.msg.warning('Tiene que seleccionar Daños y Tamanño')
+    }
 
     
     
@@ -456,8 +441,28 @@ export class ObservacionComponent implements OnInit, AfterViewInit {
   saveObservacionVin(){
 
     console.log(this.listObservacionVin);
+   
 
     if(this.listObservacionVin.length>0){
+
+      let accesorio: any
+
+      if(this.listChecRespuesta.length>0){
+        this.listChecRespuesta.forEach((respuesta: any, index: number)=>{
+  
+          accesorio = {
+            acc_veh_marca: this.serviceGlobal.getCodigoMarca(),
+            acc_veh_vin: this.veh_codigo,
+            acc_veh_respuesta: respuesta.par_check,
+            acc_veh_par_codigo: respuesta.par_codigo,
+            acc_veh_par_grp_codigo: respuesta.grp_codigo
+          }
+  
+          this.listAccesorios = [...this.listAccesorios, accesorio]
+  
+        })      
+      }
+  
 
       this.isLoadinCreateObs = true
 
@@ -465,8 +470,6 @@ export class ObservacionComponent implements OnInit, AfterViewInit {
       var j=0
       
       this.listObservacionVin.forEach((item: any) => {
-      
-        console.log(item);
         
         formData.append('observaciones.observaciones['+j+'].obs_marca', item.obs_marca)
         formData.append('observaciones.observaciones[' + j + '].obs_comentario', item.obs_comentario)
@@ -488,18 +491,34 @@ export class ObservacionComponent implements OnInit, AfterViewInit {
 
       });
 
-      this.serviceObservacion.createObservacionVin(formData).subscribe({
-        next: (response) => {
+      var x = 0
+      this.listAccesorios.forEach((item: any) => {
 
-          console.log('creaciondo detalle von observacion');
-          console.log(response);
+        formData.append('observaciones.listaAccesorios['+x+'].acc_veh_marca', item.acc_veh_marca)
+        formData.append('observaciones.listaAccesorios['+x+'].acc_veh_vin', item.acc_veh_vin)
+        formData.append('observaciones.listaAccesorios['+x+'].acc_veh_respuesta', item.acc_veh_respuesta)
+        formData.append('observaciones.listaAccesorios['+x+'].acc_veh_par_codigo', item.acc_veh_par_codigo)
+        formData.append('observaciones.listaAccesorios['+x+'].acc_veh_par_grp_codigo', item.acc_veh_par_grp_codigo)
+
+        x++
+      });
+
+      this.serviceObservacion.createObservacionVin(formData).subscribe({
+        next: (data) => {
+
+          console.log('creaciondo revision vin');
+          console.log(data);
           
-          if(response == true){
+          if(data){
             this.isLoadinCreateObs = false
             this.fileList = []
             this.listFoto = []
+            this.listAccesorios = []
+            this.listObservacionVin = []
+            this.listChecRespuesta = []
+            this.listCheckListAccesorio = []
             this.msg.success('Observaciones de Vin Realizadas');
-            this.listObservacionVin = []   
+            this.router.navigate(['/pedido/lista']);
             
           }else{
             this.isLoadinCreateObs = false
@@ -571,7 +590,58 @@ export class ObservacionComponent implements OnInit, AfterViewInit {
 
   }
 
-  deleteItemFoto(itemFoto: any){
+  deleleteFoto(posicion: any, lista: any[], listaDoc: any[], foto: any){
+    
+   
+    lista = lista.filter( (e) => e.uid !== foto.uid );
+    listaDoc = listaDoc.filter( (e) => e.uid !== foto.uid );
+    
+    console.log('lista filltrada');
+    console.log(lista);
+    
+
+    this.listObservacionVin[posicion].fotos = lista
+    this.listObservacionVin[posicion].file = listaDoc
+    
+
+    console.log('lista final---->>>>>--->>>>>>>');
+    console.log(this.listObservacionVin);
+    
+    
+    
+  }
+
+
+
+  deleteItemFoto(item: any){
+
+    this.listFotoEdit = this.listFotoEdit.filter(
+      (d) => d.uid !== item.uid
+    );
+  
+    console.log('foto eliminar');
+    console.log(item);
+    
+    console.log('revision-->');
+    console.log(this.listObservacionVin);
+    
+
+    for(var i=0; i<this.listObservacionVin.length; i++){
+      if(this.listObservacionVin[i].cod_observacion == this.codObservacion){
+       
+        for(var j=0; j<this.listObservacionVin[i].fotos.length; j++){
+          
+          if(this.listObservacionVin[i].fotos[j].uid == item.uid){
+            
+            this.deleleteFoto(i,this.listObservacionVin[i].fotos, this.listObservacionVin[i].file, this.listObservacionVin[i].fotos[j])   
+          }
+        }
+      }
+    }
+
+    console.log('lista final');
+    console.log(this.listObservacionVin);
+
 
   }
 
@@ -595,10 +665,50 @@ export class ObservacionComponent implements OnInit, AfterViewInit {
     
     console.log('iiiiiiiiiiiiiiiii');
     console.log(this.listFotoEdit);
-    
-   
-
+  
   }
+
+  cerrarModalFoto(){
+    this.isVisibleModalFoto == false;
+  }
+
+
+  
+  beforeUploadLista = (file: any): boolean => {
+    
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+    
+      this.base64 = reader.result 
+      let foto = {
+        name: file.name,
+        url: this.base64,
+        uid: file.uid,
+        codVin: this.codVin
+       
+      }
+  
+      for(var i=0; i<this.listObservacionVin.length; i++){
+        if(this.listObservacionVin[i].cod_observacion == this.codObservacion){
+          this.listObservacionVin[i].fotos = [...this.listObservacionVin[i].fotos, foto]
+          this.listObservacionVin[i].file = [...this.listObservacionVin[i].file, file]
+          
+        }
+      }
+
+      this.listFotoEdit = [...this.listFotoEdit, foto]
+    
+    };
+    reader.onerror = (error) => {
+      console.log('Error: ', error);
+    };
+  
+    //this.fileList = this.fileList.concat(file);
+    
+
+    return false;
+  };
 
 
 
@@ -630,7 +740,7 @@ export class ObservacionComponent implements OnInit, AfterViewInit {
     this.listPartes =  grupo.lista
     this.grupo = grupo
     console.log(this.listPartes);
-    this.indexList = this.listPartes[0]
+    //.indexList = this.listPartes[0]
     this.indexGrupo = this.listGrupos[index]
   }
 
@@ -691,6 +801,110 @@ export class ObservacionComponent implements OnInit, AfterViewInit {
     this.tamano = tamano
     this.indexTamano = this.listTamano[index]
   }
+
+  getListGrupoAceesorio(grupo: any, index: any){
+
+    this.grupoAccesorio = grupo
+    this.listCheckListAccesorio = grupo.lista
+    this.indexAccesorio = this.listGrupos[index]
+
+  }
+
+  saveRespuestaCheckList(respuesta: any){
+
+
+    console.log('respuesta----');
+    console.log(respuesta);
+    
+    respuesta.grp_codigo = this.grupoAccesorio.grp_codigo
+
+    if(respuesta.par_check == false){
+      console.log('enttra aqui');
+      
+     
+      this.listChecRespuesta = [...this.listChecRespuesta, respuesta]
+      
+
+    
+    }else{
+      console.log('repetido');
+      
+      this.listChecRespuesta = this.listChecRespuesta.filter((check) => check.par_codigo !== respuesta.par_codigo);
+      
+    }
+
+
+  }
+
+  beforeUploadDocument = (file: any): boolean => {
+    console.log('clickkkk');
+    
+    this.fileListDoc = this.fileListDoc.concat(file);
+    return false;
+  };
+
+  
+  createListDocumentoObservacion() {
+
+    console.log(this.fileListDoc);
+    
+    if (this.fileListDoc.length > 0) {
+      
+      this.loadingDocumento = true
+      const formData = new FormData();
+
+      this.fileListDoc.forEach((file: any) => {
+        
+        formData.append('archivos.file', file)
+      
+      });
+
+      this.serviceObservacion.uploadFileGeneralVin(formData,this.veh_codigo).subscribe({
+      next: (data) => {
+            
+          console.log(data);
+
+          if(data){
+            this.msg.success('Documentos creados correctamente');
+            this.fileListDoc= []
+            this.loadingDocumento = false
+            this.getListDocumentsVin()
+    
+          }else{
+            this.msg.warning('No se agrego los documentos')
+          }
+        },
+        error: (error) => {
+          this.msg.error(`Ha ocurrido un error , ${error}`);
+          this.loadingDocumento = false
+        }
+      })
+    
+    }else{
+      this.msg.error(`Debe agregar por lo menos un Documento`);
+    }
+
+  }
+
+
+  getListDocumentsVin() {
+    
+    this.documentogeneral$ = this.serviceObservacion.getListAllDocuemtoVin$(this.veh_codigo);
+    this.subDocumento = this.documentogeneral$.subscribe((p) => {
+      console.log('docuemtos ngeneral');
+      console.log(p);
+      
+      this.listDocumentoGeneral = p.listDocumentoGeneral;
+      this.cargandoDocumento = p.cargando;
+
+      if(this.cargandoDocumento == false){
+
+        this.subDocumento.unsubscribe()
+      }
+
+    });
+  }
+
 
 
 }

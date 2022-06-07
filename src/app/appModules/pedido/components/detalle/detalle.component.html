@@ -271,6 +271,117 @@
 
                     </nz-row>
                 </ng-template>
+
+                <nz-card style="background-color: rgb(238, 238, 238);" [nzTitle]="descTituloObs" >
+                    <nz-skeleton [nzActive]="true" [nzLoading]="cargandoObservacion" [nzAvatar]="{ size: 'large' }">
+                        <nz-card-meta
+                           
+                            [nzDescription]="descTemplateObservacion"
+                        ></nz-card-meta>
+                    </nz-skeleton>
+                </nz-card>
+                <ng-template #descTituloObs>
+                    <nz-tag nzColor="processing">
+                        <i nz-icon nzType="check-circle"></i>
+                        <span>OBSERVACIONES DE VIN</span>
+                    </nz-tag>
+                </ng-template>
+                <ng-template #descTemplateObservacion>
+
+                    <div nz-row  [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                        <div nz-col nzSpan="24" class="gutter-row">
+                            <nz-card class="tarjetaItems">
+
+                                <div nz-row  [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+
+                                    <div nz-col nzSpan="12" class="gutter-row">
+                                        <canvas #sigPad width="{{ancho}}" height="{{alto}}" ></canvas>
+    
+                                    </div>
+    
+                                    <div nz-col nzSpan="12" class="gutter-row">
+                                        <ng-container *ngIf="listAccesorioVin">
+    
+                                            <nz-table #filterTable [nzData]="listAccesorioVin" nzTableLayout="fixed"
+                                            [nzLoading]="cargandoObservacion" >
+                                            <thead>
+                                                <tr *ngIf="listAccesorioVin.length > 0">
+                                                    <th *ngFor="let column of listOfColumnsObservacion" [nzSortOrder]="column.sortOrder"
+                                                        [nzSortFn]="column.sortFn" [nzSortDirections]="column.sortDirections"
+                                                        [nzFilterMultiple]="column.filterMultiple" [nzFilters]="column.listOfFilter"
+                                                        [nzFilterFn]="column.filterFn" [nzShowFilter]="column.filterFn ? true : false"
+                                                        [nzWidth]="column.width ? column.width : null"
+                                                        style="text-align: center; background-color: black; color: white; font-size: 13px;">
+                                                        {{ column.name }}
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody style="text-align: center;" *ngIf="listAccesorioVin.length > 0">
+                                                <tr *ngFor="let item of filterTable.data" class="editable-row">
+                                                    <td>
+                                                        <small>
+                                                            {{item.obs_veh_vin}}
+                                                        </small>
+                                                    </td>
+    
+                                                    <td>
+                                                        <small>
+                                                            {{item.grupo}}
+                                                        </small>
+                                                    </td>
+    
+                                                    <td>
+                                                        <small>
+                                                            {{item.parte}}
+                                                        </small>
+                                                    </td>
+    
+                                                    <td>
+                                                        <small>
+                                                            {{item.dano}}
+                                                        </small>
+                                                    </td>
+    
+                                                    <td>
+                                                        <small>
+                                                            {{item.tamano}}
+                                                        </small>
+                                                    </td>
+                                                   
+                                                    <td>
+                                                        <small>
+                                                            <nz-avatar [nzIcon]="'picture'" (click)="openModalDocumento(item)" style="background:white;border: solid 1px #1890ff; color:#1890ff" [nzTooltipTitle]="'Detalle Documentos'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>
+                                                            <nz-divider nzType="vertical"></nz-divider>
+                                                            <nz-avatar [nzIcon]="'picture'" (click)="openModalFoto(item)" style="background:white;border: solid 1px #1890ff; color:#1890ff" [nzTooltipTitle]="'Detalle Fotos'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>
+                                                            <nz-divider nzType="vertical"></nz-divider>
+                                                            <nz-avatar [nzIcon]="'picture'" (click)="openModalAccedorios(item)" style="background:white;border: solid 1px #1890ff; color:#1890ff" [nzTooltipTitle]="'Detalle Accesorios'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>
+                                                                
+                                                        </small>
+                                                    </td>
+    
+    
+                                                </tr>
+                                            </tbody>
+                                            </nz-table>
+    
+    
+                                        </ng-container>
+                                    </div>
+    
+    
+
+                                </div>
+                            </nz-card>
+                        </div>
+
+                        
+                    </div>
+
+                </ng-template>
+
+                
+
+
             </div>
 
             <div *ngIf="index == 1">

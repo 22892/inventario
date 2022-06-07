@@ -112,7 +112,9 @@ export class HomeComponent implements OnInit {
       console.log('empresa---select');
       
       console.log(this.empresaSelect);
-      this.serviceGlobal.setCodigoEmpresa(this.empresaSelect.emp_codigo)
+      if(this.empresaSelect){
+        this.serviceGlobal.setCodigoEmpresa(this.empresaSelect.emp_codigo)
+      }
       this.usuario = this.serviceAuth.user
       this.getListMenuPrincipal()
     }

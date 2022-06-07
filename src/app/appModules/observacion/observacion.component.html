@@ -1,4 +1,4 @@
-<nz-page-header class="site-page-header" nzBackIcon nzTitle="INVENTARIO RECEPCIÓN DE VEHICULOS PARA VIN: " [nzSubtitle]="subtitle">
+<nz-page-header class="site-page-header" nzBackIcon nzTitle="REVISIÓN DE VEHICULOS PARA VIN: {{veh_codigo}} " [nzSubtitle]="subtitle">
     <ng-template #subtitle> </ng-template>
     <nz-page-header-extra>
         <button nz-button nzType="primary" [nzSize]="size" nzShape="round" [nzLoading]="isLoadinCreateObs"
@@ -110,11 +110,12 @@
 
                                 </nz-col>
 
+                              
                                 <nz-col nzSpan="9" class="gutter-row">
                                     <nz-row style="margin-top: 20px;" [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
                                         <nz-col  nzSpan="24" class="gutter-row">
 
-                                            <div style="width: auto; height: 280px; overflow-y: scroll; overflow-x: hidden; " *ngIf="listDano.length>0; else NoDatos">
+                                            <div style="width: auto; height: 280px; overflow-y: scroll; overflow-x: hidden; " *ngIf="listDano.length>0; else NoDatosDano">
                                                 <p style="color: rgb(192, 192, 192);">Escoge el tipo de daño</p>
                                                 <div class="contenedorDano" *ngFor="let dano of listDano ; let $index = index">
 
@@ -134,7 +135,7 @@
 
                                             </div>
 
-                                            <ng-template #NoDatos>
+                                            <ng-template #NoDatosDano>
                                                 <nz-list-empty></nz-list-empty>
                                             </ng-template>
 
@@ -183,9 +184,9 @@
                 <div nz-row style="margin-top: 10px;" [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
                     
                     <div nz-col class="gutter-row" [nzSpan]="12">
-                        <div class="tarjetaCanvas">
-                            <canvas #sigPad width="{{ancho}}" height="{{alto}}" (click)="onMouseDown($event)" (click)="onMouseMove($event)" (click)="onMouseUp($event)"></canvas>
-                        </div>
+                        
+                        <canvas #sigPad width="{{ancho}}" height="{{alto}}" (click)="onMouseDown($event)" (click)="onMouseMove($event)" (click)="onMouseUp($event)"></canvas>
+                        
     
                     </div>
 
@@ -291,16 +292,17 @@
                                 [nzSortFn]="column.sortFn" [nzSortDirections]="column.sortDirections"
                                 [nzFilterMultiple]="column.filterMultiple" [nzFilters]="column.listOfFilter"
                                 [nzFilterFn]="column.filterFn" [nzShowFilter]="column.filterFn ? true : false"
-                                [nzWidth]="column.width ? column.width : null">
+                                [nzWidth]="column.width ? column.width : null"
+                                style="text-align: center; background-color: black; color: white; font-size: 13px;">
                                 {{ column.name }}
                             </th>
                         </tr>
                     </thead>
-                    <tbody *ngIf="listObservacionVin.length > 0">
+                    <tbody style="text-align: center;" *ngIf="listObservacionVin.length > 0">
                         <tr *ngFor="let item of filterTable.data" class="editable-row">
                             <td>
                                 <small>
-                                    {{item.vin_numero_vin}}
+                                    {{item.obs_veh_vin}}
                                 </small>
                             </td>
 
@@ -312,7 +314,7 @@
 
                             <td>
                                 <small>
-                                    {{item.seccion}}
+                                    {{item.parte}}
                                 </small>
                             </td>
 
@@ -361,18 +363,204 @@
                         </tr>
                     </tbody>
                 </nz-table>
-
-
-
-    
-    
             </div>
+
+            <div *ngIf="index == 2">
+
+                <nz-row style="margin-top: 20px;" [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                    <nz-col nzSpan="24" class="gutter-row">
+
+                        <div style="width: auto; overflow-x: scroll; height: 160px; overflow-y: hidden; text-align: center;" *ngIf="listGrupos.length>0; else NoDatosAccesorio">
+
+                            <div class="contenedorAccesorio" *ngFor="let grupo of listGrupos ; let $index = index">
           
-           
+                                <ng-container *ngIf="grupo.grp_grupo == 2">
+
+                                    <div class="tarjetaAccesorio" (click)="getListGrupoAceesorio(grupo, $index)" [class.selected]="grupo === indexAccesorio">
+                                        <div nz-row style="margin-top: 15%;"  [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+
+                                            <div nz-col style="text-align: center;" class="gutter-row" [nzSpan]="6" >
+                                                <i nz-icon [nzType]="'car'" nzTheme="outline"></i>
+                                            </div>
+
+                                            <div nz-col style="text-align: start;" class="gutter-row" [nzSpan]="18" >
+                                                {{grupo.grp_nombre}}
+                                            </div>
+                                                    
+                                            
+            
+                                        </div>
+                                    </div>
+                                </ng-container>                           
+                                        
+                            </div>
+                        </div>
+        
+                        <ng-template #NoDatosAccesorio>
+                            <nz-empty></nz-empty>
+                        </ng-template>
+        
+
+                    </nz-col>
+
+                </nz-row>
+
+                <div nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                    <div  nz-col class="gutter-row" [nzSpan]="24" nzOffset="6">
+
+                        <nz-card style="margin-top: 1%;" class="cardAccesorios">
+
+                            <cdk-virtual-scroll-viewport itemSize="5" class="demo-infinite-ckecklist"
+                                orientation="horizontal">
+                                <div>
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 140px; color: #1890ff;" scope="col">Código</th>
+                                                <th style="width: 400px; color: #1890ff;" scope="col">Pregunta</th>
+                                                <th style="color: #1890ff;" scope="col">Respuesta</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let pregunta of listCheckListAccesorio; index as i">
+                                                <th scope="row">{{ pregunta.par_codigo }}</th>
+                                                <th>
+                                                    {{pregunta.par_nombre}}
+                                                </th>
+                                                <th>
+                                                    <input type="checkbox"
+                                                        [(ngModel)]="pregunta.par_check"
+                                                        (click)="saveRespuestaCheckList(pregunta)"
+                                                        class="form-check-input" id="exampleCheck1">
+                                                </th>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </cdk-virtual-scroll-viewport>
+
+                        </nz-card>
+
+                    </div>
+                    
+                </div>
+                
+            </div>
+
+            <div *ngIf="index == 3">
+
+                
+                <nz-upload nzType="drag" [nzMultiple]="true" [(nzFileList)]="fileListDoc" [nzBeforeUpload]="beforeUploadDocument" [nzFileType]="typeFile">
+                    <p class="ant-upload-drag-icon">
+                        <i nz-icon nzType="inbox"></i>
+                    </p>
+                    <p class="ant-upload-text">Adjuntar archivos</p>
+                    <p class="ant-upload-hint">
+                        Click o arrastrar archivos para cargarlos
+                    </p>
+                </nz-upload>
+    
+                          
+                <nz-row style="margin-top: 10px; text-align: center;" [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                    <nz-col class="gutter-row" nzSpan="24">
+                        <nz-space [nzSize]="8">
+                            <button *nzSpaceItem nz-button nzType="primary" [nzLoading]="loadingDocumento"
+                                (click)="createListDocumentoObservacion()">
+                                Guardar
+                            </button>
+                        </nz-space>
+
+                    </nz-col>
+
+                </nz-row>
+
+                <nz-row style="margin-top: 1%;" [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+        
+                    <nz-col class="gutter-row" nzSpan="24">
+
+                        <cdk-virtual-scroll-viewport itemSize="3" class="demo-infinite-container">
+                            <nz-list nzItemLayout="horizontal" [nzLoading]="cargandoParte">
+                                <nz-list-item *ngFor="let item of listDocumentoGeneral ; let $index = index" >
+                                    <nz-list-item-meta 
+                                   
+                                    >
+                                        <nz-list-item-meta-title >
+
+                                            <div nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }" >
+                                                <div style="text-align: end;" nz-col class="gutter-row" [nzSpan]="3">
+                                                    <fa-icon class="fa-1x" [icon]="['fas', 'car']"></fa-icon>
+                                                </div>
+                                                <div nz-col class="gutter-row" [nzSpan]="18">
+                                                    <a [href]="baseUrl + item.documento.doc_url" download
+                                                        target="_blank" nz-button nzType="default" [nzSize]="size"
+                                                        nzShape="round">
+                                                        <i nz-icon nzType="download"></i>
+                                                        {{ item.documento.doc_nombre }}
+                                                    </a>
+                                                </div>
+                                                <div nz-col class="gutter-row" [nzSpan]="3">
+                                                    <fa-icon class="fa-2x" [icon]="['fas', 'archive']"></fa-icon>
+                                                </div>
+                                                
+                                            </div>
+                                        </nz-list-item-meta-title>
+                                    </nz-list-item-meta>    
+                                </nz-list-item>
+                                <nz-list-empty *ngIf="listDocumentoGeneral.length === 0"></nz-list-empty>
+                            </nz-list>
+                        </cdk-virtual-scroll-viewport>
+
+                    </nz-col>
+                </nz-row>
+            </div>
         </nz-tab>
     </nz-tabset>
-    
-
 </div>
 
 
+<nz-modal nzWrapClassName="vertical-center-modal" nzWidth="1000px" [(nzVisible)]="isVisibleModalFoto"
+    nzTitle="Galeria de Fotos" (nzOnCancel)="isVisibleModalFoto = false" (nzOnOk)="cerrarModalFoto()"
+    [nzOkLoading]="isLoadingFoto">
+    <ng-template nzModalContent class="steps-content">
+
+        <div class="steps-content">
+            <nz-row>
+                <nz-col nzSpan="24">
+
+                    <div style="margin-bottom: 2%;">
+                        <nz-upload [(nzFileList)]="fileList" [nzBeforeUpload]="beforeUploadLista"
+                            nzFileType="image/png,image/jpeg,image/jpg" [nzShowUploadList]="false">
+                            <button nz-button>
+                                <i nz-icon nzType="upload"></i>
+                                Seleccionar Foto
+                            </button>
+                        </nz-upload>
+                    </div>
+
+                    <cdk-virtual-scroll-viewport itemSize="5" class="demo-infinite-container" orientation="horizontal">
+                        <nz-list nzGrid style="margin-top: 20px;">
+                            <div nz-row [nzGutter]="16">
+                                <div *ngFor="let item of listFotoEdit">
+                                    <nz-list-item>
+                                        <nz-card style="width:200px; margin-left: 5px;" [nzTitle]="item.name"
+                                            [nzExtra]="extraTemplate">
+                                            <img style="object-fit: contain;" [src]="item.url" alt="" width="100%"
+                                                height="100%">
+                                        </nz-card>
+                                        <ng-template #extraTemplate>
+                                            <nz-avatar [nzIcon]="'close-circle'" (click)="deleteItemFoto(item)"
+                                                style="background:white;border: solid 1px #fc3a54; color:#fc3a54"
+                                                [nzTooltipTitle]="'Quitar'" nzTooltipPlacement="top" nz-tooltip>
+                                            </nz-avatar>
+                                        </ng-template>
+                                    </nz-list-item>
+                                </div>
+                            </div>
+                        </nz-list>
+                    </cdk-virtual-scroll-viewport>
+                </nz-col>
+            </nz-row>
+
+        </div>
+    </ng-template>
+</nz-modal>

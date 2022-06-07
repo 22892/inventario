@@ -574,7 +574,7 @@ export class ListaComponent implements OnInit {
 
   getListVins(){
 
-    this.vin$ = this.servicePedido.getListAllVin$()
+    this.vin$ = this.servicePedido.getListAllVinMarca$()
     
     this.sub = this.vin$.subscribe(p => {
       console.log(p);

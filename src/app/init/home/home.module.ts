@@ -13,7 +13,7 @@ const routes: Routes = [
   {path:'menu',loadChildren:() => import('../../appModules/menu/menu.module').then(m => m.MenuModule)},
   {path:'pedido',loadChildren:() => import('../../appModules/pedido/pedido.module').then(m => m.PedidoModule)},
   {path:'usuario',loadChildren:() => import('../../appModules/usuario/usuario.module').then(m => m.UsuarioModule)},
-  {path:'observacion',loadChildren:() => import('../../appModules/observacion/observacion.module').then(m => m.ObservacionModule)},
+  {path:'observacion/:vin',loadChildren:() => import('../../appModules/observacion/observacion.module').then(m => m.ObservacionModule)},
   ]},
 
 ];
