@@ -76,9 +76,26 @@
 <nz-card>
     <div class="steps-content">
 
+       
+
         <ng-container *ngIf="estadoExcel; else listaPedido">
 
-            <div style="margin-left: 5%; margin-right: 5%; margin-bottom: 2%;">
+            <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+        
+                <nz-col class="gutter-row" nzSpan="24" nzOffset="8" >
+    
+                    <div class="contenedorExcel" *ngFor="let item of listTotalExcel ; let $index = index">
+                        <div class="tarjetaExcel" (click)="tipoExcel(item, $index)" [class.selected]="item === indexTipoExcel">
+                            <p style="margin-top: 8px; color: rgb(158, 173, 240);">{{item.exe_name}}</p>
+                        </div>
+                    </div>
+    
+                   
+    
+                </nz-col>
+            </nz-row>
+
+            <div style="margin-left: 5%; margin-right: 5%; margin-bottom: 2%; margin-top: 3%;">
                 <nz-upload nzType="drag" [nzMultiple]="true" [(nzFileList)]="fileList" [nzBeforeUpload]="beforeUpload"
                     [nzFileType]="typeFile">
                     <p class="ant-upload-drag-icon">
@@ -92,7 +109,9 @@
     
             </div>
     
-            <nz-table *ngIf="listExcel.length > 0" #filterTable [nzData]="listExcel" nzBordered nzSize="middle" nzTableLayout="fixed"
+            <ng-container *ngIf="tipoExcelItem == 1" >
+
+                <nz-table *ngIf="listExcel.length > 0" #filterTable [nzData]="listExcel" nzBordered nzSize="middle" nzTableLayout="fixed"
                     [nzLoading]="cargarPedido" [nzFrontPagination]="true" [nzScroll]="{ x: '3000px' }">
                     <thead *ngIf="listExcel.length > 0">
                         <tr>
@@ -237,7 +256,598 @@
                           
                         </tr>
                     </tbody>
-            </nz-table>
+                </nz-table>
+
+
+            </ng-container>
+
+
+            <ng-container *ngIf="tipoExcelItem == 2" >
+
+                <nz-table *ngIf="listExcel.length > 0" #filterTable [nzData]="listExcel" nzBordered nzSize="middle" nzTableLayout="fixed"
+                    [nzLoading]="cargarPedido" [nzFrontPagination]="true" [nzScroll]="{ x: '5000px' }">
+                    <thead *ngIf="listExcel.length > 0">
+                        <tr>
+    
+                            <th *ngFor="let column of listOfColumnsFactura" [nzSortOrder]="column.sortOrder"
+                                [nzSortFn]="column.sortFn" [nzSortDirections]="column.sortDirections"
+                                [nzFilterMultiple]="column.filterMultiple" [nzFilters]="column.listOfFilter"
+                                [nzFilterFn]="column.filterFn" [nzShowFilter]="column.filterFn ? true : false"
+                                [nzWidth]="column.width ? column.width : null" style="text-align: center; background-color: black; color: white; font-size: 13px;">
+    
+                                {{ column.name }}
+    
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="listExcel.length > 0">
+                        <tr *ngFor="let item of filterTable.data" style="font-size: 12px;">
+    
+                            <td>
+                                <small>
+                                   {{item.SOC}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.FACTURA}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.T_DOC}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.FEC_FACT}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                   {{item.NUM_PED}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.SOLIC}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.NIF}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.NOMBRE_RESPONSABLE}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.NOMBRE_2_RESP}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.MATERIAL}}
+                                </small>
+                            </td>
+    
+                            <td style="text-align: center;">
+                                <small>
+                                    {{item.DESCRIPCION_MATERIAL}}
+                                </small>
+                            </td>
+    
+                            <td>
+                                <small>
+                                    {{item.CANT_FACT}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.DOC_VENTA}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.SECTOR}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.CENTRO}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.REFERENCIA}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.REF_FICO}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.MONEDA}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.IMP_FINAL}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.VALOR_NETO}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.VALOR_VENTA}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.VALOR_DS}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.VALOR_TOTAL}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.SUBTOTAL4}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.SUBTOTAL5}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.SUBTOTAL6}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.VALOR_DESC}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.PV_CLIENTE}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.DESC_NETO}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.INTERES}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.VALOR_IVA}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.ORG_VENTA}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.COND_PAGO}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.CLVALORAC}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.BULTOS}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.CANAL}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    <nz-tag style="border-radius: 10px; font-size: 10px;" [nzColor]="'red'">{{item.VIN}}</nz-tag>
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.TIPO_CAMBIO}}
+                                </small>
+                            </td>
+    
+                          
+                        </tr>
+                    </tbody>
+                </nz-table>
+
+
+            </ng-container>
+
+
+            <ng-container *ngIf="tipoExcelItem == 3" >
+
+                <nz-table *ngIf="listExcel.length > 0" #filterTable [nzData]="listExcel" nzBordered nzSize="middle" nzTableLayout="fixed"
+                    [nzLoading]="cargarPedido" [nzFrontPagination]="true" [nzScroll]="{ x: '7000px' }">
+                    <thead *ngIf="listExcel.length > 0">
+                        <tr>
+    
+                            <th *ngFor="let column of listOfColumnsNacionalizacion" [nzSortOrder]="column.sortOrder"
+                                [nzSortFn]="column.sortFn" [nzSortDirections]="column.sortDirections"
+                                [nzFilterMultiple]="column.filterMultiple" [nzFilters]="column.listOfFilter"
+                                [nzFilterFn]="column.filterFn" [nzShowFilter]="column.filterFn ? true : false"
+                                [nzWidth]="column.width ? column.width : null" style="text-align: center; background-color: black; color: white; font-size: 13px;">
+    
+                                {{ column.name }}
+    
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="listExcel.length > 0">
+                        <tr *ngFor="let item of filterTable.data" style="font-size: 12px;">
+    
+                            <td>
+                                <small>
+                                   {{item.ITEM}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['MES ARRIBO MV']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['COBRO USO LIBERACION']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['FACTURA PORTEO']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['NUMERO DO NACIONALIZACION']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['OC SAP']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['ENTREGA ENTRANTE']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['ZGRE']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['BUQUE']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['B/L No.']}}
+                                </small>
+                            </td>
+    
+                            <td style="text-align: center;">
+                                <small>
+                                    {{item['FACTURA']}}
+                                </small>
+                            </td>
+    
+                            <td>
+                                <small>
+                                    {{item['FECHA FACTURA']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['TIPO /FAMILIA']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    <nz-tag style="border-radius: 10px; font-size: 10px;" [nzColor]="'red'">{{item.VIN}}</nz-tag>
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.Motor}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.LOTE}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['AÑO PRODUCCION']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['"AÑO ↵MODELO"']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['FSC FABRICA']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.MATERIAL}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['COD COLOR FAB.']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['"COD ↵COLOR SAP"']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.COLOR}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['" VALOR FOB USD "']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['" FLETE USD "']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['" SEGURO USD "']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.RI}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['Fecha B/L']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item[' TRM FECHA - FACTURA ']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['Fecha Llegada buque']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['dias de transito']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['Fecha llegada dctos']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['Fecha entrega dct Pto.']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['Fecha Solicitud nacionalizacion']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['Declaración de Importación']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['Fecha presentación']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['Numero de sticker']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['Fecha de pago']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['Numero de levante']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['Fecha Levante']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.SUBPARTIDA}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.CEPD}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['TIPO DE CARROCERIA']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['CLASE DE VEHICULO']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['Numero de puertas']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['Numero de pasajeros  (incluyendo el conductor)']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['Cilindrada C.C.']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['Potencia (HP)']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['Peso bruto vehicular (KG)']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['CIF DOLARES']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['TRM Nacionalizacion']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['VALOR CIF (PESOS)']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['BASE ARANCEL']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['% ARANCEL A PAGAR']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['GRAVAMEN (PESOS)']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['Base IVA COP']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['% IVA A PAGAR']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['TOTAL IVA COP']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['Total Impuestos COP']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['Pagas OEA']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['PAIS DE COMPRA']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['PAIS DE ORIGEN']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['PUERTO EMBARQUE']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['PUERTO DE ARRIBO']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['Fecha Vencimiento R.M']}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['L/C']}}
+                                </small>
+                            </td>
+    
+                          
+                        </tr>
+                    </tbody>
+                </nz-table>
+
+
+            </ng-container>
+
+    
 
             <nz-row style="display: flex; justify-content: center; margin-bottom: 15px;" [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
                 <button nz-button nzType="primary" (click)="uploadDataExcel()" *ngIf="listExcel.length > 0" [nzLoading]="isLoadingUploadExcel">

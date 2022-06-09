@@ -59,28 +59,29 @@
                                                    
     
                                                     <nz-col nzSpan="10" class="gutter-row">
-                                                        <p>Fecha Asignación:</p>
-                                                        <p>Fecha Homologado:</p>
-                                                        <p>Cantidad:</p>
-                                                        <p>Estado Activo:</p>
-                                                        <p>Estado Homologado:</p>
-                                                        <p>Disponible:</p>
-                                                        <p>Estado Reserva:</p>
-                                                        <p>Estado Factura:</p>
+                                                        <p>Id Vehiculo:</p>
+                                                        <p>Vin:</p>
+                                                        <p>Versión:</p>
+                                                        <p>Año Modelo:</p>
+                                                        <p>Año Producción:</p>
+                                                        <p>Segmento:</p>
+                                                        <p>OCN:</p>
+                                                        <p>Color:</p>
                                                     </nz-col>
     
                                                     <nz-col nzSpan="10" class="gutter-row">
-                                                        <p>{{detalleVin.dve_pro_fecha_asignado | date:"d MMMM 'de', y "}}</p>
-                                                        <p>{{detalleVin.dve_pro_fecha_homologado | date:"d MMMM 'de', y "}}</p>
-                                                        <p>{{detalleVin.dve_pro_cantidad}}</p>
-                                                        <p>{{detalleVin.dve_pro_estado_activo}}</p>
-                                                        <p>{{detalleVin.dve_pro_estado_homologado}}</p>
-                                                        <p>{{detalleVin.dve_pro_disponible}}</p>
-                                                        <p>{{detalleVin.dve_con_estado_reserve}}</p>
-                                                        <p>{{detalleVin.dve_pro_estado_facturado}}</p>
+                                                        <p>{{detalleVinDatos.veh_ver_id}}</p>
+                                                        <p>{{detalleVinDatos.veh_vin}}</p>
+                                                        <p>{{detalleVinDatos.veh_version}}</p>
+                                                        <p>{{detalleVinDatos.veh_year_modelo}}</p>
+                                                        <p>{{detalleVinDatos.veh_year_produccion}}</p>
+                                                        <p>{{detalleVinDatos.veh_segmento_vehiculo}}</p>
+                                                        <p>{{detalleVinDatos.veh_ocn}}</p>
+                                                        <p>{{detalleVinDatos.veh_nombre_color_ext}}</p>
                                                     </nz-col>
 
-                                                    <nz-col nzSpan="4" class="gutter-row">
+                                                    <nz-col nzSpan="4" style="text-align: start;" class="gutter-row">
+                                                        <img nz-image  style="object-fit: contain; text-align: start;"  width="150px" height="150px" [nzSrc]="detalleVinDatos.veh_url_img_modelo" alt="" />
 
                                                     </nz-col>
     
@@ -298,14 +299,34 @@
                                         <canvas #sigPad width="{{ancho}}" height="{{alto}}" ></canvas>
     
                                     </div>
-    
+
                                     <div nz-col nzSpan="12" class="gutter-row">
-                                        <ng-container *ngIf="listAccesorioVin">
+
+                                        
     
-                                            <nz-table #filterTable [nzData]="listAccesorioVin" nzTableLayout="fixed"
-                                            [nzLoading]="cargandoObservacion" >
+
+                                        <ng-container *ngIf="listObservacionVin">
+
+                                            <div nz-row *ngIf="listObservacionVin.length == 0 && !cargandoObservacion">
+                                                <div nz-col nzSpan="24">
+                                                  
+                                                  <nz-empty 
+                                                    nzNotFoundImage="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg" [nzNotFoundContent]="contentTpl"
+                                                    [nzNotFoundFooter]="footerTpl">
+                                                    <ng-template #contentTpl>
+                                                      <span> No Tiene Observaciones</span>
+                                                    </ng-template>
+                                                    <ng-template #footerTpl>
+                                                    </ng-template>
+                                                  </nz-empty>
+                
+                                                </div>
+                                            </div>
+    
+                                            <nz-table #filterTable [nzData]="listObservacionVin" nzTableLayout="fixed" nzSize="middle"
+                                            [nzLoading]="cargandoObservacion" [nzScroll]="{ x: '1000px' }">
                                             <thead>
-                                                <tr *ngIf="listAccesorioVin.length > 0">
+                                                <tr *ngIf="listObservacionVin.length > 0">
                                                     <th *ngFor="let column of listOfColumnsObservacion" [nzSortOrder]="column.sortOrder"
                                                         [nzSortFn]="column.sortFn" [nzSortDirections]="column.sortDirections"
                                                         [nzFilterMultiple]="column.filterMultiple" [nzFilters]="column.listOfFilter"
@@ -316,7 +337,7 @@
                                                     </th>
                                                 </tr>
                                             </thead>
-                                            <tbody style="text-align: center;" *ngIf="listAccesorioVin.length > 0">
+                                            <tbody style="text-align: center;" *ngIf="listObservacionVin.length > 0">
                                                 <tr *ngFor="let item of filterTable.data" class="editable-row">
                                                     <td>
                                                         <small>
@@ -324,37 +345,32 @@
                                                         </small>
                                                     </td>
     
+                                                   
                                                     <td>
                                                         <small>
-                                                            {{item.grupo}}
+                                                            {{item.parte.par_nombre}}
                                                         </small>
                                                     </td>
     
                                                     <td>
                                                         <small>
-                                                            {{item.parte}}
+                                                            {{item.dano.dan_nombre}}
                                                         </small>
                                                     </td>
     
                                                     <td>
                                                         <small>
-                                                            {{item.dano}}
-                                                        </small>
-                                                    </td>
-    
-                                                    <td>
-                                                        <small>
-                                                            {{item.tamano}}
+                                                            {{item.tamano.tam_nombre}}
                                                         </small>
                                                     </td>
                                                    
                                                     <td>
                                                         <small>
-                                                            <nz-avatar [nzIcon]="'picture'" (click)="openModalDocumento(item)" style="background:white;border: solid 1px #1890ff; color:#1890ff" [nzTooltipTitle]="'Detalle Documentos'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>
-                                                            <nz-divider nzType="vertical"></nz-divider>
-                                                            <nz-avatar [nzIcon]="'picture'" (click)="openModalFoto(item)" style="background:white;border: solid 1px #1890ff; color:#1890ff" [nzTooltipTitle]="'Detalle Fotos'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>
-                                                            <nz-divider nzType="vertical"></nz-divider>
-                                                            <nz-avatar [nzIcon]="'picture'" (click)="openModalAccedorios(item)" style="background:white;border: solid 1px #1890ff; color:#1890ff" [nzTooltipTitle]="'Detalle Accesorios'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>
+                                                            <!--<nz-avatar [nzIcon]="'picture'" (click)="openModalDocumento(item)" style="background:white;border: solid 1px #1890ff; color:#1890ff" [nzTooltipTitle]="'Detalle Documentos'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>
+                                                            <nz-divider nzType="vertical"></nz-divider>-->
+                                                            <nz-avatar [nzIcon]="'picture'" (click)="openModalFoto(item.listaDocumentos)" style="background:white;border: solid 1px #1890ff; color:#1890ff" [nzTooltipTitle]="'Detalle Fotos'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>
+                                                            <!--<nz-divider nzType="vertical"></nz-divider>
+                                                            <nz-avatar [nzIcon]="'picture'" (click)="openModalAccedorios(item)" style="background:white;border: solid 1px #1890ff; color:#1890ff" [nzTooltipTitle]="'Detalle Accesorios'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>-->
                                                                 
                                                         </small>
                                                     </td>
@@ -394,6 +410,40 @@
 </div>
 
     
+
+<nz-modal nzWrapClassName="vertical-center-modal" nzWidth="1000px" [(nzVisible)]="isVisibleModalFoto"
+    nzTitle="Galeria de Fotos" (nzOnCancel)="isVisibleModalFoto = false" (nzOnOk)="cerrarModalFoto()"
+    [nzOkLoading]="isLoadingFoto">
+    <ng-template nzModalContent class="steps-content">
+
+        <div class="steps-content">
+            <nz-row>
+                <nz-col nzSpan="24">
+
+                    <cdk-virtual-scroll-viewport itemSize="5" class="demo-infinite-container-foto" orientation="horizontal">
+                        <nz-list nzGrid style="margin-top: 20px;">
+                            <div nz-row [nzGutter]="16">
+                                <div *ngFor="let item of listObservacionVinFoto">
+                                    <nz-list-item>
+                                        <nz-card style="width:200px; margin-left: 5px;" [nzTitle]="item.documento.doc_nombre"
+                                            [nzExtra]="extraTemplate">
+                                            <img style="object-fit: contain;" [src]="item.documento.doc_url" alt="" width="100%"
+                                                height="100%">
+                                        </nz-card>
+                                        <ng-template #extraTemplate>
+                                           
+                                        </ng-template>
+                                    </nz-list-item>
+                                </div>
+                            </div>
+                        </nz-list>
+                    </cdk-virtual-scroll-viewport>
+                </nz-col>
+            </nz-row>
+
+        </div>
+    </ng-template>
+</nz-modal>
 
 
 

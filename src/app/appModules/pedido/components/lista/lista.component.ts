@@ -394,6 +394,1057 @@ export class ListaComponent implements OnInit {
 
   ];
 
+  listOfColumnsFactura: ColumnItem[] = [
+    {
+      width: '80px',
+      name: 'SOC',
+      sortOrder: null,
+      sortDirections: ['ascend', 'descend', null],
+      sortFn: null,
+      filterMultiple: true,
+      listOfFilter: [],
+      filterFn: null,
+    },
+    {
+      width: '50px',
+      name: 'FACTURA',
+      sortOrder: null,
+      sortDirections: ['ascend', 'descend', null],
+      sortFn: null,
+      filterMultiple: true,
+      listOfFilter: [],
+      filterFn: null,
+    },
+    {
+      width:'50px',
+      name: 'T_DOC',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'FEC_FACT',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+   
+    {
+      width:'50px',
+      name: 'NUM_PED',
+      sortOrder: null,
+      sortDirections: ['ascend', 'descend', null],
+      sortFn: null,
+      filterMultiple: false,
+      listOfFilter: [],
+      filterFn: null
+    },
+    {
+      width: '50px',
+      name: 'SOLIC',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter: [],
+      filterFn: null,
+    },
+   
+    {
+      width:'80px',
+      name: 'NIF',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'70px',
+      name: 'NOMBRE RESP.',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'70px',
+      name: 'NOMBRE 2 RESP.',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'70px',
+      name: 'MATERIAL',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'DESCRIPCIÓN',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'CANT_FACT',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'DOC_VENTA',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'SECTOR',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'CENTRO',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'REFERENCIA',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'REF_FICO',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'80px',
+      name: 'MONEDA',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'IMP_FINAL',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'VALOR_NETO',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'VALOR_VENTA',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'VALOR_DS',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'VALOR TOTAL',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'SUBTOTAL 4',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'SUBTOTAL 5',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'SUBTOTAL 6',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'VALOR DESCUENTO',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'PV CLIENTE',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'DESCUENTO NETO',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'INTERES',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'VALOR IVA',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'ORG VENTA',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'COND PAGO',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'CL VALOR AC',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'BULTOS',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'CANAL',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'80px',
+      name: 'VIN',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'TIPO CAMBIO',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+  ];
+
+
+  listOfColumnsNacionalizacion: ColumnItem[] = [
+    {
+      width: '50px',
+      name: 'ITEM',
+      sortOrder: null,
+      sortDirections: ['ascend', 'descend', null],
+      sortFn: null,
+      filterMultiple: true,
+      listOfFilter: [],
+      filterFn: null,
+    },
+    {
+      width: '50px',
+      name: 'MES ARRIBO MV',
+      sortOrder: null,
+      sortDirections: ['ascend', 'descend', null],
+      sortFn: null,
+      filterMultiple: true,
+      listOfFilter: [],
+      filterFn: null,
+    },
+    {
+      width:'50px',
+      name: 'COBRO USO LIBERACIÓN',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'FACTURA PORTEO',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+   
+    {
+      width:'50px',
+      name: 'NUM NACIONALIZACIÓN',
+      sortOrder: null,
+      sortDirections: ['ascend', 'descend', null],
+      sortFn: null,
+      filterMultiple: false,
+      listOfFilter: [],
+      filterFn: null
+    },
+    {
+      width: '50px',
+      name: 'OC SAP',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter: [],
+      filterFn: null,
+    },
+   
+    {
+      width:'60px',
+      name: 'ENTREGA ENTRANTE',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'60px',
+      name: 'ZGRE',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'70px',
+      name: 'BUQUE',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'70px',
+      name: 'B/L No.',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'FACTURA',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'FECHA FACTURA',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'80px',
+      name: 'TIPO / FAMILIA',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'80px',
+      name: 'VIN',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'MOTOR',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'LOTE',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'AÑO PRODUCCIÓN',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'AÑO MODELO',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'FSC FABRICA',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'MATERIAL',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'COD COLOR FAB',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'COD COLOR SAP',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'COLOR',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'VALOR FOB USD',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'FLETE USD',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'SEGURO USD',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'RI',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'FCHA B/L',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'TRM FECHA - FACTURA',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'FEC LLGADA BUQUE',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'DIAS DE TRANSITO',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'VALOR IVA',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'FECHA LLEGADA DATOS',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'FECHA ENTREGA DCT',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'FECHA SOLICITUD NACIONAL.',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'DECLACIÓN IMPORTACIÓN',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'FECHA PRESENTACIÓN',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'80px',
+      name: 'NUMERO DE STICKER',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'FECHA DE PAGO',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'70px',
+      name: 'NUMERO DE LEVANTE',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'FECHA LEVANTE',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'SUBPARTIDA',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'CEPD',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'TIPO DE CARROCERIA',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'CLASE DE VEHICULO',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'NUM DE PUERTAS',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'NUM PASAJERO',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'CILINDRADA',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'POTENCIA',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'PESO BRUTO KG',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'CID DOLARES',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'TRM NACIONALIZACIÓN',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'VALOR CIF',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'BASE ARANCEL',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: '% ARACNCEL PAGAR',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'GRAVAMEN (PESOS)',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: '% IVA A PAGAR',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'TOTAL IVA COP',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'TOTAL IMPUESTOS COP',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'PAGO OEA',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'70px',
+      name: 'PAIS COMPRA',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'70px',
+      name: 'PAIS ORIGEN',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'70px',
+      name: 'PUERTO EMBARQUE',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'70px',
+      name: 'PUERTO ARRIBO',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'FEC VENCE R.M',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'L/C',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+  ];
+
 
 
   listVin: any[] = [];
@@ -419,6 +1470,10 @@ export class ListaComponent implements OnInit {
   vinForm!: FormGroup;
   isLoadingUploadExcel: boolean = false
 
+  listTotalExcel: any[] = [{exe_codigo: 1,exe_name: 'Pedido'}, {exe_codigo: 2,exe_name: 'Facturación'}, {exe_codigo: 3,exe_name: 'Nacionalización'}]
+  tipoExcelItem: number = 1
+  indexTipoExcel: any
+  
 
   constructor(private msg: NzMessageService,
     private cdRef:ChangeDetectorRef,
@@ -469,6 +1524,7 @@ export class ListaComponent implements OnInit {
     this.getListVins()
     this.desde = this.serviceGlobal.getFechaDesde();
     this.hasta = this.serviceGlobal.getFechaHasta();
+    this.indexTipoExcel = this.listTotalExcel[0]
   }
 
 
@@ -512,18 +1568,23 @@ export class ListaComponent implements OnInit {
 
 
   beforeUpload = (file: any): boolean => {
+
+    this.listExcel = []
     
     if (this.fileList.length > 0) {
       this.msg.error('Solo puede Cargar un Archivo');
     } else {
       this.fileList = this.fileList.concat(file);
 
-      this.excelToJson(file)
+     
+        this.excelToJson(file)
 
     }
 
     return false;
   };
+
+  
 
 
   public excelToJson(file: File){
@@ -645,21 +1706,103 @@ export class ListaComponent implements OnInit {
       formdata.append('files[]', file);
     });
     this.isLoadingUploadExcel = true;
-
+    console.log('llega');
     
-    this.servicePedido.uploadFileExel(formdata,1).subscribe(
-      data => {
+    if(this.tipoExcelItem == 1){
 
-        console.log(data);
-        this.isLoadingUploadExcel = false
-        
-      },
-      (err) => {
-        this.isLoadingUploadExcel = false;
-        this.msg.error(`Ha ocurrido un error al subir el archivo, ${err.error.message}`);
-      }
-    );
+      this.servicePedido.uploadFileExelPedido(formdata).subscribe({
+        next: (data) =>  {
+          console.log('response');
+          
+          console.log(data);
+          //if(data.status == 200){
+            this.isLoadingUploadExcel = false
+            this.listExcel = []
+            this.fileList = []
+            this.msg.success('Datos Guardados Correctamente')
+          //}else{
+            //this.msg.error('Error al subir')
+            //this.isLoadingUploadExcel = false
+           
+          //}
+          
+          
+        },
+        error: (error) => {
+          this.isLoadingUploadExcel = false;
+          this.msg.error(`Ha ocurrido un error al subir el archivo Pedido, ${error.error.message}`);
+        }
+      });
 
+
+    }
+
+    if(this.tipoExcelItem == 2){
+
+      this.servicePedido.uploadFileExelFactura(formdata).subscribe({
+        next: (data)  => {
+          console.log('response');
+          
+          console.log(data);
+          this.isLoadingUploadExcel = false
+          this.listExcel = []
+          this.fileList = []
+          
+        },
+        error: (err) => {
+          this.isLoadingUploadExcel = false;
+          this.msg.error(`Ha ocurrido un error al subir el archivo Facturación, ${err.error.message}`);
+        }
+     });
+
+
+    }
+
+    if(this.tipoExcelItem == 3){
+
+      this.servicePedido.uploadFileExelNacionalizacion(formdata).subscribe({
+        next: (data) => {
+          console.log('response');
+          
+          console.log(data);
+          this.isLoadingUploadExcel = false
+          this.listExcel = []
+          this.fileList = []
+          
+        },
+        error: (err) => {
+          this.isLoadingUploadExcel = false;
+          this.msg.error(`Ha ocurrido un error al subir el archivo Nacionalización, ${err.error.message}`);
+        }
+     });
+
+
+    }
+
+  }
+
+
+  tipoExcel(item: any, index: any){
+
+    this.indexTipoExcel = this.listTotalExcel[index]
+
+    if(item.exe_codigo == 1){ //Pedido
+      this.tipoExcelItem = 1
+      this.fileList = []
+      this.listExcel = []
+    }
+
+    if(item.exe_codigo == 2){ //facturacion
+      this.tipoExcelItem = 2
+      this.fileList = []
+      this.listExcel = []
+    }
+
+    if(item.exe_codigo == 3){ // nacionalizción
+      this.tipoExcelItem = 3
+      this.fileList = []
+      this.listExcel = []
+    }
 
   }
 

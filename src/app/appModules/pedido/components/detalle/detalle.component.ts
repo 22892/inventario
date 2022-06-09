@@ -51,16 +51,6 @@ export class DetalleComponent implements OnInit, AfterViewInit {
       filterFn: null,
     },
     
-    {
-      width: '110px',
-      name: 'Grupo',
-      sortOrder: null,
-      sortDirections: ['ascend', 'descend', null],
-      sortFn: null,
-      filterMultiple: true,
-      listOfFilter: [],
-      filterFn: null,
-    },
   
     {
       width: '140px',
@@ -97,7 +87,7 @@ export class DetalleComponent implements OnInit, AfterViewInit {
     },
 
     {
-      width: '80px',
+      width: '120px',
       name: 'Opciones',
       sortOrder: null,
       sortFn: null,
@@ -124,6 +114,8 @@ export class DetalleComponent implements OnInit, AfterViewInit {
   detalleVin: any
 
   listObservacionVin: any[] = [];
+  listObservacionVinFoto: any[] = [];
+
   listAccesorioVin: any[] = [];
 
   observacionvin$!: Observable<any>;
@@ -138,6 +130,13 @@ export class DetalleComponent implements OnInit, AfterViewInit {
   alto: any = 0
 
   aspecto: any = 1.4036
+
+  detalleVinDatos: any
+
+  isLoadingFoto: boolean = false
+  isVisibleModalFoto: boolean = false
+  codObservacion: any
+  listFotoEdit: any[] = [];
 
 
   constructor(private servicePedido: PedidoService,
@@ -223,11 +222,16 @@ export class DetalleComponent implements OnInit, AfterViewInit {
     this.servicePedido.getDetalleVin(veh_vin).subscribe(
       data => {
           
-        console.log('respuesta---');
+        console.log('respuesta--ffff-');
         console.log(data);
         
         if(data){
-          this.detalleVin = data
+          this.detalleVin = data.vehiculoDetalle
+          this.detalleVinDatos = data
+          console.log('ddddd');
+          
+          console.log(this.detalleVin);
+          
           this.detalleVin.listaEstado.forEach((item: any, index: any)=>{
             item.active = true
           });
@@ -249,8 +253,13 @@ export class DetalleComponent implements OnInit, AfterViewInit {
     
     this.sub = this.observacionvin$.subscribe(p => {
       console.log(p);
+
+      console.log('kkkk');
+      console.log();
+      
       
       this.listObservacionVin = p.listObservacionVin.observaciones
+      
       this.listAccesorioVin = p.listObservacionVin.accesorios
       this.cargandoObservacion = p.cargando
 
@@ -268,6 +277,24 @@ export class DetalleComponent implements OnInit, AfterViewInit {
 
   openModalFoto(item: any){
 
+    this.isVisibleModalFoto = true
+    console.log(item.cod_observacion);
+    this.codObservacion = item.cod_observacion
+    this.listFotoEdit = []
+
+    console.log('objeto obs vin');
+    console.log();
+    
+
+    for(var i=0; i<item.length; i++){
+
+      //if(this.listObservacionVinFoto[i].cod_observacion == item.cod_observacion){
+        this.listObservacionVinFoto[i] = item
+
+      //}
+    }
+    
+
 
   }
 
@@ -280,5 +307,9 @@ export class DetalleComponent implements OnInit, AfterViewInit {
   }
 
 
+
+  cerrarModalFoto(){
+
+  }
 
 }

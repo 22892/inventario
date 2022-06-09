@@ -31,8 +31,8 @@ export class HomeComponent implements OnInit {
   cargandoMenus: boolean = false
 
   porver:number =0;
-  colorPrimario: any = "#D3F2F9"
-  colorMenu: any = "#333637"
+  colorPrimario: any = "#002c5f"
+  colorMenu: any = "#FFFFFF"
 
   date = new Date().getFullYear();
   login: any

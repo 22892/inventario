@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ListaComponent } from './components/lista/lista.component'
 import { RouterModule, Routes } from '@angular/router';
 import { DetalleComponent } from './components/detalle/detalle.component'
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 
 const routes: Routes = [
@@ -20,6 +21,7 @@ const routes: Routes = [
     NgZorroAntdModule,
     FormsModule,
     ReactiveFormsModule,
+    ScrollingModule,
 
   ]
 })

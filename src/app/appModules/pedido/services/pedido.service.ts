@@ -144,8 +144,10 @@ export class PedidoService {
 
 
 
-  uploadFileExel(file:any, marca: number):Observable<any>{
-    return this.http.post(`${this.baseUrl}api/pedido/upload_document_excel`, file,{
+  uploadFileExelPedido(file:any):Observable<any>{
+    let marca = this.serviceGlobal.getCodigoMarca()
+
+    return this.http.post(`${this.baseUrl}api/pedido/upload_document_excel/${marca}`, file,{
       reportProgress: true,
       observe: 'events',
       headers: new HttpHeaders({
@@ -153,6 +155,35 @@ export class PedidoService {
       })
     });
   }
+
+  uploadFileExelFactura(file:any):Observable<any>{
+
+  
+    let marca = this.serviceGlobal.getCodigoMarca()
+
+    return this.http.post(`${this.baseUrl}api/factura/upload_document_excel/${marca}`, file,{
+      reportProgress: true,
+      observe: 'events',
+      headers: new HttpHeaders({
+        //"Authorization":"Bearer " + this.auth.token      
+      })
+    });
+  }
+
+  uploadFileExelNacionalizacion(file:any):Observable<any>{
+   
+    let marca = this.serviceGlobal.getCodigoMarca()
+
+    return this.http.post(`${this.baseUrl}api/nacionalizacion/upload_document_excel/${marca}`, file,{
+      reportProgress: true,
+      observe: 'events',
+      headers: new HttpHeaders({
+        //"Authorization":"Bearer " + this.auth.token      
+      })
+    });
+  }
+
+
 
   getDetalleVin(vin:any): Observable<any> {
     let marca = this.serviceGlobal.getCodigoMarca()
