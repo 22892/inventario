@@ -160,7 +160,7 @@ export class HomeComponent implements OnInit {
         }
       })
   
-      this.menus.unshift(this.configuracion)
+      //this.menus.unshift(this.configuracion)
   
     }    
   }
