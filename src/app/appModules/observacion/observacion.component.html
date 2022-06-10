@@ -27,26 +27,34 @@
                 <nz-row style="margin-top: 20px;" [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
                     <nz-col nzSpan="24" class="gutter-row">
 
-                        <div style="width: auto; overflow-x: scroll; height: 160px; overflow-y: hidden; " *ngIf="listGrupos.length>0; else NoDatos">
+                        <div style="width: auto; overflow-x: scroll; height: 120px; overflow-y: hidden; text-align: center;" *ngIf="listGrupos.length>0; else NoDatos">
 
                             <div class="contenedor" *ngFor="let grupo of listGrupos ; let $index = index">
+
+                                <ng-container *ngIf="grupo.grp_grupo == 1">
           
-                                <div class="tarjeta" (click)="getListParteOfGrup(grupo, $index)" [class.selected]="grupo === indexGrupo">
-        
-                                    <nz-row  [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
-                                                   
-                                        <nz-col style="text-align: end; margin-top: 30px;" nzSpan="6" class="gutter-row">
-                                            <i nz-icon [nzType]="'car'" nzTheme="outline"></i>
-                                        </nz-col>
-        
-                                        <nz-col style="margin-top: 30px;" nzSpan="18" class="gutter-row">
-                                            {{grupo.grp_nombre}}
-                                        </nz-col>
-        
-                                    </nz-row>
-        
-                                  
-                                </div>                           
+                                    <div class="tarjeta" (click)="getListParteOfGrup(grupo, $index)" [class.selected]="grupo === indexGrupo">
+            
+                                        <nz-row  [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                                                    
+                                            <nz-col style="text-align: end; margin-top: 12px; text-align: center; color: #1890ff;" nzSpan="6" class="gutter-row">
+                                                <ng-container *ngIf="grupo.grp_nombre_ico; else noIcono">
+                                                    <fa-icon class="fa-1x" [icon]="['fas', grupo.grp_nombre_ico]"></fa-icon>  
+                                                </ng-container>
+
+                                                <ng-template #noIcono>
+                                                    <fa-icon class="fa-1x" class="fa-1x" [icon]="['fas', 'exclamation-circle']"></fa-icon>  
+                                                </ng-template>
+                                            </nz-col>
+            
+                                            <nz-col style="margin-top: 12px; color: #1890ff; text-align: start;" nzSpan="18" class="gutter-row">
+                                                {{grupo.grp_nombre}}
+                                            </nz-col>
+            
+                                        </nz-row>                                  
+                                    </div>
+
+                                </ng-container>                           
                                         
                             </div>
                         </div>
@@ -93,7 +101,7 @@
                                                                 <div nz-col class="gutter-row" [nzSpan]="18">
                                                                     {{item.par_nombre}}
                                                                 </div>
-                                                                <div nz-col class="gutter-row" [nzSpan]="3">
+                                                                <div nz-col class="gutter-row" [nzSpan]="3" style="color: #1890ff;">
                                                                     <fa-icon class="fa-2x" [icon]="['fas', 'arrow-alt-circle-right']"></fa-icon>
                                                                 </div>
                                                                 
@@ -121,7 +129,7 @@
 
                                                     <nz-card class="tarjetaDano" (click)="selectDano(dano, $index)" [class.selected]="dano === indexDano">
                                                 
-                                                        <div style="text-align: center; align-items: center; align-self: center; align-content: center;">
+                                                        <div style="text-align: center; align-items: center; align-self: center; align-content: center; color: #1890ff;">
                                                             <fa-icon class="fa-3x" [icon]="['fas', dano.dan_nombre_ico]"></fa-icon>
                                                         </div>
 
@@ -153,9 +161,27 @@
                                                 
                                                     <nz-card class="tarjetaTamano" (click)="selectTamano(tamano, $index)" [class.selected]="tamano === indexTamano">
                                                 
-                                                        <div>
-                                                            <fa-icon [icon]="['fas', 'arrow-alt-circle-right']"></fa-icon> {{tamano.tam_nombre}} 
-                                                        </div>
+                                                        
+                                                        <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                                                            <nz-col style="color:#1890ff" nzSpan="6" class="gutter-row">
+
+                                                                <ng-container *ngIf="tamano.tam_nombre_ico; else noIcono">
+                                                                    <fa-icon [icon]="['fas', tamano.tam_nombre_ico]"></fa-icon>  
+                                                                </ng-container>
+
+                                                                <ng-template #noIcono>
+                                                                    <fa-icon class="fa-1x" [icon]="['fas', 'exclamation-circle']"></fa-icon>  
+                                                                </ng-template>
+
+                                                               
+
+                                                            </nz-col>
+                                                            <nz-col nzSpan="18" class="gutter-row">
+                                                                {{tamano.tam_nombre}}
+                                                            </nz-col>
+                                                        </nz-row>
+
+                                                        
                                                             
                                                     </nz-card>
 
@@ -370,14 +396,14 @@
                 <nz-row style="margin-top: 20px;" [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
                     <nz-col nzSpan="24" class="gutter-row">
 
-                        <div style="width: auto; overflow-x: scroll; height: 160px; overflow-y: hidden; text-align: center;" *ngIf="listGrupos.length>0; else NoDatosAccesorio">
+                        <div style="width: auto; overflow-x: scroll; height: 120px; overflow-y: hidden; text-align: center;" *ngIf="listGrupos.length>0; else NoDatosAccesorio">
 
                             <div class="contenedorAccesorio" *ngFor="let grupo of listGrupos ; let $index = index">
           
                                 <ng-container *ngIf="grupo.grp_grupo == 2">
 
                                     <div class="tarjetaAccesorio" (click)="getListGrupoAceesorio(grupo, $index)" [class.selected]="grupo === indexAccesorio">
-                                        <div nz-row style="margin-top: 15%;"  [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                                        <div nz-row style="margin-top: 5%;"  [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
 
                                             <div nz-col style="text-align: center;" class="gutter-row" [nzSpan]="6" >
                                                 <i nz-icon [nzType]="'car'" nzTheme="outline"></i>
@@ -476,7 +502,7 @@
 
                 <nz-row style="margin-top: 1%;" [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
         
-                    <nz-col class="gutter-row" nzSpan="24">
+                    <nz-col nzSpan="18" class="gutter-row" nzOffset="3">
 
                         <cdk-virtual-scroll-viewport itemSize="3" class="demo-infinite-container">
                             <nz-list nzItemLayout="horizontal" [nzLoading]="cargandoParte">

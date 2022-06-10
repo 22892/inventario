@@ -16,6 +16,8 @@ export class PedidoService {
   private listVin:any[] =[] ;
   private vin$! : BehaviorSubject<any>;
 
+  private listEstadoVin:any[] =[] ;
+  private estadovin$! : BehaviorSubject<any>;
 
   constructor(private notification: NzNotificationService,
     @Inject('BASE_URL') baseUrl: string,
@@ -24,7 +26,7 @@ export class PedidoService {
 
       this.baseUrl = baseUrl;
       this.vin$ = new BehaviorSubject({listVin:[],cargando:false});
-    
+      this.estadovin$ = new BehaviorSubject({listEstadoVin:[],cargando:false});
       
   }
 
@@ -45,6 +47,35 @@ export class PedidoService {
       { nzPlacement: 'bottomLeft' }
     );
   }
+
+
+  getListAllEstadosVin$(): Observable<any> {
+   
+    if(this.listEstadoVin)
+      this.getEstadosVins();
+    return this.estadovin$.asObservable();
+  }
+
+  getEstadosVins(){
+    let marca = this.serviceGlobal.getCodigoMarca()
+    
+    this.listEstadoVin = [];
+    this.estadovin$.next({ listEstadoVin: this.listEstadoVin, cargando: true });
+    console.log(`${this.baseUrl}api/vehiculo/getAllEstados/${marca}`);
+    
+    this.http.get(`${this.baseUrl}api/vehiculo/getAllEstados/${marca}`,this.httpOptions).subscribe({
+      next: (data) => {
+
+        this.estadovin$.next({ listEstadoVin: data, cargando: false});
+      },
+      error: (err) => {
+        this.createNotification('error', 'Error', 'ha ocurrido un error al listado de Estados Vins');
+        this.estadovin$.next({ listEstadoVin: [], cargando: false });
+      }
+    });    
+
+  }
+
 
 
   getListAllVinMarca$(): Observable<any> {

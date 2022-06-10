@@ -207,13 +207,13 @@
                                                    
                                                     <nz-col nzSpan="24" class="gutter-row">
 
-                                                        <nz-collapse>
+                                                        <nz-collapse nzAccordion>
 
                                                             <nz-collapse-panel *ngFor="let panel of detalleVin.listaEstado" [nzHeader]="extraTpl">
 
                                                                 <ng-template #extraTpl>
 
-                                                                    <nz-row  [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                                                                    
                                                    
                                                                         <nz-col nzSpan="12" class="gutter-row">
                                                                             {{panel.estadoEtapa.est_nombre}}
@@ -240,10 +240,75 @@
                                                                             <ng-container *ngIf="panel.estadoEtapa.est_codigo == 5">
                                                                                 <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/facturacion.png" nzTheme="outline"></nz-avatar>
                                                                             </ng-container>
+
+                                                                            <ng-container *ngIf="panel.estadoEtapa.est_codigo == 6">
+                                                                                <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/facturacion.png" nzTheme="outline"></nz-avatar>
+                                                                            </ng-container>
+
+                                                                            <ng-container *ngIf="panel.estadoEtapa.est_codigo == 7">
+                                                                                <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/facturacion.png" nzTheme="outline"></nz-avatar>
+                                                                            </ng-container>
+
+                                                                            <ng-container *ngIf="panel.estadoEtapa.est_codigo == 11">
+                                                                                <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/facturacion.png" nzTheme="outline"></nz-avatar>
+                                                                            </ng-container>
+
+                                                                            <ng-container *ngIf="panel.estadoEtapa.est_codigo == 12">
+                                                                                <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/facturacion.png" nzTheme="outline"></nz-avatar>
+                                                                            </ng-container>
+
+                                                                            <ng-container *ngIf="panel.estadoEtapa.est_codigo == 13">
+                                                                                <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/facturacion.png" nzTheme="outline"></nz-avatar>
+                                                                            </ng-container>
+
+                                                                            <ng-container *ngIf="panel.estadoEtapa.est_codigo == 14">
+                                                                                <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/facturacion.png" nzTheme="outline"></nz-avatar>
+                                                                            </ng-container>
+
+                                                                            <ng-container *ngIf="panel.estadoEtapa.est_codigo == 15">
+                                                                                <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/facturacion.png" nzTheme="outline"></nz-avatar>
+                                                                            </ng-container>
+
+                                                                            <ng-container *ngIf="panel.estadoEtapa.est_codigo == 16">
+                                                                                <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/facturacion.png" nzTheme="outline"></nz-avatar>
+                                                                            </ng-container>
+
+                                                                            <ng-container *ngIf="panel.estadoEtapa.est_codigo == 17">
+                                                                                <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/facturacion.png" nzTheme="outline"></nz-avatar>
+                                                                            </ng-container>
+
+                                                                            <ng-container *ngIf="panel.estadoEtapa.est_codigo == 18">
+                                                                                <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/facturacion.png" nzTheme="outline"></nz-avatar>
+                                                                            </ng-container>
+
+                                                                            <ng-container *ngIf="panel.estadoEtapa.est_codigo == 19">
+                                                                                <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/facturacion.png" nzTheme="outline"></nz-avatar>
+                                                                            </ng-container>
+
+                                                                            <ng-container *ngIf="panel.estadoEtapa.est_codigo == 20">
+                                                                                <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/facturacion.png" nzTheme="outline"></nz-avatar>
+                                                                            </ng-container>
+
+                                                                            <ng-container *ngIf="panel.estadoEtapa.est_codigo == 21">
+                                                                                <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/facturacion.png" nzTheme="outline"></nz-avatar>
+                                                                            </ng-container>
+
+                                                                            <ng-container *ngIf="panel.estadoEtapa.est_codigo == 22">
+                                                                                <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/facturacion.png" nzTheme="outline"></nz-avatar>
+                                                                            </ng-container>
+
+                                                                            <ng-container *ngIf="panel.estadoEtapa.est_codigo == 23">
+                                                                                <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/facturacion.png" nzTheme="outline"></nz-avatar>
+                                                                            </ng-container>
+
+                                                                            <ng-container *ngIf="panel.estadoEtapa.est_codigo == 29">
+                                                                                <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/facturacion.png" nzTheme="outline"></nz-avatar>
+                                                                            </ng-container>
+
                                                                             
 
                                                                         </nz-col>
-                                                                    </nz-row>
+                                                                  
                                                                 </ng-template>
 
                                                                 <nz-timeline>
@@ -284,7 +349,7 @@
                 
                             <div *ngIf="indexObs == 0">
 
-                                <nz-card style="background-color: rgb(238, 238, 238);" [nzTitle]="descTituloObs" >
+                                <nz-card style="background-color: rgb(252, 252, 252);" [nzTitle]="descTituloObs" >
                                     <nz-skeleton [nzActive]="true" [nzLoading]="cargandoObservacion" [nzAvatar]="{ size: 'large' }">
                                         <nz-card-meta
                                            
@@ -422,11 +487,21 @@
 
                             <div *ngIf="indexObs == 1">
 
-                                <nz-row style="margin-top: 20px;" [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
-                                    <nz-col nzSpan="18" class="gutter-row" nzOffset="3">
+                                <nz-card style="background-color: rgb(252, 252, 252);">
+                                    <nz-skeleton [nzActive]="true" [nzLoading]="cargandoObservacion" [nzAvatar]="{ size: 'large' }">
+                                        <nz-card-meta
+                                           
+                                            [nzDescription]="descTemplateAccesorio"
+                                        ></nz-card-meta>
+                                    </nz-skeleton>
+                                </nz-card>
+                             
+                                <ng-template #descTemplateAccesorio>
+
+                                    
+                                    <nz-row style="margin-top: 20px;" [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                                        <nz-col nzSpan="18" class="gutter-row" nzOffset="3">
     
-                                        
-                                            
                                             <cdk-virtual-scroll-viewport itemSize="3" class="demo-infinite-container">
                                                 <nz-list nzItemLayout="horizontal" [nzLoading]="cargandoObservacion">
                                                     <nz-list-item *ngFor="let item of listAccesorioVin ; let $index = index">
@@ -494,53 +569,72 @@
                                                     <nz-list-empty *ngIf="listAccesorioVin.length === 0"></nz-list-empty>
                                                 </nz-list>
                                             </cdk-virtual-scroll-viewport>
-                                    </nz-col>
-                                </nz-row>
+                                        </nz-col>
+                                    </nz-row>
+
+                                </ng-template>
+                
+
 
 
                             </div>
 
-                            <!--<div *ngIf="indexObs == 2">
-                                <nz-row style="margin-top: 1%;" [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                            <div *ngIf="indexObs == 2">
+
+                                <nz-card style="background-color: rgb(252, 252, 252);">
+                                    <nz-skeleton [nzActive]="true" [nzLoading]="cargandoObservacion" [nzAvatar]="{ size: 'large' }">
+                                        <nz-card-meta
+                                           
+                                            [nzDescription]="descTemplateDocumento"
+                                        ></nz-card-meta>
+                                    </nz-skeleton>
+                                </nz-card>
+                             
+                                <ng-template #descTemplateDocumento>
+
+                                    <nz-row style="margin-top: 1%;" [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
         
-                                    <nz-col class="gutter-row" nzSpan="24">
-                
-                                        <cdk-virtual-scroll-viewport itemSize="3" class="demo-infinite-container">
-                                            <nz-list nzItemLayout="horizontal" [nzLoading]="cargandoParte">
-                                                <nz-list-item *ngFor="let item of listDocumentoGeneral ; let $index = index" >
-                                                    <nz-list-item-meta 
-                                                   
-                                                    >
-                                                        <nz-list-item-meta-title >
-                
-                                                            <div nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }" >
-                                                                <div style="text-align: end;" nz-col class="gutter-row" [nzSpan]="3">
-                                                                    <fa-icon class="fa-1x" [icon]="['fas', 'car']"></fa-icon>
+                                        <nz-col nzSpan="18" class="gutter-row" nzOffset="3">
+                    
+                                            <cdk-virtual-scroll-viewport itemSize="3" class="demo-infinite-container">
+                                                <nz-list nzItemLayout="horizontal" [nzLoading]="cargandoDocumento">
+                                                    <nz-list-item *ngFor="let item of listDocumentoGeneral ; let $index = index" >
+                                                        <nz-list-item-meta 
+                                                       
+                                                        >
+                                                            <nz-list-item-meta-title >
+                    
+                                                                <div nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }" >
+                                                                    <div style="text-align: end;" nz-col class="gutter-row" [nzSpan]="3">
+                                                                        <fa-icon class="fa-1x" [icon]="['fas', 'car']"></fa-icon>
+                                                                    </div>
+                                                                    <div nz-col class="gutter-row" [nzSpan]="18">
+                                                                        <a [href]="baseUrl + item.documento.doc_url" download
+                                                                            target="_blank" nz-button nzType="default" [nzSize]="size"
+                                                                            nzShape="round">
+                                                                            <i nz-icon nzType="download"></i>
+                                                                            {{ item.documento.doc_nombre }}
+                                                                        </a>
+                                                                    </div>
+                                                                    <div nz-col class="gutter-row" [nzSpan]="3">
+                                                                        <fa-icon class="fa-2x" [icon]="['fas', 'archive']"></fa-icon>
+                                                                    </div>
+                                                                    
                                                                 </div>
-                                                                <div nz-col class="gutter-row" [nzSpan]="18">
-                                                                    <a [href]="baseUrl + item.documento.doc_url" download
-                                                                        target="_blank" nz-button nzType="default" [nzSize]="size"
-                                                                        nzShape="round">
-                                                                        <i nz-icon nzType="download"></i>
-                                                                        {{ item.documento.doc_nombre }}
-                                                                    </a>
-                                                                </div>
-                                                                <div nz-col class="gutter-row" [nzSpan]="3">
-                                                                    <fa-icon class="fa-2x" [icon]="['fas', 'archive']"></fa-icon>
-                                                                </div>
-                                                                
-                                                            </div>
-                                                        </nz-list-item-meta-title>
-                                                    </nz-list-item-meta>    
-                                                </nz-list-item>
-                                                <nz-list-empty *ngIf="listDocumentoGeneral.length === 0"></nz-list-empty>
-                                            </nz-list>
-                                        </cdk-virtual-scroll-viewport>
+                                                            </nz-list-item-meta-title>
+                                                        </nz-list-item-meta>    
+                                                    </nz-list-item>
+                                                    <nz-list-empty *ngIf="listDocumentoGeneral.length === 0"></nz-list-empty>
+                                                </nz-list>
+                                            </cdk-virtual-scroll-viewport>
+                    
+                                        </nz-col>
+                                    </nz-row>
+    
+
+                                </ng-template>
                 
-                                    </nz-col>
-                                </nz-row>
-                
-                            </div>-->
+                            </div>
 
 
                         </nz-tab>

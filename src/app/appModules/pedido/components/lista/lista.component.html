@@ -8,12 +8,24 @@
             <ng-container *ngIf="estadoExcel == false">
                 <div  *nzSpaceItem>
                     <nz-input-group [nzSuffix]="suffixIconSearch">
-                      <input type="text" [(ngModel)]="buscarPedido" nz-input placeholder="Buscar Vin" />
-                    </nz-input-group>
-                    <ng-template #suffixIconSearch>
-                      <i (click)="filtroBuscarPedido()" nz-icon nzType="search"></i>
-                    </ng-template>
+                        <input
+                          type="text"
+                          [(ngModel)]="buscarPedido"
+                          nz-input
+                          placeholder="Buscar Vin "
+                          (ngModelChange) = "filtroBuscarPedido()"
+                          (keyup.enter)="filtroBuscarPedido()"
+                        />
+                      </nz-input-group>
+              
+              
+                      <ng-template #suffixIconSearch>
+                        <i (click)="filtroBuscarPedido()" nz-icon nzType="search"></i>
+                      </ng-template>
                 </div>
+
+               
+                
       
             </ng-container>
             <div *nzSpaceItem>
@@ -53,7 +65,7 @@
     </ng-template>
     <nz-page-header-extra>
 
-      <nz-space *ngIf="estadoExcel == false">
+      <!--<nz-space *ngIf="estadoExcel == false">
 
         <div *nzSpaceItem>
           <nz-date-picker nzTooltipTitle="Fecha desde" nzTooltipPlacement="bottom" nz-tooltip nzPlaceHolder="Desde"
@@ -66,7 +78,7 @@
           </nz-date-picker>
         </div>
       
-      </nz-space>
+      </nz-space>-->
      
       <i nz-icon nzType="reload" nzTheme="outline" style="cursor: pointer;" (click)="realoadPedido()"></i>
     </nz-page-header-extra>
@@ -1241,4 +1253,33 @@
         
 
     </ng-container>
+</nz-modal>
+
+
+<nz-modal nzWrapClassName="vertical-center-modal"  [(nzVisible)]="isModalExcelError" nzTitle="ERRORES DE ARCHIVOS" 
+(nzOnCancel)="isModalExcelError = false" [nzOkLoading]="isLoadingErrorExcel" (nzOnOk)="cerrarModalError()" nzWidth="600px" nzOkText="Descargar">
+
+<ng-container *nzModalContent>
+    <cdk-virtual-scroll-viewport itemSize="10" class="demo-infinite-container" >
+        <nz-list nzItemLayout="horizontal" [nzLoading]="isLoadingErrorExcel" [nzDataSource]="listErrorExcel" [nzRenderItem]="item" id="PDF">
+            <ng-template #item let-item  >
+                <nz-comment [nzAuthor]="'Error Excel'" [ngClass]="{'seg-solucion':1 == 1}">  
+          
+                    <nz-avatar nz-comment-avatar style="background:white;border: solid 1px #1890ff; color:#1890ff" nzIcon="warning">
+                    </nz-avatar>
+                    <nz-comment-content>
+                      <p>{{item}}</p>
+                      </nz-comment-content>
+                </nz-comment>
+    
+                
+            </ng-template>
+    
+        </nz-list>
+    
+      </cdk-virtual-scroll-viewport>
+    
+</ng-container>
+
+
 </nz-modal>

@@ -47,7 +47,7 @@
 .tarjetaAccesorio{
   background-color: rgb(242, 242, 242);
   min-width: 200px;
-  min-height: 100px;
+  min-height: 50px;
   border-radius: 20px;
   border: 2px solid #868484;
  
@@ -78,7 +78,7 @@
 .tarjeta{
   background-color: rgb(242, 242, 242);
   min-width: 200px;
-  min-height: 100px;
+  min-height: 50px;
   border-radius: 20px;
   border: 2px solid #868484;
 }
@@ -108,9 +108,9 @@
 }
 
 
-
 nz-list-item {
   border-radius: 20px;
+  background-color: rgb(244, 244, 244);
 }
 
 nz-list-item.selected {

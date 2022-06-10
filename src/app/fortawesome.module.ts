@@ -3,7 +3,9 @@ import { CommonModule } from '@angular/common';
 import {FontAwesomeModule,FaIconLibrary,} from '@fortawesome/angular-fontawesome';
 import { faSquare, faCalculator, faCameraRotate, faCar, faCheckSquare,
 faArrowAltCircleRight, faCarCrash, faCut, faArchive, faBattery, faCarSide,
-faFileInvoice } from '@fortawesome/free-solid-svg-icons';
+faFileInvoice, faPencilRuler, faExclamation, faExclamationCircle,
+faExternalLinkSquare, faWindowRestore, faTired, faCog } from '@fortawesome/free-solid-svg-icons';
+
 
 @NgModule({
   declarations: [],
@@ -27,7 +29,14 @@ export class FortawesomeModule {
       faArchive,
       faBattery,
       faCarSide,
-      faFileInvoice   
+      faFileInvoice,  
+      faPencilRuler,
+      faExclamation,
+      faExclamationCircle,
+      faExternalLinkSquare,
+      faWindowRestore,
+      faTired,
+      faCog
     );
   }
 }

@@ -7,7 +7,8 @@
             </div>
             <div *nzSpaceItem>
               <nz-input-group [nzSuffix]="suffixIconSearch">
-                <input type="text" [(ngModel)]="buscarUsuario" nz-input placeholder="Buscar Usuario" />
+                <input type="text" [(ngModel)]="buscarUsuario" nz-input placeholder="Buscar Usuario"  (ngModelChange) = "filtroBuscarUsuario()"
+                (keyup.enter)="filtroBuscarUsuario()" />
               </nz-input-group>
               <ng-template #suffixIconSearch>
                 <i (click)="filtroBuscarUsuario()" nz-icon nzType="search"></i>

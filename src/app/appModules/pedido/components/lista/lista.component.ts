@@ -10,7 +10,8 @@ import { Router } from '@angular/router';
 import { PedidoService } from '../../services/pedido.service';
 import {FormBuilder,FormControl,FormGroup,ValidationErrors,Validators,} from '@angular/forms';
 import { GlobalserviceService } from '../../../../core/globalservice.service'
-
+import jsPDF from 'jspdf';
+import 'jspdf-autotable'
 
 interface ColumnItem {
   
@@ -125,16 +126,6 @@ export class ListaComponent implements OnInit {
       listOfFilter:[],
       filterFn: null
     },
-    /*{
-      width:'50px',
-      name: 'Estado',
-      sortOrder: null,
-      sortFn: (a: any, b: any) => a.ges_vis_codigo - b.ges_vis_codigo,
-      sortDirections: ['ascend','descend', null],
-      listOfFilter: [{text: 'Activo',value: true},{text: 'Inactivo',value: !true}],
-      filterFn: (list: number[], item: any) => list.some(tipo => item.usr_status_account == tipo),      
-      filterMultiple: true
-    },*/
     {
       width:'70px',
       name: 'Mes Producción',
@@ -371,15 +362,16 @@ export class ListaComponent implements OnInit {
       listOfFilter:[],
       filterFn: null
     },
+   
     {
-      width:'50px',
+      width:'70px',
       name: 'Estado',
       sortOrder: null,
-      sortFn: null,
-      sortDirections: [],
-      filterMultiple: true,
-      listOfFilter:[],
-      filterFn: null
+      sortFn: (a: any, b: any) => a.estadoActual.est_codigo - b.estadoActual.est_codigo,
+      sortDirections: ['ascend','descend', null],
+      listOfFilter: [],
+      filterFn: (list: number[], item: any) => list.some(ban => item.estadoActual.est_codigo == ban),      
+      filterMultiple: true
     },
     {
       width:'50px',
@@ -1446,7 +1438,7 @@ export class ListaComponent implements OnInit {
   ];
 
 
-
+  listVinAux: any[] = [];
   listVin: any[] = [];
   vin$!: Observable<any>;
   cargarPedido: boolean = false
@@ -1474,6 +1466,15 @@ export class ListaComponent implements OnInit {
   tipoExcelItem: number = 1
   indexTipoExcel: any
   
+  isModalExcelError: boolean = false
+  listErrorExcel:  any[] = []
+  isLoadingErrorExcel: boolean = false
+  datos: any;
+
+  listEstadoVin: any[] = [];
+  estadovin$!: Observable<any>;
+  cargandoEstado: boolean = false
+  subEstado: any
 
   constructor(private msg: NzMessageService,
     private cdRef:ChangeDetectorRef,
@@ -1522,6 +1523,7 @@ export class ListaComponent implements OnInit {
 
   ngOnInit(): void {
     this.getListVins()
+    this.getListEstadosVin()
     this.desde = this.serviceGlobal.getFechaDesde();
     this.hasta = this.serviceGlobal.getFechaHasta();
     this.indexTipoExcel = this.listTotalExcel[0]
@@ -1622,6 +1624,17 @@ export class ListaComponent implements OnInit {
 
   filtroBuscarPedido(){
 
+    if (this.buscarPedido == '' || this.buscarPedido == null) {
+
+      this.listVin = this.listVinAux
+
+    }else{
+
+
+    this.listVin = this.listVinAux.filter((item: any) => item.veh_vin.toUpperCase().indexOf(this.buscarPedido.toUpperCase()) !== -1 || item.veh_motor.toUpperCase().indexOf(this.buscarPedido.toUpperCase()) !== -1 || item.veh_modelo.toUpperCase().indexOf(this.buscarPedido.toUpperCase()) !== -1);
+
+    }
+
   }
 
   visualizaSubirExcel(tipo: number){
@@ -1633,6 +1646,36 @@ export class ListaComponent implements OnInit {
     }
   }
 
+
+  getListEstadosVin(){
+
+    this.estadovin$ = this.servicePedido.getListAllEstadosVin$()
+    
+    this.subEstado = this.estadovin$.subscribe(p => {
+      console.log(p);
+      
+      this.listEstadoVin = p.listEstadoVin
+      
+      this.cargandoEstado = p.cargando
+
+      if(this.cargandoEstado == false){
+
+
+        let filtros = this.listEstadoVin.map(c => {
+          return {text: c.est_nombre, value: c.est_codigo}
+        });
+       
+        //@ts-ignore
+        this.listOfColumnsLista.find(x => x.name == 'Estado').listOfFilter = filtros;
+
+        this.subEstado.unsubscribe()
+       
+      }
+    });
+
+
+  }
+
   getListVins(){
 
     this.vin$ = this.servicePedido.getListAllVinMarca$()
@@ -1641,6 +1684,7 @@ export class ListaComponent implements OnInit {
       console.log(p);
       
       this.listVin = p.listVin
+      this.listVinAux = p.listVin
 
       this.cargarPedido = p.cargando
 
@@ -1713,18 +1757,21 @@ export class ListaComponent implements OnInit {
       this.servicePedido.uploadFileExelPedido(formdata).subscribe({
         next: (data) =>  {
           console.log('response');
-          
           console.log(data);
-          //if(data.status == 200){
+
+          if(data.length>0){
+            this.listErrorExcel = data
+            this.msg.error('Problemas Al subir Datos Excel')
+            this.isModalExcelError = true
+            this.isLoadingUploadExcel = false
+            this.listExcel = []
+            this.fileList = []
+          }else{
             this.isLoadingUploadExcel = false
             this.listExcel = []
             this.fileList = []
             this.msg.success('Datos Guardados Correctamente')
-          //}else{
-            //this.msg.error('Error al subir')
-            //this.isLoadingUploadExcel = false
-           
-          //}
+          }
           
           
         },
@@ -1744,10 +1791,19 @@ export class ListaComponent implements OnInit {
           console.log('response');
           
           console.log(data);
-          this.isLoadingUploadExcel = false
-          this.listExcel = []
-          this.fileList = []
-          this.msg.success('Datos Guardados Correctamente')
+          if(data.length>0){
+            this.listErrorExcel = data
+            this.msg.error('Problemas Al subir Datos Excel')
+            this.isModalExcelError = true
+            this.isLoadingUploadExcel = false
+            this.listExcel = []
+            this.fileList = []
+          }else{
+            this.isLoadingUploadExcel = false
+            this.listExcel = []
+            this.fileList = []
+            this.msg.success('Datos Guardados Correctamente')
+          }
           
         },
         error: (err) => {
@@ -1766,10 +1822,19 @@ export class ListaComponent implements OnInit {
           console.log('response');
           
           console.log(data);
-          this.isLoadingUploadExcel = false
-          this.listExcel = []
-          this.fileList = []
-          this.msg.success('Datos Guardados Correctamente')
+          if(data.length>0){
+            this.listErrorExcel = data
+            this.msg.error('Problemas Al subir Datos Excel')
+            this.isModalExcelError = true
+            this.isLoadingUploadExcel = false
+            this.listExcel = []
+            this.fileList = []
+          }else{
+            this.isLoadingUploadExcel = false
+            this.listExcel = []
+            this.fileList = []
+            this.msg.success('Datos Guardados Correctamente')
+          }
           
         },
         error: (err) => {
@@ -1807,6 +1872,37 @@ export class ListaComponent implements OnInit {
     }
 
   }
+
+  cerrarModalError(){
+    this.isModalExcelError = false
+    this.reporErrorExcel()
+  }
+
+  reporErrorExcel() {
+
+   
+    const doc = new jsPDF();
+
+    this.datos = [];
+    var columns = [
+      'Lista de Errores',
+    ];
+    for (var a = 0; a < this.listErrorExcel.length; a++) {
+      this.datos.push([
+        this.listErrorExcel[a]
+
+      ]);
+    }
+
+    //@ts-ignore
+    doc.autoTable(columns, this.datos, { margin: { top: 10 } });
+    doc.save('ListadoErrores.pdf');
+
+
+
+
+  }
+
 
 
 }

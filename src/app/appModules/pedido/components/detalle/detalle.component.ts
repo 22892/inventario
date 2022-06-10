@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 import { NzTableFilterFn, NzTableFilterList, NzTableSortFn, NzTableSortOrder,} from 'ng-zorro-antd/table';
 import 'moment/locale/es';
 import * as moment from 'moment';
+import { NzButtonSize } from 'ng-zorro-antd/button';
 
 
 interface ColumnItem {
@@ -119,10 +120,10 @@ export class DetalleComponent implements OnInit, AfterViewInit {
       name: 'Accesorios',
       icon: 'check',
     }, 
-    /*{
+    {
       name: 'Documentos',
       icon: 'file-search',
-    },  */   
+    },  
    
   ];
 
@@ -158,6 +159,14 @@ export class DetalleComponent implements OnInit, AfterViewInit {
 
   baseUrl: string = '';
 
+  listDocumentoGeneral: any[] = [];
+  documentogeneral$!: Observable<any>;
+  loadingDocumento: boolean = false
+  subDocumento: any
+  cargandoDocumento: boolean = false
+  size: NzButtonSize = 'large';
+
+
 
 
   constructor(@Inject('BASE_URL') baseUrl: string,
@@ -177,7 +186,7 @@ export class DetalleComponent implements OnInit, AfterViewInit {
     console.log(this.veh_codigo);
     this.getVinDetalle(this.veh_codigo)
     this.getListObservacionVin()
-
+    this.getListDocumentsVin()
     this.ancho = this.porcentaje(40)
     this.alto = this.ancho / 1.4036
    
@@ -278,6 +287,7 @@ export class DetalleComponent implements OnInit, AfterViewInit {
     this.cargandoDatosVin = true
     this.servicePedido.getDetalleVin(veh_vin).subscribe({
       next: (data) => {
+        console.log(data);
         
         if(data){
           this.detalleVin = data.vehiculoDetalle
@@ -337,18 +347,29 @@ export class DetalleComponent implements OnInit, AfterViewInit {
 
   }
 
-  openModalDocumento(item: any){
-
-  }
-
-  openModalAccedorios(item: any){
-
-  }
-
-
 
   cerrarModalFoto(){
     this.isVisibleModalFoto = false
   }
+
+  getListDocumentsVin() {
+    
+    this.documentogeneral$ = this.serviceObservacion.getListAllDocuemtoVin$(this.veh_codigo);
+    this.subDocumento = this.documentogeneral$.subscribe((p) => {
+      console.log('docuemtos ngeneral');
+      console.log(p);
+      
+      this.listDocumentoGeneral = p.listDocumentoGeneral;
+      this.cargandoDocumento = p.cargando;
+
+      if(this.cargandoDocumento == false){
+
+        this.subDocumento.unsubscribe()
+      }
+
+    });
+  }
+
+
 
 }
