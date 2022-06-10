@@ -33,7 +33,7 @@
                 <ng-template #returnListado>
 
                     <nz-col style="text-align: end" class="gutter-row">
-                        <nz-avatar  [nzIcon]="'ordered-list'" style="background:white;border: solid 1px #1890ff; color:#1890ff" (click)="visualizaSubirExcel(2)" [nzTooltipTitle]="'Subir Excel'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>
+                        <nz-avatar  [nzIcon]="'ordered-list'" style="background:white;border: solid 1px #1890ff; color:#1890ff" (click)="visualizaSubirExcel(2)" [nzTooltipTitle]="'Lista Vins'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>
 
                     </nz-col>
                     <nz-col style="text-align: start" class="gutter-row">
@@ -974,7 +974,8 @@
 
                             <td>
                                 <small>
-                                   {{item.veh_act_estado}}
+                                 
+                                   <nz-tag style="border-radius: 10px; font-size: 10px;" [nzColor]="'red'"> {{item.estadoActual.est_nombre}}</nz-tag>
                                 </small>
                             </td>
 

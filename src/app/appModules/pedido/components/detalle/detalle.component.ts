@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, HostListener, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject, AfterViewInit } from '@angular/core';
 import { PedidoService } from '../../services/pedido.service'
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Router } from '@angular/router';
@@ -6,6 +6,8 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { ObservacionService } from '../../../observacion/services/observacion.service'
 import { Observable } from 'rxjs';
 import { NzTableFilterFn, NzTableFilterList, NzTableSortFn, NzTableSortOrder,} from 'ng-zorro-antd/table';
+import 'moment/locale/es';
+import * as moment from 'moment';
 
 
 interface ColumnItem {
@@ -108,8 +110,26 @@ export class DetalleComponent implements OnInit, AfterViewInit {
    
   ];
 
+  tabsObs = [
+    {
+      name: 'Observaciones de Vin',
+      icon: 'form',
+    },   
+    {
+      name: 'Accesorios',
+      icon: 'check',
+    }, 
+    /*{
+      name: 'Documentos',
+      icon: 'file-search',
+    },  */   
+   
+  ];
+
+
   cargandoDatosVin: boolean = false
   index: number = 0
+  indexObs: number = 0
   veh_codigo: any
   detalleVin: any
 
@@ -135,15 +155,19 @@ export class DetalleComponent implements OnInit, AfterViewInit {
 
   isLoadingFoto: boolean = false
   isVisibleModalFoto: boolean = false
-  codObservacion: any
-  listFotoEdit: any[] = [];
+
+  baseUrl: string = '';
 
 
-  constructor(private servicePedido: PedidoService,
+
+  constructor(@Inject('BASE_URL') baseUrl: string,
+    private servicePedido: PedidoService,
     private router: Router,
     private msg: NzMessageService,
     private rutaActiva: ActivatedRoute,
     private serviceObservacion: ObservacionService) {
+
+      this.baseUrl = baseUrl.substring(0, baseUrl.length - 1);
 
   }
 
@@ -167,6 +191,36 @@ export class DetalleComponent implements OnInit, AfterViewInit {
     console.log('iniciaaaa');
     this.initLienzo()
   }
+
+  transformDate(newDate: any): any{
+    var dia = moment(newDate,'YYYY-MM-DD').format("DD");
+    var mes = moment(newDate,'YYYY-MM-DD').format("MMMM");
+    var anio = moment(newDate,'YYYY-MM-DD').format("YYYY");
+
+    let fecha = dia + " de "+ mes +" del "+anio
+
+    return fecha
+  }
+
+  pestanaItem(index: any) {
+
+    if(index == 0){
+
+      setTimeout(() => {
+        this.initLienzo()
+        
+      }, 40);
+
+      setTimeout(() => {
+
+        this.paintPointObservacion()
+      }, 500);
+
+    }
+  
+  }
+
+
 
   porcentaje(porcen: any){
     return (this.windowWidth * porcen) / 100
@@ -196,6 +250,9 @@ export class DetalleComponent implements OnInit, AfterViewInit {
   paintPointObservacion(){
 
     console.log('llega');
+
+    console.log(this.listObservacionVin);
+    
     
     this.listObservacionVin.forEach((obs)=>{
 
@@ -219,29 +276,27 @@ export class DetalleComponent implements OnInit, AfterViewInit {
   getVinDetalle(veh_vin: any){
 
     this.cargandoDatosVin = true
-    this.servicePedido.getDetalleVin(veh_vin).subscribe(
-      data => {
-          
-        console.log('respuesta--ffff-');
-        console.log(data);
+    this.servicePedido.getDetalleVin(veh_vin).subscribe({
+      next: (data) => {
         
         if(data){
           this.detalleVin = data.vehiculoDetalle
           this.detalleVinDatos = data
-          console.log('ddddd');
-          
-          console.log(this.detalleVin);
+          //console.log('ddddd');
+          //console.log(this.detalleVin);
           
           this.detalleVin.listaEstado.forEach((item: any, index: any)=>{
+            item.veh_est_fecha = this.transformDate(item.veh_est_fecha)
             item.active = true
           });
           this.cargandoDatosVin = false
         }else{
           this.msg.error('No tiene detalle Vin')
         }
-    },
-    err => {
-      this.msg.error(`Ha ocurrido un error al obtener detalle Vin, ${err.error.message}`);
+      },
+      error: (err) => {
+        this.msg.error(`Ha ocurrido un error al obtener detalle Vin, ${err.error.message}`);
+      }
     })
   
 
@@ -253,11 +308,7 @@ export class DetalleComponent implements OnInit, AfterViewInit {
     
     this.sub = this.observacionvin$.subscribe(p => {
       console.log(p);
-
-      console.log('kkkk');
-      console.log();
-      
-      
+  
       this.listObservacionVin = p.listObservacionVin.observaciones
       
       this.listAccesorioVin = p.listObservacionVin.accesorios
@@ -277,24 +328,12 @@ export class DetalleComponent implements OnInit, AfterViewInit {
 
   openModalFoto(item: any){
 
+    this.listObservacionVinFoto = []
     this.isVisibleModalFoto = true
-    console.log(item.cod_observacion);
-    this.codObservacion = item.cod_observacion
-    this.listFotoEdit = []
+    item.listaDocumentos.forEach((item: any)=>{
+      this.listObservacionVinFoto = [... this.listObservacionVinFoto, item]
 
-    console.log('objeto obs vin');
-    console.log();
-    
-
-    for(var i=0; i<item.length; i++){
-
-      //if(this.listObservacionVinFoto[i].cod_observacion == item.cod_observacion){
-        this.listObservacionVinFoto[i] = item
-
-      //}
-    }
-    
-
+    })
 
   }
 
@@ -309,7 +348,7 @@ export class DetalleComponent implements OnInit, AfterViewInit {
 
 
   cerrarModalFoto(){
-
+    this.isVisibleModalFoto = false
   }
 
 }

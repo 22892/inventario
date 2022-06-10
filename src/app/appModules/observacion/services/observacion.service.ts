@@ -60,7 +60,7 @@ export class ObservacionService {
     );
   }
 
-  //OBTENER DETALLE DE REVISION VIN
+  //OBTENER DETALLE DE REVISION VIN LISTADO DE OBSERVACIONES
 
   getListAllObservacionVin$(veh_codigo: any): Observable<any> {
     let marca = this.serviceGlobal.getCodigoMarca()
@@ -162,16 +162,16 @@ export class ObservacionService {
     this.listDano = [];
     this.dano$.next({ listDano: this.listDano, cargando: true });
     
-    this.http.get(`${this.baseUrl}api/observacion/getDanos/${marca}`,this.httpOptions).subscribe(
-      data => {
+    this.http.get(`${this.baseUrl}api/observacion/getDanos/${marca}`,this.httpOptions).subscribe({
+      next: (data) => {
 
         this.dano$.next({ listDano: data, cargando: false});
       },
-      err => {
+      error: (err) => {
         this.createNotification('error', 'Error', 'Ha ocurrido un error al listar los Daños para Revisión');
         this.dano$.next({ listDano: [], cargando: false });
       }
-    );    
+    });    
 
   }
 
@@ -326,16 +326,16 @@ export class ObservacionService {
     this.listDocumentoGeneral = [];
     this.documentogeneral$.next({ listDocumentoGeneral: this.listDocumentoGeneral, cargando: true });
     
-    this.http.get(`${this.baseUrl}api/documento/getDocumentosVin/${marca}/${veh_codigo}`,this.httpOptions).subscribe(
-      data => {
+    this.http.get(`${this.baseUrl}api/documento/getDocumentosVin/${marca}/${veh_codigo}`,this.httpOptions).subscribe({
+      next: (data) => {
 
         this.documentogeneral$.next({ listDocumentoGeneral: data, cargando: false});
       },
-      err => {
+      error: (err) => {
         this.createNotification('error', 'Error', 'Ha ocurrido un error al listar los Documentos');
         this.documentogeneral$.next({ listDocumentoGeneral: [], cargando: false });
       }
-    );    
+    });    
 
   }
 

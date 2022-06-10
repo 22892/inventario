@@ -60,16 +60,16 @@ export class PedidoService {
     this.listVin = [];
     this.vin$.next({ listVin: this.listVin, cargando: true });
     
-    this.http.get(`${this.baseUrl}api/vehiculo/getAllVehiculosMarca/${marca}`,this.httpOptions).subscribe(
-      data => {
+    this.http.get(`${this.baseUrl}api/vehiculo/getAllVehiculosMarca/${marca}`,this.httpOptions).subscribe({
+      next: (data) => {
 
         this.vin$.next({ listVin: data, cargando: false});
       },
-      err => {
+      error: (err) => {
         this.createNotification('error', 'Error', 'Ha ocurrido un error al listado de Vins');
         this.vin$.next({ listVin: [], cargando: false });
       }
-    );    
+    });    
 
   }
 
@@ -90,16 +90,16 @@ export class PedidoService {
     this.listVin = [];
     this.vin$.next({ listVin: this.listVin, cargando: true });
     
-    this.http.get(`${this.baseUrl}api/vehiculo/getAllVehiculos`,this.httpOptions).subscribe(
-      data => {
+    this.http.get(`${this.baseUrl}api/vehiculo/getAllVehiculos`,this.httpOptions).subscribe({
+      next: (data) => {
 
         this.vin$.next({ listVin: data, cargando: false});
       },
-      err => {
+      error: (err) => {
         this.createNotification('error', 'Error', 'ha ocurrido un error al listado de Vins');
         this.vin$.next({ listVin: [], cargando: false });
       }
-    );    
+    });    
 
   }
 
@@ -131,15 +131,15 @@ export class PedidoService {
         "Content-Type": "application/json",  
         //"Authorization":"Bearer " + this.auth.token      
       })
-    } ).subscribe(
-      data => {
+    } ).subscribe({
+      next: (data) => {
         this.vin$.next({listVin:data,cargando:false, control: true});
       },
-      err => {
+      error: (err) => {
         this.createNotification('error','Error','ha ocurrido un error al obtener Vins por Fechas');
         this.vin$.next({listVin:[],cargando:false, control: true});
       }
-    );
+    });
   }
 
 
@@ -149,7 +149,7 @@ export class PedidoService {
 
     return this.http.post(`${this.baseUrl}api/pedido/upload_document_excel/${marca}`, file,{
       reportProgress: true,
-      observe: 'events',
+      //observe: 'events',
       headers: new HttpHeaders({
         //"Authorization":"Bearer " + this.auth.token      
       })
@@ -163,7 +163,7 @@ export class PedidoService {
 
     return this.http.post(`${this.baseUrl}api/factura/upload_document_excel/${marca}`, file,{
       reportProgress: true,
-      observe: 'events',
+      //observe: 'events',
       headers: new HttpHeaders({
         //"Authorization":"Bearer " + this.auth.token      
       })
@@ -176,7 +176,7 @@ export class PedidoService {
 
     return this.http.post(`${this.baseUrl}api/nacionalizacion/upload_document_excel/${marca}`, file,{
       reportProgress: true,
-      observe: 'events',
+      //observe: 'events',
       headers: new HttpHeaders({
         //"Authorization":"Bearer " + this.auth.token      
       })

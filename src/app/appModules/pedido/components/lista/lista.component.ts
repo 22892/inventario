@@ -1747,6 +1747,7 @@ export class ListaComponent implements OnInit {
           this.isLoadingUploadExcel = false
           this.listExcel = []
           this.fileList = []
+          this.msg.success('Datos Guardados Correctamente')
           
         },
         error: (err) => {
@@ -1768,6 +1769,7 @@ export class ListaComponent implements OnInit {
           this.isLoadingUploadExcel = false
           this.listExcel = []
           this.fileList = []
+          this.msg.success('Datos Guardados Correctamente')
           
         },
         error: (err) => {

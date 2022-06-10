@@ -107,16 +107,16 @@ export class MenuService {
     this.menupadre$.next({ listMenuPadre: this.listMenuPadre, cargando: true });
     console.log(`${this.baseUrl}api/menu/getAll/${marca}/${men_padre}`);
     
-    this.http.get(`${this.baseUrl}api/menu/getAll/${marca}/${men_padre}`,this.httpOptions).subscribe(
-      data => {
+    this.http.get(`${this.baseUrl}api/menu/getAll/${marca}/${men_padre}`,this.httpOptions).subscribe({
+      next: (data) => {
 
         this.menupadre$.next({ listMenuPadre: data, cargando: false});
       },
-      err => {
+      error: (err) => {
         this.createNotification('error', 'Error', 'ha ocurrido un error al listado de Menu Principal');
         this.menupadre$.next({ listMenuPadre: [], cargando: false });
       }
-    );    
+    });    
 
   }
 
@@ -134,16 +134,16 @@ export class MenuService {
     this.listMenuAsignacion = [];
     this.menuasignacion$.next({ listMenuAsignacion: this.listMenuAsignacion, cargando: true });
     
-    this.http.get(`${this.baseUrl}api/menu/getAllSinHijos/${marca}/${men_padre}/${plataforma}`,this.httpOptions).subscribe(
-      data => {
+    this.http.get(`${this.baseUrl}api/menu/getAllSinHijos/${marca}/${men_padre}/${plataforma}`,this.httpOptions).subscribe({
+      next: (data) => {
 
         this.menuasignacion$.next({ listMenuAsignacion: data, cargando: false});
       },
-      err => {
+      error: (err) => {
         this.createNotification('error', 'Error', 'ha ocurrido un error al obtener listado de asignacion menu');
         this.menuasignacion$.next({ listMenuAsignacion: [], cargando: false });
       }
-    );    
+    });    
 
   }
 
@@ -176,16 +176,16 @@ export class MenuService {
     this.listRol = [];
     this.rol$.next({ listRol: this.listRol, cargando: true });
     
-    this.http.get(`${this.baseUrl}api/gestionusuario/getAllRol/${marca}`,this.httpOptions).subscribe(
-      data => {
+    this.http.get(`${this.baseUrl}api/gestionusuario/getAllRol/${marca}`,this.httpOptions).subscribe({
+      next: (data) => {
 
         this.rol$.next({ listRol: data, cargando: false});
       },
-      err => {
+      error: (err) => {
         this.createNotification('error', 'Error', 'ha ocurrido un error al listado de Roles');
         this.rol$.next({ listRol: [], cargando: false });
       }
-    );    
+    });    
 
   }
 
@@ -204,16 +204,16 @@ export class MenuService {
     this.listRolAsignacion = [];
     this.rolasignacion$.next({ listRolAsignacion: this.listRolAsignacion, cargando: true });
     
-    this.http.get(`${this.baseUrl}api/gestionusuario/getAllMenuRol/${marca}/${rol_codigo}`,this.httpOptions).subscribe(
-      data => {
+    this.http.get(`${this.baseUrl}api/gestionusuario/getAllMenuRol/${marca}/${rol_codigo}`,this.httpOptions).subscribe({
+      next: (data) => {
 
         this.rolasignacion$.next({ listRolAsignacion: data, cargando: false});
       },
-      err => {
+      error: (err) => {
         this.createNotification('error', 'Error', 'Ha ocurrido un error al obtener listado de asignaciones para Rol');
         this.rolasignacion$.next({ listRolAsignacion: [], cargando: false });
       }
-    );    
+    });    
 
   }
 
@@ -233,16 +233,16 @@ export class MenuService {
     this.listPermisoAsignacion = [];
     this.permisoasignacion$.next({ listPermisoAsignacion: this.listPermisoAsignacion, cargando: true });
     
-    this.http.get(`${this.baseUrl}api/gestionusuario/getAllPermisoRol/${marca}/${rol_codigo}`,this.httpOptions).subscribe(
-      data => {
+    this.http.get(`${this.baseUrl}api/gestionusuario/getAllPermisoRol/${marca}/${rol_codigo}`,this.httpOptions).subscribe({
+      next: (data) => {
 
         this.permisoasignacion$.next({ listPermisoAsignacion: data, cargando: false});
       },
-      err => {
+      error: (err) => {
         this.createNotification('error', 'Error', 'ha ocurrido un error al listado de Permisos');
         this.permisoasignacion$.next({ listPermisoAsignacion: [], cargando: false });
       }
-    );    
+    });    
 
   }
 
@@ -286,16 +286,16 @@ export class MenuService {
     this.listEmpresa = [];
     this.empresa$.next({ listEmpresa: this.listEmpresa, cargando: true });
     
-    this.http.get(`${this.baseUrl}api/gestionusuario/getAllEmpresas/${marca}`,this.httpOptions).subscribe(
-      data => {
+    this.http.get(`${this.baseUrl}api/gestionusuario/getAllEmpresas/${marca}`,this.httpOptions).subscribe({
+      next: (data) => {
 
         this.empresa$.next({ listEmpresa: data, cargando: false});
       },
-      err => {
+      error: (err) => {
         this.createNotification('error', 'Error', 'ha ocurrido un error al listar Empresas');
         this.empresa$.next({ listEmpresa: [], cargando: false });
       }
-    );    
+    });    
 
   }
 

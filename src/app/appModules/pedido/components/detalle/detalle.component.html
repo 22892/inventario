@@ -58,7 +58,7 @@
                                                 <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
                                                    
     
-                                                    <nz-col nzSpan="10" class="gutter-row">
+                                                    <nz-col nzSpan="8" class="gutter-row">
                                                         <p>Id Vehiculo:</p>
                                                         <p>Vin:</p>
                                                         <p>Versión:</p>
@@ -69,7 +69,7 @@
                                                         <p>Color:</p>
                                                     </nz-col>
     
-                                                    <nz-col nzSpan="10" class="gutter-row">
+                                                    <nz-col nzSpan="8" class="gutter-row">
                                                         <p>{{detalleVinDatos.veh_ver_id}}</p>
                                                         <p>{{detalleVinDatos.veh_vin}}</p>
                                                         <p>{{detalleVinDatos.veh_version}}</p>
@@ -80,8 +80,8 @@
                                                         <p>{{detalleVinDatos.veh_nombre_color_ext}}</p>
                                                     </nz-col>
 
-                                                    <nz-col nzSpan="4" style="text-align: start;" class="gutter-row">
-                                                        <img nz-image  style="object-fit: contain; text-align: start;"  width="150px" height="150px" [nzSrc]="detalleVinDatos.veh_url_img_modelo" alt="" />
+                                                    <nz-col nzSpan="8" style="text-align: start;" class="gutter-row">
+                                                        <img nz-image  style="object-fit: contain; text-align: start;"  width="200px" height="200px" [nzSrc]="detalleVinDatos.veh_url_img_modelo" alt="" />
 
                                                     </nz-col>
     
@@ -247,8 +247,8 @@
                                                                 </ng-template>
 
                                                                 <nz-timeline>
-                                                                    <nz-timeline-item>{{panel.veh_est_veh_vin}}</nz-timeline-item>
-                                                                    <nz-timeline-item>{{panel.veh_est_fecha}}</nz-timeline-item>
+                                                                    <nz-timeline-item><p style="color: rgb(170, 170, 170);">Vin:</p> {{panel.veh_est_veh_vin}}</nz-timeline-item>
+                                                                    <nz-timeline-item><p style="color: rgb(170, 170, 170);">Fecha:</p> {{panel.veh_est_fecha}}</nz-timeline-item>
                                                                 </nz-timeline>
                                                                 
                                                             </nz-collapse-panel>
@@ -273,127 +273,280 @@
                     </nz-row>
                 </ng-template>
 
-                <nz-card style="background-color: rgb(238, 238, 238);" [nzTitle]="descTituloObs" >
-                    <nz-skeleton [nzActive]="true" [nzLoading]="cargandoObservacion" [nzAvatar]="{ size: 'large' }">
-                        <nz-card-meta
-                           
-                            [nzDescription]="descTemplateObservacion"
-                        ></nz-card-meta>
-                    </nz-skeleton>
-                </nz-card>
-                <ng-template #descTituloObs>
-                    <nz-tag nzColor="processing">
-                        <i nz-icon nzType="check-circle"></i>
-                        <span>OBSERVACIONES DE VIN</span>
-                    </nz-tag>
-                </ng-template>
-                <ng-template #descTemplateObservacion>
 
-                    <div nz-row  [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
-                        <div nz-col nzSpan="24" class="gutter-row">
-                            <nz-card class="tarjetaItems">
+                <div class="card-container">
+                    <nz-tabset [(nzSelectedIndex)]="indexObs" nzType="card" nzSize="large" (nzSelectedIndexChange)="pestanaItem(indexObs)">
+                        <nz-tab *ngFor="let tab of tabsObs"  [nzTitle]="titleTemplate" nzType="card">
+                            <ng-template #titleTemplate>
+                                <i nz-icon [nzType]="tab.icon" nzTheme="outline"></i>
+                                {{ tab.name }}
+                            </ng-template>
+                
+                            <div *ngIf="indexObs == 0">
 
-                                <div nz-row  [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                                <nz-card style="background-color: rgb(238, 238, 238);" [nzTitle]="descTituloObs" >
+                                    <nz-skeleton [nzActive]="true" [nzLoading]="cargandoObservacion" [nzAvatar]="{ size: 'large' }">
+                                        <nz-card-meta
+                                           
+                                            [nzDescription]="descTemplateObservacion"
+                                        ></nz-card-meta>
+                                    </nz-skeleton>
+                                </nz-card>
+                                <ng-template #descTituloObs>
 
-                                    <div nz-col nzSpan="12" class="gutter-row">
-                                        <canvas #sigPad width="{{ancho}}" height="{{alto}}" ></canvas>
-    
-                                    </div>
-
-                                    <div nz-col nzSpan="12" class="gutter-row">
-
-                                        
-    
-
-                                        <ng-container *ngIf="listObservacionVin">
-
-                                            <div nz-row *ngIf="listObservacionVin.length == 0 && !cargandoObservacion">
-                                                <div nz-col nzSpan="24">
-                                                  
-                                                  <nz-empty 
-                                                    nzNotFoundImage="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg" [nzNotFoundContent]="contentTpl"
-                                                    [nzNotFoundFooter]="footerTpl">
-                                                    <ng-template #contentTpl>
-                                                      <span> No Tiene Observaciones</span>
-                                                    </ng-template>
-                                                    <ng-template #footerTpl>
-                                                    </ng-template>
-                                                  </nz-empty>
+                                </ng-template>
+                                <ng-template #descTemplateObservacion>
+                
+                                    
+                                    <div nz-row  [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                                        <div nz-col nzSpan="24" class="gutter-row">
+                                            <nz-card class="tarjetaItems">
+                
+                                                <ng-container>
+                
+                                                    <div nz-row  [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                
+                                                        <div nz-col nzSpan="12" class="gutter-row">
+                    
+                                                        </div>
+                    
+                                                        <div nz-col nzSpan="12" class="gutter-row">
+                                                            
+                                                        </div>
+                    
+                                                    </div>
+                    
+                
+                                                </ng-container>
+                
+                                                <div nz-row  [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                
+                                                    <div nz-col nzSpan="12" class="gutter-row">
+                                                        <canvas #sigPad width="{{ancho}}" height="{{alto}}" ></canvas>
+                    
+                                                    </div>
+                
+                                                    <div nz-col nzSpan="12" class="gutter-row">
+                
+                                                        <ng-container *ngIf="listObservacionVin">
+                
+                                                            <div nz-row *ngIf="listObservacionVin.length == 0 && !cargandoObservacion">
+                                                                <div nz-col nzSpan="24">
+                                                                  
+                                                                  <nz-empty 
+                                                                    nzNotFoundImage="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg" [nzNotFoundContent]="contentTpl"
+                                                                    [nzNotFoundFooter]="footerTpl">
+                                                                    <ng-template #contentTpl>
+                                                                      <span> No Tiene Observaciones</span>
+                                                                    </ng-template>
+                                                                    <ng-template #footerTpl>
+                                                                    </ng-template>
+                                                                  </nz-empty>
+                                
+                                                                </div>
+                                                            </div>
+                    
+                                                            <nz-table #filterTable [nzData]="listObservacionVin" nzTableLayout="fixed" nzSize="middle"
+                                                            [nzLoading]="cargandoObservacion" [nzScroll]="{ x: '1000px' }">
+                                                            <thead>
+                                                                <tr *ngIf="listObservacionVin.length > 0">
+                                                                    <th *ngFor="let column of listOfColumnsObservacion" [nzSortOrder]="column.sortOrder"
+                                                                        [nzSortFn]="column.sortFn" [nzSortDirections]="column.sortDirections"
+                                                                        [nzFilterMultiple]="column.filterMultiple" [nzFilters]="column.listOfFilter"
+                                                                        [nzFilterFn]="column.filterFn" [nzShowFilter]="column.filterFn ? true : false"
+                                                                        [nzWidth]="column.width ? column.width : null"
+                                                                        style="text-align: center; background-color: black; color: white; font-size: 13px;">
+                                                                        {{ column.name }}
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody style="text-align: center;" *ngIf="listObservacionVin.length > 0">
+                                                                <tr *ngFor="let item of filterTable.data" class="editable-row">
+                                                                    <td>
+                                                                        <small>
+                                                                            <nz-tag style="border-radius: 10px; font-size: 10px;" [nzColor]="'red'">{{item.obs_veh_vin}}</nz-tag>
+                                                                        </small>
+                                                                    </td>
+                    
+                                                                   
+                                                                    <td>
+                                                                        <small>
+                                                                            {{item.parte.par_nombre}}
+                                                                        </small>
+                                                                    </td>
+                    
+                                                                    <td>
+                                                                        <small>
+                                                                            {{item.dano.dan_nombre}}
+                                                                        </small>
+                                                                    </td>
+                    
+                                                                    <td>
+                                                                        <small>
+                                                                            {{item.tamano.tam_nombre}}
+                                                                        </small>
+                                                                    </td>
+                                                                   
+                                                                    <td>
+                                                                        <small>
+                                                                            <!--<nz-avatar [nzIcon]="'picture'" (click)="openModalDocumento(item)" style="background:white;border: solid 1px #1890ff; color:#1890ff" [nzTooltipTitle]="'Detalle Documentos'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>
+                                                                            <nz-divider nzType="vertical"></nz-divider>-->
+                                                                            <nz-avatar [nzIcon]="'picture'" (click)="openModalFoto(item)" style="background:white;border: solid 1px #1890ff; color:#1890ff" [nzTooltipTitle]="'Detalle Fotos'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>
+                                                                            <!--<nz-divider nzType="vertical"></nz-divider>
+                                                                            <nz-avatar [nzIcon]="'picture'" (click)="openModalAccedorios(item)" style="background:white;border: solid 1px #1890ff; color:#1890ff" [nzTooltipTitle]="'Detalle Accesorios'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>-->
+                                                                                
+                                                                        </small>
+                                                                    </td>
+                    
+                    
+                                                                </tr>
+                                                            </tbody>
+                                                            </nz-table>
+                    
+                    
+                                                        </ng-container>
+                                                    </div>
+                    
+                    
                 
                                                 </div>
-                                            </div>
-    
-                                            <nz-table #filterTable [nzData]="listObservacionVin" nzTableLayout="fixed" nzSize="middle"
-                                            [nzLoading]="cargandoObservacion" [nzScroll]="{ x: '1000px' }">
-                                            <thead>
-                                                <tr *ngIf="listObservacionVin.length > 0">
-                                                    <th *ngFor="let column of listOfColumnsObservacion" [nzSortOrder]="column.sortOrder"
-                                                        [nzSortFn]="column.sortFn" [nzSortDirections]="column.sortDirections"
-                                                        [nzFilterMultiple]="column.filterMultiple" [nzFilters]="column.listOfFilter"
-                                                        [nzFilterFn]="column.filterFn" [nzShowFilter]="column.filterFn ? true : false"
-                                                        [nzWidth]="column.width ? column.width : null"
-                                                        style="text-align: center; background-color: black; color: white; font-size: 13px;">
-                                                        {{ column.name }}
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody style="text-align: center;" *ngIf="listObservacionVin.length > 0">
-                                                <tr *ngFor="let item of filterTable.data" class="editable-row">
-                                                    <td>
-                                                        <small>
-                                                            {{item.obs_veh_vin}}
-                                                        </small>
-                                                    </td>
-    
-                                                   
-                                                    <td>
-                                                        <small>
-                                                            {{item.parte.par_nombre}}
-                                                        </small>
-                                                    </td>
-    
-                                                    <td>
-                                                        <small>
-                                                            {{item.dano.dan_nombre}}
-                                                        </small>
-                                                    </td>
-    
-                                                    <td>
-                                                        <small>
-                                                            {{item.tamano.tam_nombre}}
-                                                        </small>
-                                                    </td>
-                                                   
-                                                    <td>
-                                                        <small>
-                                                            <!--<nz-avatar [nzIcon]="'picture'" (click)="openModalDocumento(item)" style="background:white;border: solid 1px #1890ff; color:#1890ff" [nzTooltipTitle]="'Detalle Documentos'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>
-                                                            <nz-divider nzType="vertical"></nz-divider>-->
-                                                            <nz-avatar [nzIcon]="'picture'" (click)="openModalFoto(item.listaDocumentos)" style="background:white;border: solid 1px #1890ff; color:#1890ff" [nzTooltipTitle]="'Detalle Fotos'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>
-                                                            <!--<nz-divider nzType="vertical"></nz-divider>
-                                                            <nz-avatar [nzIcon]="'picture'" (click)="openModalAccedorios(item)" style="background:white;border: solid 1px #1890ff; color:#1890ff" [nzTooltipTitle]="'Detalle Accesorios'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>-->
-                                                                
-                                                        </small>
-                                                    </td>
-    
-    
-                                                </tr>
-                                            </tbody>
-                                            </nz-table>
-    
-    
-                                        </ng-container>
+                                            </nz-card>
+                                        </div>
+                
+                                        
                                     </div>
+                
+                                </ng-template>
+
+                            </div>
+
+                            <div *ngIf="indexObs == 1">
+
+                                <nz-row style="margin-top: 20px;" [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                                    <nz-col nzSpan="18" class="gutter-row" nzOffset="3">
     
+                                        
+                                            
+                                            <cdk-virtual-scroll-viewport itemSize="3" class="demo-infinite-container">
+                                                <nz-list nzItemLayout="horizontal" [nzLoading]="cargandoObservacion">
+                                                    <nz-list-item *ngFor="let item of listAccesorioVin ; let $index = index">
+                                                        <nz-list-item-meta >
+                                                            <nz-list-item-meta-title >
+
+                                                                <ul class="tarjetaAccesorios">
+
+                                                                    <div nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }" >
+                                                                        <div style="text-align: end;" nz-col class="gutter-row" [nzSpan]="4">
     
+                                                                            <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                                                                                <nz-col nzSpan="8" class="gutter-row">
+                                                                                    <fa-icon class="fa-1x" [icon]="['fas', 'car-side']"></fa-icon>
+                                                                                </nz-col>
+                                                                                <nz-col nzSpan="8" class="gutter-row">
+                                                                                    <p style="color: rgb(187, 187, 187);">Vin:</p>
+                                                                                </nz-col>
+                                                                                <nz-col nzSpan="8" class="gutter-row">
+                                                                                    <p style="color: rgb(144, 167, 228);">{{item.acc_veh_vin}}</p>
+                                                                                </nz-col>
+        
+                                                                            </nz-row>
+    
+                                                                        </div>
+                                                                        <div nz-col  class="gutter-row" [nzSpan]="10">
+                                                                            <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                                                                                <nz-col nzSpan="12" class="gutter-row" style="text-align: end;">
+                                                                                    <ng-container *ngIf="item.accesorio.gparte.grp_nombre_ico; else noIcono" >
+                                                                                        <fa-icon class="fa-1x" [icon]="['fas', item.accesorio.gparte.grp_nombre_ico]"></fa-icon>
+                                                                                    </ng-container>
+                                                                                    <ng-template #noIcono>
+                                                                                        <fa-icon class="fa-1x" [icon]="['fas', 'arrow-alt-circle-right']"></fa-icon>
+                                                                                    </ng-template>
+    
+                                                                                </nz-col>
+                                                                                <nz-col nzSpan="12" class="gutter-row"  >
+                                                                                    <p style="color: rgb(187, 187, 187);">Grupo:</p> <p style="color: rgb(144, 167, 228);">{{item.accesorio.gparte.grp_nombre}}</p>
+                                                                                </nz-col>
+        
+                                                                            </nz-row>
+                                                                        </div>
+                                                                        <div nz-col nz-col class="gutter-row" [nzSpan]="10">
+                                                                            <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+    
+                                                                                <nz-col nzSpan="12" class="gutter-row" style="text-align: end;" >
+                                                                                    <p style="color: rgb(187, 187, 187);">Parte:</p>
+                                                                                </nz-col>
+                                                                                
+                                                                                <nz-col nzSpan="12" class="gutter-row" style="text-align: start;" >
+                                                                                     <p style="color: rgb(144, 167, 228);">{{item.accesorio.par_nombre}}</p>
+                                                                                </nz-col>
+        
+                                                                            </nz-row>
+                                                                        </div>
+                                                                        
+                                                                    </div>
+                                                                    
+                                                                </ul>
+            
 
-                                </div>
-                            </nz-card>
-                        </div>
+                                                            </nz-list-item-meta-title>
+                                                        </nz-list-item-meta>    
+                                                    </nz-list-item>
+                                                    <nz-list-empty *ngIf="listAccesorioVin.length === 0"></nz-list-empty>
+                                                </nz-list>
+                                            </cdk-virtual-scroll-viewport>
+                                    </nz-col>
+                                </nz-row>
 
-                        
-                    </div>
 
-                </ng-template>
+                            </div>
+
+                            <!--<div *ngIf="indexObs == 2">
+                                <nz-row style="margin-top: 1%;" [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+        
+                                    <nz-col class="gutter-row" nzSpan="24">
+                
+                                        <cdk-virtual-scroll-viewport itemSize="3" class="demo-infinite-container">
+                                            <nz-list nzItemLayout="horizontal" [nzLoading]="cargandoParte">
+                                                <nz-list-item *ngFor="let item of listDocumentoGeneral ; let $index = index" >
+                                                    <nz-list-item-meta 
+                                                   
+                                                    >
+                                                        <nz-list-item-meta-title >
+                
+                                                            <div nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }" >
+                                                                <div style="text-align: end;" nz-col class="gutter-row" [nzSpan]="3">
+                                                                    <fa-icon class="fa-1x" [icon]="['fas', 'car']"></fa-icon>
+                                                                </div>
+                                                                <div nz-col class="gutter-row" [nzSpan]="18">
+                                                                    <a [href]="baseUrl + item.documento.doc_url" download
+                                                                        target="_blank" nz-button nzType="default" [nzSize]="size"
+                                                                        nzShape="round">
+                                                                        <i nz-icon nzType="download"></i>
+                                                                        {{ item.documento.doc_nombre }}
+                                                                    </a>
+                                                                </div>
+                                                                <div nz-col class="gutter-row" [nzSpan]="3">
+                                                                    <fa-icon class="fa-2x" [icon]="['fas', 'archive']"></fa-icon>
+                                                                </div>
+                                                                
+                                                            </div>
+                                                        </nz-list-item-meta-title>
+                                                    </nz-list-item-meta>    
+                                                </nz-list-item>
+                                                <nz-list-empty *ngIf="listDocumentoGeneral.length === 0"></nz-list-empty>
+                                            </nz-list>
+                                        </cdk-virtual-scroll-viewport>
+                
+                                    </nz-col>
+                                </nz-row>
+                
+                            </div>-->
+
+
+                        </nz-tab>
+                    </nz-tabset>
+                </div>
+
 
                 
 
@@ -411,7 +564,7 @@
 
     
 
-<nz-modal nzWrapClassName="vertical-center-modal" nzWidth="1000px" [(nzVisible)]="isVisibleModalFoto"
+<nz-modal nzWrapClassName="vertical-center-modal" nzWidth="700px" [(nzVisible)]="isVisibleModalFoto"
     nzTitle="Galeria de Fotos" (nzOnCancel)="isVisibleModalFoto = false" (nzOnOk)="cerrarModalFoto()"
     [nzOkLoading]="isLoadingFoto">
     <ng-template nzModalContent class="steps-content">
@@ -420,24 +573,34 @@
             <nz-row>
                 <nz-col nzSpan="24">
 
-                    <cdk-virtual-scroll-viewport itemSize="5" class="demo-infinite-container-foto" orientation="horizontal">
-                        <nz-list nzGrid style="margin-top: 20px;">
-                            <div nz-row [nzGutter]="16">
-                                <div *ngFor="let item of listObservacionVinFoto">
-                                    <nz-list-item>
-                                        <nz-card style="width:200px; margin-left: 5px;" [nzTitle]="item.documento.doc_nombre"
-                                            [nzExtra]="extraTemplate">
-                                            <img style="object-fit: contain;" [src]="item.documento.doc_url" alt="" width="100%"
-                                                height="100%">
-                                        </nz-card>
-                                        <ng-template #extraTemplate>
-                                           
-                                        </ng-template>
-                                    </nz-list-item>
+                    <ng-container *ngIf="listObservacionVinFoto.length>0; else NoFotos">
+                        <cdk-virtual-scroll-viewport itemSize="5" class="demo-infinite-container-foto" orientation="horizontal">
+                            <nz-list nzGrid style="margin-top: 20px;">
+                                <div nz-row [nzGutter]="16">
+                                    <div *ngFor="let item of listObservacionVinFoto">
+                                        <nz-list-item>
+                                            <nz-card style="width:200px; margin-left: 5px;" [nzTitle]="item.documento.doc_nombre"
+                                                [nzExtra]="extraTemplate">
+                                                <img style="object-fit: contain;" [src]="baseUrl + item.documento.doc_url" alt="" width="100%"
+                                                    height="100%">
+                                            </nz-card>
+                                            <ng-template #extraTemplate>
+                                               
+                                            </ng-template>
+                                        </nz-list-item>
+                                    </div>
                                 </div>
-                            </div>
-                        </nz-list>
-                    </cdk-virtual-scroll-viewport>
+                            </nz-list>
+                        </cdk-virtual-scroll-viewport>
+    
+                    </ng-container>
+
+                    <ng-template #NoFotos>
+                        <nz-list-empty style="text-align: center;"></nz-list-empty>
+
+                    </ng-template>
+
+                    
                 </nz-col>
             </nz-row>
 
