@@ -287,14 +287,13 @@ export class DetalleComponent implements OnInit, AfterViewInit {
     this.cargandoDatosVin = true
     this.servicePedido.getDetalleVin(veh_vin).subscribe({
       next: (data) => {
+        console.log('detallee');
+        
         console.log(data);
         
         if(data){
           this.detalleVin = data.vehiculoDetalle
           this.detalleVinDatos = data
-          //console.log('ddddd');
-          //console.log(this.detalleVin);
-          
           this.detalleVin.listaEstado.forEach((item: any, index: any)=>{
             item.veh_est_fecha = this.transformDate(item.veh_est_fecha)
             item.active = true

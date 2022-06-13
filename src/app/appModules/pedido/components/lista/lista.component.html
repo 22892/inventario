@@ -32,13 +32,16 @@
               
 
                 <ng-container *ngIf="estadoExcel == false; else returnListado">
-                    <nz-col style="text-align: end" class="gutter-row">
-                        <nz-avatar  [nzIcon]="'file-excel'" style="background:white;border: solid 1px #2bff18; color:#2bff18" (click)="visualizaSubirExcel(1)" [nzTooltipTitle]="'Subir Excel'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>
-
-                    </nz-col>
-                    <nz-col style="text-align: start" class="gutter-row">
-                        <nz-tag [nzColor]="'lime'">Subir Datos Excel</nz-tag>
-                    </nz-col>
+                    <nz-space>
+                        <div *nzSpaceItem style="text-align: end; color: #b3b3b3;">
+                            <!--<nz-avatar  [nzIcon]="'file-excel'" style="background:white;border: solid 1px #2bff18; color:#2bff18" (click)="visualizaSubirExcel(1)" [nzTooltipTitle]="'Subir Excel'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>-->
+                            <fa-icon class="fa-2x" [icon]="['fas', 'file-csv']" (click)="visualizaSubirExcel(1)"></fa-icon>
+                        </div>
+                        <div *nzSpaceItem style="text-align: start; margin-top: 10px;">
+                            <nz-tag [nzColor]="'lime'">Subir Datos Excel</nz-tag>
+                        </div>
+    
+                    </nz-space>
 
                 </ng-container>
 

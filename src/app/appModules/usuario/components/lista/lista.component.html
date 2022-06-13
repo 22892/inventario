@@ -170,7 +170,7 @@
                                         class="example-list"
                                         (cdkDropListDropped)="dropUsuario($event, 'asignado')">
 
-                                        <nz-card nzTitle="Asignados" style="background-color: #fafafa;">
+                                        <nz-card nzTitle="Asignados" style="background-color: #dcdcdc;">
 
                                             <div class="example-box" *ngFor="let item of listAsignado" cdkDrag>
 
@@ -224,7 +224,7 @@
                                         (cdkDropListDropped)="dropUsuario($event, 'asignar')">
 
 
-                                        <nz-card nzTitle="Asignar" style="background-color: #fafafa;">
+                                        <nz-card nzTitle="Asignar" style="background-color: #dcdcdc;">
 
                                             <div class="example-box" *ngFor="let item of listSinAsignado" cdkDrag>
 
@@ -412,26 +412,16 @@
                                         class="example-list"
                                         (cdkDropListDropped)="dropPermiso($event, 'asignado')">
 
-                                        <nz-card nzTitle="Asignados" style="background-color: #fafafa;">
+                                        <nz-card nzTitle="Asignados" style="background-color: #dcdcdc;">
 
                                             <div class="example-box" *ngFor="let item of listAsignadoPermiso" cdkDrag>
 
-                                           
-                                              
-                                                <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                                                <nz-col style="text-align: center;"  class="gutter-row" nzSpan="24">
+                                                    <nz-tag style="border-radius: 10px;" [nzColor]="'#2db7f5'">Nombre: {{item.per_nombre}}</nz-tag>
+                                                    <p style="color: rgb(161, 161, 161);">Descripción: {{item.per_descripcion}}</p>
 
-                                                    <nz-col style="text-align: start;"  class="gutter-row" nzSpan="24">
-                                                        <nz-tag style="border-radius: 10px;" [nzColor]="'#2db7f5'">Nombre: {{item.per_nombre}}</nz-tag>
-                                                    </nz-col>
+                                                </nz-col>
 
-                                                    <nz-col style="text-align: start;" class="gutter-row" nzSpan="24">
-                                                        <p style="color: rgb(161, 161, 161);">Descripción: {{item.per_descripcion}}</p>
-                                                    </nz-col>
-
-                                                </nz-row>
-                                                
-    
-                                               
                                             </div>
     
 
@@ -454,25 +444,15 @@
                                         (cdkDropListDropped)="dropPermiso($event, 'asignar')">
 
 
-                                        <nz-card nzTitle="Asignar" style="background-color: #fafafa;">
+                                        <nz-card nzTitle="Asignar" style="background-color: #dcdcdc;">
 
                                             <div class="example-box" *ngFor="let item of listSinAsignadoPermiso" cdkDrag>
+                                                
+                                                <nz-col style="text-align: center;"  class="gutter-row" nzSpan="24">
+                                                    <nz-tag style="border-radius: 10px;" [nzColor]="'#2db7f5'">Nombre: {{item.per_nombre}}</nz-tag>
+                                                    <p style="color: rgb(161, 161, 161);">Descripción: {{item.per_descripcion}}</p>
 
-
-                                                <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
-
-                                                    <nz-col style="text-align: start;"  class="gutter-row" nzSpan="24">
-                                                        <nz-tag style="border-radius: 10px;" [nzColor]="'#2db7f5'">Nombre: {{item.per_nombre}}</nz-tag>
-                                                    </nz-col>
-
-                                                    <nz-col style="text-align: start;" class="gutter-row" nzSpan="24">
-                                                        <p style="color: rgb(161, 161, 161);">Descripción: {{item.per_descripcion}}</p>
-                                                    </nz-col>
-
-                                                </nz-row>
-                                                    
-                                              
-                                               
+                                                </nz-col>
                                             </div>
     
 
@@ -521,37 +501,31 @@
                                         class="example-list"
                                         (cdkDropListDropped)="dropEmpresa($event, 'asignado')">
 
-                                        <nz-card nzTitle="Asignados" style="background-color: #fafafa;">
+                                        <nz-card nzTitle="Asignados" style="background-color: #dcdcdc;">
 
                                             <div class="example-box" *ngFor="let item of listAsignadoEmpresa" cdkDrag>
 
-                                                <nz-row style="margin-bottom: 5px;" [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                                                <nz-col  nzSpan="6" class="gutter-row" >
+                                                    <ng-container *ngIf="item.emp_logo">
+                                                        <!--<img nz-image  style="object-fit: contain;" width="50px" height="50px" nzSrc="{{item.emp_logo}}" alt="" />-->
+                                                        <img nz-image  style="object-fit: contain;"  width="50px" height="50px" nzSrc="../../assets/images/edificio.png" alt="" />
 
-                                                    <nz-col class="gutter-row" >
-                                                        <ng-container *ngIf="item.emp_logo">
-                                                            <!--<img nz-image  style="object-fit: contain;" width="50px" height="50px" nzSrc="{{item.emp_logo}}" alt="" />-->
-                                                            <img nz-image  style="object-fit: contain;"  width="50px" height="50px" nzSrc="../../assets/images/edificio.png" alt="" />
+                                                    </ng-container>
 
-                                                        </ng-container>
+                                                    <ng-template>
+                                                        <img nz-image  style="object-fit: contain;"  width="50px" height="50px" nzSrc="../../assets/images/edificio.png" alt="" />
 
-                                                        <ng-template>
-                                                            <img nz-image  style="object-fit: contain;"  width="50px" height="50px" nzSrc="../../assets/images/edificio.png" alt="" />
+                                                    </ng-template>
+                                                  
 
-                                                        </ng-template>
-                                                      
+                                                </nz-col>
 
-                                                    </nz-col>
-
-                                                    <nz-col class="gutter-row" >
-                                                        <nz-tag style="border-radius: 10px;" [nzColor]="'#2db7f5'">Nombre: {{item.emp_nombre_comercial}}</nz-tag>
-                                                        <br>
-                                                        <nz-tag style="border-radius: 10px;" [nzColor]="'#2db7f5'">Dirección: {{item.emp_direccion}}</nz-tag>
-                                                        <br>
-                                                        <nz-tag style="border-radius: 10px;" [nzColor]="'#2db7f5'">Télefono: {{item.emp_telefono}}</nz-tag>
-                                                        
-                                                    </nz-col>
-
-                                            </nz-row>
+                                                <nz-col class="gutter-row"  nzSpan="18" >
+                                                    <div style="color: #c5c5c5;">Nombre:</div> <div style="color: #6c6c6c;">{{item.emp_nombre_comercial}}</div>
+                                                    <div style="color: #d5d5d5;">Dirección:</div> <div style="color: #6c6c6c;">{{item.emp_direccion}}</div> 
+                                                    <div style="color: #d5d5d5;">Télefono:</div> <div style="color: #6c6c6c;">{{item.emp_telefono}}</div> 
+                                                    
+                                                </nz-col>
                                                
                                             </div>
     
@@ -575,37 +549,34 @@
                                         (cdkDropListDropped)="dropEmpresa($event, 'asignar')">
 
 
-                                        <nz-card nzTitle="Asignar" style="background-color: #fafafa;">
+                                        <nz-card nzTitle="Asignar" style="background-color: #dcdcdc;">
 
                                             <div class="example-box" *ngFor="let item of listSinAsignadoEmpresa" cdkDrag>
 
-                                               <nz-row style="margin-bottom: 5px;" [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
-
-                                                        <nz-col class="gutter-row" >
-                                                            <ng-container *ngIf="item.emp_logo">
-                                                                <!--<img nz-image  style="object-fit: contain;" width="50px" height="50px" nzSrc="{{item.emp_logo}}" alt="" />-->
-                                                                <img nz-image  style="object-fit: contain;"  width="50px" height="50px" nzSrc="../../assets/images/edificio.png" alt="" />
-
-                                                            </ng-container>
-
-                                                            <ng-template>
-                                                                <img nz-image  style="object-fit: contain;"  width="50px" height="50px" nzSrc="../../assets/images/edificio.png" alt="" />
-
-                                                            </ng-template>
+                                                <nz-col nzSpan="6" style="text-align: start;" class="gutter-row">
                                                           
+                                                    <ng-container *ngIf="item.emp_logo; else NoLogo">
+                                                       
+                                                        <img nz-image  style="object-fit: contain;" width="50px" height="50px" nzSrc="{{item.emp_logo}}" alt="" />
+                                                        <!--<img nz-image  style="object-fit: contain;"  width="50px" height="50px" nzSrc="../../assets/images/edificio.png" alt="" />-->
 
-                                                        </nz-col>
+                                                    </ng-container>
 
-                                                        <nz-col class="gutter-row" >
-                                                            <nz-tag style="border-radius: 10px;" [nzColor]="'#2db7f5'">Nombre: {{item.emp_nombre_comercial}}</nz-tag>
-                                                            <br>
-                                                            <nz-tag style="border-radius: 10px;" [nzColor]="'#2db7f5'">Dirección: {{item.emp_direccion}}</nz-tag>
-                                                            <br>
-                                                            <nz-tag style="border-radius: 10px;" [nzColor]="'#2db7f5'">Télefono: {{item.emp_telefono}}</nz-tag>
-                                                            
-                                                        </nz-col>
+                                                    <ng-template #NoLogo>
+                                                       
+                                                        <img nz-image  style="object-fit: contain;"  width="50px" height="50px" nzSrc="../../assets/images/edificio.png" alt="" />
 
-                                                </nz-row>
+                                                    </ng-template>
+                                                  
+
+                                                </nz-col>
+
+                                                <nz-col class="gutter-row" nzSpan="18" >
+                                                    <div style="color: #c5c5c5;">Nombre:</div> <div style="color: #6c6c6c;">{{item.emp_nombre_comercial}}</div>
+                                                    <div style="color: #d5d5d5;">Dirección:</div> <div style="color: #6c6c6c;">{{item.emp_direccion}}</div> 
+                                                    <div style="color: #d5d5d5;">Télefono:</div> <div style="color: #6c6c6c;">{{item.emp_telefono}}</div> 
+                                                    
+                                                </nz-col>                                               
                                                
                                             </div>
     

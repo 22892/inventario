@@ -52,21 +52,21 @@
                                             <nz-card class="tarjetaItems" [nzTitle]="titleItem">
     
                                                 <ng-template #titleItem>
-                                                    <i nz-icon [nzType]="'car'" nzTheme="outline"></i> Vehiculo
+                                                    <fa-icon class="fa-1x" [icon]="['fas', 'car-side']"></fa-icon> Vehiculo
                                                 </ng-template>
     
                                                 <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
                                                    
     
                                                     <nz-col nzSpan="8" class="gutter-row">
-                                                        <p>Id Vehiculo:</p>
-                                                        <p>Vin:</p>
-                                                        <p>Versión:</p>
-                                                        <p>Año Modelo:</p>
-                                                        <p>Año Producción:</p>
-                                                        <p>Segmento:</p>
-                                                        <p>OCN:</p>
-                                                        <p>Color:</p>
+                                                        <p *ngIf="detalleVinDatos.veh_ver_id">Id Vehiculo:</p>
+                                                        <p *ngIf="detalleVinDatos.veh_vin">Vin:</p>
+                                                        <p *ngIf="detalleVinDatos.veh_version">Versión:</p>
+                                                        <p *ngIf="detalleVinDatos.veh_year_modelo">Año Modelo:</p>
+                                                        <p *ngIf="detalleVinDatos.veh_year_produccion">Año Producción:</p>
+                                                        <p *ngIf="detalleVinDatos.veh_segmento_vehiculo">Segmento:</p>
+                                                        <p *ngIf="detalleVinDatos.veh_ocn">OCN:</p>
+                                                        <p *ngIf="detalleVinDatos.veh_nombre_color_ext">Color:</p>
                                                     </nz-col>
     
                                                     <nz-col nzSpan="8" class="gutter-row">
@@ -105,14 +105,14 @@
                                                 <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
                                                    
                                                     <nz-col nzSpan="10" class="gutter-row">
-                                                        <p>Número Nacionali:</p>
-                                                        <p>Mes Arribo:</p>
-                                                        <p>Factura Porteo:</p>
-                                                        <p># de Factura:</p>
-                                                        <p>Fecha Factura:</p>
-                                                        <p>FSC:</p>
-                                                        <p>Puerto Arribo:</p>
-                                                        <p>Puerto Embarque:</p>
+                                                        <p *ngIf="detalleVin.dve_nac_nro_nacionalizacion">Número Nacionali:</p>
+                                                        <p *ngIf="detalleVin.dve_nac_mes_arribo">Mes Arribo:</p>
+                                                        <p *ngIf="detalleVin.dve_nac_factura_porteo">Factura Porteo:</p>
+                                                        <p *ngIf="detalleVin.dve_nac_factura"># de Factura:</p>
+                                                        <p *ngIf="detalleVin.dve_nac_fecha_factura">Fecha Factura:</p>
+                                                        <p *ngIf="detalleVin.dve_nac_fsc">FSC:</p>
+                                                        <p *ngIf="detalleVin.dve_nac_puerto_embarque">Puerto Arribo:</p>
+                                                        <p *ngIf="detalleVin.dve_nac_puerto_arribo">Puerto Embarque:</p>
                                                     </nz-col>
     
                                                     <nz-col nzSpan="14" class="gutter-row">
@@ -143,14 +143,14 @@
                                                 <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
                                                    
                                                     <nz-col nzSpan="10" class="gutter-row">
-                                                        <p>Fecha Factura:</p>
-                                                        <p>Responsable:</p>
-                                                        <p>Doc. Venta:</p>
-                                                        <p>Sector:</p>
-                                                        <p>Centro:</p>
-                                                        <p>Referencia:</p>
-                                                        <p>Bultos:</p>
-                                                        <p>Valor Venta:</p>
+                                                        <p *ngIf="detalleVin.dve_fac_dea_factura">Fecha Factura:</p>
+                                                        <p *ngIf="detalleVin.dve_fac_dea_nombre_responsable">Responsable:</p>
+                                                        <p *ngIf="detalleVin.dve_fac_dea_doc_venta">Doc. Venta:</p>
+                                                        <p *ngIf="detalleVin.dve_fac_dea_sector">Sector:</p>
+                                                        <p *ngIf="detalleVin.dve_fac_dea_centro">Centro:</p>
+                                                        <p *ngIf="detalleVin.dve_fac_dea_referencia">Referencia:</p>
+                                                        <p *ngIf="detalleVin.dve_fac_dea_bultos">Bultos:</p>
+                                                        <p *ngIf="detalleVin.dve_fac_dea_valor_venta">Valor Venta:</p>
                                                     </nz-col>
     
                                                     <nz-col nzSpan="14" class="gutter-row">
@@ -170,6 +170,56 @@
                                             </nz-card>
     
                                         </nz-col>
+                                    </nz-row>
+
+                                    <nz-row style="margin-top: 20px;" [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                                        <nz-col nzSpan="24" class="gutter-row">
+                                            <nz-card class="tarjetaItems" [nzTitle]="titleItemTransporte">
+    
+                                                <ng-template #titleItemTransporte>
+                                                    <i nz-icon [nzType]="'car'" nzTheme="outline"></i> Transporte
+                                                </ng-template>
+    
+                                                <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                                                   
+    
+                                                    <nz-col nzSpan="8" class="gutter-row">
+                                                        <p *ngIf="detalleVin.dve_tra_nombre_empresa">Nombre Empresa:</p>
+                                                        <p *ngIf="detalleVin.dve_tra_logistica">Logistica:</p>
+                                                        <p *ngIf="detalleVin.dve_tra_nombre_conductor">Conductor:</p>
+                                                        <p *ngIf="detalleVin.dve_tra_placa">Placa:</p>
+                                                        <p *ngIf="detalleVin.dve_tra_origen">Origen:</p>
+                                                        <p *ngIf="detalleVin.dve_tra_transportista">Transportista:</p>
+                                                       
+                                                    </nz-col>
+    
+                                                    <nz-col nzSpan="8" class="gutter-row">
+                                                        <p>{{detalleVin.dve_tra_nombre_empresa}}</p>
+                                                        <p>{{detalleVin.dve_tra_logistica}}</p>
+                                                        <p>{{detalleVin.dve_tra_nombre_conductor}}</p>
+                                                        <p>{{detalleVin.dve_tra_placa}}</p>
+                                                        <p>{{detalleVin.dve_tra_origen}}</p>
+                                                        <p>{{detalleVin.dve_tra_transportista}}</p>
+                                                       
+                                                    </nz-col>
+
+                                                    <nz-col nzSpan="8" style="text-align: center;" class="gutter-row">
+                                                        <p style="color: rgb(201, 201, 201);">Estado Actual Transporte</p>
+                                                        <ng-container *ngIf="detalleVin.dve_tra_estado_proceso; else NoEstado">
+                                                            <nz-tag [nzColor]="'red'">{{detalleVin.dve_tra_estado_proceso}}</nz-tag>
+                                                        </ng-container>
+                                                        <ng-template #NoEstado>
+                                                            <nz-tag [nzColor]="'red'">No estado</nz-tag>
+                                                        </ng-template>
+                                                    </nz-col>
+    
+                                                </nz-row>
+                                                
+    
+                                            </nz-card>
+                                        </nz-col>
+    
+    
                                     </nz-row>
     
 
@@ -222,87 +272,87 @@
                                                                         <nz-col style="text-align: end;" nzSpan="12" class="gutter-row">
 
                                                                             <ng-container *ngIf="panel.estadoEtapa.est_codigo == 1">
-                                                                                <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/activo.png" nzTheme="outline"></nz-avatar>
+                                                                                <nz-avatar style="width: 30px; height: 30px;"  nzSrc="../../assets/images/activo.png" nzTheme="outline"></nz-avatar>
                                                                             </ng-container>
 
                                                                             <ng-container *ngIf="panel.estadoEtapa.est_codigo == 2">
-                                                                                <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/consignado.png" nzTheme="outline"></nz-avatar>
+                                                                                <nz-avatar style="width: 30px; height: 30px;"  nzSrc="../../assets/images/consignado.png" nzTheme="outline"></nz-avatar>
                                                                             </ng-container>
 
                                                                             <ng-container *ngIf="panel.estadoEtapa.est_codigo == 3">
-                                                                                <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/evento.png" nzTheme="outline"></nz-avatar>
+                                                                                <nz-avatar style="width: 30px; height: 30px;"  nzSrc="../../assets/images/evento.png" nzTheme="outline"></nz-avatar>
                                                                             </ng-container>
 
                                                                             <ng-container *ngIf="panel.estadoEtapa.est_codigo == 4">
-                                                                                <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/facturacion.png" nzTheme="outline"></nz-avatar>
+                                                                                <nz-avatar style="width: 30px; height: 30px;"  nzSrc="../../assets/images/facturacion.png" nzTheme="outline"></nz-avatar>
                                                                             </ng-container>
 
                                                                             <ng-container *ngIf="panel.estadoEtapa.est_codigo == 5">
-                                                                                <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/nacionalizacion.png" nzTheme="outline"></nz-avatar>
+                                                                                <nz-avatar style="width: 30px; height: 30px;"  nzSrc="../../assets/images/nacionalizacion.png" nzTheme="outline"></nz-avatar>
                                                                             </ng-container>
 
                                                                             <ng-container *ngIf="panel.estadoEtapa.est_codigo == 6">
-                                                                                <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/traslado.png" nzTheme="outline"></nz-avatar>
+                                                                                <nz-avatar style="width: 30px; height: 30px;"  nzSrc="../../assets/images/traslado.png" nzTheme="outline"></nz-avatar>
                                                                             </ng-container>
 
                                                                             <ng-container *ngIf="panel.estadoEtapa.est_codigo == 7">
-                                                                                <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/desasignado.png" nzTheme="outline"></nz-avatar>
+                                                                                <nz-avatar style="width: 30px; height: 30px;"  nzSrc="../../assets/images/desasignado.png" nzTheme="outline"></nz-avatar>
                                                                             </ng-container>
 
                                                                             <ng-container *ngIf="panel.estadoEtapa.est_codigo == 11">
-                                                                                <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/pedido.png" nzTheme="outline"></nz-avatar>
+                                                                                <nz-avatar style="width: 30px; height: 30px;"  nzSrc="../../assets/images/pedido.png" nzTheme="outline"></nz-avatar>
                                                                             </ng-container>
 
                                                                             <ng-container *ngIf="panel.estadoEtapa.est_codigo == 12">
-                                                                                <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/facturacion.png" nzTheme="outline"></nz-avatar>
+                                                                                <nz-avatar style="width: 30px; height: 30px;"  nzSrc="../../assets/images/consignado.png" nzTheme="outline"></nz-avatar>
                                                                             </ng-container>
 
                                                                             <ng-container *ngIf="panel.estadoEtapa.est_codigo == 13">
-                                                                                <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/facturacion.png" nzTheme="outline"></nz-avatar>
+                                                                                <nz-avatar style="width: 30px; height: 30px;"  nzSrc="../../assets/images/evento.png" nzTheme="outline"></nz-avatar>
                                                                             </ng-container>
 
                                                                             <ng-container *ngIf="panel.estadoEtapa.est_codigo == 14">
-                                                                                <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/facturacion.png" nzTheme="outline"></nz-avatar>
+                                                                                <nz-avatar style="width: 30px; height: 30px;"  nzSrc="../../assets/images/facturacion.png" nzTheme="outline"></nz-avatar>
                                                                             </ng-container>
 
                                                                             <ng-container *ngIf="panel.estadoEtapa.est_codigo == 15">
-                                                                                <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/facturacion.png" nzTheme="outline"></nz-avatar>
+                                                                                <nz-avatar style="width: 30px; height: 30px;"  nzSrc="../../assets/images/nacionalizacion.png" nzTheme="outline"></nz-avatar>
                                                                             </ng-container>
 
                                                                             <ng-container *ngIf="panel.estadoEtapa.est_codigo == 16">
-                                                                                <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/facturacion.png" nzTheme="outline"></nz-avatar>
+                                                                                <nz-avatar style="width: 30px; height: 30px;"  nzSrc="../../assets/images/disponible.png" nzTheme="outline"></nz-avatar>
                                                                             </ng-container>
 
                                                                             <ng-container *ngIf="panel.estadoEtapa.est_codigo == 17">
-                                                                                <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/facturacion.png" nzTheme="outline"></nz-avatar>
+                                                                                <nz-avatar style="width: 30px; height: 30px;"  nzSrc="../../assets/images/solicitudtraslado.png" nzTheme="outline"></nz-avatar>
                                                                             </ng-container>
 
                                                                             <ng-container *ngIf="panel.estadoEtapa.est_codigo == 18">
-                                                                                <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/facturacion.png" nzTheme="outline"></nz-avatar>
+                                                                                <nz-avatar style="width: 30px; height: 30px;"  nzSrc="../../assets/images/trasladoaprobado.png" nzTheme="outline"></nz-avatar>
                                                                             </ng-container>
 
                                                                             <ng-container *ngIf="panel.estadoEtapa.est_codigo == 19">
-                                                                                <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/facturacion.png" nzTheme="outline"></nz-avatar>
+                                                                                <nz-avatar style="width: 30px; height: 30px;"  nzSrc="../../assets/images/trasladonegado.png" nzTheme="outline"></nz-avatar>
                                                                             </ng-container>
 
                                                                             <ng-container *ngIf="panel.estadoEtapa.est_codigo == 20">
-                                                                                <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/facturacion.png" nzTheme="outline"></nz-avatar>
+                                                                                <nz-avatar style="width: 30px; height: 30px;"  nzSrc="../../assets/images/entransito.png" nzTheme="outline"></nz-avatar>
                                                                             </ng-container>
 
                                                                             <ng-container *ngIf="panel.estadoEtapa.est_codigo == 21">
-                                                                                <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/facturacion.png" nzTheme="outline"></nz-avatar>
+                                                                                <nz-avatar style="width: 30px; height: 30px;"  nzSrc="../../assets/images/entregadoevento.png" nzTheme="outline"></nz-avatar>
                                                                             </ng-container>
 
                                                                             <ng-container *ngIf="panel.estadoEtapa.est_codigo == 22">
-                                                                                <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/facturacion.png" nzTheme="outline"></nz-avatar>
+                                                                                <nz-avatar style="width: 30px; height: 30px;"  nzSrc="../../assets/images/entregado.png" nzTheme="outline"></nz-avatar>
                                                                             </ng-container>
 
                                                                             <ng-container *ngIf="panel.estadoEtapa.est_codigo == 23">
-                                                                                <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/facturacion.png" nzTheme="outline"></nz-avatar>
+                                                                                <nz-avatar style="width: 30px; height: 30px;"  nzSrc="../../assets/images/trasladoliberado.png" nzTheme="outline"></nz-avatar>
                                                                             </ng-container>
 
                                                                             <ng-container *ngIf="panel.estadoEtapa.est_codigo == 29">
-                                                                                <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/facturacion.png" nzTheme="outline"></nz-avatar>
+                                                                                <nz-avatar style="width: 30px; height: 30px;"  nzSrc="../../assets/images/trasladoescala.png" nzTheme="outline"></nz-avatar>
                                                                             </ng-container>
 
                                                                             

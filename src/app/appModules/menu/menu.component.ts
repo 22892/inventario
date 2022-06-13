@@ -87,7 +87,7 @@ export class MenuComponent implements OnInit {
     },
     {
       width:'120px',
-      name: 'Gestiónde Menús',
+      name: 'Gestión de Menús',
       sortOrder: null,
       sortDirections: [],
       sortFn: null,
@@ -729,8 +729,8 @@ export class MenuComponent implements OnInit {
 
         this.isLoadingCrudTamano = true
 
-        this.serviceObservacion.createTamano(tamano).subscribe(
-          data => {
+        this.serviceObservacion.createTamano(tamano).subscribe({
+          next: (data) => {
             
             console.log('tamano');
             console.log(data);
@@ -741,11 +741,12 @@ export class MenuComponent implements OnInit {
             this.getListTamano()
             
         
-        },
-        err => {
-          this.msg.error(`Ha ocurrido un error al Crear Tamaño, ${err.error.message}`);
-          this.isLoadingCrudTamano = false
-  
+          },
+          error: (err) => {
+            this.msg.error(`Ha ocurrido un error al Crear Tamaño, ${err.error.message}`);
+            this.isLoadingCrudTamano = false
+    
+          }
         })
       }
 
@@ -766,8 +767,8 @@ export class MenuComponent implements OnInit {
 
         this.isLoadingCrudTamano = true
 
-        this.serviceObservacion.updateTamano(tamano).subscribe(
-          data => {
+        this.serviceObservacion.updateTamano(tamano).subscribe({
+          next: (data) => {
             
             console.log('taamno');
             console.log(data);
@@ -778,11 +779,12 @@ export class MenuComponent implements OnInit {
             this.getListTamano()
             
         
-        },
-        err => {
-          this.msg.error(`Ha ocurrido un error al Actualizar Tamaño, ${err.error.message}`);
-          this.isLoadingCrudTamano = false
-  
+          },
+          error: (err) => {
+            this.msg.error(`Ha ocurrido un error al Actualizar Tamaño, ${err.error.message}`);
+            this.isLoadingCrudTamano = false
+    
+          }
         })
       }
 
@@ -819,8 +821,8 @@ export class MenuComponent implements OnInit {
 
         this.isLoadingCrudDano = true
 
-        this.serviceObservacion.createDano(dano).subscribe(
-          data => {
+        this.serviceObservacion.createDano(dano).subscribe({
+          next: (data) => {
             
             console.log('dano');
             console.log(data);
@@ -831,11 +833,12 @@ export class MenuComponent implements OnInit {
             this.getListDano()
             
         
-        },
-        err => {
-          this.msg.error(`Ha ocurrido un error al Crear Daño, ${err.error.message}`);
-          this.isLoadingCrudDano = false
-  
+          },
+          error: (err) => {
+            this.msg.error(`Ha ocurrido un error al Crear Daño, ${err.error.message}`);
+            this.isLoadingCrudDano = false
+    
+          }
         })
       }
 
@@ -856,8 +859,8 @@ export class MenuComponent implements OnInit {
 
         this.isLoadingCrudDano = true
 
-        this.serviceObservacion.updateDano(dano).subscribe(
-          data => {
+        this.serviceObservacion.updateDano(dano).subscribe({
+          next: (data) => {
             
             console.log('dano');
             console.log(data);
@@ -868,11 +871,12 @@ export class MenuComponent implements OnInit {
             this.getListDano()
             
         
-        },
-        err => {
-          this.msg.error(`Ha ocurrido un error al Actualizar Daño, ${err.error.message}`);
-          this.isLoadingCrudDano = false
-  
+          },
+          error: (err) => {
+            this.msg.error(`Ha ocurrido un error al Actualizar Daño, ${err.error.message}`);
+            this.isLoadingCrudDano = false
+    
+          }
         })
       }
 
@@ -961,8 +965,8 @@ export class MenuComponent implements OnInit {
         console.log(grupo);
         
   
-        this.serviceObservacion.createGrupo(grupo).subscribe(
-          data => {
+        this.serviceObservacion.createGrupo(grupo).subscribe({
+          next: (data) => {
             
             console.log('grupo');
             console.log(data);
@@ -972,11 +976,12 @@ export class MenuComponent implements OnInit {
             this.isLoadingCrearGrupo = false
             this.getListGrupos()
         
-        },
-        err => {
-          this.msg.error(`Ha ocurrido un error al Crear Grupo, ${err.error.message}`);
-          this.isLoadingCrearGrupo = false
-  
+          },
+          error: (err) => {
+            this.msg.error(`Ha ocurrido un error al Crear Grupo, ${err.error.message}`);
+            this.isLoadingCrearGrupo = false
+    
+          }
         })
   
   
@@ -1002,8 +1007,8 @@ export class MenuComponent implements OnInit {
         console.log(grupo);
         
   
-        this.serviceObservacion.updateGrupo(grupo).subscribe(
-          data => {
+        this.serviceObservacion.updateGrupo(grupo).subscribe({
+          next: (data) => {
             
             console.log('grupo');
             console.log(data);
@@ -1013,11 +1018,12 @@ export class MenuComponent implements OnInit {
             this.isLoadingCrearGrupo = false
             this.getListGrupos()
         
-        },
-        err => {
-          this.msg.error(`Ha ocurrido un error al Actualizar Grupo, ${err.error.message}`);
-          this.isLoadingCrearGrupo = false
-  
+          },
+          error: (err) => {
+            this.msg.error(`Ha ocurrido un error al Actualizar Grupo, ${err.error.message}`);
+            this.isLoadingCrearGrupo = false
+    
+          }
         })
 
       }
@@ -1062,8 +1068,8 @@ export class MenuComponent implements OnInit {
   
         this.isLoadingCreateUpdateParte = true
         
-        this.serviceObservacion.createParte(parte).subscribe(
-          data => {
+        this.serviceObservacion.createParte(parte).subscribe({
+          next: (data) => {
             
             console.log('parteeee');
             console.log(data);
@@ -1074,11 +1080,12 @@ export class MenuComponent implements OnInit {
             this.isLoadingCreateUpdateParte = false
             this.getListGrupos()
         
-        },
-        err => {
-          this.msg.error(`Ha ocurrido un error al Crear Parte, ${err.error.message}`);
-          this.isLoadingCreateUpdateParte = false
-  
+          },
+          error: (err) => {
+            this.msg.error(`Ha ocurrido un error al Crear Parte, ${err.error.message}`);
+            this.isLoadingCreateUpdateParte = false
+    
+          }
         })
       }
   
@@ -1102,8 +1109,8 @@ export class MenuComponent implements OnInit {
         this.isLoadingCreateUpdateParte = true
         console.log(parte);
         
-        this.serviceObservacion.updateParte(parte).subscribe(
-          data => {
+        this.serviceObservacion.updateParte(parte).subscribe({
+          next: (data) => {
             
             console.log('parteeee');
             console.log(data);
@@ -1114,11 +1121,12 @@ export class MenuComponent implements OnInit {
             this.getListGrupos()
             
         
-        },
-        err => {
-          this.msg.error(`Ha ocurrido un error al Actualizar Parte, ${err.error.message}`);
-          this.isLoadingCreateUpdateParte = false
-  
+          },
+          error: (err) => {
+            this.msg.error(`Ha ocurrido un error al Actualizar Parte, ${err.error.message}`);
+            this.isLoadingCreateUpdateParte = false
+    
+          }
         })
   
       }
@@ -1242,8 +1250,8 @@ export class MenuComponent implements OnInit {
 
         //console.log(menuWeb);   
 
-        this.serviceMenu.createMenus(menuWeb).subscribe(
-          data => {
+        this.serviceMenu.createMenus(menuWeb).subscribe({
+          next: (data) => {
             
             //console.log('respuesta---');
             //console.log(data);
@@ -1272,20 +1280,13 @@ export class MenuComponent implements OnInit {
             }
            
          
-        },
-        err => {
-          this.msg.error(`Ha ocurrido un error al Crear Menu Principal, ${err.error.message}`);
-          this.isLoadingCrearMenu = false
+          },
+          error: (err) => {
+            this.msg.error(`Ha ocurrido un error al Crear Menu Principal, ${err.error.message}`);
+            this.isLoadingCrearMenu = false
 
+          }
         })
-
-        /*this.serviceMenu.createMenus(1,menuPadre).subscribe({complete: ()=>{
-
-        }, error: () =>{
-
-        }, next: ()=>{
-
-        }})*/
 
       }
 
@@ -1339,11 +1340,8 @@ export class MenuComponent implements OnInit {
 
           }
 
-          this.serviceMenu.createMenus(menuMovil).subscribe(
-            data => {
-              
-              //console.log('respuesta---');
-              //console.log(data);
+          this.serviceMenu.createMenus(menuMovil).subscribe({
+            next: (data) => {
               
               if(data){
                 if(this.selectTipoMenu.tim_codigo == 0){
@@ -1369,11 +1367,12 @@ export class MenuComponent implements OnInit {
               }
              
            
-          },
-          err => {
-            this.msg.error(`Ha ocurrido un error al Crear Menu Principal Movil, ${err.error.message}`);
-            this.isLoadingCrearMenu = false
+            },
+            error: (err) => {
+              this.msg.error(`Ha ocurrido un error al Crear Menu Principal Movil, ${err.error.message}`);
+              this.isLoadingCrearMenu = false
 
+            }
           })
   
 
@@ -1435,21 +1434,19 @@ export class MenuComponent implements OnInit {
       
         //console.log(objetMenu);
 
-        this.serviceMenu.updateMenus(objetMenu).subscribe(
-          data => {
+        this.serviceMenu.updateMenus(objetMenu).subscribe({
+          next: (data) => {
             
             //console.log('respuesta---');
             //console.log(data);
             
             if(data){
-              
-                this.msg.info('Submenu Agregado')
-                
-               
+              this.msg.info('Submenu Agregado')
+            }
+          },
+          error: (err) => {
+            this.msg.error(`Ha ocurrido un error al Asignar Submenu, ${err.error.message}`);
           }
-        },
-        err => {
-          this.msg.error(`Ha ocurrido un error al Asignar Submenu, ${err.error.message}`);
         })
       }
 
@@ -1478,17 +1475,18 @@ export class MenuComponent implements OnInit {
       
         //console.log(objetMenu);
 
-        this.serviceMenu.updateMenus(objetMenu).subscribe(
-          data => {
+        this.serviceMenu.updateMenus(objetMenu).subscribe({
+          next: (data) => {
             
             
             if(data){
               
                 this.msg.info('Submenu Desactivado')
             }
-        },
-        err => {
-          this.msg.error(`Ha ocurrido un error al desactivar Submenu, ${err.error.message}`);
+          },
+          error: (err) => {
+            this.msg.error(`Ha ocurrido un error al desactivar Submenu, ${err.error.message}`);
+          }
         })
 
 
@@ -1668,8 +1666,8 @@ export class MenuComponent implements OnInit {
         //console.log(menuPadre);
         
 
-        this.serviceMenu.updateMenus(menuPadre).subscribe(
-          data => {
+        this.serviceMenu.updateMenus(menuPadre).subscribe({
+          next: (data) => {
             
             if(data){
               if(this.selectTipoMenu.tim_codigo == 0){
@@ -1693,9 +1691,10 @@ export class MenuComponent implements OnInit {
             }
            
          
-        },
-        err => {
-          this.msg.error(`Ha ocurrido un error al Actualizar Menu Principal, ${err.error.message}`);
+          },
+          error: (err) => {
+            this.msg.error(`Ha ocurrido un error al Actualizar Menu Principal, ${err.error.message}`);
+          }
         })
 
       }
@@ -1758,8 +1757,8 @@ export class MenuComponent implements OnInit {
 
           this.isLoadingUpdate = true
 
-          this.serviceMenu.updateMenus(menuMovil).subscribe(
-            data => {
+          this.serviceMenu.updateMenus(menuMovil).subscribe({
+            next: (data) => {
                             
               if(data){
                 if(this.selectTipoMenu.tim_codigo == 0){
@@ -1785,9 +1784,10 @@ export class MenuComponent implements OnInit {
               }
              
            
-          },
-          err => {
-            this.msg.error(`Ha ocurrido un error al Actualizar Menu Principal Movil, ${err.error.message}`);
+            },
+            error: (err) => {
+              this.msg.error(`Ha ocurrido un error al Actualizar Menu Principal Movil, ${err.error.message}`);
+            }
           })
 
 
@@ -1814,8 +1814,8 @@ export class MenuComponent implements OnInit {
       }
       
 
-      this.serviceMenu.createRol(rol).subscribe(
-        data => {
+      this.serviceMenu.createRol(rol).subscribe({
+        next: (data) => {
           
           if(data){
            
@@ -1832,11 +1832,12 @@ export class MenuComponent implements OnInit {
           }
          
        
-      },
-      err => {
-        this.msg.error(`Ha ocurrido un error al Crear Rol, ${err.error.message}`);
-        this.isLoadingCrearRol = false
+        },
+        error: (err) => {
+          this.msg.error(`Ha ocurrido un error al Crear Rol, ${err.error.message}`);
+          this.isLoadingCrearRol = false
 
+        }
       })
     }
   }
@@ -1938,15 +1939,16 @@ export class MenuComponent implements OnInit {
         }
       
 
-        this.serviceMenu.asignacionRolMenu(rolmenu).subscribe(
-          data => {
+        this.serviceMenu.asignacionRolMenu(rolmenu).subscribe({
+          next: (data) => {
             
             if(data){
               this.msg.info('Menú Rol Agregado')
             }
-        },
-        err => {
-          this.msg.error(`Ha ocurrido un error al Asignar Menu para Rol, ${err.error.message}`);
+          },
+          error: (err) => {
+            this.msg.error(`Ha ocurrido un error al Asignar Menu para Rol, ${err.error.message}`);
+          }
         })
       }
 
@@ -1962,15 +1964,16 @@ export class MenuComponent implements OnInit {
         }
       
 
-        this.serviceMenu.asignacionRolMenu(rolmenu).subscribe(
-          data => {
+        this.serviceMenu.asignacionRolMenu(rolmenu).subscribe({
+          next: (data) => {
             
             if(data){
               this.msg.info('Menú Rol Desactivado')
             }
-        },
-        err => {
-          this.msg.error(`Ha ocurrido un error al Desactivar Menu para Rol, ${err.error.message}`);
+          },
+          error: (err) => {
+            this.msg.error(`Ha ocurrido un error al Desactivar Menu para Rol, ${err.error.message}`);
+          }
         })
 
 
@@ -2051,15 +2054,16 @@ export class MenuComponent implements OnInit {
       
         console.log(rolpermiso);
 
-        this.serviceMenu.asignacionRolPermiso(rolpermiso).subscribe(
-          data => {
+        this.serviceMenu.asignacionRolPermiso(rolpermiso).subscribe({
+          next: (data) => {
             
             if(data){
               this.msg.info('Menú Permiso Agregado')
             }
-        },
-        err => {
-          this.msg.error(`Ha ocurrido un error al Asignar Permiso para Rol, ${err.error.message}`);
+          },
+          error: (err) => {
+            this.msg.error(`Ha ocurrido un error al Asignar Permiso para Rol, ${err.error.message}`);
+          }
         })
       }
 
@@ -2076,15 +2080,16 @@ export class MenuComponent implements OnInit {
       
         console.log(rolmenu);
 
-        this.serviceMenu.asignacionRolPermiso(rolmenu).subscribe(
-          data => {
+        this.serviceMenu.asignacionRolPermiso(rolmenu).subscribe({
+          next: (data) => {
             
             if(data){
               this.msg.info('Menú Permiso Desactivado')
             }
-        },
-        err => {
-          this.msg.error(`Ha ocurrido un error al Desactivar Permiso para Rol, ${err.error.message}`);
+          },
+          error: (err) => {
+            this.msg.error(`Ha ocurrido un error al Desactivar Permiso para Rol, ${err.error.message}`);
+          }
         })
 
 

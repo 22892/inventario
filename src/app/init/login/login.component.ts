@@ -15,8 +15,8 @@ import { GlobalserviceService } from '../../core/globalservice.service'
 export class LoginComponent implements OnInit {
 
   array = [
-    {img:'../../../assets/images/portada1.png'},
-    {img:'../../../assets/images/logo2.jpg'}
+    //{img:'../../../assets/images/portada1.png'},
+    {img:'../../../assets/images/carro3.jpg'}
   ];
   validateForm!: FormGroup;
   cargando: boolean = false;
@@ -72,20 +72,22 @@ export class LoginComponent implements OnInit {
 
 
       this.cargando = true
-      this.serviceAuth.loginUser(data).subscribe(res =>{
+      this.serviceAuth.loginUser(data).subscribe({
+        next: (res) =>{
        
         console.log(res);
         this.serviceAuth.setCredentials(res, usr)
-        this.router.navigate(['/menu']);
+        this.router.navigate(['/pedido/lista']);
         this.createNotification('success','Bienvenido','');
         this.cargando = false
           
-      },
-      err => {
-        
-        this.msg.error(`Error al Login, ${err.error.message}`);
-        this.cargando = false
+        },
+        error: (err) => {
+          
+          this.msg.error(`Error al Login, ${err.error.message}`);
+          this.cargando = false
 
+        }
       })
     }
     else{

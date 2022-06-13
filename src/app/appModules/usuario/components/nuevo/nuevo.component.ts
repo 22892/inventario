@@ -238,8 +238,8 @@ export class NuevoComponent implements OnInit {
     console.log(usuario);
     this.isLoadingCrearUsuario = true
 
-    this.serviceUsuario.createUsuario(usuario).subscribe(
-      data => {
+    this.serviceUsuario.createUsuario(usuario).subscribe({
+      next: (data) => {
         
         console.log('respuesta---');
         console.log(data);
@@ -256,10 +256,11 @@ export class NuevoComponent implements OnInit {
           this.isLoadingCrearUsuario = false
         }
         
-    },
-    err => {
-      this.msg.error(`Ha ocurrido un error al Crear Usuario, ${err.error.message}`);
-      this.isLoadingCrearUsuario = false
+      },
+      error: (err) => {
+        this.msg.error(`Ha ocurrido un error al Crear Usuario, ${err.error.message}`);
+        this.isLoadingCrearUsuario = false
+      }
     })
 
 

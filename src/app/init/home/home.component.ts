@@ -61,7 +61,8 @@ export class HomeComponent implements OnInit {
             console.log('activaaaaaaaaaaaaaaaaaaaaaaa');
             
          
-            this.serviceAuth.loginUser(this.serviceAuth.login).subscribe(res =>{
+            this.serviceAuth.loginUser(this.serviceAuth.login).subscribe({
+              next: (res) =>{
        
               console.log(res);
             
@@ -71,9 +72,10 @@ export class HomeComponent implements OnInit {
               this.listEmpresas = this.serviceAuth.user.misEmpresas
               this.empresaSelect = this.listEmpresas[0]
              
-            },
-            err => {
-              this.msg.info('Error Ejecutar Actualización Menu Login')
+              },
+              error: (err) => {
+                this.msg.info('Error Ejecutar Actualización Menu Login')
+              }
             })
 
           }else{

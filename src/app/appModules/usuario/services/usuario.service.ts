@@ -97,16 +97,16 @@ export class UsuarioService {
     this.listUsuario = [];
     this.usuario$.next({ listUsuario: this.listUsuario, cargando: true });
     
-    this.http.get(`${this.baseUrl}api/gestionusuario/getAllUsuarios/${marca}`,this.httpOptions).subscribe(
-      data => {
+    this.http.get(`${this.baseUrl}api/gestionusuario/getAllUsuarios/${marca}`,this.httpOptions).subscribe({
+      next: (data) => {
 
         this.usuario$.next({ listUsuario: data, cargando: false});
       },
-      err => {
+      error: (err) => {
         this.createNotification('error', 'Error', 'ha ocurrido un error al listar los Usuarios');
         this.usuario$.next({ listUsuario: [], cargando: false });
       }
-    );    
+    });    
 
   }
 
@@ -125,16 +125,16 @@ export class UsuarioService {
       this.listMenuAsignacionUsuario = [];
       this.menuasignacionusuario$.next({ listMenuAsignacionUsuario: this.listMenuAsignacionUsuario, cargando: true });
       
-      this.http.get(`${this.baseUrl}api/gestionusuario/getAllMenuUsuario/${marca}/${usr_codigo}`,this.httpOptions).subscribe(
-        data => {
+      this.http.get(`${this.baseUrl}api/gestionusuario/getAllMenuUsuario/${marca}/${usr_codigo}`,this.httpOptions).subscribe({
+        next: (data) => {
   
           this.menuasignacionusuario$.next({ listMenuAsignacionUsuario: data, cargando: false});
         },
-        err => {
+        error: (err) => {
           this.createNotification('error', 'Error', 'ha ocurrido un error al obtener listado de asignacion menu para Usuario');
           this.menuasignacionusuario$.next({ listMenuAsignacionUsuario: [], cargando: false });
         }
-      );    
+      });    
   
     }
 
@@ -165,16 +165,16 @@ export class UsuarioService {
     this.listPermisoAsignacion = [];
     this.permisoasignacion$.next({ listPermisoAsignacion: this.listPermisoAsignacion, cargando: true });
     
-    this.http.get(`${this.baseUrl}api/gestionusuario/getAllPermisoUsario/${marca}/${usr_codigo}`,this.httpOptions).subscribe(
-      data => {
+    this.http.get(`${this.baseUrl}api/gestionusuario/getAllPermisoUsario/${marca}/${usr_codigo}`,this.httpOptions).subscribe({
+      next: (data) => {
 
         this.permisoasignacion$.next({ listPermisoAsignacion: data, cargando: false});
       },
-      err => {
+      error: (err) => {
         this.createNotification('error', 'Error', 'ha ocurrido un error al listar los Permisos para Usuario');
         this.permisoasignacion$.next({ listPermisoAsignacion: [], cargando: false });
       }
-    );    
+    });    
 
   }
 
@@ -209,16 +209,16 @@ export class UsuarioService {
       this.listEmpresaAsignacion = [];
       this.empresaasignacion$.next({ listEmpresaAsignacion: this.listEmpresaAsignacion, cargando: true });
       
-      this.http.get(`${this.baseUrl}api/gestionusuario/getAllEmpresaUsuario/${marca}/${usr_codigo}`,this.httpOptions).subscribe(
-        data => {
+      this.http.get(`${this.baseUrl}api/gestionusuario/getAllEmpresaUsuario/${marca}/${usr_codigo}`,this.httpOptions).subscribe({
+        next: (data) => {
   
           this.empresaasignacion$.next({ listEmpresaAsignacion: data, cargando: false});
         },
-        err => {
+        error: (err) => {
           this.createNotification('error', 'Error', 'ha ocurrido un error al listar Empresas para Usuario');
           this.empresaasignacion$.next({ listEmpresaAsignacion: [], cargando: false });
         }
-      );    
+      });    
   
     }
 

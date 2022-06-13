@@ -309,8 +309,8 @@ export class ListaComponent implements OnInit {
     console.log(usuario);
     this.isLoadingUpdate = true
 
-    this.serviceUsuario.updateUsuario(usuario).subscribe(
-      data => {
+    this.serviceUsuario.updateUsuario(usuario).subscribe({
+      next: (data) => {
         
         console.log('respuesta---');
         console.log(data);
@@ -327,10 +327,11 @@ export class ListaComponent implements OnInit {
           this.modalUpdateUsuario = false
         }
         
-    },
-    err => {
-      this.msg.error(`Ha ocurrido un error al Actualizar Usuario, ${err.error.message}`);
-      this.isLoadingUpdate = false
+      },
+      error: (err) => {
+        this.msg.error(`Ha ocurrido un error al Actualizar Usuario, ${err.error.message}`);
+        this.isLoadingUpdate = false
+      }
     })
 
 
@@ -393,18 +394,20 @@ export class ListaComponent implements OnInit {
       
         console.log(usuariomenu);
 
-        this.serviceUsuario.asignacionUsuarioMenu(usuariomenu).subscribe(
-          data => {
+        this.serviceUsuario.asignacionUsuarioMenu(usuariomenu).subscribe({
+          next: (data) => {
             
             console.log('respuesta---');
             console.log(data);
             
             if(data){
               this.msg.info('Menú Usuario Agregado')
+              this.serviceMenu.updateMenuPrincipal.next(true)
             }
-        },
-        err => {
-          this.msg.error(`Ha ocurrido un error al Asignar Menu para Usuario, ${err.error.message}`);
+          },
+          error: (err) => {
+            this.msg.error(`Ha ocurrido un error al Asignar Menu para Usuario, ${err.error.message}`);
+          }
         })
       }
 
@@ -422,18 +425,20 @@ export class ListaComponent implements OnInit {
       
         console.log(usuariomenu);
 
-        this.serviceUsuario.asignacionUsuarioMenu(usuariomenu).subscribe(
-          data => {
+        this.serviceUsuario.asignacionUsuarioMenu(usuariomenu).subscribe({
+          next: (data) => {
             
             console.log('respuesta---');
             console.log(data);
             
             if(data){
               this.msg.info('Menú Usuario Desactivado')
+              this.serviceMenu.updateMenuPrincipal.next(true)
             }
-        },
-        err => {
-          this.msg.error(`Ha ocurrido un error al Desactivar Menu para Usuario, ${err.error.message}`);
+          },
+          error: (err) => {
+            this.msg.error(`Ha ocurrido un error al Desactivar Menu para Usuario, ${err.error.message}`);
+          }
         })
 
 
@@ -565,8 +570,8 @@ export class ListaComponent implements OnInit {
       
         console.log(usuariopermiso);
 
-        this.serviceUsuario.asignacionUsuarioPermiso(usuariopermiso).subscribe(
-          data => {
+        this.serviceUsuario.asignacionUsuarioPermiso(usuariopermiso).subscribe({
+          next: (data) => {
             
             console.log('respuesta---');
             console.log(data);
@@ -574,9 +579,10 @@ export class ListaComponent implements OnInit {
             if(data){
               this.msg.info('Usuario Permiso Agregado')
             }
-        },
-        err => {
-          this.msg.error(`Ha ocurrido un error al Asignar Permiso para Usuario, ${err.error.message}`);
+          },
+          error: (err) => {
+            this.msg.error(`Ha ocurrido un error al Asignar Permiso para Usuario, ${err.error.message}`);
+          }
         })
       }
 
@@ -594,8 +600,8 @@ export class ListaComponent implements OnInit {
       
         console.log(usuariopermiso);
 
-        this.serviceUsuario.asignacionUsuarioPermiso(usuariopermiso).subscribe(
-          data => {
+        this.serviceUsuario.asignacionUsuarioPermiso(usuariopermiso).subscribe({
+          next: (data) => {
             
             console.log('respuesta---');
             console.log(data);
@@ -603,9 +609,10 @@ export class ListaComponent implements OnInit {
             if(data){
               this.msg.info('Usuario Permiso Desactivado')
             }
-        },
-        err => {
-          this.msg.error(`Ha ocurrido un error al Desactivar Permiso para Usuario, ${err.error.message}`);
+          },
+          error: (err) => {
+            this.msg.error(`Ha ocurrido un error al Desactivar Permiso para Usuario, ${err.error.message}`);
+          }
         })
 
 
@@ -684,8 +691,8 @@ export class ListaComponent implements OnInit {
       
         console.log(usuarioempresa);
 
-        this.serviceUsuario.asignacionUsuarioEmpresa(usuarioempresa).subscribe(
-          data => {
+        this.serviceUsuario.asignacionUsuarioEmpresa(usuarioempresa).subscribe({
+          next: (data) => {
             
             console.log('respuesta---');
             console.log(data);
@@ -694,9 +701,10 @@ export class ListaComponent implements OnInit {
               this.msg.info('Usuario Empresa Agregado')
               this.serviceMenu.updateMenuPrincipal.next(true);
             }
-        },
-        err => {
-          this.msg.error(`Ha ocurrido un error al Asignar Empresa para Usuario, ${err.error.message}`);
+          },
+          error: (err) => {
+            this.msg.error(`Ha ocurrido un error al Asignar Empresa para Usuario, ${err.error.message}`);
+          }
         })
       }
 
@@ -714,8 +722,8 @@ export class ListaComponent implements OnInit {
       
         console.log(usuarioempresa);
 
-        this.serviceUsuario.asignacionUsuarioEmpresa(usuarioempresa).subscribe(
-          data => {
+        this.serviceUsuario.asignacionUsuarioEmpresa(usuarioempresa).subscribe({
+          next: (data) => {
             
             console.log('respuesta---');
             console.log(data);
@@ -724,9 +732,10 @@ export class ListaComponent implements OnInit {
               this.msg.info('Usuario Empresa Desactivado')
               this.serviceMenu.updateMenuPrincipal.next(true);
             }
-        },
-        err => {
-          this.msg.error(`Ha ocurrido un error al Desactivar Empresa para Usuario, ${err.error.message}`);
+          },
+          error: (err) => {
+            this.msg.error(`Ha ocurrido un error al Desactivar Empresa para Usuario, ${err.error.message}`);
+          }
         })
 
 
