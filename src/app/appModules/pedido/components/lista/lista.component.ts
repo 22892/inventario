@@ -12,6 +12,7 @@ import {FormBuilder,FormControl,FormGroup,ValidationErrors,Validators,} from '@a
 import { GlobalserviceService } from '../../../../core/globalservice.service'
 import jsPDF from 'jspdf';
 import 'jspdf-autotable'
+import { SpinerService } from '../../../../core/spiner.service'
 
 interface ColumnItem {
   
@@ -282,6 +283,16 @@ export class ListaComponent implements OnInit {
   listOfColumnsLista: ColumnItem[] = [
     {
       width: '40px',
+      name: 'Datos Enviados',
+      sortOrder: null,
+      sortDirections: ['ascend', 'descend', null],
+      sortFn: null,
+      filterMultiple: true,
+      listOfFilter: [],
+      filterFn: null,
+    },
+    {
+      width: '40px',
       name: 'Color Interior Color Exterior',
       sortOrder: null,
       sortDirections: ['ascend', 'descend', null],
@@ -365,7 +376,7 @@ export class ListaComponent implements OnInit {
    
     {
       width:'50px',
-      name: 'Estado',
+      name: 'Estado Actual',
       sortOrder: null,
       sortFn: (a: any, b: any) => a.estadoActual.est_codigo - b.estadoActual.est_codigo,
       sortDirections: ['ascend','descend', null],
@@ -374,7 +385,7 @@ export class ListaComponent implements OnInit {
       filterMultiple: true
     },
     {
-      width:'95px',
+      width:'100px',
       name: 'Trazabilidad',
       sortOrder: null,
       sortFn: null,
@@ -383,6 +394,16 @@ export class ListaComponent implements OnInit {
       listOfFilter:[],
       filterFn: null
     },
+    /*{
+      width:'50px',
+      name: 'Enviar Datos Curbe',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },*/
     {
       width:'50px',
       name: 'Detalles',
@@ -1492,12 +1513,15 @@ export class ListaComponent implements OnInit {
   subReenvia: any
 
 
+
+
   constructor(private msg: NzMessageService,
     private cdRef:ChangeDetectorRef,
     private router: Router,
     private servicePedido: PedidoService,
     private fb: FormBuilder,
-    private serviceGlobal: GlobalserviceService) {
+    private serviceGlobal: GlobalserviceService,
+    private serviceSpiner: SpinerService) {
 
       this.vinForm = this.fb.group({
 
@@ -1544,6 +1568,9 @@ export class ListaComponent implements OnInit {
     this.hasta = this.serviceGlobal.getFechaHasta();
     this.indexTipoExcel = this.listTotalExcel[0]
   }
+
+
+
 
 
   inicio(){
@@ -1682,7 +1709,7 @@ export class ListaComponent implements OnInit {
         });
        
         //@ts-ignore
-        this.listOfColumnsLista.find(x => x.name == 'Estado').listOfFilter = filtros;
+        this.listOfColumnsLista.find(x => x.name == 'Estado Actual').listOfFilter = filtros;
 
         this.subEstado.unsubscribe()
        
@@ -1707,6 +1734,11 @@ export class ListaComponent implements OnInit {
       if(this.cargarPedido == false){
         this.sub.unsubscribe()
         this.listVin.forEach((item, index)=>{
+          if(item.veh_estado_subir_curbe == 1){
+            item.estado_curbe = true
+          }else{
+            item.estado_curbe = false
+          }
           item.veh_fecha_crea_pedido = this.transformDate(item.veh_fecha_crea_pedido)
           item.veh_fecha_llegada = this.transformDate(item.veh_fecha_llegada)
         })
@@ -1912,6 +1944,9 @@ export class ListaComponent implements OnInit {
 
   reenviarCurbe(item: any){
 
+    this.serviceSpiner.show()
+
+
     this.reenviarVin$ = this.servicePedido.reenviarVinCurbe$(item.veh_vin)
     
     this.subReenvia = this.reenviarVin$.subscribe(p => {
@@ -1922,7 +1957,8 @@ export class ListaComponent implements OnInit {
       this.cargandoReenviar = p.cargando
 
       if(this.cargandoReenviar == false){
-        this.msg.success('Datos Enviar Curbe')
+        this.serviceSpiner.hide()
+        this.msg.success('Datos Actualizados Curbe')
         this.getListVins()
         this.subReenvia.unsubscribe()
       }

@@ -13,6 +13,7 @@
 
 <app-spiner></app-spiner>
 
+<!--<div class="loader" id="loader">Loading...</div>-->
 
 <div class="contenedorPrincipal">
 
@@ -25,7 +26,6 @@
         </nz-skeleton>
     </nz-card>
     <ng-template #descTemplate>-->
-
 
         <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
             <nz-col nzSpan="24" class="gutter-row">
@@ -76,12 +76,13 @@
                     </ng-template>
     
                     <ng-container *ngIf="listDetalleEstadoVin">
+
     
                         <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
                        
                             <nz-col nzSpan="24" class="gutter-row">
             
-                                <nz-collapse nzAccordion>
+                                <nz-collapse nzAccordion >
             
                                     <nz-collapse-panel *ngFor="let panel of listDetalleEstadoVin" [nzHeader]="extraTpl" (nzActiveChange)="clickAcordion(panel.estadoEtapa.est_codigo)">
             

@@ -87,6 +87,8 @@
     </nz-page-header-extra>
 </nz-page-header>
 
+<app-spiner></app-spiner>
+
 
 <nz-card>
     <div class="steps-content">
@@ -896,7 +898,9 @@
             <nz-table #filterTable [nzData]="listVin" nzBordered nzSize="middle" nzTableLayout="fixed"
                     [nzLoading]="cargarPedido" [nzFrontPagination]="true" [nzScroll]="{ x: '2000px' }">
                     <thead *ngIf="listVin.length > 0">
+
                         <tr>
+
     
                             <th *ngFor="let column of listOfColumnsLista" [nzSortOrder]="column.sortOrder"
                                 [nzSortFn]="column.sortFn" [nzSortDirections]="column.sortDirections"
@@ -910,7 +914,13 @@
                         </tr>
                     </thead>
                     <tbody *ngIf="listVin.length > 0">
-                        <tr *ngFor="let item of filterTable.data" style="font-size: 12px;">
+                        <tr *ngFor="let item of filterTable.data" style="font-size: 12px; text-align: center;">
+                            
+                            <td>
+                                <small >
+                                    <input type="checkbox" [disabled]="item.estado_curbe" [(ngModel)]="item.estado_curbe" (click)="reenviarCurbe(item)" id="exampleCheck1">
+                                </small>
+                            </td>
 
                             <td>
                                 <small>
@@ -1115,6 +1125,17 @@
                                 </small>
                             </td>
 
+                            <!--<td>
+                                <small>
+                                 
+                                    <nz-avatar [nzIcon]="'reload'" style="background:white;border: solid 1px #7d546f; color:#7d546f" [nzTooltipTitle]="'Enviar Cuerbe'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>
+                                    <br>
+                                    <button id="item.veh_vin" nz-button nzType="dashed" [nzLoading]="cargandoReenviar" (click)="reenviarCurbe(item)"><i nz-icon nzType="reload"></i>Subir</button>
+                      
+                                   
+                                </small>
+                            </td>-->
+
                             <td>
                                 <nz-avatar [nzIcon]="'file-search'" [routerLink]="['/pedido/detalle',item.veh_vin]" style="background:white;border: solid 1px #1890ff; color:#1890ff" [nzTooltipTitle]="'Detalle Vin'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>
                                 <nz-divider nzType="vertical"></nz-divider>
@@ -1127,9 +1148,8 @@
                                     <nz-avatar [nzIcon]="'check-circle'" style="background:white;border: solid 1px #18ff4a; color:#18ff4a" [nzTooltipTitle]="'Revisado'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>
                                 </ng-template>
 
-                                <nz-divider nzType="vertical"></nz-divider>
-                                <nz-avatar [nzIcon]="'reload'" (click)="reenviarCurbe(item)"  style="background:white;border: solid 1px #7d546f; color:#7d546f" [nzTooltipTitle]="'Enviar Cuerbe'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>
-
+                                <!--<nz-divider nzType="vertical"></nz-divider>
+                                <nz-avatar [nzIcon]="'reload'" (click)="reenviarCurbe(item)"   style="background:white;border: solid 1px #7d546f; color:#7d546f" [nzTooltipTitle]="'Enviar Cuerbe'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>-->
 
 
                             </td>

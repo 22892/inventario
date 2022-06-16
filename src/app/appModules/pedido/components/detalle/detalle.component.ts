@@ -173,8 +173,8 @@ export class DetalleComponent implements OnInit, AfterViewInit {
   cargandoDetalleVin: boolean = false
 
 
-  objEstadoEtapaObservacion = {estadoEtapa:{est_codigo: 0, est_nombre: 'OBSERVACIONES DE VIN', est_marca: 100}, detalleEstado:{}, veh_est_fecha: null, veh_dias:0}
-  objInformacionVin = {estadoEtapa:{est_codigo: 100, est_nombre: 'INFORMACIÓN VIN', est_marca: 100}, detalleEstado:{}, veh_est_fecha: null, veh_dias: 0}
+  objEstadoEtapaObservacion = {estadoEtapa:{est_codigo: 0, est_nombre: 'OBSERVACIONES DE CONSECIONARIO', est_marca: 100}, detalleEstado:{}, veh_est_fecha: null, veh_dias:0}
+  objInformacionVin = {estadoEtapa:{est_codigo: 100, est_nombre: 'INFORMACIÓN DE VIN', est_marca: 100}, detalleEstado:{}, veh_est_fecha: null, veh_dias: 0}
 
   indexTiempo = 0
   total_dias_proceso = 0
@@ -196,7 +196,7 @@ export class DetalleComponent implements OnInit, AfterViewInit {
     this.veh_codigo = this.rutaActiva.snapshot.paramMap.get('vin')
     //this.getVinDetalle(this.veh_codigo)
     
-    
+    this.serviceSpiner.show()
     this.getListObservacionVin()
     this.getDetalleEstadoVin(this.veh_codigo)
     this.getListDocumentsVin()
