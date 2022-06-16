@@ -5,7 +5,7 @@ import { MenuService } from '../../appModules/menu/services/menu.service'
 import { AuthService } from '../../core/auth.service'
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { GlobalserviceService } from '../../core/globalservice.service'
-
+import { PedidoService } from '../../appModules/pedido/services/pedido.service'
 
 @Component({
   selector: 'app-home',
@@ -39,6 +39,7 @@ export class HomeComponent implements OnInit {
 
   empresaSelect: any
   listEmpresas: any [] = []
+  empresaVacia: any
 
 
 
@@ -48,7 +49,8 @@ export class HomeComponent implements OnInit {
     private serviceMenu: MenuService,
     private serviceAuth: AuthService,
     private msg: NzMessageService,
-    private serviceGlobal: GlobalserviceService) {
+    private serviceGlobal: GlobalserviceService,
+    private servicePedido: PedidoService) {
 
       this.baseUrl = baseUrl
       
@@ -116,6 +118,9 @@ export class HomeComponent implements OnInit {
       console.log(this.empresaSelect);
       if(this.empresaSelect){
         this.serviceGlobal.setCodigoEmpresa(this.empresaSelect.emp_codigo)
+      }else{
+        this.empresaVacia = 'NO ASIGNADO EMPRESAS'
+        this.serviceGlobal.setCodigoEmpresa(0)
       }
       this.usuario = this.serviceAuth.user
       this.getListMenuPrincipal()
@@ -124,11 +129,12 @@ export class HomeComponent implements OnInit {
    
   }
 
-  getSelectNewEmpresa(){
+  getSelectNewEmpresa(item: any){
     console.log('empresa');
-    console.log(this.empresaSelect);
-    
-    this.serviceGlobal.setCodigoEmpresa(this.empresaSelect.emp_codigo)
+    console.log(item);
+    this.serviceGlobal.setCodigoEmpresa(item.emp_codigo)
+    this.empresaSelect = item
+    this.servicePedido.updateListaVins.next(true)
     
   }
 

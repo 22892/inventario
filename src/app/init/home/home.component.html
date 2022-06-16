@@ -52,6 +52,8 @@
 
               </nz-col>
               <nz-col class="gutter-row" nzSpan="22" >
+
+
                 <!--<nz-select 
                   nzPlaceHolder="Seleccione Empresa" nzShowSearch
                   (ngModelChange)="getSelectNewEmpresa() "
@@ -62,12 +64,31 @@
 
                       </nz-option>
                   </ng-container>
-                  <nz-option *ngIf="cargandoMenus == true" nzDisabled
-                      nzCustomContent>
+                  <nz-option *ngIf="cargandoMenus == true" nzDisabled nzCustomContent>
                       <i nz-icon nzType="loading" class="loading-icon"></i>
                       Cargando...
                   </nz-option>
                 </nz-select>-->
+
+                <nz-button-group>
+                  <ng-container *ngIf="empresaSelect; else NoEmpresa">
+                    <button nz-button >{{empresaSelect.emp_nombre_comercial}}</button>
+                  </ng-container>
+                  <ng-template #NoEmpresa>
+                    <button nz-button >{{empresaVacia}}</button>
+                  </ng-template>
+                  <button nz-button nz-dropdown [nzDropdownMenu]="menu2" nzPlacement="bottomRight">
+                    <i nz-icon nzType="bank"></i>
+                  </button>
+                </nz-button-group>
+
+                <nz-dropdown-menu #menu2="nzDropdownMenu">
+                  <ul nz-menu *ngFor="let item of listEmpresas">
+                    <li nz-menu-item (click)="getSelectNewEmpresa(item)"> {{item.emp_nombre_comercial}} </li>
+                   
+                  </ul>
+                </nz-dropdown-menu>
+
               </nz-col>
             </nz-row>
 

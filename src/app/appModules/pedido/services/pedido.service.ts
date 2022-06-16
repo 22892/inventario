@@ -22,9 +22,11 @@ export class PedidoService {
   private listDetalleEstadoVin:any[] =[] ;
   private detallevin$! : BehaviorSubject<any>;
 
-
   private renviarVinCurbe:any[] =[] ;
   private reenviarVin$! : BehaviorSubject<any>;
+
+  public updateListaVins: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
 
 
   constructor(private notification: NzNotificationService,
@@ -153,10 +155,16 @@ export class PedidoService {
   getVinsMarca(){
    
     let marca = this.serviceGlobal.getCodigoMarca()
+    let cod_empresa = this.serviceGlobal.getCodigoEmpresa()
+
+    console.log('codigo empresaaaa');
+    console.log(cod_empresa);
+
+
     this.listVin = [];
     this.vin$.next({ listVin: this.listVin, cargando: true });
     
-    this.http.get(`${this.baseUrl}api/vehiculo/getAllVehiculosMarca/${marca}`,this.httpOptions).subscribe({
+    this.http.get(`${this.baseUrl}api/vehiculo/getAllVehiculosMarca/${marca}/${cod_empresa}`,this.httpOptions).subscribe({
       next: (data) => {
 
         this.vin$.next({ listVin: data, cargando: false});

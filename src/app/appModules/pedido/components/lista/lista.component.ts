@@ -1559,6 +1559,16 @@ export class ListaComponent implements OnInit {
       this.desde = new Date()
       this.hasta = new Date()
 
+      this.servicePedido.updateListaVins.subscribe( value => {
+
+        if(value == true){
+          console.log('Activa Vins');
+          
+          this.getListVins()
+        }
+
+      })
+
   }
 
   ngOnInit(): void {
@@ -1720,6 +1730,7 @@ export class ListaComponent implements OnInit {
   }
 
   getListVins(){
+
 
     this.vin$ = this.servicePedido.getListAllVinMarca$()
     

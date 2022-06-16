@@ -13,19 +13,16 @@
 
 <app-spiner></app-spiner>
 
-<!--<div class="loader" id="loader">Loading...</div>-->
 
-<div class="contenedorPrincipal">
+<ng-container *ngIf="cargandoDetalleVin; else NoDatoCargados">
 
-    <!--<nz-card style="background-color: rgb(238, 238, 238);" >
-        <nz-skeleton [nzActive]="true" [nzLoading]="cargandoDetalleVin" [nzAvatar]="{ size: 'large' }">
-            <nz-card-meta
-               
-                [nzDescription]="descTemplate"
-            ></nz-card-meta>
-        </nz-skeleton>
-    </nz-card>
-    <ng-template #descTemplate>-->
+    <div class="loader" id="loader">Loading...</div>
+ 
+</ng-container>
+
+<ng-template #NoDatoCargados>
+
+    <div class="contenedorPrincipal">
 
         <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
             <nz-col nzSpan="24" class="gutter-row">
@@ -91,10 +88,54 @@
                                             
                            
                                                 <nz-col nzSpan="6" class="gutter-row">
-                                                    <div style="">{{panel.estadoEtapa.est_nombre}}</div>
+                                                    <div>{{panel.estadoEtapa.est_nombre}}</div>
             
                                                 </nz-col>
                                                 <nz-col nzSpan="11" class="gutter-row">
+
+                                                    <div *ngIf="cargandoObservacion == false">
+                                                        
+                                                        <ng-container *ngIf="panel.estadoEtapa.est_codigo == 0">
+                                                            <ng-container *ngIf="listObservacionVin.length>0; else noTieneObservacionIcon">
+                                                                <p style="text-align: center;"> <nz-tag nzColor="success">
+                                                                    <i nz-icon nzType="check-circle"></i>
+                                                                    <span>Observaciones Realizada</span>
+                                                                </nz-tag> 
+                                                                </p>
+                                                                
+                                                            </ng-container> 
+                                                            
+                                                            <ng-template #noTieneObservacionIcon>
+                                                                <p style="text-align: center;"> <nz-tag nzColor="warning">
+                                                                    <i nz-icon nzType="exclamation-circle"></i>
+                                                                    <span>Vin Sin Observaciones</span>
+                                                                </nz-tag>
+                                                                </p>
+                                                            
+                                                            </ng-template>
+                                                        </ng-container>
+
+                                                        <ng-container *ngIf="panel.estadoEtapa.est_codigo == 100">
+                                                            <ng-container *ngIf="objetoDetalle.veh_url_img_modelo; else noDatosDetalle">
+                                                                <div style="text-align: center;">
+                                                                    <img style="object-fit: contain;" [src]="objetoDetalle.veh_url_img_modelo" alt="" width="80px" height="80px"> 
+                                                                </div>
+ 
+                                                            </ng-container> 
+                                                            
+                                                            <ng-template #noDatosDetalle>
+                                                                <div style="text-align: center;">
+
+                                                                    VEHICULO SIN FOTO
+                                                                    <img nz-image  style="object-fit: contain;"  width="40px" height="40px" nzSrc="../../../assets/images/no-photo.png" alt="" />
+                                                                </div>
+                                                                
+                                                            </ng-template>
+                                                        </ng-container>
+
+
+
+                                                    </div>
 
                                                     <ng-container *ngIf="panel.veh_est_fecha">
                                                         <nz-steps  nzSize="small" [nzCurrent]="indexTiempo" (nzIndexChange)="onIndexChange($event)">
@@ -120,6 +161,8 @@
             
                                                 </nz-col>
                                                 <nz-col nzSpan="4" class="gutter-row">
+
+                                                   
 
                                                     <ng-container *ngIf="panel.veh_est_fecha">
 
@@ -612,13 +655,13 @@
                 </nz-card>
             </nz-col>
         </nz-row>
-    
 
-    <!--</ng-template>-->
+       
+    </div>
 
-    
 
-</div>
+</ng-template>
+
 
 
                     
