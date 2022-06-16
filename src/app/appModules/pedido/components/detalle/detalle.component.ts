@@ -9,6 +9,7 @@ import { NzTableFilterFn, NzTableFilterList, NzTableSortFn, NzTableSortOrder,} f
 import 'moment/locale/es';
 import * as moment from 'moment';
 import { NzButtonSize } from 'ng-zorro-antd/button';
+import { SpinerService } from '../../../../core/spiner.service'
 
 
 interface ColumnItem {
@@ -132,7 +133,6 @@ export class DetalleComponent implements OnInit, AfterViewInit {
   index: number = 0
   indexObs: number = 0
   veh_codigo: any
-  detalleVin: any
 
   listObservacionVin: any[] = [];
   listObservacionVinFoto: any[] = [];
@@ -166,7 +166,18 @@ export class DetalleComponent implements OnInit, AfterViewInit {
   cargandoDocumento: boolean = false
   size: NzButtonSize = 'large';
 
+  listDetalleEstadoVin: any[] = [];
+  objetoDetalle: any
+  detallevin$!: Observable<any>;
+  subDetalleVin: any
+  cargandoDetalleVin: boolean = false
 
+
+  objEstadoEtapaObservacion = {estadoEtapa:{est_codigo: 0, est_nombre: 'OBSERVACIONES DE VIN', est_marca: 100}, detalleEstado:{}, veh_est_fecha: null, veh_dias:0}
+  objInformacionVin = {estadoEtapa:{est_codigo: 100, est_nombre: 'INFORMACIÓN VIN', est_marca: 100}, detalleEstado:{}, veh_est_fecha: null, veh_dias: 0}
+
+  indexTiempo = 0
+  total_dias_proceso = 0
 
 
   constructor(@Inject('BASE_URL') baseUrl: string,
@@ -174,7 +185,8 @@ export class DetalleComponent implements OnInit, AfterViewInit {
     private router: Router,
     private msg: NzMessageService,
     private rutaActiva: ActivatedRoute,
-    private serviceObservacion: ObservacionService) {
+    private serviceObservacion: ObservacionService,
+    private serviceSpiner: SpinerService) {
 
       this.baseUrl = baseUrl.substring(0, baseUrl.length - 1);
 
@@ -182,10 +194,11 @@ export class DetalleComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.veh_codigo = this.rutaActiva.snapshot.paramMap.get('vin')
-    console.log('vinnnnn');
-    console.log(this.veh_codigo);
-    this.getVinDetalle(this.veh_codigo)
+    //this.getVinDetalle(this.veh_codigo)
+    
+    
     this.getListObservacionVin()
+    this.getDetalleEstadoVin(this.veh_codigo)
     this.getListDocumentsVin()
     this.ancho = this.porcentaje(40)
     this.alto = this.ancho / 1.4036
@@ -198,7 +211,7 @@ export class DetalleComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     console.log('iniciaaaa');
-    this.initLienzo()
+    //this.initLienzo()
   }
 
   transformDate(newDate: any): any{
@@ -206,7 +219,10 @@ export class DetalleComponent implements OnInit, AfterViewInit {
     var mes = moment(newDate,'YYYY-MM-DD').format("MMMM");
     var anio = moment(newDate,'YYYY-MM-DD').format("YYYY");
 
-    let fecha = dia + " de "+ mes +" del "+anio
+    var hora = moment(newDate,'HH:mm:ss').format("HH");
+    var minuto = moment(newDate,'HH:mm:ss').format("mm");
+
+    let fecha = dia + " de "+ mes +" del "+anio +' '+hora+':'+minuto
 
     return fecha
   }
@@ -258,28 +274,109 @@ export class DetalleComponent implements OnInit, AfterViewInit {
 
   paintPointObservacion(){
 
-    console.log('llega');
+    console.log('llega observaciones');
 
     console.log(this.listObservacionVin);
     
+    if(this.listObservacionVin.length>0){
+
+  
+      this.listObservacionVin.forEach((obs)=>{
+
+        let aux = (obs.obs_pos_x * this.ancho) / 100
+        let auy = (obs.obs_pos_y * this.alto) / 100
+        
+        this.context.beginPath();
+        this.context.fillStyle = 'red';
+        this.context.strokeStyle = 'black';
+        this.context.arc(aux, auy, 10, 0, 2 * Math.PI);
+        this.context.fill();
+        this.context.stroke();
+  
+      })
+  
+  
+    }
     
-    this.listObservacionVin.forEach((obs)=>{
-
-      let aux = (obs.obs_pos_x * this.ancho) / 100
-      let auy = (obs.obs_pos_y * this.alto) / 100
-      
-      this.context.beginPath();
-      this.context.fillStyle = 'red';
-      this.context.strokeStyle = 'black';
-      this.context.arc(aux, auy, 10, 0, 2 * Math.PI);
-      this.context.fill();
-      this.context.stroke();
-
-    })
-
    
   }
 
+
+  getDetalleEstadoVin(veh_codigo: any){
+
+
+    this.detallevin$ = this.servicePedido.getListAllDetalleEstadosVin$(veh_codigo);
+    this.subDetalleVin = this.detallevin$.subscribe((p) => {
+      console.log('detallessss nuevo');
+      console.log(p);
+      
+      
+      this.objetoDetalle = p.listDetalleEstadoVin;
+      this.cargandoDetalleVin = p.cargando;
+
+      if(this.cargandoDetalleVin == false){
+
+        this.listDetalleEstadoVin = this.objetoDetalle.vehiculoDetalle.listaEstado
+       
+        
+        this.listDetalleEstadoVin.push(this.objEstadoEtapaObservacion)
+        this.listDetalleEstadoVin.unshift(this.objInformacionVin)
+        
+
+
+        for(var j=0; j<this.listDetalleEstadoVin.length; j++){
+
+          if(this.listDetalleEstadoVin[j].veh_est_fecha){
+
+
+            
+            this.listDetalleEstadoVin[j].veh_est_fecha_inicio = this.transformDate(this.listDetalleEstadoVin[j].veh_est_fecha)
+            
+            if(j == this.listDetalleEstadoVin.length-2){
+
+              this.listDetalleEstadoVin[j].veh_est_fecha_salida = this.transformDate(new Date())
+              
+              var fecha1 = moment(this.listDetalleEstadoVin[j].veh_est_fecha)
+              var fecha2 = moment(new Date())
+
+              this.listDetalleEstadoVin[j].veh_dias = fecha2.diff(fecha1, 'days')
+
+            }else{
+
+              this.listDetalleEstadoVin[j].veh_est_fecha_salida = this.transformDate(this.listDetalleEstadoVin[j+1].veh_est_fecha)
+              
+              var fecha1 = moment(this.listDetalleEstadoVin[j].veh_est_fecha)
+              var fecha2 = moment(this.listDetalleEstadoVin[j+1].veh_est_fecha)
+
+              this.listDetalleEstadoVin[j].veh_dias = fecha2.diff(fecha1, 'days')
+
+            
+            }
+
+          }
+
+        }
+
+
+       
+        this.listDetalleEstadoVin.forEach((item)=>{
+          this.total_dias_proceso = this.total_dias_proceso + item.veh_dias
+          
+        })
+
+        console.log(this.listDetalleEstadoVin);
+        console.log(this.total_dias_proceso);
+        
+
+        this.subDetalleVin.unsubscribe()
+      }
+
+    });
+
+  }
+
+
+  
 
   
   getVinDetalle(veh_vin: any){
@@ -289,9 +386,7 @@ export class DetalleComponent implements OnInit, AfterViewInit {
       next: (data) => {
         console.log('detallee');
         
-        console.log(data);
-        
-        if(data){
+        /*if(data){
           this.detalleVin = data.vehiculoDetalle
           this.detalleVinDatos = data
           this.detalleVin.listaEstado.forEach((item: any, index: any)=>{
@@ -301,7 +396,9 @@ export class DetalleComponent implements OnInit, AfterViewInit {
           this.cargandoDatosVin = false
         }else{
           this.msg.error('No tiene detalle Vin')
-        }
+        }*/
+
+
       },
       error: (err) => {
         this.msg.error(`Ha ocurrido un error al obtener detalle Vin, ${err.error.message}`);
@@ -324,10 +421,8 @@ export class DetalleComponent implements OnInit, AfterViewInit {
       this.cargandoObservacion = p.cargando
 
       if(this.cargandoObservacion == false){
-        setTimeout(() => {
-
-          this.paintPointObservacion()
-        }, 50);
+        
+        
         this.sub.unsubscribe()
       }
     });
@@ -369,6 +464,29 @@ export class DetalleComponent implements OnInit, AfterViewInit {
     });
   }
 
+
+  clickAcordion(item: any){
+    console.log(item);
+
+
+    if(this.listObservacionVin.length>0){
+      this.initLienzo()
+      if(item == 0){
+        setTimeout(() => {
+  
+          this.paintPointObservacion()
+        }, 50);
+      }
+  
+    }
+
+    
+  }
+
+
+  onIndexChange(event: number): void {
+    this.indexTiempo = event;
+  }
 
 
 }

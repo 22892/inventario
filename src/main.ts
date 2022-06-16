@@ -8,8 +8,8 @@ export function getBaseUrl() {
   if (!environment.production)
      //return 'http://192.168.18.10:5000/';
      //return 'http://192.168.1.105:5000/';
-     //return 'http://localhost:5000/'
-     return 'https://inventarioapi.curbe.com.co/'
+     return 'http://localhost:5000/'
+     //return 'https://inventarioapi.curbe.com.co/'
   else
   return 'https://inventarioapi.curbe.com.co/'
   

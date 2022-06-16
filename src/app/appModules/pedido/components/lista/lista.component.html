@@ -894,7 +894,7 @@
 
 
             <nz-table #filterTable [nzData]="listVin" nzBordered nzSize="middle" nzTableLayout="fixed"
-                    [nzLoading]="cargarPedido" [nzFrontPagination]="true" [nzScroll]="{ x: '1000px' }">
+                    [nzLoading]="cargarPedido" [nzFrontPagination]="true" [nzScroll]="{ x: '2000px' }">
                     <thead *ngIf="listVin.length > 0">
                         <tr>
     
@@ -978,7 +978,7 @@
                             </td>
                             <td>
                                 <small>
-                                    <nz-tag style="border-radius: 10px; font-size: 10px;" [nzColor]="'yellow'">{{item.veh_marca_vehiculo}}</nz-tag>
+                                    <nz-tag style="border-radius: 10px; font-size: 10px;" [nzColor]="'blue'">{{item.veh_marca_vehiculo}}</nz-tag>
                                 </small>
                             </td>
                             <td>
@@ -995,6 +995,127 @@
                             </td>
 
                             <td>
+                                <small>
+                                    
+                                    <nz-row style="margin-top: 5px;" [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                                        <nz-col  nzSpan="24" class="gutter-row">
+
+                                            <div style="width: auto; height: 170px; overflow-y: scroll; overflow-x: hidden; " *ngIf="item.listaEstado.length>0; else NoEstados">
+                                                
+                                                <div class="contenedorEstado" *ngFor="let estado of item.listaEstado ; let $index = index">
+
+                                                    <nz-card class="tarjetaEstado">
+                                                
+                                                        <div style="text-align: center; align-items: center; align-self: center; align-content: center; color: #1890ff;">
+                                                            <ng-container *ngIf="estado.estadoEtapa.est_codigo == 1">
+                                                                <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/activo.png" nzTheme="outline"></nz-avatar>
+                                                            </ng-container>
+                    
+                                                            <ng-container *ngIf="estado.estadoEtapa.est_codigo == 2">
+                                                                <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/consignado.png" nzTheme="outline"></nz-avatar>
+                                                            </ng-container>
+                    
+                                                            <ng-container *ngIf="estado.estadoEtapa.est_codigo == 3">
+                                                                <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/evento.png" nzTheme="outline"></nz-avatar>
+                                                            </ng-container>
+                    
+                                                            <ng-container *ngIf="estado.estadoEtapa.est_codigo == 4">
+                                                                <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/facturacion.png" nzTheme="outline"></nz-avatar>
+                                                            </ng-container>
+                    
+                                                            <ng-container *ngIf="estado.estadoEtapa.est_codigo == 5">
+                                                                <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/nacionalizacion.png" nzTheme="outline"></nz-avatar>
+                                                            </ng-container>
+                    
+                                                            <ng-container *ngIf="estado.estadoEtapa.est_codigo == 6">
+                                                                <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/traslado.png" nzTheme="outline"></nz-avatar>
+                                                            </ng-container>
+                    
+                                                            <ng-container *ngIf="estado.estadoEtapa.est_codigo == 7">
+                                                                <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/desasignado.png" nzTheme="outline"></nz-avatar>
+                                                            </ng-container>
+                    
+                                                            <ng-container *ngIf="estado.estadoEtapa.est_codigo == 11">
+                                                                <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/pedido.png" nzTheme="outline"></nz-avatar>
+                                                            </ng-container>
+                    
+                                                            <ng-container *ngIf="estado.estadoEtapa.est_codigo == 12">
+                                                                <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/consignado.png" nzTheme="outline"></nz-avatar>
+                                                            </ng-container>
+                    
+                                                            <ng-container *ngIf="estado.estadoEtapa.est_codigo == 13">
+                                                                <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/evento.png" nzTheme="outline"></nz-avatar>
+                                                            </ng-container>
+                    
+                                                            <ng-container *ngIf="estado.estadoEtapa.est_codigo == 14">
+                                                                <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/facturacion.png" nzTheme="outline"></nz-avatar>
+                                                            </ng-container>
+                    
+                                                            <ng-container *ngIf="estado.estadoEtapa.est_codigo == 15">
+                                                                <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/nacionalizacion.png" nzTheme="outline"></nz-avatar>
+                                                            </ng-container>
+                    
+                                                            <ng-container *ngIf="estado.estadoEtapa.est_codigo == 16">
+                                                                <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/disponible.png" nzTheme="outline"></nz-avatar>
+                                                            </ng-container>
+                    
+                                                            <ng-container *ngIf="estado.estadoEtapa.est_codigo == 17">
+                                                                <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/solicitudtraslado.png" nzTheme="outline"></nz-avatar>
+                                                            </ng-container>
+                    
+                                                            <ng-container *ngIf="estado.estadoEtapa.est_codigo == 18">
+                                                                <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/trasladoaprobado.png" nzTheme="outline"></nz-avatar>
+                                                            </ng-container>
+                    
+                                                            <ng-container *ngIf="estado.estadoEtapa.est_codigo == 19">
+                                                                <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/trasladonegado.png" nzTheme="outline"></nz-avatar>
+                                                            </ng-container>
+                    
+                                                            <ng-container *ngIf="estado.estadoEtapa.est_codigo == 20">
+                                                                <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/entransito.png" nzTheme="outline"></nz-avatar>
+                                                            </ng-container>
+                    
+                                                            <ng-container *ngIf="estado.estadoEtapa.est_codigo == 21">
+                                                                <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/entregadoevento.png" nzTheme="outline"></nz-avatar>
+                                                            </ng-container>
+                    
+                                                            <ng-container *ngIf="estado.estadoEtapa.est_codigo == 22">
+                                                                <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/entregado.png" nzTheme="outline"></nz-avatar>
+                                                            </ng-container>
+                    
+                                                            <ng-container *ngIf="estado.estadoEtapa.est_codigo == 23">
+                                                                <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/trasladoliberado.png" nzTheme="outline"></nz-avatar>
+                                                            </ng-container>
+                    
+                                                            <ng-container *ngIf="estado.estadoEtapa.est_codigo == 29">
+                                                                <nz-avatar style="width: 20px; height: 20px;"  nzSrc="../../assets/images/trasladoescala.png" nzTheme="outline"></nz-avatar>
+                                                            </ng-container>
+        
+                                                        </div>
+
+                                                        <div style="text-align: center; align-items: center; align-self: center; align-content: center; font-size: 8px; color: #1890ff;" >
+                                                            {{estado.estadoEtapa.est_nombre}}
+                                                        </div>
+                                                            
+                                                    </nz-card>
+
+                                                </div>
+
+                                            </div>
+
+                                            <ng-template #NoEstados>
+                                                <nz-list-empty></nz-list-empty>
+                                            </ng-template>
+
+
+                                            
+                                        </nz-col>
+                                    </nz-row>
+
+                                </small>
+                            </td>
+
+                            <td>
                                 <nz-avatar [nzIcon]="'file-search'" [routerLink]="['/pedido/detalle',item.veh_vin]" style="background:white;border: solid 1px #1890ff; color:#1890ff" [nzTooltipTitle]="'Detalle Vin'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>
                                 <nz-divider nzType="vertical"></nz-divider>
 
@@ -1005,6 +1126,10 @@
                                 <ng-template #tieneObservacion>
                                     <nz-avatar [nzIcon]="'check-circle'" style="background:white;border: solid 1px #18ff4a; color:#18ff4a" [nzTooltipTitle]="'Revisado'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>
                                 </ng-template>
+
+                                <nz-divider nzType="vertical"></nz-divider>
+                                <nz-avatar [nzIcon]="'reload'" (click)="reenviarCurbe(item)"  style="background:white;border: solid 1px #7d546f; color:#7d546f" [nzTooltipTitle]="'Enviar Cuerbe'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>
+
 
 
                             </td>
@@ -1267,12 +1392,55 @@
         <nz-list nzItemLayout="horizontal" [nzLoading]="isLoadingErrorExcel" [nzDataSource]="listErrorExcel" [nzRenderItem]="item" id="PDF">
             <ng-template #item let-item  >
                 <nz-comment [nzAuthor]="'Error Excel'" [ngClass]="{'seg-solucion':1 == 1}">  
-          
-                    <nz-avatar nz-comment-avatar style="background:white;border: solid 1px #1890ff; color:#1890ff" nzIcon="warning">
-                    </nz-avatar>
+
                     <nz-comment-content>
-                      <p>{{item}}</p>
-                      </nz-comment-content>
+
+                        <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                            <nz-col class="gutter-row" nzSpan="4">
+                                <ng-container *ngIf="item.codigo == 0">
+                                    <nz-avatar nz-comment-avatar style="background:white;border: solid 1px #ca5c60; color:#ca5c60" nzIcon="warning"></nz-avatar>
+            
+                                </ng-container>
+            
+                                <ng-container *ngIf="item.codigo == 1">
+                                    <nz-avatar nz-comment-avatar style="background:white;border: solid 1px #18ff59; color:#18ff59" nzIcon="exclamation"></nz-avatar>
+            
+            
+                                </ng-container>
+            
+                                <ng-container *ngIf="item.codigo == 2">
+                                    <nz-avatar nz-comment-avatar style="background:white;border: solid 1px #1890ff; color:#1890ff" nzIcon="check"></nz-avatar>
+            
+            
+                                </ng-container>
+        
+                            </nz-col>
+    
+                            <nz-col style="text-align: start;" class="gutter-row" nzSpan="20">
+    
+                                <ng-container *ngIf="item.codigo == 0">
+                                    <div style="color:#c98083;">{{item.mensaje}}</div>
+                                </ng-container>
+        
+                                <ng-container *ngIf="item.codigo == 1">
+                                    <div style="color:#91ebaa;">{{item.mensaje}}</div>
+                                </ng-container>
+        
+                                <ng-container *ngIf="item.codigo == 2">
+                                    <div style="color:#8db9e2;">{{item.mensaje}}</div>
+                                </ng-container>
+        
+    
+                            </nz-col>
+    
+                        </nz-row>
+
+
+              
+
+
+                
+                    </nz-comment-content>
                 </nz-comment>
     
                 

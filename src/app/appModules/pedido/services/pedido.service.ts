@@ -19,6 +19,14 @@ export class PedidoService {
   private listEstadoVin:any[] =[] ;
   private estadovin$! : BehaviorSubject<any>;
 
+  private listDetalleEstadoVin:any[] =[] ;
+  private detallevin$! : BehaviorSubject<any>;
+
+
+  private renviarVinCurbe:any[] =[] ;
+  private reenviarVin$! : BehaviorSubject<any>;
+
+
   constructor(private notification: NzNotificationService,
     @Inject('BASE_URL') baseUrl: string,
     private http: HttpClient,
@@ -27,7 +35,8 @@ export class PedidoService {
       this.baseUrl = baseUrl;
       this.vin$ = new BehaviorSubject({listVin:[],cargando:false});
       this.estadovin$ = new BehaviorSubject({listEstadoVin:[],cargando:false});
-      
+      this.detallevin$ = new BehaviorSubject({listDetalleEstadoVin:[],cargando:false});
+      this.reenviarVin$ = new BehaviorSubject({renviarVinCurbe:[],cargando:false});
   }
 
   httpOptions = {
@@ -47,6 +56,62 @@ export class PedidoService {
       { nzPlacement: 'bottomLeft' }
     );
   }
+
+
+  reenviarVinCurbe$(veh_codigo: any): Observable<any> {
+   
+    if(this.renviarVinCurbe)
+      this.reenviarVin(veh_codigo);
+    return this.reenviarVin$.asObservable();
+  }
+
+  reenviarVin(veh_codigo: any){
+    let marca = this.serviceGlobal.getCodigoMarca()
+    
+    this.renviarVinCurbe = [];
+    this.reenviarVin$.next({ renviarVinCurbe: this.renviarVinCurbe, cargando: true });
+    
+    this.http.get(`${this.baseUrl}api/vehiculo/uploadCurbe/${marca}/${veh_codigo}`,this.httpOptions).subscribe({
+      next: (data) => {
+
+        this.reenviarVin$.next({ renviarVinCurbe: data, cargando: false});
+      },
+      error: (err) => {
+        this.createNotification('error', 'Error', 'ha ocurrido un error al Reenviar Vins');
+        this.reenviarVin$.next({ renviarVinCurbe: [], cargando: false });
+      }
+    });    
+
+  }
+
+
+
+  getListAllDetalleEstadosVin$(veh_codigo: any): Observable<any> {
+   
+    if(this.listDetalleEstadoVin)
+      this.getDetalleEstadosVins(veh_codigo);
+    return this.detallevin$.asObservable();
+  }
+
+  getDetalleEstadosVins(veh_codigo: any){
+    let marca = this.serviceGlobal.getCodigoMarca()
+    
+    this.listDetalleEstadoVin = [];
+    this.detallevin$.next({ listDetalleEstadoVin: this.listDetalleEstadoVin, cargando: true });
+    
+    this.http.get(`${this.baseUrl}api/vehiculo/detalleEstado/${marca}/${veh_codigo}`,this.httpOptions).subscribe({
+      next: (data) => {
+
+        this.detallevin$.next({ listDetalleEstadoVin: data, cargando: false});
+      },
+      error: (err) => {
+        this.createNotification('error', 'Error', 'ha ocurrido un error al listado de Detalle Estados Vins');
+        this.detallevin$.next({ listDetalleEstadoVin: [], cargando: false });
+      }
+    });    
+
+  }
+
 
 
   getListAllEstadosVin$(): Observable<any> {

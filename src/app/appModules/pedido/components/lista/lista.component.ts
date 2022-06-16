@@ -281,7 +281,7 @@ export class ListaComponent implements OnInit {
 
   listOfColumnsLista: ColumnItem[] = [
     {
-      width: '50px',
+      width: '40px',
       name: 'Color Interior Color Exterior',
       sortOrder: null,
       sortDirections: ['ascend', 'descend', null],
@@ -301,7 +301,7 @@ export class ListaComponent implements OnInit {
       filterFn: null,
     },
     {
-      width: '50px',
+      width: '40px',
       name: 'Año Modelo',
       sortOrder: null,
       sortDirections: ['ascend', 'descend', null],
@@ -311,7 +311,7 @@ export class ListaComponent implements OnInit {
       filterFn: null,
     },
     {
-      width:'50px',
+      width:'40px',
       name: 'Año Producción',
       sortOrder: null,
       sortFn: null,
@@ -353,7 +353,7 @@ export class ListaComponent implements OnInit {
       filterFn: null
     },
     {
-      width:'50px',
+      width:'40px',
       name: 'Mes Producción',
       sortOrder: null,
       sortFn: null,
@@ -364,7 +364,7 @@ export class ListaComponent implements OnInit {
     },
    
     {
-      width:'70px',
+      width:'50px',
       name: 'Estado',
       sortOrder: null,
       sortFn: (a: any, b: any) => a.estadoActual.est_codigo - b.estadoActual.est_codigo,
@@ -372,6 +372,16 @@ export class ListaComponent implements OnInit {
       listOfFilter: [],
       filterFn: (list: number[], item: any) => list.some(ban => item.estadoActual.est_codigo == ban),      
       filterMultiple: true
+    },
+    {
+      width:'95px',
+      name: 'Trazabilidad',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
     },
     {
       width:'50px',
@@ -1476,6 +1486,12 @@ export class ListaComponent implements OnInit {
   cargandoEstado: boolean = false
   subEstado: any
 
+  renviarVinCurbe: any[] = [];
+  reenviarVin$!: Observable<any>;
+  cargandoReenviar: boolean = false
+  subReenvia: any
+
+
   constructor(private msg: NzMessageService,
     private cdRef:ChangeDetectorRef,
     private router: Router,
@@ -1761,18 +1777,11 @@ export class ListaComponent implements OnInit {
 
           if(data.length>0){
             this.listErrorExcel = data
-            this.msg.error('Problemas Al subir Datos Excel')
             this.isModalExcelError = true
             this.isLoadingUploadExcel = false
             this.listExcel = []
             this.fileList = []
-          }else{
-            this.isLoadingUploadExcel = false
-            this.listExcel = []
-            this.fileList = []
-            this.msg.success('Datos Guardados Correctamente')
           }
-          
           
         },
         error: (error) => {
@@ -1898,7 +1907,28 @@ export class ListaComponent implements OnInit {
     doc.autoTable(columns, this.datos, { margin: { top: 10 } });
     doc.save('ListadoErrores.pdf');
 
+  }
 
+
+  reenviarCurbe(item: any){
+
+    this.reenviarVin$ = this.servicePedido.reenviarVinCurbe$(item.veh_vin)
+    
+    this.subReenvia = this.reenviarVin$.subscribe(p => {
+      console.log(p);
+      
+      this.renviarVinCurbe = p.renviarVinCurbe
+
+      this.cargandoReenviar = p.cargando
+
+      if(this.cargandoReenviar == false){
+        this.msg.success('Datos Enviar Curbe')
+        this.getListVins()
+        this.subReenvia.unsubscribe()
+      }
+     
+      
+    });
 
 
   }

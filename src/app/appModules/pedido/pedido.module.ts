@@ -8,15 +8,17 @@ import { DetalleComponent } from './components/detalle/detalle.component'
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FortawesomeModule } from 'src/app/fortawesome.module'
-
+import { TablaestadosComponent } from './components/tablaestados/tablaestados.component'
+import { SpinerComponent } from '../../init/spiner/spiner.component'
 
 const routes: Routes = [
   { path: 'lista', component: ListaComponent },
   { path: 'detalle/:vin', component: DetalleComponent },
+
 ];
 
 @NgModule({
-  declarations: [ListaComponent, DetalleComponent],
+  declarations: [ListaComponent, DetalleComponent, TablaestadosComponent, SpinerComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),

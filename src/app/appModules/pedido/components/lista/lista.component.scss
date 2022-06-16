@@ -60,6 +60,28 @@
   }
 
 
+  .tarjetaEstado{
+    height: 65px;
+    width: 110px;
+    background-color: rgb(245, 245, 245);
+    align-items: center;
+    align-content: center;
+    align-self: center;
+  
+  }
+    
+
+  .contenedorEstado {
+    
+    display: inline-block; 
+    padding: 10px; 
+    margin-left: 5px; 
+    justify-content: space-between; 
+    justify-content: space-around;
+    align-items: center;
+  }
+  
+
 
   
   

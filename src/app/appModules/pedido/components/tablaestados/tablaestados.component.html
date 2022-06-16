@@ -1,0 +1,153 @@
+<nz-row  [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+    <nz-col nzSpan="24" class="gutter-row">
+        <nz-radio-group [(ngModel)]="radioValue">
+            <label nz-radio nzValue="A" (click)="cambioVista(1)">Vista Tabla</label>
+            <label nz-radio nzValue="B" (click)="cambioVista(2)">Vista Tarjeta</label>
+           
+        </nz-radio-group>
+        
+    </nz-col>
+</nz-row>
+
+
+<nz-row style="margin-top: 20px;"  [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+    <nz-col nzSpan="24" class="gutter-row">
+
+        <ng-container *ngIf="tipoVista == 1; else tipoVistaTarjeta">
+
+            <div nz-row *ngIf="listDetalleEstado.length == 0">
+                <div nz-col nzSpan="24">
+                  
+                  <nz-empty 
+                    nzNotFoundImage="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg" [nzNotFoundContent]="contentTpl"
+                    [nzNotFoundFooter]="footerTpl">
+                    <ng-template #contentTpl>
+                      <span> No Existe Datos Estado</span>
+                    </ng-template>
+                    <ng-template #footerTpl>
+                    </ng-template>
+                  </nz-empty>
+            
+                </div>
+            </div>
+            
+            <nz-table #filterTable [nzData]="listDetalleEstado" nzBordered nzSize="middle" nzTableLayout="fixed"
+                [nzLoading]="cargarDetalle" [nzFrontPagination]="true" [nzScroll]="{ x: '1000px' }">
+                <thead *ngIf="listDetalleEstado.length > 0">
+                    <tr>
+            
+                        <th *ngFor="let column of listOfColumns" [nzSortOrder]="column.sortOrder"
+                            [nzSortFn]="column.sortFn" [nzSortDirections]="column.sortDirections"
+                            [nzFilterMultiple]="column.filterMultiple" [nzFilters]="column.listOfFilter"
+                            [nzFilterFn]="column.filterFn" [nzShowFilter]="column.filterFn ? true : false"
+                            [nzWidth]="column.width ? column.width : null" style="text-align: center; background-color: black; color: white; font-size: 13px;">
+            
+                            {{ column.name }}
+            
+                        </th>
+                    </tr>
+                </thead>
+                <tbody *ngIf="listDetalleEstado.length > 0">
+                    <tr *ngFor="let item of filterTable.data" style="font-size: 12px;">
+            
+                        <ng-container *ngFor="let itemcol of listOfColumns">
+                            <td>
+                                <small>
+                                    {{itemcol.value}}
+                                   
+                                </small>
+                            </td>
+                        </ng-container>
+                       
+                    
+                       
+                    </tr>
+                </tbody>
+            </nz-table>
+
+
+        </ng-container>
+
+        <ng-template #tipoVistaTarjeta>
+
+            <div nz-row *ngIf="listDetalleEstado.length == 0">
+                <div nz-col nzSpan="24">
+                  
+                  <nz-empty 
+                    nzNotFoundImage="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg" [nzNotFoundContent]="contentTpl"
+                    [nzNotFoundFooter]="footerTpl">
+                    <ng-template #contentTpl>
+                      <span> No Existe Datos Estado</span>
+                    </ng-template>
+                    <ng-template #footerTpl>
+                    </ng-template>
+                  </nz-empty>
+            
+                </div>
+            </div>
+            
+
+            <ng-container *ngIf="listDetalleEstado.length > 0">
+
+                <nz-row style="margin-top: 20px;" [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                    <nz-col nzSpan="18" nzOffset="3" class="gutter-row">
+                        <nz-card class="tarjetaItems" [nzTitle]="titleItemTres">
+    
+                            <ng-template #titleItemTres>
+                                <i nz-icon [nzType]="'profile'" nzTheme="outline"></i> {{estadoVin.est_nombre}}
+                            </ng-template>
+
+                            
+
+                                <nz-row  [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+    
+                                    <nz-col  nzSpan="2" class="gutter-row">
+                                        <ng-container  *ngFor="let icono of listOfColumns">
+                                            <ng-container *ngIf="icono.value">
+                                                <ng-container *ngIf="icono.icon; else NoIcono">
+                                                    <p><fa-icon class="fa-1x" [icon]="['fas', icono.icon]"></fa-icon></p>
+        
+                                                </ng-container>
+                                                <ng-template #NoIcono>
+                                                    <p><fa-icon class="fa-1x" [icon]="['fas', 'question']"></fa-icon></p>
+        
+                                                </ng-template>
+                                            </ng-container>
+                                            
+                                        </ng-container>
+                                    </nz-col>
+                                   
+                                    <nz-col style="text-align: start;" nzSpan="7" class="gutter-row">
+                                        <ng-container *ngFor="let colum of listOfColumns">
+                                            <p  *ngIf="colum.value">{{colum.name}}:</p>
+                                        </ng-container>
+                                    </nz-col>
+        
+                                    <nz-col style="text-align: start;" nzSpan="15" class="gutter-row">
+                                        <ng-container *ngFor="let item of listOfColumns">
+                                            <p *ngIf="item.value">{{item.value }}</p>
+                                        </ng-container>
+                                    </nz-col>
+                                </nz-row>
+                        
+                           
+    
+    
+                        </nz-card>
+    
+                    </nz-col>
+                </nz-row>
+    
+
+            </ng-container>
+    
+
+        </ng-template>
+
+        
+
+    </nz-col>
+</nz-row>
+
+
+
