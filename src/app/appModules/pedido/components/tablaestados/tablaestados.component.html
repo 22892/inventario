@@ -103,16 +103,18 @@
     
                                     <nz-col  nzSpan="2" class="gutter-row">
                                         <ng-container  *ngFor="let icono of listOfColumns">
+                                           
+
                                             <ng-container *ngIf="icono.value">
-                                                <ng-container *ngIf="icono.icon; else NoIcono">
-                                                    <p><fa-icon class="fa-1x" [icon]="['fas', icono.icon]"></fa-icon></p>
-        
+                                                <ng-container *ngFor="let item of listImagenesEstado">
+                                                    <ng-container *ngIf="item.codigo == estadoVin.est_codigo">
+                                                        <p><nz-avatar style="width: 15px; height: 15px;"  nzSrc="{{item.url}}" nzTheme="outline"></nz-avatar></p>    
+                                                    </ng-container>
                                                 </ng-container>
-                                                <ng-template #NoIcono>
-                                                    <p><fa-icon class="fa-1x" [icon]="['fas', 'question']"></fa-icon></p>
-        
-                                                </ng-template>
+    
                                             </ng-container>
+
+
                                             
                                         </ng-container>
                                     </nz-col>
@@ -129,9 +131,6 @@
                                         </ng-container>
                                     </nz-col>
                                 </nz-row>
-                        
-                           
-    
     
                         </nz-card>
     
@@ -140,11 +139,8 @@
     
 
             </ng-container>
-    
 
         </ng-template>
-
-        
 
     </nz-col>
 </nz-row>

@@ -15,7 +15,7 @@ import { GlobalserviceService } from '../../core/globalservice.service'
 export class LoginComponent implements OnInit {
 
   array = [
-    //{img:'../../../assets/images/portada1.png'},
+    {img:'../../../assets/images/carro2.jpg'},
     {img:'../../../assets/images/carro3.jpg'}
   ];
   validateForm!: FormGroup;

@@ -13,8 +13,10 @@ export class PedidoService {
 
   baseUrl: string = '';
 
-  private listVin:any[] =[] ;
+  private listVin!: any[];
+  
   private vin$! : BehaviorSubject<any>;
+  private vinFecha$! : BehaviorSubject<any>;
 
   private listEstadoVin:any[] =[] ;
   private estadovin$! : BehaviorSubject<any>;
@@ -35,7 +37,8 @@ export class PedidoService {
     private serviceGlobal: GlobalserviceService) {
 
       this.baseUrl = baseUrl;
-      this.vin$ = new BehaviorSubject({listVin:[],cargando:false});
+      this.vin$ = new BehaviorSubject({listVin:[],cargando:false, control: false});
+      this.vinFecha$ = new BehaviorSubject({listVin:[],cargando:false, control: false});
       this.estadovin$ = new BehaviorSubject({listEstadoVin:[],cargando:false});
       this.detallevin$ = new BehaviorSubject({listDetalleEstadoVin:[],cargando:false});
       this.reenviarVin$ = new BehaviorSubject({renviarVinCurbe:[],cargando:false});
@@ -100,6 +103,7 @@ export class PedidoService {
     
     this.listDetalleEstadoVin = [];
     this.detallevin$.next({ listDetalleEstadoVin: this.listDetalleEstadoVin, cargando: true });
+    console.log(`${this.baseUrl}api/vehiculo/detalleEstado/${marca}/${veh_codigo}`);
     
     this.http.get(`${this.baseUrl}api/vehiculo/detalleEstado/${marca}/${veh_codigo}`,this.httpOptions).subscribe({
       next: (data) => {
@@ -144,11 +148,22 @@ export class PedidoService {
   }
 
 
+  updateListAllVinMarca(){
+    this.getVinsMarca();
+  }
+
+
 
   getListAllVinMarca$(): Observable<any> {
    
-    if(this.listVin)
+    if(!this.listVin){
       this.getVinsMarca();
+    }else{
+      this.vin$.subscribe((x)=>{
+        x.control = false
+      })
+
+    }
     return this.vin$.asObservable();
   }
 
@@ -162,16 +177,17 @@ export class PedidoService {
 
 
     this.listVin = [];
-    this.vin$.next({ listVin: this.listVin, cargando: true });
+    this.vin$.next({ listVin: this.listVin, cargando: true, control: true });
+    console.log(`${this.baseUrl}api/vehiculo/getAllVehiculosMarca/${marca}/${0}`);
     
-    this.http.get(`${this.baseUrl}api/vehiculo/getAllVehiculosMarca/${marca}/${cod_empresa}`,this.httpOptions).subscribe({
+    this.http.get(`${this.baseUrl}api/vehiculo/getAllVehiculosMarca/${marca}/${0}`,this.httpOptions).subscribe({
       next: (data) => {
 
-        this.vin$.next({ listVin: data, cargando: false});
+        this.vin$.next({ listVin: data, cargando: false, control: true});
       },
       error: (err) => {
         this.createNotification('error', 'Error', 'Ha ocurrido un error al listado de Vins');
-        this.vin$.next({ listVin: [], cargando: false });
+        this.vin$.next({ listVin: [], cargando: false, control: true });
       }
     });    
 
@@ -213,35 +229,29 @@ export class PedidoService {
     
     this.getListVinByFecha();
     
-    this.vin$.subscribe((x)=>{
+    this.vinFecha$.subscribe((x)=>{
       x.control = true
     })
     
 
    
-    return this.vin$.asObservable();
+    return this.vinFecha$.asObservable();
   }
    
   getListVinByFecha(){
     this.listVin = [];
-    this.vin$.next({listVin:this.listVin,cargando:true, control: true});
+    this.vinFecha$.next({listVin:this.listVin,cargando:true, control: true});
     let desde = this.serviceGlobal.getFechaDesde();
     let hasta = this.serviceGlobal.getFechaHasta();
-    let marca = this.serviceGlobal.getCodigoEmpresa()
-    console.log(`${this.baseUrl}api/vehiculo/getAllVehiculosByFecha/${marca}/${formatDate(desde,'yyyy-MM-dd','es')}/${formatDate(hasta,'yyyy-MM-dd','es')}`);
+    let marca = this.serviceGlobal.getCodigoMarca()
     
-    this.http.get<any>(`${this.baseUrl}api/vehiculo/getAllVehiculosByFecha/${marca}/${formatDate(desde,'yyyy-MM-dd','es')}/${formatDate(hasta,'yyyy-MM-dd','es')}`,{
-      headers: new HttpHeaders({
-        "Content-Type": "application/json",  
-        //"Authorization":"Bearer " + this.auth.token      
-      })
-    } ).subscribe({
+    this.http.get<any>(`${this.baseUrl}api/vehiculo/getAllVehiculosByFecha/${marca}/${formatDate(desde,'yyyy-MM-dd','es')}/${formatDate(hasta,'yyyy-MM-dd','es')}`,this.httpOptions ).subscribe({
       next: (data) => {
-        this.vin$.next({listVin:data,cargando:false, control: true});
+        this.vinFecha$.next({listVin:data,cargando:false, control: true});
       },
       error: (err) => {
         this.createNotification('error','Error','ha ocurrido un error al obtener Vins por Fechas');
-        this.vin$.next({listVin:[],cargando:false, control: true});
+        this.vinFecha$.next({listVin:[],cargando:false, control: true});
       }
     });
   }
@@ -304,6 +314,23 @@ export class PedidoService {
   }
 
 
+
+  downloadPDFRecepcion(veh_codigo: any,): Observable<any> {
+
+    let marca = this.serviceGlobal.getCodigoMarca()
+
+    return this.http.get(
+      `${this.baseUrl}api/vehiculo/get_pdf_vin/${marca}/${veh_codigo}/`,
+      {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/pdf'
+        },
+        ),
+        reportProgress: true,
+        responseType: 'blob',
+      }
+    );
+  }
 
 
 }

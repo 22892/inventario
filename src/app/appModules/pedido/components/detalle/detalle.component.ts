@@ -10,6 +10,7 @@ import 'moment/locale/es';
 import * as moment from 'moment';
 import { NzButtonSize } from 'ng-zorro-antd/button';
 import { SpinerService } from '../../../../core/spiner.service'
+import { GlobalserviceService } from '../../../../core/globalservice.service'
 
 
 interface ColumnItem {
@@ -175,10 +176,17 @@ export class DetalleComponent implements OnInit, AfterViewInit {
 
   objEstadoEtapaObservacion = {estadoEtapa:{est_codigo: 0, est_nombre: 'OBSERVACIONES DE CONSECIONARIO', est_marca: 100}, detalleEstado:{}, veh_est_fecha: null, veh_dias:0}
   objInformacionVin = {estadoEtapa:{est_codigo: 100, est_nombre: 'INFORMACIÓN DE VIN', est_marca: 100}, detalleEstado:{}, veh_est_fecha: null, veh_dias: 0}
+  objTraslado = {estadoEtapa:{est_codigo: 200, est_nombre: 'TRASLADO', est_marca: 100}, detalleEstado:{}, veh_est_fecha: null, veh_dias: 0}
+
+
+  objPrueba = {estadoEtapa:{est_codigo: 111, est_nombre: 'RECEPCIÓN', est_marca: 100}, detalleEstado:{}, veh_est_fecha: null, veh_dias: 0}
+
 
   indexTiempo = 0
   total_dias_proceso = 0
 
+
+  listImagenesEstado: any
 
   constructor(@Inject('BASE_URL') baseUrl: string,
     private servicePedido: PedidoService,
@@ -186,7 +194,8 @@ export class DetalleComponent implements OnInit, AfterViewInit {
     private msg: NzMessageService,
     private rutaActiva: ActivatedRoute,
     private serviceObservacion: ObservacionService,
-    private serviceSpiner: SpinerService) {
+    private serviceSpiner: SpinerService,
+    private serviceGlobal: GlobalserviceService) {
 
       this.baseUrl = baseUrl.substring(0, baseUrl.length - 1);
 
@@ -196,15 +205,13 @@ export class DetalleComponent implements OnInit, AfterViewInit {
     this.veh_codigo = this.rutaActiva.snapshot.paramMap.get('vin')
     //this.getVinDetalle(this.veh_codigo)
     
-    this.serviceSpiner.show()
     this.getListObservacionVin()
     this.getDetalleEstadoVin(this.veh_codigo)
     this.getListDocumentsVin()
     this.ancho = this.porcentaje(40)
     this.alto = this.ancho / 1.4036
    
-    console.log(this.ancho);
-    console.log(this.alto);
+    this.listImagenesEstado = this.serviceGlobal.getListImagesEstado()
     
     
   }
@@ -304,6 +311,7 @@ export class DetalleComponent implements OnInit, AfterViewInit {
 
   getDetalleEstadoVin(veh_codigo: any){
 
+    var listaTransito: any []
 
     this.detallevin$ = this.servicePedido.getListAllDetalleEstadosVin$(veh_codigo);
     this.subDetalleVin = this.detallevin$.subscribe((p) => {
@@ -317,12 +325,27 @@ export class DetalleComponent implements OnInit, AfterViewInit {
       if(this.cargandoDetalleVin == false){
 
         this.listDetalleEstadoVin = this.objetoDetalle.vehiculoDetalle.listaEstado
-       
+
+        
+        //METODO PARA AGRUPAR LOS TRASLADOS
+
+        this.listDetalleEstadoVin.forEach((item: any, index: any)=>{
+          if(item.estadoEtapa.est_id_padre == 6){
+            console.log('siiiiii');
+            
+            listaTransito = this.listDetalleEstadoVin.slice(index-1, index)
+          }
+        })
+
+        
+
+        ///////////////////////////////////////////
+
+
         
         this.listDetalleEstadoVin.push(this.objEstadoEtapaObservacion)
         this.listDetalleEstadoVin.unshift(this.objInformacionVin)
         
-
 
         for(var j=0; j<this.listDetalleEstadoVin.length; j++){
 

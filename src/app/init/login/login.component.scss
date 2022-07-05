@@ -5,14 +5,23 @@
   }
   
   [nz-carousel-content] {
-    text-align: center;
+    /*text-align: center;
     line-height: 160px;
     //background: #f75a67;
     color: #fff;
     overflow: hidden;
     height: 33.3vh;
-    //background: linear-gradient(rgb(241, 241, 241) ,rgb(184, 181, 181),rgb(20, 20, 20));
+    //background: linear-gradient(rgb(241, 241, 241) ,rgb(184, 181, 181),rgb(20, 20, 20));*/
+
+    //text-align: center;
+        height: 160px;
+        line-height: 160px;
+        background: #dde3f1;
+        color: #fff;
+        overflow: hidden;
   }
+
+
   
   h3 {
     color: #fff;
@@ -35,14 +44,4 @@
     width: 100%;
   }
   
-  .fotosmotos{
-    //box-shadow: 10px 10px 100px rgba(0, 0, 0, 0.453);
-    object-fit:contain;
-    width: 1000px;
-  
-    //width: 1000px;
-    //opacity:0.1;
-    display: block;
-    margin: 0 auto;
-  }
   

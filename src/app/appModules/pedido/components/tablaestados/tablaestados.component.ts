@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import {NzTableFilterFn, NzTableFilterList, NzTableSortFn, NzTableSortOrder } from 'ng-zorro-antd/table';
 import * as moment from 'moment';
 import 'moment/locale/es';
-
+import { GlobalserviceService } from '../../../../core/globalservice.service'
 
 interface ColumnItem {
   
@@ -80,15 +80,14 @@ export class TablaestadosComponent implements OnInit {
 
   objColumnTraslado = [{name: 'Nombre Conductor', icon:'', ancho:'60px'},{name: 'Nombre Empresa', icon:'', ancho:'40px'}, {name: 'Placa', icon:'', ancho:'50px'}, {name: 'Estado Proceso', icon:'', ancho:'60px'}, {name: 'Logistica', icon:'', ancho:'60px'}, {name: 'Comercial', icon:'', ancho:'60px'}, {name: 'Transportista', icon:'', ancho:'60px'}]
 
-  DATE_REGEX = new RegExp (/^(0[1-9]|[1-2]\d|3[01])(\/)(0[1-9]|1[012])\2(\d{4})$/)
-  CURRENT_YEAR = new Date().getFullYear()
+  listImagenesEstado: any
   
-
-  constructor() {
+  constructor(private serviceGlobal: GlobalserviceService) {
   }
 
   ngOnInit(): void {
     console.log('lleggaaaaaaaaaaa');
+    this.listImagenesEstado = this.serviceGlobal.getListImagesEstado()
     this.generarColumnas()
     
   }
@@ -117,10 +116,6 @@ export class TablaestadosComponent implements OnInit {
   generarColumnas(){
 
 
-    //console.log('codigo estado');
-    //console.log(this.estadoVin);
-    
-
     let listAux: any = []
     let listInfo: any = []
 
@@ -132,8 +127,7 @@ export class TablaestadosComponent implements OnInit {
       var i=0  
 
 
-      //console.log('info list');
-      //console.log(listInfo);
+     
      
 
       if(this.estadoVin.est_codigo == 100){
@@ -151,6 +145,16 @@ export class TablaestadosComponent implements OnInit {
             if(resNum){
               result = false
             }else{
+             
+              console.log('objeto');
+              if(typeof listInfo[i] == 'undefined'){
+                console.log('siiii');
+                
+              }else{
+                console.log('noooo');
+                
+              }
+
               result = moment(new Date(listInfo[i]), 'YYYY-MM-DD',true).isValid();
            
             }
@@ -227,7 +231,7 @@ export class TablaestadosComponent implements OnInit {
             if(resNum){
               result = false
             }else{
-              result = moment(new Date(listAux[i]), 'YYYY-MM-DD',true).isValid();
+              result = moment(new Date(listAux[i].replace(/ /g, "")), 'YYYY-MM-DD',true).isValid();
            
             }
 
@@ -300,7 +304,7 @@ export class TablaestadosComponent implements OnInit {
             if(resNum){
               result = false
             }else{
-              result = moment(new Date(listAux[i]), 'YYYY-MM-DD',true).isValid();
+              result = moment(new Date(listAux[i].replace(/ /g, "")), 'YYYY-MM-DD',true).isValid();
            
             }
 
@@ -370,7 +374,7 @@ export class TablaestadosComponent implements OnInit {
             if(resNum){
               result = false
             }else{
-              result = moment(new Date(listAux[i]), 'YYYY-MM-DD',true).isValid();
+              result = moment(new Date(listAux[i].replace(/ /g, "")), 'YYYY-MM-DD',true).isValid();
            
             }
 
@@ -422,7 +426,12 @@ export class TablaestadosComponent implements OnInit {
 
       }
 
+      
+
       if(this.estadoVin.est_codigo == 16 || this.estadoVin.est_codigo == 17 || this.estadoVin.est_codigo == 18){
+
+        
+        
 
         this.objColumnTraslado.forEach((item) =>{
 
@@ -436,12 +445,14 @@ export class TablaestadosComponent implements OnInit {
             
   
             var resNum = this.isNum(listAux[i])
+
+            
+            
   
             if(resNum){
               result = false
             }else{
-              result = moment(new Date(listAux[i]), 'YYYY-MM-DD',true).isValid();
-           
+              result = moment(new Date(listAux[i].replace(/ /g, "")), 'YYYY-MM-DD',true).isValid();
             }
 
             if(result){
@@ -476,7 +487,7 @@ export class TablaestadosComponent implements OnInit {
             }
   
   
-        
+            
             this.listOfColumns = [... this.listOfColumns, columna]
 
 

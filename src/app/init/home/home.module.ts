@@ -14,6 +14,7 @@ const routes: Routes = [
   {path:'pedido',loadChildren:() => import('../../appModules/pedido/pedido.module').then(m => m.PedidoModule)},
   {path:'usuario',loadChildren:() => import('../../appModules/usuario/usuario.module').then(m => m.UsuarioModule)},
   {path:'observacion/:vin',loadChildren:() => import('../../appModules/observacion/observacion.module').then(m => m.ObservacionModule)},
+  {path:'remision',loadChildren:() => import('../../appModules/remision/remision.module').then(m => m.RemisionModule)},
   ]},
 
 ];

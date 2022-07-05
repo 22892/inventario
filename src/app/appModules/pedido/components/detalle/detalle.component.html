@@ -198,90 +198,14 @@
 
 
                                                     </ng-container>
-            
-                                                    <ng-container *ngIf="panel.estadoEtapa.est_codigo == 1">
-                                                        <nz-avatar style="width: 30px; height: 30px;"  nzSrc="../../assets/images/activo.png" nzTheme="outline"></nz-avatar>
+
+
+                                                    <ng-container *ngFor="let item of listImagenesEstado">
+                                                        <ng-container *ngIf="item.codigo == panel.estadoEtapa.est_codigo">
+                                                            <nz-avatar style="width: 30px; height: 30px;"  nzSrc="{{item.url}}" nzTheme="outline"></nz-avatar>    
+                                                        </ng-container>
                                                     </ng-container>
             
-                                                    <ng-container *ngIf="panel.estadoEtapa.est_codigo == 2">
-                                                        <nz-avatar style="width: 30px; height: 30px;"  nzSrc="../../assets/images/consignado.png" nzTheme="outline"></nz-avatar>
-                                                    </ng-container>
-            
-                                                    <ng-container *ngIf="panel.estadoEtapa.est_codigo == 3">
-                                                        <nz-avatar style="width: 30px; height: 30px;"  nzSrc="../../assets/images/evento.png" nzTheme="outline"></nz-avatar>
-                                                    </ng-container>
-            
-                                                    <ng-container *ngIf="panel.estadoEtapa.est_codigo == 4">
-                                                        <nz-avatar style="width: 30px; height: 30px;"  nzSrc="../../assets/images/facturacion.png" nzTheme="outline"></nz-avatar>
-                                                    </ng-container>
-            
-                                                    <ng-container *ngIf="panel.estadoEtapa.est_codigo == 5">
-                                                        <nz-avatar style="width: 30px; height: 30px;"  nzSrc="../../assets/images/nacionalizacion.png" nzTheme="outline"></nz-avatar>
-                                                    </ng-container>
-            
-                                                    <ng-container *ngIf="panel.estadoEtapa.est_codigo == 6">
-                                                        <nz-avatar style="width: 30px; height: 30px;"  nzSrc="../../assets/images/traslado.png" nzTheme="outline"></nz-avatar>
-                                                    </ng-container>
-            
-                                                    <ng-container *ngIf="panel.estadoEtapa.est_codigo == 7">
-                                                        <nz-avatar style="width: 30px; height: 30px;"  nzSrc="../../assets/images/desasignado.png" nzTheme="outline"></nz-avatar>
-                                                    </ng-container>
-            
-                                                    <ng-container *ngIf="panel.estadoEtapa.est_codigo == 11">
-                                                        <nz-avatar style="width: 30px; height: 30px;"  nzSrc="../../assets/images/pedido.png" nzTheme="outline"></nz-avatar>
-                                                    </ng-container>
-            
-                                                    <ng-container *ngIf="panel.estadoEtapa.est_codigo == 12">
-                                                        <nz-avatar style="width: 30px; height: 30px;"  nzSrc="../../assets/images/consignado.png" nzTheme="outline"></nz-avatar>
-                                                    </ng-container>
-            
-                                                    <ng-container *ngIf="panel.estadoEtapa.est_codigo == 13">
-                                                        <nz-avatar style="width: 30px; height: 30px;"  nzSrc="../../assets/images/evento.png" nzTheme="outline"></nz-avatar>
-                                                    </ng-container>
-            
-                                                    <ng-container *ngIf="panel.estadoEtapa.est_codigo == 14">
-                                                        <nz-avatar style="width: 30px; height: 30px;"  nzSrc="../../assets/images/facturacion.png" nzTheme="outline"></nz-avatar>
-                                                    </ng-container>
-            
-                                                    <ng-container *ngIf="panel.estadoEtapa.est_codigo == 15">
-                                                        <nz-avatar style="width: 30px; height: 30px;"  nzSrc="../../assets/images/nacionalizacion.png" nzTheme="outline"></nz-avatar>
-                                                    </ng-container>
-            
-                                                    <ng-container *ngIf="panel.estadoEtapa.est_codigo == 16">
-                                                        <nz-avatar style="width: 30px; height: 30px;"  nzSrc="../../assets/images/disponible.png" nzTheme="outline"></nz-avatar>
-                                                    </ng-container>
-            
-                                                    <ng-container *ngIf="panel.estadoEtapa.est_codigo == 17">
-                                                        <nz-avatar style="width: 30px; height: 30px;"  nzSrc="../../assets/images/solicitudtraslado.png" nzTheme="outline"></nz-avatar>
-                                                    </ng-container>
-            
-                                                    <ng-container *ngIf="panel.estadoEtapa.est_codigo == 18">
-                                                        <nz-avatar style="width: 30px; height: 30px;"  nzSrc="../../assets/images/trasladoaprobado.png" nzTheme="outline"></nz-avatar>
-                                                    </ng-container>
-            
-                                                    <ng-container *ngIf="panel.estadoEtapa.est_codigo == 19">
-                                                        <nz-avatar style="width: 30px; height: 30px;"  nzSrc="../../assets/images/trasladonegado.png" nzTheme="outline"></nz-avatar>
-                                                    </ng-container>
-            
-                                                    <ng-container *ngIf="panel.estadoEtapa.est_codigo == 20">
-                                                        <nz-avatar style="width: 30px; height: 30px;"  nzSrc="../../assets/images/entransito.png" nzTheme="outline"></nz-avatar>
-                                                    </ng-container>
-            
-                                                    <ng-container *ngIf="panel.estadoEtapa.est_codigo == 21">
-                                                        <nz-avatar style="width: 30px; height: 30px;"  nzSrc="../../assets/images/entregadoevento.png" nzTheme="outline"></nz-avatar>
-                                                    </ng-container>
-            
-                                                    <ng-container *ngIf="panel.estadoEtapa.est_codigo == 22">
-                                                        <nz-avatar style="width: 30px; height: 30px;"  nzSrc="../../assets/images/entregado.png" nzTheme="outline"></nz-avatar>
-                                                    </ng-container>
-            
-                                                    <ng-container *ngIf="panel.estadoEtapa.est_codigo == 23">
-                                                        <nz-avatar style="width: 30px; height: 30px;"  nzSrc="../../assets/images/trasladoliberado.png" nzTheme="outline"></nz-avatar>
-                                                    </ng-container>
-            
-                                                    <ng-container *ngIf="panel.estadoEtapa.est_codigo == 29">
-                                                        <nz-avatar style="width: 30px; height: 30px;"  nzSrc="../../assets/images/trasladoescala.png" nzTheme="outline"></nz-avatar>
-                                                    </ng-container>
             
                                                     <ng-container *ngIf="panel.estadoEtapa.est_codigo == 0">
 
@@ -430,6 +354,7 @@
                                                                                                                 {{item.tamano.tam_nombre}}
                                                                                                             </small>
                                                                                                         </td>
+                                                                                                        
                                                                                                        
                                                                                                         <td>
                                                                                                             <small>
@@ -665,7 +590,7 @@
 
 
                     
-
+<!--jhon-->
 
 
 

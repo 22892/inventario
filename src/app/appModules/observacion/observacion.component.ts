@@ -9,6 +9,7 @@ import { NzTableFilterFn, NzTableFilterList, NzTableSortFn, NzTableSortOrder,} f
 import { ActivatedRoute, Params } from '@angular/router';
 import { GlobalserviceService } from '../../core/globalservice.service'
 import { Router } from '@angular/router';
+import { PedidoService } from '../pedido/services/pedido.service'
 
 
 interface ColumnItem {
@@ -225,7 +226,8 @@ export class ObservacionComponent implements OnInit, AfterViewInit {
     private serviceObservacion: ObservacionService,
     private rutaActiva: ActivatedRoute,
     private serviceGlobal: GlobalserviceService,
-    private router: Router) {
+    private router: Router,
+    private servicePedido: PedidoService) {
 
       this.baseUrl = baseUrl.substring(0, baseUrl.length-1);
 
@@ -517,8 +519,10 @@ export class ObservacionComponent implements OnInit, AfterViewInit {
             this.listObservacionVin = []
             this.listChecRespuesta = []
             this.listCheckListAccesorio = []
+            this.servicePedido.updateListAllVinMarca()
             this.msg.success('Observaciones de Vin Realizadas');
             this.router.navigate(['/pedido/lista']);
+            
             
           }else{
             this.isLoadinCreateObs = false

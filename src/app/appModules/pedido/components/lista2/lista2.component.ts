@@ -47,11 +47,11 @@ interface ColumnItemVin {
 
 
 @Component({
-  selector: 'app-lista',
-  templateUrl: './lista.component.html',
-  styleUrls: ['./lista.component.scss']
+  selector: 'app-lista2',
+  templateUrl: './lista2.component.html',
+  styleUrls: ['./lista2.component.scss']
 })
-export class ListaComponent implements OnInit {
+export class Lista2Component implements OnInit {
 
   listOfColumns: ColumnItem[] = [
     {
@@ -442,7 +442,7 @@ export class ListaComponent implements OnInit {
       color2: 'white',
       colnum: '1'
     },
-    /*{
+    {
       width:'80px',
       name: 'Trazabilidad',
       sortOrder: null,
@@ -454,7 +454,7 @@ export class ListaComponent implements OnInit {
       color: 'black',
       color2: 'white',
       colnum: '1'
-    },*/
+    },
    
     {
       width:'50px',
@@ -1848,100 +1848,6 @@ export class ListaComponent implements OnInit {
 
         //OPCION 2222222 ///////////////////////////////////////
         
-
-        this.listOfColumnsLista.forEach((listavin: any, index: any)=>{
-
-          
-          let columna = {
-            width:'200px',
-            name: '',
-            sortOrder: null,
-            sortFn: null,
-            sortDirections: [],
-            filterMultiple: true,
-            listOfFilter:[],
-            filterFn: null,
-            color: '',
-            color2: '',
-            colnum: index + 1
-           
-          }
-
-         
-
-          if(this.listOfColumnsLista.length == columna.colnum){
-            this.listOfColumnsEstados = [... this.listOfColumnsEstados, columna]
-
-          }
-          
-
-
-          
-        })
-
-
-
-
-        this.listEstadoVin.forEach((item: any, index: any)=>{
-
-          let columna = {
-            width:'200px',
-            name: item?.est_nombre,
-            sortOrder: null,
-            sortFn: null,
-            sortDirections: [],
-            filterMultiple: true,
-            listOfFilter:[],
-            filterFn: null,
-            color: '',
-            color2: '',
-            colnum: '1'
-          }
-
-          if(item.est_codigo == 1 || item.est_codigo == 2 || item.est_codigo == 3 || item.est_codigo == 4 || item.est_codigo == 5 || item.est_codigo == 6 || item.est_codigo == 8  ){
-
-           
-            this.totalEstados.push({est_codigo: item.est_codigo, cod_estado: item.est_codigo, estado_activado: false})
-            this.listOfColumnsEstados = [... this.listOfColumnsEstados, columna]
-            
-
-          }
-          
-        })
-
-
-        console.log('total estados');
-        console.log(this.totalEstados);
-        
-
-
-        this.listEstadoVin.forEach((item: any, index: any)=>{
-
-          
-
-          let columna = {
-            width:'10px',
-            name: 'z',
-            sortOrder: null,
-            sortFn: null,
-            sortDirections: [],
-            filterMultiple: true,
-            listOfFilter:[],
-            filterFn: null,
-            color: 'black',
-            color2: '#1890ff',
-            colnum: ''
-          }
-
-          
-
-          if(item.est_codigo == 1 || item.est_codigo == 2 || item.est_codigo == 3 || item.est_codigo == 4 || item.est_codigo == 5 || item.est_codigo == 6 || item.est_codigo == 8 ){
-            
-           
-            this.listOfColumnsLista = [... this.listOfColumnsLista, columna]
-
-          }
-        })
 
         
         //////////////////////////////////////
