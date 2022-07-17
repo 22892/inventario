@@ -1242,8 +1242,6 @@
 
                                         <div  *ngIf="item.listaEstadosPadres.length>0; else NoEstados">
 
-                                         
-                                            
                                             <div *ngFor="let estado of item.listaEstadosPadres ; let $index = index ">
 
                                                
@@ -1254,7 +1252,9 @@
 
                                                         <ng-container *ngIf="controlSi">
                                                         
-                                                            <input type="checkbox" (click)="chechselect(estado, $indexTable)"  [(ngModel)]="estado.check" class="form-check-input" id="{{item.veh_vin+itemEst.cod_estado}}">
+                                                            <!--<input type="checkbox" (click)="chechselect(estado, item.veh_vin)"  [(ngModel)]="estado.check" class="form-check-input" id="{{item.veh_vin+itemEst.cod_estado}}">
+                                                            <nz-divider nzType="vertical"></nz-divider>-->
+                                                            <button nz-button nzType="primary" (click)="openModalEstados(estado, item.veh_vin)"><i nz-icon nzType="car"></i></button>
                                                             {{cambio('si',-100,-100)}}
         
                                                         </ng-container>
@@ -1268,9 +1268,6 @@
                                                         
 
                                                     </ng-template>
-
-    
-
 
                                                 </ng-container>
 
@@ -1300,9 +1297,6 @@
                                             {{cambio('reset',-1,-1)}}
                                         </ng-template>
 
-                                        
-
-                                       
                                     </small>
                                 </td>
                             </ng-container>
@@ -1318,6 +1312,57 @@
     </div>
     
 </nz-card>
+
+
+<nz-modal nzWrapClassName="vertical-center-modal"  [(nzVisible)]="isModalEstados" nzTitle="Información Estados Vin : {{vin}}" 
+(nzOnCancel)="isModalEstados = false" (nzOnOk)="isModalEstados = false"  nzWidth="700px">
+    <ng-container *nzModalContent>
+
+        <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+            <nz-col nzSpan="24" class="gutter-row">
+                <nz-collapse nzAccordion >
+                    <nz-collapse-panel *ngFor="let panel of listaHijosEstados" [nzHeader]="extraTpl">
+
+                        <ng-template #extraTpl>
+
+                            <nz-col nzSpan="10" class="gutter-row">
+                                <div>{{panel.estadoEtapa.est_nombre}}</div>
+
+                            </nz-col>
+
+                          
+                            <nz-col nzSpan="14" class="gutter-row">
+                               
+                                <ng-container *ngIf="panel.veh_est_fecha">
+                                    <nz-steps  nzSize="small" [nzCurrent]="indexTiempo" (nzIndexChange)="onIndexChange($event)">
+                                        <nz-step
+                                            nzIcon="calendar"
+                                            nzTitle="Fecha Inicio:"
+                                            nzSubtitle="{{panel.veh_est_fecha_inicio}}"
+                                            nzStatus="finish"
+                                          
+                                        ></nz-step>
+                                    </nz-steps>
+
+                                </ng-container>
+
+                            </nz-col>
+
+
+                        </ng-template>
+
+                        <app-vinobs></app-vinobs>
+
+                    </nz-collapse-panel>
+                </nz-collapse>
+            </nz-col>
+        </nz-row>
+    
+    </ng-container>
+
+</nz-modal>
+
+
 
 <nz-modal nzWrapClassName="vertical-center-modal"  [(nzVisible)]="isModalPedf" nzTitle="Información Recepción" 
 (nzOnCancel)="isModalPedf = false"  (nzOnOk)="downloadPDFRecepcion()" nzOkText="Descargar" nzWidth="550px">

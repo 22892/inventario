@@ -11,11 +11,12 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FortawesomeModule } from 'src/app/fortawesome.module'
 import { TablaestadosComponent } from './components/tablaestados/tablaestados.component'
-import { SpinerComponent } from '../../init/spiner/spiner.component'
+import { SpinerModule } from '../../init/spiner/spiner.module'
 import  {  PdfViewerModule  }  from  'ng2-pdf-viewer';
+import { VinobsModule } from '../../init/vinobs/vinobs.module'
 
 const routes: Routes = [
-  { path: 'lista', component: ListaComponent },
+  { path: 'lista/:guia', component: ListaComponent },
   { path: 'lista2', component: Lista2Component },
 
   { path: 'detalle/:vin', component: DetalleComponent },
@@ -23,7 +24,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [ListaComponent, Lista2Component, DetalleComponent, TablaestadosComponent, SpinerComponent],
+  declarations: [ListaComponent, Lista2Component, DetalleComponent, TablaestadosComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
@@ -34,6 +35,8 @@ const routes: Routes = [
     FontAwesomeModule,
     FortawesomeModule,
     PdfViewerModule,
+    SpinerModule,
+    VinobsModule
 
   ]
 })

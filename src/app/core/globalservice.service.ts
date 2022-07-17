@@ -14,6 +14,7 @@ export class GlobalserviceService {
   private fechaHasta:Date = new Date();
   private emp_codigo: any = 1
   private marca: any = 100
+  private listGuiasRemision: any[] = []
 
   listImagesEstados: any[] = [
     
@@ -79,6 +80,14 @@ export class GlobalserviceService {
     let desde:Date = new Date();
     desde.setDate(this.fechaHasta.getDate() - 10);    
     this.setFechaDesde(desde);
+  }
+
+  setListGuiaRemision(lista: any){
+    this.listGuiasRemision = lista
+  }
+
+  getListGuiaRemision(): any{
+    return this.listGuiasRemision
   }
 
 }

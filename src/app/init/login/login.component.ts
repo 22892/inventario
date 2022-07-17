@@ -77,7 +77,7 @@ export class LoginComponent implements OnInit {
        
         console.log(res);
         this.serviceAuth.setCredentials(res, usr)
-        this.router.navigate(['/pedido/lista']);
+        this.router.navigate(['/remision/lista']);
         this.createNotification('success','Bienvenido','');
         this.cargando = false
           

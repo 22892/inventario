@@ -1,0 +1,21 @@
+
+<!--<section class="search_container">
+    <div class="search_name">
+        <label for="search_name">Buscar Guia Remisión</label>
+        <input type="text" class="search_input" placeholder="Buscar por Codigó" [formControl]="search">
+    </div>
+</section>-->
+
+<nz-input-group [nzSuffix]="suffixIconSearch">
+    <input
+      type="text"
+      nz-input
+      placeholder="Buscar Guia"
+      [formControl]="search"
+    />
+</nz-input-group>
+
+
+<ng-template #suffixIconSearch>
+    <i nz-icon nzType="search"></i>
+</ng-template>

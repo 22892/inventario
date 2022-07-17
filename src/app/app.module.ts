@@ -12,7 +12,6 @@ import { es_ES } from 'ng-zorro-antd/i18n';
 import es from '@angular/common/locales/es';
 import { NgZorroAntdModule } from './ng-zorro.module';
 
-
 registerLocaleData(es);
 
 @NgModule({

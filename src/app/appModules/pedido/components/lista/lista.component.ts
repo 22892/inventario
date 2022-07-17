@@ -14,6 +14,7 @@ import jsPDF from 'jspdf';
 import 'jspdf-autotable'
 import { SpinerService } from '../../../../core/spiner.service'
 import { saveAs } from "file-saver";
+import { ActivatedRoute} from '@angular/router';
 
 
 interface ColumnItem {
@@ -1615,6 +1616,12 @@ export class ListaComponent implements OnInit {
   control: boolean = false
   controlFecha: boolean = false
   
+  codigo_guia: any
+  isModalEstados: boolean = false
+  listaHijosEstados: any [] = []
+  indexTiempo = 0
+
+  vin: any
 
 
   constructor(private msg: NzMessageService,
@@ -1623,7 +1630,8 @@ export class ListaComponent implements OnInit {
     private servicePedido: PedidoService,
     private fb: FormBuilder,
     private serviceGlobal: GlobalserviceService,
-    private serviceSpiner: SpinerService) {
+    private serviceSpiner: SpinerService,
+    private rutaActiva: ActivatedRoute,) {
 
       this.vinForm = this.fb.group({
 
@@ -1671,6 +1679,11 @@ export class ListaComponent implements OnInit {
 
       })
 
+      this.codigo_guia = this.rutaActiva.snapshot.paramMap.get('guia')
+      console.log('parametros');
+      console.log(this.codigo_guia);
+      
+
   }
 
   ngOnInit(): void {
@@ -1683,8 +1696,15 @@ export class ListaComponent implements OnInit {
   }
 
 
-  chechselect(estado: any, posicion: any){
+  chechselect(estado: any, vinSlect: any){
 
+    let posicion = 0
+    
+    this.listVin.forEach((vin: any, index: any)=>{
+      if(vin.veh_vin.toUpperCase() == vinSlect.toUpperCase()){
+        posicion = index 
+      }
+    })
 
     setTimeout(() => {
 
@@ -1700,8 +1720,25 @@ export class ListaComponent implements OnInit {
   }
 
 
+  openModalEstados(estadosHijos: any, vin: any){
+    console.log(estadosHijos);
+    this.isModalEstados = true
+    this.listaHijosEstados = estadosHijos.listaHijos
+    this.vin = vin
+    this.listaHijosEstados.forEach((estado: any, index: any)=>{
+      estado.veh_est_fecha_inicio = this.transformDate(estado.veh_est_fecha) 
+    })
+
+    
+  }
+
+  onIndexChange(event: number): void {
+    this.indexTiempo = event;
+  }
+
+
   inicio(){
-    this.router.navigate(['/pedido/lista'])
+    this.router.navigate(['/remision/lista'])
     this.estadoExcel = false
   }
 
@@ -1958,7 +1995,6 @@ export class ListaComponent implements OnInit {
 
   cambio(estado: any, index: any, lista: any){
 
-    
     
     if(estado == 'si'){
       this.controlSi = false

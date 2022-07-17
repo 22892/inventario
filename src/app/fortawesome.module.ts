@@ -5,7 +5,7 @@ import { faSquare, faCalculator, faCameraRotate, faCar, faCheckSquare,
 faArrowAltCircleRight, faCarCrash, faCut, faArchive, faBattery, faCarSide,
 faFileInvoice, faPencilRuler, faExclamation, faExclamationCircle,
 faExternalLinkSquare, faWindowRestore, faTired, faCog, faFileExcel, faFileCsv,
-faEye, faEyeSlash, faQuestion, faInfoCircle, faCalendarDay } from '@fortawesome/free-solid-svg-icons';
+faEye, faEyeSlash, faQuestion, faInfoCircle, faCalendarDay, faPlus, faAddressCard } from '@fortawesome/free-solid-svg-icons';
 
 
 @NgModule({
@@ -44,7 +44,9 @@ export class FortawesomeModule {
       faEyeSlash,
       faQuestion,
       faInfoCircle,
-      faCalendarDay
+      faCalendarDay,
+      faPlus,
+      faAddressCard
     );
   }
 }

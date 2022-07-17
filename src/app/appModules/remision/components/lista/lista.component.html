@@ -1,1 +1,236 @@
-<p>lista works!</p>
+<nz-page-header class="site-page-header" nzBackIcon nzTitle="Guias Remisión" [nzSubtitle]="subtitle" (nzBack)="inicio()">
+    <ng-template #subtitle>
+
+        <nz-space>
+
+            <div  *nzSpaceItem>
+                <nz-input-group [nzSuffix]="suffixIconSearch">
+                    <input
+                      type="text"
+                      [(ngModel)]="buscarGuia"
+                      nz-input
+                      placeholder="Buscar Guia Remisión "
+                      (ngModelChange) = "filtroBuscarGuia()"
+                      (keyup.enter)="filtroBuscarGuia()"
+                    />
+                  </nz-input-group>
+          
+          
+                  <ng-template #suffixIconSearch>
+                    <i (click)="filtroBuscarGuia()" nz-icon nzType="search"></i>
+                  </ng-template>
+            </div>
+
+          
+           
+          
+        </nz-space>
+      
+  
+    </ng-template>
+    <nz-page-header-extra>
+
+      <nz-space >
+
+        <div *nzSpaceItem>
+          <nz-date-picker nzTooltipTitle="Fecha desde" nzTooltipPlacement="bottom" nz-tooltip nzPlaceHolder="Desde"
+            [nzMode]="mode" [(ngModel)]="desde" style="margin-bottom:8px" (nzOnOpenChange)="actualizarFecha($event)">
+          </nz-date-picker>
+        </div>
+        <div *nzSpaceItem>
+          <nz-date-picker nzTooltipTitle="Fecha hasta" nzTooltipPlacement="bottom" nz-tooltip nzPlaceHolder="Hasta"
+            [nzMode]="mode" [(ngModel)]="hasta" style="margin-bottom:8px" (nzOnOpenChange)="actualizarFecha($event)">
+          </nz-date-picker>
+        </div>
+      
+      </nz-space>
+     
+      <i nz-icon nzType="reload" nzTheme="outline" style="cursor: pointer;" (click)="reloadGuias()"></i>
+    </nz-page-header-extra>
+</nz-page-header>
+
+
+<ng-container *ngIf="cargandoRemision; else NoDatoCargados">
+
+    <div class="loader" id="loader">Loading...</div>
+ 
+</ng-container>
+
+
+<ng-template #NoDatoCargados>
+
+
+    <div class="contenedorPrincipal">
+
+        <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+            <nz-col class="gutter-row" nzSpan="24">
+
+                <nz-row style="justify-content: end;" [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                    <pagination-controls 
+                        (pageChange)="p = $event" 
+                        previousLabel="Anteriror"
+                        nextLabel="Siguiente"
+                        screenReaderPaginationLabel="Pagination"
+                        screenReaderPageLabel="page"
+                        screenReaderCurrentLabel="You're on page">
+                    </pagination-controls>
+
+                </nz-row>
+                    
+                <div class="tarjeta" *ngFor="let guia of listGuiaRemision | paginate: { itemsPerPage: 10, currentPage: p }">
+
+                    <nz-row style="margin-bottom: 1%;" [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                        <nz-col style="text-align: start;" class="gutter-row" nzSpan="12">
+                          
+                            <div style="color: rgb(199, 199, 199);">Guia de Remisión: <label style="color: rgb(117, 117, 117);"> {{guia.name}}</label></div> 
+                        </nz-col>
+                        <nz-col style="text-align: end;" class="gutter-row" nzSpan="12" nzOffset="6">
+                            <div style="color: rgb(169, 169, 169); font-size: 12px;">OPCIONES DE GUIA</div>
+                        </nz-col>
+                    </nz-row>
+                    
+                    <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                        <nz-col style="align-self: center;" class="gutter-row" nzSpan="6">
+                            <div class="imagen">
+                                <fa-icon class="fa-3x" style="color: rgb(214, 214, 214);" [icon]="['fas', 'calendar-day']"></fa-icon>
+                            </div>
+                
+                        </nz-col>
+                        <nz-col class="gutter-row" style=" text-align: justify;  color: rgb(204, 204, 204); " nzSpan="3">
+    
+                            <div >Codigo:</div>
+                            <div >Conductor:</div>
+                            <div >Placa:</div>
+        
+                        </nz-col>
+                        <nz-col class="gutter-row" style="color: rgb(117, 117, 117);" nzSpan="5">
+                            <div>{{guia.codigo}}</div>
+                            <div>{{guia.conductor}}</div>
+                            <div>{{guia.placa}}</div>
+                        </nz-col>
+
+                        <nz-col class="gutter-row"  nzSpan="2">
+                            
+                            <div class="vl"></div>
+                        </nz-col>
+
+
+                        <nz-col class="gutter-row" nzSpan="8">
+                                
+                                <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+            
+                                    <nz-col style="text-align: center;" class="gutter-row" nzSpan="8">
+            
+                                        <div class="tarjetaIcono" [routerLink]="['/pedido/lista', guia.codigo]" >
+                                            <fa-icon nzTooltipTitle="Listar Vins" nzTooltipPlacement="top" nz-tooltip class="fa-3x" style="color: blue;"   [icon]="['fas', 'car']" ></fa-icon>
+                                        </div>
+            
+                                    </nz-col>
+            
+                                    <nz-col style="text-align: center;" class="gutter-row" nzSpan="8">
+                                        <div class="tarjetaIcono">
+                                            <fa-icon style="color: rgb(62, 173, 75);" nz-tooltip nzTooltipTitle="Información Guia" nzTooltipPlacement="top" class="fa-3x" [icon]="['fas', 'address-card']" ></fa-icon>
+                                           
+                                        </div>
+                                    </nz-col>
+            
+                                    <nz-col style="text-align: center;" class="gutter-row" nzSpan="8">
+            
+                                    </nz-col>
+            
+                                </nz-row>
+            
+                           
+                        </nz-col>
+
+                    </nz-row>
+
+                    <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+
+                        <nz-col  class="gutter-row" style="text-align: end;" nzSpan="12" >
+                            <ng-container *ngIf="guia.estado.codigo == 1; else otroColor">
+                                <nz-tag [nzColor]="'red'">{{guia.estado.estado}}</nz-tag>
+
+                            </ng-container>
+                            <ng-template #otroColor>
+                                <nz-tag [nzColor]="'blue'">{{guia.estado.estado}}</nz-tag>
+
+                            </ng-template>
+                        </nz-col>
+
+                        <nz-col  class="gutter-row" style="text-align: end;" nzSpan="12" >
+                            <nz-tag >Número de Vins</nz-tag>
+                                        <nz-badge
+                                        nzStandalone
+                                        [nzCount]="4"
+                                        [nzStyle]="{ backgroundColor: '#fff', color: '#999', boxShadow: '0 0 0 1px #d9d9d9 inset' }"
+                                      ></nz-badge>
+
+                        </nz-col>
+                    </nz-row>
+
+        
+                </div>
+    
+            </nz-col>
+
+           
+
+            <!--<nz-col style="text-align: end;" class="gutter-row" nzSpan="9">
+
+                <div class="controles" *ngFor="let guia of listGuiaRemision ">
+
+                    <nz-row style="margin-bottom: 4%;" [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                        <nz-col style="text-align: start;" class="gutter-row" nzSpan="24">
+                            <div style="color: rgb(169, 169, 169); font-size: 12px;">OPCIONES DE GUIA</div>
+                        </nz-col>
+
+                    </nz-row>
+                    
+                    <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+
+                        <nz-col style="text-align: center;" class="gutter-row" nzSpan="8">
+
+                            <div class="tarjetaIcono" >
+                                <fa-icon nzTooltipTitle="Listar Vins" nzTooltipPlacement="top" nz-tooltip class="fa-3x" style="color: blue;"  [icon]="['fas', 'car']" ></fa-icon>
+                            </div>
+
+                        </nz-col>
+
+                        <nz-col style="text-align: center;" class="gutter-row" nzSpan="8">
+                            <div class="tarjetaIcono">
+                                <fa-icon style="color: rgb(62, 173, 75);" nz-tooltip nzTooltipTitle="Información Guia" nzTooltipPlacement="top" class="fa-3x" [icon]="['fas', 'address-card']" ></fa-icon>
+                               
+                            </div>
+                        </nz-col>
+
+                        <nz-col style="text-align: center;" class="gutter-row" nzSpan="8">
+
+                        </nz-col>
+
+                    </nz-row>
+
+                    <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                        <nz-col style="text-align: end;" class="gutter-row" nzSpan="24">
+                            <nz-tag >Número de Vins</nz-tag>
+                            <nz-badge
+                            nzStandalone
+                            [nzCount]="4"
+                            [nzStyle]="{ backgroundColor: '#fff', color: '#999', boxShadow: '0 0 0 1px #d9d9d9 inset' }"
+                          ></nz-badge>
+                        </nz-col>
+                    </nz-row>
+
+                </div>
+
+
+            </nz-col>-->
+
+           
+        
+        </nz-row>
+
+    </div>
+    
+</ng-template>
+
