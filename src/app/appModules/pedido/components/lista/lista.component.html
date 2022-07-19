@@ -107,6 +107,10 @@
                             <p style="margin-top: 8px; color: rgb(158, 173, 240);">{{item.exe_name}}</p>
                         </div>
                     </div>
+
+                    <!--<nz-segmented [nzOptions]="listTotalExcel" (nzValueChange)="tipoExcel($event)"></nz-segmented>-->
+
+
     
                    
     
@@ -865,6 +869,110 @@
 
             </ng-container>
 
+
+
+            <ng-container *ngIf="tipoExcelItem == 4" >
+
+                <nz-table *ngIf="listExcel.length > 0" #filterTable [nzData]="listExcel" nzBordered nzSize="middle" nzTableLayout="fixed"
+                    [nzLoading]="cargarPedido" [nzFrontPagination]="true" [nzScroll]="{ x: '3000px' }">
+                    <thead *ngIf="listExcel.length > 0">
+                        <tr>
+    
+                            <th *ngFor="let column of listOfColumnsLogistica" [nzSortOrder]="column.sortOrder"
+                                [nzSortFn]="column.sortFn" [nzSortDirections]="column.sortDirections"
+                                [nzFilterMultiple]="column.filterMultiple" [nzFilters]="column.listOfFilter"
+                                [nzFilterFn]="column.filterFn" [nzShowFilter]="column.filterFn ? true : false"
+                                [nzWidth]="column.width ? column.width : null" style="text-align: center; background-color: black; color: white; font-size: 13px;">
+    
+                                {{ column.name }}
+    
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="listExcel.length > 0">
+                        <tr *ngFor="let item of filterTable.data" style="font-size: 12px;">
+    
+                            <td>
+                                <small>
+                                   {{item.VIN}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.Buque}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.Color}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.ETA}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                   {{item.Estado}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.Fecha}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.Marca}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.Movilizacion}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.Novedad}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.Parte}}
+                                </small>
+                            </td>
+    
+                            <td style="text-align: center;">
+                                <small>
+                                    {{item.Proceso}}
+                                </small>
+                            </td>
+    
+                            <td>
+                                <small>
+                                    {{item.Referencia}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.Tipo}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item['__EMPTY']}}
+                                </small>
+                            </td>
+    
+                          
+                        </tr>
+                    </tbody>
+                </nz-table>
+
+
+            </ng-container>
+
     
 
             <nz-row style="display: flex; justify-content: center; margin-bottom: 15px;" [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
@@ -1315,12 +1423,13 @@
 
 
 <nz-modal nzWrapClassName="vertical-center-modal"  [(nzVisible)]="isModalEstados" nzTitle="Información Estados Vin : {{vin}}" 
-(nzOnCancel)="isModalEstados = false" (nzOnOk)="isModalEstados = false"  nzWidth="700px">
+(nzOnCancel)="isModalEstados = false" (nzOnOk)="isModalEstados = false"  nzWidth="450px">
     <ng-container *nzModalContent>
 
         <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
             <nz-col nzSpan="24" class="gutter-row">
-                <nz-collapse nzAccordion >
+                
+                <!--<nz-collapse nzAccordion >
                     <nz-collapse-panel *ngFor="let panel of listaHijosEstados" [nzHeader]="extraTpl">
 
                         <ng-template #extraTpl>
@@ -1348,13 +1457,19 @@
 
                             </nz-col>
 
-
                         </ng-template>
 
                         <app-vinobs></app-vinobs>
 
                     </nz-collapse-panel>
-                </nz-collapse>
+                </nz-collapse>-->
+
+               
+                <nz-timeline >
+                    <nz-timeline-item style="background-color: red;" *ngFor="let panel of listaHijosEstados">{{panel.estadoEtapa.est_nombre}} <div *ngIf="panel.veh_est_fecha">{{panel.veh_est_fecha_inicio}}</div> </nz-timeline-item>
+                </nz-timeline>
+
+
             </nz-col>
         </nz-row>
     

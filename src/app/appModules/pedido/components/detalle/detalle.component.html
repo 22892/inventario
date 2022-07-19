@@ -339,19 +339,30 @@
                                                                                                        
                                                                                                         <td>
                                                                                                             <small>
-                                                                                                                {{item.parte.par_nombre}}
+                                                                                                                <ng-container *ngIf="item.parte">
+                                                                                                                    {{item.parte.par_nombre}}
+
+                                                                                                                </ng-container>
+
                                                                                                             </small>
                                                                                                         </td>
                                                         
                                                                                                         <td>
                                                                                                             <small>
-                                                                                                                {{item.dano.dan_nombre}}
+                                                                                                                <ng-container *ngIf="item.dano">
+                                                                                                                    {{item.dano.dan_nombre}}
+
+                                                                                                                </ng-container>
+                                                                                                                
                                                                                                             </small>
                                                                                                         </td>
                                                         
                                                                                                         <td>
                                                                                                             <small>
-                                                                                                                {{item.tamano.tam_nombre}}
+                                                                                                                <ng-container *ngIf="item.tamano">
+                                                                                                                    {{item.tamano.tam_nombre}}
+                                                                                                                </ng-container>
+                                                                                                                
                                                                                                             </small>
                                                                                                         </td>
                                                                                                         

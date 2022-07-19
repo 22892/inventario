@@ -121,14 +121,12 @@ export class TablaestadosComponent implements OnInit {
 
     if(this.listColumnsTable){
 
-
+      
       listAux = Object.values(this.listColumnsTable)
       listInfo = Object.values(this.informacionVin)
+
       var i=0  
 
-
-     
-     
 
       if(this.estadoVin.est_codigo == 100){
 
@@ -146,12 +144,12 @@ export class TablaestadosComponent implements OnInit {
               result = false
             }else{
              
-              console.log('objeto');
+              //console.log('objeto');
               if(typeof listInfo[i] == 'undefined'){
                 console.log('siiii');
                 
               }else{
-                console.log('noooo');
+                //console.log('noooo');
                 
               }
 

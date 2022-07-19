@@ -257,6 +257,18 @@ export class PedidoService {
   }
 
 
+  uploadFileExelLogistica(file:any):Observable<any>{
+    let marca = this.serviceGlobal.getCodigoMarca()
+
+    return this.http.post(`${this.baseUrl}api/observacion/upload_document_excel/${marca}`, file,{
+      reportProgress: true,
+      //observe: 'events',
+      headers: new HttpHeaders({
+        //"Authorization":"Bearer " + this.auth.token      
+      })
+    });
+  }
+
 
   uploadFileExelPedido(file:any):Observable<any>{
     let marca = this.serviceGlobal.getCodigoMarca()
@@ -331,6 +343,5 @@ export class PedidoService {
       }
     );
   }
-
 
 }

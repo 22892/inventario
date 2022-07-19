@@ -290,15 +290,19 @@ export class DetalleComponent implements OnInit, AfterViewInit {
   
       this.listObservacionVin.forEach((obs)=>{
 
-        let aux = (obs.obs_pos_x * this.ancho) / 100
-        let auy = (obs.obs_pos_y * this.alto) / 100
-        
-        this.context.beginPath();
-        this.context.fillStyle = 'red';
-        this.context.strokeStyle = 'black';
-        this.context.arc(aux, auy, 10, 0, 2 * Math.PI);
-        this.context.fill();
-        this.context.stroke();
+        if(obs.obs_pos_x > 0 && obs.obs_pos_y >0){
+
+          let aux = (obs.obs_pos_x * this.ancho) / 100
+          let auy = (obs.obs_pos_y * this.alto) / 100
+          
+          this.context.beginPath();
+          this.context.fillStyle = 'red';
+          this.context.strokeStyle = 'black';
+          this.context.arc(aux, auy, 10, 0, 2 * Math.PI);
+          this.context.fill();
+          this.context.stroke();
+  
+        }
   
       })
   
@@ -324,9 +328,9 @@ export class DetalleComponent implements OnInit, AfterViewInit {
 
       if(this.cargandoDetalleVin == false){
 
+
         this.listDetalleEstadoVin = this.objetoDetalle.vehiculoDetalle.listaEstado
 
-        
         //METODO PARA AGRUPAR LOS TRASLADOS
 
         this.listDetalleEstadoVin.forEach((item: any, index: any)=>{
@@ -340,12 +344,10 @@ export class DetalleComponent implements OnInit, AfterViewInit {
         
 
         ///////////////////////////////////////////
-
-
         
         this.listDetalleEstadoVin.push(this.objEstadoEtapaObservacion)
         this.listDetalleEstadoVin.unshift(this.objInformacionVin)
-        
+
 
         for(var j=0; j<this.listDetalleEstadoVin.length; j++){
 
@@ -387,6 +389,8 @@ export class DetalleComponent implements OnInit, AfterViewInit {
           
         })
 
+        console.log('este otrooooooooooooooooooo');
+        
         console.log(this.listDetalleEstadoVin);
         console.log(this.total_dias_proceso);
         

@@ -54,6 +54,152 @@ interface ColumnItemVin {
 })
 export class ListaComponent implements OnInit {
 
+  listOfColumnsLogistica: ColumnItem[] = [
+    {
+      width:'50px',
+      name: 'VIN',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width: '80px',
+      name: 'Buque',
+      sortOrder: null,
+      sortDirections: ['ascend', 'descend', null],
+      sortFn: null,
+      filterMultiple: true,
+      listOfFilter: [],
+      filterFn: null,
+    },
+    {
+      width: '50px',
+      name: 'Color',
+      sortOrder: null,
+      sortDirections: ['ascend', 'descend', null],
+      sortFn: null,
+      filterMultiple: true,
+      listOfFilter: [],
+      filterFn: null,
+    },
+    {
+      width:'50px',
+      name: 'ETA',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'Estado',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+   
+    {
+      width:'50px',
+      name: 'Fecha',
+      sortOrder: null,
+      sortDirections: ['ascend', 'descend', null],
+      sortFn: null,
+      filterMultiple: false,
+      listOfFilter: [],
+      filterFn: null
+    },
+    {
+      width: '50px',
+      name: 'Marca',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter: [],
+      filterFn: null,
+    },
+   
+    {
+      width:'80px',
+      name: 'Movilización',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'70px',
+      name: 'Novedad',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'70px',
+      name: 'Parte',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'70px',
+      name: 'Proceso',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'Referencia',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'Tipo',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'Número Novedades',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+  ];
+
+
   listOfColumns: ColumnItem[] = [
     {
       width: '80px',
@@ -1585,7 +1731,8 @@ export class ListaComponent implements OnInit {
   vinForm!: FormGroup;
   isLoadingUploadExcel: boolean = false
 
-  listTotalExcel: any[] = [{exe_codigo: 1,exe_name: 'Pedido'}, {exe_codigo: 2,exe_name: 'Facturación'}, {exe_codigo: 3,exe_name: 'Nacionalización'}]
+  listTotalExcel: any[] = [{exe_codigo: 1,exe_name: 'Pedido'}, {exe_codigo: 2,exe_name: 'Facturación'}, 
+                           {exe_codigo: 3,exe_name: 'Nacionalización'}, {exe_codigo: 4,exe_name: 'Logistica'}]
   tipoExcelItem: number = 1
   indexTipoExcel: any
   
@@ -1779,6 +1926,9 @@ export class ListaComponent implements OnInit {
 
 
   beforeUpload = (file: any): boolean => {
+
+    console.log('mmmmmmmmmmmmmmmmm');
+    
 
     this.listExcel = []
     
@@ -2228,8 +2378,29 @@ export class ListaComponent implements OnInit {
           this.msg.error(`Ha ocurrido un error al subir el archivo Nacionalización, ${err.error.message}`);
         }
      });
+    }
 
+    if(this.tipoExcelItem == 4){
 
+      this.servicePedido.uploadFileExelLogistica(formdata).subscribe({
+        next: (data) => {
+          console.log('response');
+          
+          console.log(data);
+          if(data.length>0){
+            this.listErrorExcel = data
+            this.isModalExcelError = true
+            this.isLoadingUploadExcel = false
+            this.listExcel = []
+            this.fileList = []
+          }
+          
+        },
+        error: (err) => {
+          this.isLoadingUploadExcel = false;
+          this.msg.error(`Ha ocurrido un error al subir el archivo Logisticas, ${err.error.message}`);
+        }
+     });
     }
 
   }
@@ -2253,6 +2424,12 @@ export class ListaComponent implements OnInit {
 
     if(item.exe_codigo == 3){ // nacionalizción
       this.tipoExcelItem = 3
+      this.fileList = []
+      this.listExcel = []
+    }
+
+    if(item.exe_codigo == 4){ // logistica
+      this.tipoExcelItem = 4
       this.fileList = []
       this.listExcel = []
     }
