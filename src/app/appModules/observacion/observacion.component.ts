@@ -245,7 +245,8 @@ export class ObservacionComponent implements OnInit, AfterViewInit {
     this.getListDocumentsVin()
     this.ancho = this.porcentaje(40)
     this.alto = this.ancho / 1.4036
-
+    console.log('codigo guia...'+this.serviceGlobal.getCodigoGuia());
+    
   }
 
   ngAfterViewInit(): void {
@@ -519,7 +520,7 @@ export class ObservacionComponent implements OnInit, AfterViewInit {
             this.listObservacionVin = []
             this.listChecRespuesta = []
             this.listCheckListAccesorio = []
-            this.servicePedido.updateListAllVinMarca()
+            this.servicePedido.updateListAllVinMarca(this.serviceGlobal.getCodigoGuia())
             this.msg.success('Observaciones de Vin Realizadas');
             this.router.navigate(['/pedido/lista']);
             

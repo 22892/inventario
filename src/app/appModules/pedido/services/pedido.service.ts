@@ -13,7 +13,7 @@ export class PedidoService {
 
   baseUrl: string = '';
 
-  private listVin!: any[];
+  private listVin: any[] = [];
   
   private vin$! : BehaviorSubject<any>;
   private vinFecha$! : BehaviorSubject<any>;
@@ -148,16 +148,16 @@ export class PedidoService {
   }
 
 
-  updateListAllVinMarca(){
-    this.getVinsMarca();
+  updateListAllVinMarca(gur_codigo: any){
+    this.getVinsMarca(gur_codigo);
   }
 
 
 
-  getListAllVinMarca$(): Observable<any> {
+  getListAllVinMarca$(gur_codigo: any): Observable<any> {
    
-    if(!this.listVin){
-      this.getVinsMarca();
+    if(this.listVin){
+      this.getVinsMarca(gur_codigo);
     }else{
       this.vin$.subscribe((x)=>{
         x.control = false
@@ -167,7 +167,7 @@ export class PedidoService {
     return this.vin$.asObservable();
   }
 
-  getVinsMarca(){
+  getVinsMarca(gur_codigo: any){
    
     let marca = this.serviceGlobal.getCodigoMarca()
     let cod_empresa = this.serviceGlobal.getCodigoEmpresa()
@@ -178,9 +178,9 @@ export class PedidoService {
 
     this.listVin = [];
     this.vin$.next({ listVin: this.listVin, cargando: true, control: true });
-    console.log(`${this.baseUrl}api/vehiculo/getAllVehiculosMarca/${marca}/${0}`);
+    console.log(`${this.baseUrl}api/vehiculo/getAllVehiculosMarca/${marca}/${0}/${gur_codigo}`);
     
-    this.http.get(`${this.baseUrl}api/vehiculo/getAllVehiculosMarca/${marca}/${0}`,this.httpOptions).subscribe({
+    this.http.get(`${this.baseUrl}api/vehiculo/getAllVehiculosMarca/${marca}/${226}/${gur_codigo}`,this.httpOptions).subscribe({
       next: (data) => {
 
         this.vin$.next({ listVin: data, cargando: false, control: true});

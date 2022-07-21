@@ -50,6 +50,7 @@ import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { NzTransferModule } from 'ng-zorro-antd/transfer';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
+import { NzSegmentedModule } from 'ng-zorro-antd/segmented';
 
 @NgModule({
     exports: [
@@ -102,7 +103,8 @@ import { NzCollapseModule } from 'ng-zorro-antd/collapse';
         NzAlertModule,
         NzTimelineModule,
         NzDescriptionsModule,
-        NzAutocompleteModule
+        NzAutocompleteModule,
+        NzSegmentedModule,
     ]
 })
 

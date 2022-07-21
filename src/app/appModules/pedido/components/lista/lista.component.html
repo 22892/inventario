@@ -102,13 +102,33 @@
         
                 <nz-col class="gutter-row" nzSpan="24" nzOffset="8" >
     
-                    <div class="contenedorExcel" *ngFor="let item of listTotalExcel ; let $index = index">
+                    <!--<div class="contenedorExcel" *ngFor="let item of listTotalExcel ; let $index = index">
                         <div class="tarjetaExcel" (click)="tipoExcel(item, $index)" [class.selected]="item === indexTipoExcel">
                             <p style="margin-top: 8px; color: rgb(158, 173, 240);">{{item.exe_name}}</p>
                         </div>
-                    </div>
+                    </div>-->
 
-                    <!--<nz-segmented [nzOptions]="listTotalExcel" (nzValueChange)="tipoExcel($event)"></nz-segmented>-->
+                    <nz-segmented [nzLabelTemplate]="templateRef" [nzOptions]="listTotalExcel" (nzValueChange)="tipoExcel($event)"></nz-segmented>
+                    <ng-template #temp let-index="index">
+                    <ng-container [ngSwitch]="index">
+                        <ng-container *ngSwitchCase="0">
+                        <nz-avatar nzSrc="https://joeschmoe.io/api/v1/random"></nz-avatar>
+                        <div>User 1</div>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="1">
+                        <nz-avatar nzText="K"></nz-avatar>
+                        <div>User 2</div>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="2">
+                        <nz-avatar nzIcon="user"></nz-avatar>
+                        <div>User 3</div>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="2">
+                            <nz-avatar nzIcon="user"></nz-avatar>
+                            <div>User 4</div>
+                            </ng-container>
+                    </ng-container>
+                    </ng-template>
 
 
     
@@ -1328,7 +1348,8 @@
 
                             <td>
                                 <ng-container *ngIf="item.veh_estado_observacion == 0; else tieneObservacion">
-                                    <nz-avatar [nzIcon]="'check-circle'" [routerLink]="['/observacion', item.veh_vin]" style="background:white;border: solid 1px #eb767e; color:#eb767e" [nzTooltipTitle]="'REALIZAR REVISIÓN VIN'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>
+                                    <!--<nz-avatar [nzIcon]="'check-circle'" [routerLink]="['/observacion', item.veh_vin]" style="background:white;border: solid 1px #eb767e; color:#eb767e" [nzTooltipTitle]="'REALIZAR REVISIÓN VIN'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>-->
+                                    <nz-avatar [nzIcon]="'check-circle'"  style="background:white;border: solid 1px #eb767e; color:#eb767e" [nzTooltipTitle]="'FALTA REVISIÓN'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>
                                 </ng-container>
 
                                 <ng-template #tieneObservacion>

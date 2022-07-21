@@ -82,7 +82,7 @@
                     <nz-row style="margin-bottom: 1%;" [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
                         <nz-col style="text-align: start;" class="gutter-row" nzSpan="12">
                           
-                            <div style="color: rgb(199, 199, 199);">Guia de Remisión: <label style="color: rgb(117, 117, 117);"> {{guia.name}}</label></div> 
+                            <div style="color: rgb(199, 199, 199);">Guia de Remisión: <label style="color: rgb(117, 117, 117);"> {{guia.gur_nombre}}</label></div> 
                         </nz-col>
                         <nz-col style="text-align: end;" class="gutter-row" nzSpan="12" nzOffset="6">
                             <div style="color: rgb(169, 169, 169); font-size: 12px;">OPCIONES DE GUIA</div>
@@ -104,9 +104,9 @@
         
                         </nz-col>
                         <nz-col class="gutter-row" style="color: rgb(117, 117, 117);" nzSpan="5">
-                            <div>{{guia.codigo}}</div>
-                            <div>{{guia.conductor}}</div>
-                            <div>{{guia.placa}}</div>
+                            <div>{{guia.gur_codigo}}</div>
+                            <div>Pedro Ortiz</div>
+                            <div>AAS-3567</div>
                         </nz-col>
 
                         <nz-col class="gutter-row"  nzSpan="2">
@@ -121,7 +121,7 @@
             
                                     <nz-col style="text-align: center;" class="gutter-row" nzSpan="8">
             
-                                        <div class="tarjetaIcono" [routerLink]="['/pedido/lista', guia.codigo]" >
+                                        <div class="tarjetaIcono" [routerLink]="['/pedido/lista', guia.gur_codigo]" >
                                             <fa-icon nzTooltipTitle="Listar Vins" nzTooltipPlacement="top" nz-tooltip class="fa-3x" style="color: blue;"   [icon]="['fas', 'car']" ></fa-icon>
                                         </div>
             
@@ -148,12 +148,12 @@
                     <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
 
                         <nz-col  class="gutter-row" style="text-align: end;" nzSpan="12" >
-                            <ng-container *ngIf="guia.estado.codigo == 1; else otroColor">
-                                <nz-tag [nzColor]="'red'">{{guia.estado.estado}}</nz-tag>
+                            <ng-container *ngIf="guia.gur_estado == 1; else otroColor">
+                                <nz-tag [nzColor]="'red'">Finalizado</nz-tag>
 
                             </ng-container>
                             <ng-template #otroColor>
-                                <nz-tag [nzColor]="'blue'">{{guia.estado.estado}}</nz-tag>
+                                <nz-tag [nzColor]="'blue'">Pendiente</nz-tag>
 
                             </ng-template>
                         </nz-col>

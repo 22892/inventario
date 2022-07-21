@@ -83,9 +83,8 @@ export class RemisionService {
 
     this.listGuiaRemision = [];
     this.guia$.next({ listGuiaRemision: this.listGuiaRemision, cargando: true, control: true });
-    console.log(`${this.baseUrl}api/vehiculo/getAllVehiculosMarca/${marca}/${0}`);
     
-    this.http.get(`${this.baseUrl}api/vehiculo/getAllVehiculosMarca/${marca}/${0}`,this.httpOptions).subscribe({
+    this.http.get(`${this.baseUrl}api/guia/getAllGuias/${marca}`,this.httpOptions).subscribe({
       next: (data) => {
 
         this.guia$.next({ listGuiaRemision: data, cargando: false, control: true});

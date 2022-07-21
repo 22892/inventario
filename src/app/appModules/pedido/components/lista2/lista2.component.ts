@@ -1666,7 +1666,7 @@ export class Lista2Component implements OnInit {
         if(value == true){
           console.log('Activa Vins');
           
-          this.servicePedido.updateListAllVinMarca()
+          this.servicePedido.updateListAllVinMarca(1)
         }
 
       })
@@ -1708,7 +1708,7 @@ export class Lista2Component implements OnInit {
   realoadPedido(){
     this.desde = new Date()
     this.hasta = new Date()
-    this.servicePedido.updateListAllVinMarca()
+    this.servicePedido.updateListAllVinMarca(1)
   }
 
   actualizarFecha(e: any) {
@@ -1899,7 +1899,7 @@ export class Lista2Component implements OnInit {
   getListVins(){
 
 
-    this.vin$ = this.servicePedido.getListAllVinMarca$()
+    this.vin$ = this.servicePedido.getListAllVinMarca$(1)
     
     this.sub = this.vin$.subscribe(p => {
       

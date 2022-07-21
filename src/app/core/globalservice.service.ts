@@ -15,6 +15,7 @@ export class GlobalserviceService {
   private emp_codigo: any = 1
   private marca: any = 100
   private listGuiasRemision: any[] = []
+  private codigoGuia: any = 0
 
   listImagesEstados: any[] = [
     
@@ -88,6 +89,14 @@ export class GlobalserviceService {
 
   getListGuiaRemision(): any{
     return this.listGuiasRemision
+  }
+
+  setCodigoGuia(gur_codigo: any): any{
+    this.codigoGuia = gur_codigo
+  }
+
+  getCodigoGuia(): any{
+    return this.codigoGuia
   }
 
 }
