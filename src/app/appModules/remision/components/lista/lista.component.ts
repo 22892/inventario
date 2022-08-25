@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { RemisionService } from '../../services/remision.service'
 import { Observable} from 'rxjs';
 import { GlobalserviceService } from '../../../../core/globalservice.service'
 import { Router } from '@angular/router';
+import * as moment from 'moment'
+import 'moment/locale/es';
 
 
 @Component({
@@ -37,11 +39,19 @@ export class ListaComponent implements OnInit {
   p: number = 1;
   codigo_guia: any
 
+  modalGuia: boolean = false
+  itemGuia: any
+  control: boolean = true
+  baseUrl: string = '';
+
+
   constructor(private serviceRemision: RemisionService,
     private serviceGlobal: GlobalserviceService,
-    private router: Router) {
+    private router: Router,
+    @Inject('BASE_URL') baseUrl: string,) {
 
-   
+      this.baseUrl = baseUrl
+
   }
 
   ngOnInit(): void {
@@ -98,9 +108,15 @@ export class ListaComponent implements OnInit {
 
       if(this.cargandoRemision == false){
 
-        this.listGuiaRemision.forEach((item: any, index: any)=>{
-        
-        })
+        if(this.control){
+          this.listGuiaRemision.forEach((item: any, index: any)=>{
+            item.gur_fecha = this.transformDate(item.gur_fecha)
+
+          })
+        }
+
+        this.control = false
+
       }
       
     });
@@ -118,6 +134,26 @@ export class ListaComponent implements OnInit {
     console.log($event);
     
   }
+
+  modalInfoGuia(guia: any){
+    this.modalGuia = true
+    this.itemGuia = guia
+  }
+
+  cerrarModalGuia(){
+    this.modalGuia = false
+  }
+
+  transformDate(newDate: any): any{
+    var dia = moment(newDate,'YYYY-MM-DD').format("DD");
+    var mes = moment(newDate,'YYYY-MM-DD').format("MMMM");
+    var anio = moment(newDate,'YYYY-MM-DD').format("YYYY");
+
+    let fecha = dia + " de "+ mes +" del "+anio
+
+    return fecha
+  }
+
 
 
 }

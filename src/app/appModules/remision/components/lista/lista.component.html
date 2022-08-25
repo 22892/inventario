@@ -82,7 +82,7 @@
                     <nz-row style="margin-bottom: 1%;" [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
                         <nz-col style="text-align: start;" class="gutter-row" nzSpan="12">
                           
-                            <div style="color: rgb(199, 199, 199);">Guia de Remisión: <label style="color: rgb(117, 117, 117);"> {{guia.gur_nombre}}</label></div> 
+                            <div style="color: rgb(199, 199, 199);">GUIA DE REMISIÓN: <label style="color: rgb(117, 117, 117);"> {{guia.gur_id}}</label></div> 
                         </nz-col>
                         <nz-col style="text-align: end;" class="gutter-row" nzSpan="12" nzOffset="6">
                             <div style="color: rgb(169, 169, 169); font-size: 12px;">OPCIONES DE GUIA</div>
@@ -98,15 +98,27 @@
                         </nz-col>
                         <nz-col class="gutter-row" style=" text-align: justify;  color: rgb(204, 204, 204); " nzSpan="3">
     
-                            <div >Codigo:</div>
-                            <div >Conductor:</div>
-                            <div >Placa:</div>
+                            <div >CÉDULA:</div>
+                            <div >CONDUCTOR:</div>
+                            <div >PLACA:</div>
         
                         </nz-col>
                         <nz-col class="gutter-row" style="color: rgb(117, 117, 117);" nzSpan="5">
-                            <div>{{guia.gur_codigo}}</div>
-                            <div>Pedro Ortiz</div>
-                            <div>AAS-3567</div>
+
+                            <ng-container *ngIf="guia.conductor; else NoConductor">
+                                <div>{{guia.conductor.con_cedula}}</div>
+                                <div>{{guia.conductor.con_nombre}} {{guia.conductor.con_apellido}}</div>
+                                <div>{{guia.conductor.con_placa}}</div>
+    
+                            </ng-container>
+
+                            <ng-template #NoConductor>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+    
+                            </ng-template>
+
                         </nz-col>
 
                         <nz-col class="gutter-row"  nzSpan="2">
@@ -128,7 +140,7 @@
                                     </nz-col>
             
                                     <nz-col style="text-align: center;" class="gutter-row" nzSpan="8">
-                                        <div class="tarjetaIcono">
+                                        <div class="tarjetaIcono" (click)="modalInfoGuia(guia)">
                                             <fa-icon style="color: rgb(62, 173, 75);" nz-tooltip nzTooltipTitle="Información Guia" nzTooltipPlacement="top" class="fa-3x" [icon]="['fas', 'address-card']" ></fa-icon>
                                            
                                         </div>
@@ -148,7 +160,7 @@
                     <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
 
                         <nz-col  class="gutter-row" style="text-align: end;" nzSpan="12" >
-                            <ng-container *ngIf="guia.gur_estado == 1; else otroColor">
+                            <ng-container *ngIf="guia.pendientes == true; else otroColor">
                                 <nz-tag [nzColor]="'red'">Finalizado</nz-tag>
 
                             </ng-container>
@@ -159,10 +171,10 @@
                         </nz-col>
 
                         <nz-col  class="gutter-row" style="text-align: end;" nzSpan="12" >
-                            <nz-tag >Número de Vins</nz-tag>
+                            <nz-tag >NÚMERO DE VINS</nz-tag>
                                         <nz-badge
                                         nzStandalone
-                                        [nzCount]="4"
+                                        [nzCount]="guia.cantidad"
                                         [nzStyle]="{ backgroundColor: '#fff', color: '#999', boxShadow: '0 0 0 1px #d9d9d9 inset' }"
                                       ></nz-badge>
 
@@ -234,3 +246,91 @@
     
 </ng-template>
 
+
+<nz-modal nzWrapClassName="vertical-center-modal"  [(nzVisible)]="modalGuia" nzTitle="INFORMACIÓN DE RECEPCIÓN" nzWidth="700px" [nzStyle]="{ top: '2px'}" 
+(nzOnCancel)="modalGuia = false"  (nzOnOk)="cerrarModalGuia()"  nzOkText="CERRAR" nzCancelText="CANCELAR">
+    <ng-container *nzModalContent>
+
+        <div class="steps-content">
+
+            <nz-row  [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+    
+                <nz-col nzSpan="24" class="gutter-row">
+
+                    <nz-row  [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+
+                        <nz-col  nzSpan="6" class="gutter-row">
+                            <div class="tarjetaDetalleIcono">
+                                <fa-icon nzTooltipPlacement="top" nz-tooltip class="fa-3x" style="color: blue;"   [icon]="['fas', 'calendar-day']" ></fa-icon>
+                            </div>
+                        </nz-col>
+
+                        <nz-col  nzSpan="7" class="gutter-row">
+                            <div>GUIA:</div> 
+                            <div>FECHA RECEPCIÓN:</div>
+                            <div>OBSERVACIÓN:</div>
+                        </nz-col>
+
+                        <nz-col  nzSpan="11" class="gutter-row">
+                            <div style="color: rgb(193, 193, 193);">{{itemGuia.gur_id}}</div>
+                            <div style="color: rgb(193, 193, 193);">{{itemGuia.gur_fecha}}</div>
+                            <div style="color: rgb(193, 193, 193);">{{itemGuia.gur_observacion}}</div>
+                        </nz-col>
+
+                    </nz-row>
+
+                    <nz-row  [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+
+                        <nz-col nzSpan="24" class="gutter-row">
+                            <p style="text-align: center; padding: 10px; color: blue;">FIRMAS DE RECEPCIÓN</p>
+                           
+                        </nz-col>
+
+                    </nz-row>
+
+                    <nz-row style="margin-bottom: 2%"  [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+
+                        <nz-col nzSpan="12" class="gutter-row">
+                            <nz-row  [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                                <div class="firmas">
+                                    <img style="object-fit: contain;" [src]="baseUrl + itemGuia.gur_firma_conductor" alt="" width="70%" height="70%" >
+                                    
+                                </div>
+     
+                            </nz-row>
+                            <nz-row style="display: flex; justify-content: center;" [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                                
+                                <div>
+                                    CONDUCTOR
+                                </div>
+
+                            </nz-row>
+                        </nz-col>
+
+                        <nz-col nzSpan="12" class="gutter-row">
+                            <nz-row  [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                                <div class="firmas">
+                                    <img style="object-fit: contain;" [src]="baseUrl + itemGuia.gur_firma_recepcion" alt="" width="70%" height="70%" >
+                                   
+                                   
+                                </div>
+    
+                            </nz-row>
+                            <nz-row style="display: flex; justify-content: center;"  [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                                <div>RECEPCIÓN</div>
+                            </nz-row>
+
+                        </nz-col>
+
+                    </nz-row>
+
+                   
+                </nz-col>
+            </nz-row>
+
+
+
+        </div>
+      
+    </ng-container>
+</nz-modal>

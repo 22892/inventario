@@ -440,6 +440,8 @@ export class DetalleComponent implements OnInit, AfterViewInit {
     this.observacionvin$ = this.serviceObservacion.getListAllObservacionVin$(this.veh_codigo)
     
     this.sub = this.observacionvin$.subscribe(p => {
+      console.log('lista detalle obs');
+      
       console.log(p);
   
       this.listObservacionVin = p.listObservacionVin.observaciones
