@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { GlobalserviceService } from '../../../core/globalservice.service'
 import { formatDate } from '@angular/common';
+import { AuthService } from '../../../core/auth.service'
 
 
 @Injectable({
@@ -34,7 +35,8 @@ export class PedidoService {
   constructor(private notification: NzNotificationService,
     @Inject('BASE_URL') baseUrl: string,
     private http: HttpClient,
-    private serviceGlobal: GlobalserviceService) {
+    private serviceGlobal: GlobalserviceService,
+    private serviceAuth: AuthService) {
 
       this.baseUrl = baseUrl;
       this.vin$ = new BehaviorSubject({listVin:[],cargando:false, control: false});
@@ -47,7 +49,7 @@ export class PedidoService {
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
-      //'Authorization': `Bearer `+this.auth.token
+      'Authorization': `Bearer `+this.serviceAuth.token
     })
   };
 
@@ -264,7 +266,7 @@ export class PedidoService {
       reportProgress: true,
       //observe: 'events',
       headers: new HttpHeaders({
-        //"Authorization":"Bearer " + this.auth.token      
+        'Authorization': `Bearer `+this.serviceAuth.token     
       })
     });
   }
@@ -277,7 +279,7 @@ export class PedidoService {
       reportProgress: true,
       //observe: 'events',
       headers: new HttpHeaders({
-        //"Authorization":"Bearer " + this.auth.token      
+        'Authorization': `Bearer `+this.serviceAuth.token     
       })
     });
   }
@@ -291,7 +293,7 @@ export class PedidoService {
       reportProgress: true,
       //observe: 'events',
       headers: new HttpHeaders({
-        //"Authorization":"Bearer " + this.auth.token      
+        'Authorization': `Bearer `+this.serviceAuth.token      
       })
     });
   }
@@ -304,7 +306,7 @@ export class PedidoService {
       reportProgress: true,
       //observe: 'events',
       headers: new HttpHeaders({
-        //"Authorization":"Bearer " + this.auth.token      
+        'Authorization': `Bearer `+this.serviceAuth.token      
       })
     });
   }
@@ -319,7 +321,7 @@ export class PedidoService {
       
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
-          //Authorization: 'Bearer ' + this.auth.token,
+          'Authorization': `Bearer `+this.serviceAuth.token
         }),
       
     });

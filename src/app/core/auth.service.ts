@@ -32,7 +32,7 @@ export class AuthService {
 
   loginUser(data: any): Observable<any> {
   
-    let marca = this.serviceGlobal.getCodigoMarca()
+    let marca = 100//this.serviceGlobal.getCodigoMarca()
     
     
     return this.http.post(`${this.baseUrl}api/auth/login/${marca}/${1}`, data, {
@@ -45,12 +45,9 @@ export class AuthService {
   setCredentials(credentials:any, login: any){   
     
     console.log('add login');
-    console.log(login);
-    console.log(credentials);
+    //console.log(login);
+    //console.log(credentials);
     
-    
-    
-
     localStorage.setItem("login",JSON.stringify(login.usrlogin));
     localStorage.setItem("usuario",JSON.stringify(credentials.usuario)); 
     localStorage.setItem("token",credentials.token);
@@ -74,7 +71,7 @@ export class AuthService {
 
   getCredentials(){
 
-    console.log('ejecuta get credenciales--------------->>>>>>>>>>>>');
+    //console.log('ejecuta get credenciales--------------->>>>>>>>>>>>');
     
     
     let usuario = localStorage.getItem("usuario");

@@ -3,7 +3,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { GlobalserviceService } from '../../../core/globalservice.service'
-
+import { AuthService } from '../../../core/auth.service'
 
 @Injectable({
   providedIn: 'root'
@@ -11,23 +11,27 @@ import { GlobalserviceService } from '../../../core/globalservice.service'
 export class RemisionService {
 
   baseUrl: string = '';
-  private listGuiaRemision!: any[];
+  private listGuiaRemision: any[] = [];
   private guia$! : BehaviorSubject<any>;
+  
 
   constructor(private notification: NzNotificationService,
     @Inject('BASE_URL') baseUrl: string,
     private http: HttpClient,
-    private serviceGlobal: GlobalserviceService) {
+    private serviceGlobal: GlobalserviceService,
+    private serviceAuth: AuthService) {
 
       this.baseUrl = baseUrl;
       this.guia$ = new BehaviorSubject({listGuiaRemision:[],cargando:false, control: false});
-
+      
+      
   }
 
   httpOptions = {
+   
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
-      //'Authorization': `Bearer `+this.auth.token
+      'Authorization': `Bearer `+this.serviceAuth.token
     })
   };
 
@@ -66,9 +70,10 @@ export class RemisionService {
 
   getListAllRemision$(): Observable<any> {
    
-    if(!this.listGuiaRemision){
+    if(this.listGuiaRemision){ 
       this.getListRemision();
     }else{
+      
       this.guia$.subscribe((x)=>{
         x.control = false
       })
@@ -79,12 +84,17 @@ export class RemisionService {
 
   getListRemision(){
    
+    console.log('tokeenn');
+      
+    console.log(this.httpOptions);
+
     let marca = this.serviceGlobal.getCodigoMarca()
+    let empresa = this.serviceGlobal.getCodigoEmpresa()
 
     this.listGuiaRemision = [];
     this.guia$.next({ listGuiaRemision: this.listGuiaRemision, cargando: true, control: true });
     
-    this.http.get(`${this.baseUrl}api/guia/getAllGuias/${marca}`,this.httpOptions).subscribe({
+    this.http.get(`${this.baseUrl}api/guia/getAllGuias/${marca}/${empresa}/${this.serviceAuth.user.usr_codigo}`,this.httpOptions).subscribe({
       next: (data) => {
 
         this.guia$.next({ listGuiaRemision: data, cargando: false, control: true});

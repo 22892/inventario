@@ -13,7 +13,7 @@ export class GlobalserviceService {
   private fechaDesde:Date = new Date();
   private fechaHasta:Date = new Date();
   private emp_codigo: any = 1
-  private marca: any = 100
+  private marca: any = 0
   private listGuiasRemision: any[] = []
   private codigoGuia: any = 0
 
@@ -43,7 +43,9 @@ export class GlobalserviceService {
   }
 
   getCodigoMarca(): any{
-    return this.marca
+    let login: any = localStorage.getItem("login");
+    let marca = JSON.parse(login)
+    return this.marca = marca.marca
   }
 
   setCodigoMarca(marca: any): any{

@@ -53,7 +53,7 @@
               </nz-col>
               <nz-col class="gutter-row" nzSpan="22" >
 
-                <!--<nz-button-group>
+                <nz-button-group>
                   <ng-container *ngIf="empresaSelect; else NoEmpresa">
                     <button nz-button >{{empresaSelect.emp_nombre_comercial}}</button>
                   </ng-container>
@@ -63,7 +63,7 @@
                   <button nz-button nz-dropdown [nzDropdownMenu]="menu2" nzPlacement="bottomRight">
                     <i nz-icon nzType="bank"></i>
                   </button>
-                </nz-button-group>-->
+                </nz-button-group>
 
                 <nz-dropdown-menu #menu2="nzDropdownMenu">
                   <ul nz-menu *ngFor="let item of listEmpresas">

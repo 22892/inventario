@@ -3,6 +3,7 @@ import { Inject, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { GlobalserviceService } from '../../../core/globalservice.service'
+import { AuthService } from '../../../core/auth.service'
 
 
 @Injectable({
@@ -29,7 +30,8 @@ export class UsuarioService {
   constructor(private notification: NzNotificationService,
     @Inject('BASE_URL') baseUrl: string,
     private http: HttpClient,
-    private serviceGlobal: GlobalserviceService) {
+    private serviceGlobal: GlobalserviceService,
+    private serviceAuth: AuthService) {
 
       this.baseUrl = baseUrl;
       this.usuario$ = new BehaviorSubject({listUsuario:[],cargando:false});
@@ -43,7 +45,7 @@ export class UsuarioService {
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
-      //'Authorization': `Bearer `+this.auth.token
+      'Authorization': `Bearer `+this.serviceAuth.token
     })
   };
 
@@ -64,7 +66,7 @@ export class UsuarioService {
     return this.http.post(`${this.baseUrl}api/gestionusuario/create_usuario/${marca}`, usuario, {
       headers: new HttpHeaders({
       'Content-Type': 'application/json',
-      //Authorization: 'Bearer ' + this.auth.token,
+      'Authorization': `Bearer `+this.serviceAuth.token
       }),
     });
   }
@@ -76,7 +78,7 @@ export class UsuarioService {
       return this.http.post(`${this.baseUrl}api/gestionusuario/update_usuario/${marca}`, usuario, {
         headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        //Authorization: 'Bearer ' + this.auth.token,
+        'Authorization': `Bearer `+this.serviceAuth.token
         }),
       });
     }
@@ -145,7 +147,7 @@ export class UsuarioService {
     return this.http.post(`${this.baseUrl}api/gestionusuario/asignar_usuario_menu/${marca}`, usuariomenu, {
       headers: new HttpHeaders({
       'Content-Type': 'application/json',
-      //Authorization: 'Bearer ' + this.auth.token,
+      'Authorization': `Bearer `+this.serviceAuth.token
       }),
     });
   }
@@ -187,7 +189,7 @@ export class UsuarioService {
     return this.http.post(`${this.baseUrl}api/gestionusuario/asignar_usuario_permiso/${marca}`, usuariopermiso, {
       headers: new HttpHeaders({
       'Content-Type': 'application/json',
-      //Authorization: 'Bearer ' + this.auth.token,
+      'Authorization': `Bearer `+this.serviceAuth.token
       }),
     });
   }
@@ -229,7 +231,7 @@ export class UsuarioService {
     return this.http.post(`${this.baseUrl}api/gestionusuario/asignar_empresa_usuario/${marca}`, usuarioempresa, {
       headers: new HttpHeaders({
       'Content-Type': 'application/json',
-      //Authorization: 'Bearer ' + this.auth.token,
+      'Authorization': `Bearer `+this.serviceAuth.token
       }),
     });
   }

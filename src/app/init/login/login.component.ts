@@ -67,7 +67,7 @@ export class LoginComponent implements OnInit {
       }
 
       let usr = {
-        usrlogin: {username: username, password: password, token: "token"}
+        usrlogin: {username: username, password: password, token: "token", marca: 0}
       }
 
 
@@ -75,11 +75,14 @@ export class LoginComponent implements OnInit {
       this.serviceAuth.loginUser(data).subscribe({
         next: (res) =>{
        
-        console.log(res);
-        this.serviceAuth.setCredentials(res, usr)
-        this.router.navigate(['/remision/lista']);
-        this.createNotification('success','Bienvenido','');
-        this.cargando = false
+          console.log('loginnnnn');
+          
+          console.log(res);
+          usr.usrlogin.marca = res.usuario.usr_marca
+          this.serviceAuth.setCredentials(res, usr)
+          this.router.navigate(['/remision/lista']);
+          this.createNotification('success','Bienvenido','');
+          this.cargando = false
           
         },
         error: (err) => {

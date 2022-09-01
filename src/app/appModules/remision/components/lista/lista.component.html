@@ -30,7 +30,7 @@
     </ng-template>
     <nz-page-header-extra>
 
-      <nz-space >
+      <!--<nz-space >
 
         <div *nzSpaceItem>
           <nz-date-picker nzTooltipTitle="Fecha desde" nzTooltipPlacement="bottom" nz-tooltip nzPlaceHolder="Desde"
@@ -43,7 +43,7 @@
           </nz-date-picker>
         </div>
       
-      </nz-space>
+      </nz-space>-->
      
       <i nz-icon nzType="reload" nzTheme="outline" style="cursor: pointer;" (click)="reloadGuias()"></i>
     </nz-page-header-extra>
@@ -160,7 +160,7 @@
                     <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
 
                         <nz-col  class="gutter-row" style="text-align: end;" nzSpan="12" >
-                            <ng-container *ngIf="guia.pendientes == true; else otroColor">
+                            <ng-container *ngIf="guia.gur_estado == 2; else otroColor">
                                 <nz-tag [nzColor]="'red'">Finalizado</nz-tag>
 
                             </ng-container>
@@ -272,9 +272,9 @@
                         </nz-col>
 
                         <nz-col  nzSpan="11" class="gutter-row">
-                            <div style="color: rgb(193, 193, 193);">{{itemGuia.gur_id}}</div>
-                            <div style="color: rgb(193, 193, 193);">{{itemGuia.gur_fecha}}</div>
-                            <div style="color: rgb(193, 193, 193);">{{itemGuia.gur_observacion}}</div>
+                            <div style="color: rgb(193, 193, 193);">DETALLE DE RECEPCIÓN</div>
+                            <div style="color: rgb(193, 193, 193);">{{itemGuia.rec_fecha}}</div>
+                            <div style="color: rgb(193, 193, 193);">{{itemGuia.rec_observacion}}</div>
                         </nz-col>
 
                     </nz-row>
@@ -293,7 +293,7 @@
                         <nz-col nzSpan="12" class="gutter-row">
                             <nz-row  [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
                                 <div class="firmas">
-                                    <img style="object-fit: contain;" [src]="baseUrl + itemGuia.gur_firma_conductor" alt="" width="70%" height="70%" >
+                                    <img style="object-fit: contain;" [src]="baseUrl + itemGuia.rec_firma_conductor" alt="" width="70%" height="70%" >
                                     
                                 </div>
      
@@ -310,7 +310,7 @@
                         <nz-col nzSpan="12" class="gutter-row">
                             <nz-row  [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
                                 <div class="firmas">
-                                    <img style="object-fit: contain;" [src]="baseUrl + itemGuia.gur_firma_recepcion" alt="" width="70%" height="70%" >
+                                    <img style="object-fit: contain;" [src]="baseUrl + itemGuia.rec_firma_recepcion" alt="" width="70%" height="70%" >
                                    
                                    
                                 </div>

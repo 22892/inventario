@@ -70,8 +70,8 @@ export class ListaComponent implements OnInit {
     if (this.buscarGuia == '' || this.buscarGuia == null) {
       this.listGuiaRemision = this.listGuiaRemisionAux
     }else{
-      console.log(this.buscarGuia);
-      this.listGuiaRemision = this.listGuiaRemisionAux.filter((item: any) => item.gur_nombre.toUpperCase().replace(/ /g, '').indexOf(this.buscarGuia.toUpperCase().replace(/ /g, '')) !== -1 );
+
+      this.listGuiaRemision = this.listGuiaRemisionAux.filter((item: any) => item.gur_id.toUpperCase().replace(/ /g, '').indexOf(this.buscarGuia.toUpperCase().replace(/ /g, '')) !== -1  );
 
     }
 
@@ -87,7 +87,7 @@ export class ListaComponent implements OnInit {
   }
 
   reloadGuias(){
-
+    this.getListRemisionVins()
   }
 
 
@@ -97,10 +97,8 @@ export class ListaComponent implements OnInit {
     this.guia$ = this.serviceRemision.getListAllRemision$()
     
     this.sub = this.guia$.subscribe(p => {
-      
-      console.log('mmmmmmmmm');
+     
       console.log(p);
-      
       
       this.listGuiaRemision = p.listGuiaRemision
       this.listGuiaRemisionAux = p.listGuiaRemision
@@ -116,6 +114,7 @@ export class ListaComponent implements OnInit {
         }
 
         this.control = false
+        this.sub.unsubscribe()
 
       }
       
@@ -136,8 +135,11 @@ export class ListaComponent implements OnInit {
   }
 
   modalInfoGuia(guia: any){
+    console.log('modaaaaaaaaaaaaaaaaaaaa');
+    console.log(guia);
+    
     this.modalGuia = true
-    this.itemGuia = guia
+    this.itemGuia = guia.recepcion
   }
 
   cerrarModalGuia(){

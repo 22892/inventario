@@ -3,6 +3,7 @@ import { Inject, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { GlobalserviceService } from '../../../core/globalservice.service'
+import { AuthService } from '../../../core/auth.service'
 
 @Injectable({
   providedIn: 'root'
@@ -37,7 +38,8 @@ export class MenuService {
   constructor(private notification: NzNotificationService,
     @Inject('BASE_URL') baseUrl: string,
     private http: HttpClient,
-    private serviceGlobal: GlobalserviceService) {
+    private serviceGlobal: GlobalserviceService,
+    private serviceAuth: AuthService) {
 
       this.baseUrl = baseUrl;
       this.menupadre$ = new BehaviorSubject({listMenuPadre:[],cargando:false});
@@ -52,7 +54,7 @@ export class MenuService {
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
-      //'Authorization': `Bearer `+this.auth.token
+      'Authorization': `Bearer `+this.serviceAuth.token
     })
   };
 
@@ -74,7 +76,7 @@ export class MenuService {
     return this.http.post(`${this.baseUrl}api/menu/create/${marca}`, menu, {
       headers: new HttpHeaders({
       'Content-Type': 'application/json',
-      //Authorization: 'Bearer ' + this.auth.token,
+      'Authorization': `Bearer `+this.serviceAuth.token
       }),
     });
   }
@@ -86,7 +88,7 @@ export class MenuService {
     return this.http.post(`${this.baseUrl}api/menu/update/${marca}`, menu, {
       headers: new HttpHeaders({
       'Content-Type': 'application/json',
-      //Authorization: 'Bearer ' + this.auth.token,
+      'Authorization': `Bearer `+this.serviceAuth.token
       }),
     });
   }
@@ -156,7 +158,7 @@ export class MenuService {
     return this.http.post(`${this.baseUrl}api/gestionusuario/create_rol/${marca}`, rol, {
       headers: new HttpHeaders({
       'Content-Type': 'application/json',
-      //Authorization: 'Bearer ' + this.auth.token,
+      'Authorization': `Bearer `+this.serviceAuth.token
       }),
     });
   }
@@ -254,7 +256,7 @@ export class MenuService {
     return this.http.post(`${this.baseUrl}api/gestionusuario/asignar_rol_menu/${marca}`, rolmenu, {
       headers: new HttpHeaders({
       'Content-Type': 'application/json',
-      //Authorization: 'Bearer ' + this.auth.token,
+      'Authorization': `Bearer `+this.serviceAuth.token
       }),
     });
   }
@@ -266,7 +268,7 @@ export class MenuService {
     return this.http.post(`${this.baseUrl}api/gestionusuario/asignar_rol_permiso/${marca}`, rolpermiso, {
       headers: new HttpHeaders({
       'Content-Type': 'application/json',
-      //Authorization: 'Bearer ' + this.auth.token,
+      'Authorization': `Bearer `+this.serviceAuth.token
       }),
     });
   }
