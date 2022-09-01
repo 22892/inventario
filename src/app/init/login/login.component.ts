@@ -25,11 +25,11 @@ export class LoginComponent implements OnInit {
   recoverForm!: FormGroup;
   passwordForm!: FormGroup;
   isLoadingContasena: boolean = false
-  
 
-  constructor(private fb: FormBuilder, 
+
+  constructor(private fb: FormBuilder,
     private router: Router,
-    private notification: NzNotificationService, 
+    private notification: NzNotificationService,
     private msg: NzMessageService,
     private serviceAuth: AuthService,
     private serviceGlobal: GlobalserviceService) { }
@@ -37,10 +37,10 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     this.validateForm = this.fb.group({
       userName: [null, [Validators.required]],
-      password: [null, [Validators.required]]      
+      password: [null, [Validators.required]]
     });
 
-  
+
   }
 
   createNotification(type: string, titulo:string,mensaje:string): void {
@@ -74,19 +74,19 @@ export class LoginComponent implements OnInit {
       this.cargando = true
       this.serviceAuth.loginUser(data).subscribe({
         next: (res) =>{
-       
-          console.log('loginnnnn');
-          
-          console.log(res);
+
+          //console.log('loginnnnn');
+
+          //console.log(res);
           usr.usrlogin.marca = res.usuario.usr_marca
           this.serviceAuth.setCredentials(res, usr)
           this.router.navigate(['/remision/lista']);
           this.createNotification('success','Bienvenido','');
           this.cargando = false
-          
+
         },
         error: (err) => {
-          
+
           this.msg.error(`Error al Login, ${err.error.message}`);
           this.cargando = false
 

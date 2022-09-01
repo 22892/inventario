@@ -12,7 +12,7 @@ import { faCoffee } from '@fortawesome/free-solid-svg-icons';
 
 
 interface ColumnItem {
-  
+
   name: string;
   sortOrder: NzTableSortOrder | null;
   sortFn: NzTableSortFn | null;
@@ -54,7 +54,7 @@ export class MenuComponent implements OnInit {
       listOfFilter:[],
       filterFn: null
     },
-   
+
     {
       width:'80px',
       name: 'Icono',
@@ -456,41 +456,41 @@ export class MenuComponent implements OnInit {
     ) {
 
       this.tamanoForm = this.fb.group({
-       
+
         tam_nombre: [null, [Validators.required]],
         tam_type_ico: [null, [Validators.required]],
         tam_nombre_ico: [null, [Validators.required]],
-       
+
       });
 
       this.danoForm = this.fb.group({
-       
+
         dan_nombre: [null, [Validators.required]],
         dan_type_ico: [null, [Validators.required]],
         dan_nombre_ico: [null, [Validators.required]],
-       
+
       });
 
       this.grupoForm = this.fb.group({
-       
+
         grp_nombre: [null, [Validators.required]],
         grp_tipo_ico: [null, [Validators.required]],
         grp_nombre_ico: [null, [Validators.required]],
-       
+
       });
 
       this.parteForm = this.fb.group({
-       
+
         par_nombre: [null, [Validators.required]],
         par_type_ico: [null, [Validators.required]],
         par_nombre_ico: [null, [Validators.required]],
-       
+
       });
 
-      
+
       this.rolForm = this.fb.group({
         rol_descripcion: [null, [Validators.required]],
-       
+
       });
 
       this.menuForm = this.fb.group({
@@ -531,8 +531,8 @@ export class MenuComponent implements OnInit {
         emp_link_instagram: [null, [Validators.required]],
         emp_orden_empresa: [null, [Validators.required]],
         emp_subasta_estado: [null, [Validators.required]],
-      
-       
+
+
       });
 
   }
@@ -543,16 +543,16 @@ export class MenuComponent implements OnInit {
       this.router.navigate(['/']);
     } else{
 
-      
+
       this.getListMenuPrincipal(0)
       this.getListRoles()
       this.getListEmpresas()
       this.getListGrupos()
       this.getListDano()
       this.getListTamano()
-  
+
     }
- 
+
   }
 
 
@@ -646,7 +646,7 @@ export class MenuComponent implements OnInit {
         this.submitForm()
         //this.cargandoMenuPadre = false
         return false;
-      
+
       }
 
     return v;
@@ -665,7 +665,7 @@ export class MenuComponent implements OnInit {
         this.msg.warning("Ingrese todos los datos requeridos para Crear Roles");
         this.submitFormRol()
         return false;
-      
+
       }
 
     return v;
@@ -691,23 +691,23 @@ export class MenuComponent implements OnInit {
 
   openModalCrudParte(parte: any, grupo: any){
 
-   
-    
+
+
     this.modalCrudParte = true
     this.parte = parte
     this.grupo = grupo
     this.titleCrudParte = 'EDITAR PARTE'
     this.tipoCrudParte = 2
-    console.log('opennnn');
-    
-    console.log(this.parte);
-    console.log(this.grupo);
+    //console.log('opennnn');
+
+    //console.log(this.parte);
+    //console.log(this.grupo);
 
     this.parteForm.setValue({
       par_nombre: this.parte.par_nombre,
       par_type_ico: this.parte.par_type_ico,
       par_nombre_ico: this.parte.par_nombre_ico,
-     
+
     })
   }
 
@@ -731,21 +731,21 @@ export class MenuComponent implements OnInit {
 
         this.serviceObservacion.createTamano(tamano).subscribe({
           next: (data) => {
-            
-            console.log('tamano');
-            console.log(data);
+
+            //console.log('tamano');
+            //console.log(data);
             this.msg.success('Tamaño Creado Correctamente')
             this.tamanoForm.reset()
             this.modalCrudTamano = false
             this.isLoadingCrudTamano = false
             this.getListTamano()
-            
-        
+
+
           },
           error: (err) => {
             this.msg.error(`Ha ocurrido un error al Crear Tamaño, ${err.error.message}`);
             this.isLoadingCrudTamano = false
-    
+
           }
         })
       }
@@ -769,21 +769,21 @@ export class MenuComponent implements OnInit {
 
         this.serviceObservacion.updateTamano(tamano).subscribe({
           next: (data) => {
-            
-            console.log('taamno');
-            console.log(data);
+
+            //console.log('taamno');
+            //console.log(data);
             this.msg.success('Tamaño Actualizado Correctamente')
             this.tamanoForm.reset()
             this.modalCrudTamano = false
             this.isLoadingCrudTamano = false
             this.getListTamano()
-            
-        
+
+
           },
           error: (err) => {
             this.msg.error(`Ha ocurrido un error al Actualizar Tamaño, ${err.error.message}`);
             this.isLoadingCrudTamano = false
-    
+
           }
         })
       }
@@ -823,21 +823,21 @@ export class MenuComponent implements OnInit {
 
         this.serviceObservacion.createDano(dano).subscribe({
           next: (data) => {
-            
-            console.log('dano');
-            console.log(data);
+
+            //console.log('dano');
+            //console.log(data);
             this.msg.success('Daño Creado Correctamente')
             this.danoForm.reset()
             this.modalCrudDano = false
             this.isLoadingCrudDano = false
             this.getListDano()
-            
-        
+
+
           },
           error: (err) => {
             this.msg.error(`Ha ocurrido un error al Crear Daño, ${err.error.message}`);
             this.isLoadingCrudDano = false
-    
+
           }
         })
       }
@@ -861,21 +861,21 @@ export class MenuComponent implements OnInit {
 
         this.serviceObservacion.updateDano(dano).subscribe({
           next: (data) => {
-            
-            console.log('dano');
-            console.log(data);
+
+            //console.log('dano');
+            //console.log(data);
             this.msg.success('Daño Actualizado Correctamente')
             this.danoForm.reset()
             this.modalCrudDano = false
             this.isLoadingCrudDano = false
             this.getListDano()
-            
-        
+
+
           },
           error: (err) => {
             this.msg.error(`Ha ocurrido un error al Actualizar Daño, ${err.error.message}`);
             this.isLoadingCrudDano = false
-    
+
           }
         })
       }
@@ -897,9 +897,9 @@ export class MenuComponent implements OnInit {
       dan_nombre: dano.dan_nombre,
       dan_type_ico: dano.dan_type_ico,
       dan_nombre_ico: dano.dan_nombre_ico,
-       
+
     })
-    
+
   }
 
   openModalCreateTamano(){
@@ -918,7 +918,7 @@ export class MenuComponent implements OnInit {
       tam_nombre: tamano.tam_nombre,
       tam_type_ico: tamano.tam_type_ico,
       tam_nombre_ico: tamano.tam_nombre_ico,
-       
+
     })
 
 
@@ -939,7 +939,7 @@ export class MenuComponent implements OnInit {
       grp_nombre: grupo.grp_nombre,
       grp_tipo_ico: grupo.grp_tipo_ico,
       grp_nombre_ico: grupo.grp_nombre_ico,
-       
+
     })
 
 
@@ -962,31 +962,31 @@ export class MenuComponent implements OnInit {
         }
         this.isLoadingCrearGrupo = true
 
-        console.log(grupo);
-        
-  
+        //console.log(grupo);
+
+
         this.serviceObservacion.createGrupo(grupo).subscribe({
           next: (data) => {
-            
-            console.log('grupo');
-            console.log(data);
+
+            //console.log('grupo');
+            //console.log(data);
             this.msg.success('Grupo Creado Correctamente')
             this.grupoForm.reset()
             this.modalCrudGrupo = false
             this.isLoadingCrearGrupo = false
             this.getListGrupos()
-        
+
           },
           error: (err) => {
             this.msg.error(`Ha ocurrido un error al Crear Grupo, ${err.error.message}`);
             this.isLoadingCrearGrupo = false
-    
+
           }
         })
-  
-  
+
+
       }
-  
+
 
     }else{
 
@@ -1004,25 +1004,25 @@ export class MenuComponent implements OnInit {
         }
         this.isLoadingCrearGrupo = true
 
-        console.log(grupo);
-        
-  
+        //console.log(grupo);
+
+
         this.serviceObservacion.updateGrupo(grupo).subscribe({
           next: (data) => {
-            
-            console.log('grupo');
-            console.log(data);
+
+            //console.log('grupo');
+            //console.log(data);
             this.msg.success('Grupo Actualizado Correctamente')
             this.grupoForm.reset()
             this.modalCrudGrupo = false
             this.isLoadingCrearGrupo = false
             this.getListGrupos()
-        
+
           },
           error: (err) => {
             this.msg.error(`Ha ocurrido un error al Actualizar Grupo, ${err.error.message}`);
             this.isLoadingCrearGrupo = false
-    
+
           }
         })
 
@@ -1039,8 +1039,8 @@ export class MenuComponent implements OnInit {
 
   openModalcreateParte(grupo: any){
 
-    console.log(grupo);
-    
+    //console.log(grupo);
+
     this.modalCrudParte = true
     this.tipoCrudParte = 1
     this.grupo = grupo
@@ -1055,9 +1055,9 @@ export class MenuComponent implements OnInit {
       const valida = this.validateFormsParte()
 
       if(valida){
-  
+
         let parte = {
-          
+
           par_nombre: this.parteForm.get('par_nombre')!.value,
           par_grp_codigo: this.grupo.grp_codigo,
           par_estado: 1,
@@ -1065,30 +1065,30 @@ export class MenuComponent implements OnInit {
           par_type_ico: this.parteForm.get('par_type_ico')!.value,
           par_nombre_ico: this.parteForm.get('par_nombre_ico')!.value
         }
-  
+
         this.isLoadingCreateUpdateParte = true
-        
+
         this.serviceObservacion.createParte(parte).subscribe({
           next: (data) => {
-            
-            console.log('parteeee');
-            console.log(data);
+
+            //console.log('parteeee');
+            //console.log(data);
             this.msg.success('Parte Grupo Creado Correctamente')
             this.parteForm.reset()
             this.modalCrudParte = false
             this.isLoadingCrearParte = false
             this.isLoadingCreateUpdateParte = false
             this.getListGrupos()
-        
+
           },
           error: (err) => {
             this.msg.error(`Ha ocurrido un error al Crear Parte, ${err.error.message}`);
             this.isLoadingCreateUpdateParte = false
-    
+
           }
         })
       }
-  
+
 
     }else{
 
@@ -1107,28 +1107,28 @@ export class MenuComponent implements OnInit {
         }
 
         this.isLoadingCreateUpdateParte = true
-        console.log(parte);
-        
+        //console.log(parte);
+
         this.serviceObservacion.updateParte(parte).subscribe({
           next: (data) => {
-            
-            console.log('parteeee');
-            console.log(data);
+
+            //console.log('parteeee');
+            //console.log(data);
             this.msg.success('Parte Grupo Actualizado Correctamente')
             this.parteForm.reset()
             this.modalCrudParte = false
             this.isLoadingCrearParte = false
             this.getListGrupos()
-            
-        
+
+
           },
           error: (err) => {
             this.msg.error(`Ha ocurrido un error al Actualizar Parte, ${err.error.message}`);
             this.isLoadingCreateUpdateParte = false
-    
+
           }
         })
-  
+
       }
 
     }
@@ -1141,10 +1141,10 @@ export class MenuComponent implements OnInit {
 
   getListDano(){
     this.dano$ = this.serviceObservacion.getListAllDano$()
-    
+
     this.subdano = this.dano$.subscribe(p => {
-      console.log(p);
-      
+      //console.log(p);
+
       this.listDano = p.listDano
       this.cargandoDano = p.cargando
 
@@ -1157,10 +1157,10 @@ export class MenuComponent implements OnInit {
 
   getListTamano(){
     this.tamano$ = this.serviceObservacion.getListAllTamano$()
-    
+
     this.subtamano = this.tamano$.subscribe(p => {
-      console.log(p);
-      
+      //console.log(p);
+
       this.listTamano = p.listTamano
       this.cargandoTamano = p.cargando
 
@@ -1173,10 +1173,10 @@ export class MenuComponent implements OnInit {
 
   getListGrupos(){
     this.grupos$ = this.serviceObservacion.getListAllGrupos$()
-    
+
     this.subgrupo = this.grupos$.subscribe(p => {
-      console.log(p);
-      
+      //console.log(p);
+
       this.listGrupos = p.listGrupos
       this.cargandoGrupos = p.cargando
 
@@ -1203,10 +1203,10 @@ export class MenuComponent implements OnInit {
 
   crearMenus(){
 
-    //console.log(this.selectTipoMenu);
-    //console.log(this.tipoPlataforma);
-    
-    
+    ////console.log(this.selectTipoMenu);
+    ////console.log(this.tipoPlataforma);
+
+
     // 1 es tipo Web  ----- 0 es tipo movil
     if(this.tipoPlataforma == 1){
 
@@ -1218,7 +1218,7 @@ export class MenuComponent implements OnInit {
         this.isLoadingCrearMenu = true
 
         if(this.selectTipoMenu.tim_codigo == 0){
-          
+
           menuWeb = {
             men_padre: 1,
             men_titulo: this.menuForm.get('men_titulo')!.value,
@@ -1228,9 +1228,9 @@ export class MenuComponent implements OnInit {
             men_tipo_icono: this.menuForm.get('men_tipo_icono')!.value,
             men_tipo_menu: Number(this.tipoPlataforma),
             men_estado: 1
-  
+
           }
-  
+
         }else{
 
           menuWeb = {
@@ -1242,20 +1242,20 @@ export class MenuComponent implements OnInit {
             men_tipo_icono: this.menuForm.get('men_tipo_icono')!.value,
             men_tipo_menu: Number(this.tipoPlataforma),
             men_estado: 1
-  
+
           }
 
         }
 
 
-        //console.log(menuWeb);   
+        ////console.log(menuWeb);
 
         this.serviceMenu.createMenus(menuWeb).subscribe({
           next: (data) => {
-            
-            //console.log('respuesta---');
-            //console.log(data);
-            
+
+            ////console.log('respuesta---');
+            ////console.log(data);
+
             if(data){
               if(this.selectTipoMenu.tim_codigo == 0){
                 this.msg.info('Menú Principal Creado')
@@ -1272,14 +1272,14 @@ export class MenuComponent implements OnInit {
                 this.serviceMenu.updateMenuPrincipal.next(true);
 
               }
-              
+
             }else{
               this.msg.error('Error', data)
               this.isLoadingCrearMenu = false
 
             }
-           
-         
+
+
           },
           error: (err) => {
             this.msg.error(`Ha ocurrido un error al Crear Menu Principal, ${err.error.message}`);
@@ -1292,7 +1292,7 @@ export class MenuComponent implements OnInit {
 
     }else{
 
-      
+
 
       const valida = this.validateForms()
 
@@ -1315,9 +1315,9 @@ export class MenuComponent implements OnInit {
               men_tipo_icono: this.menuForm.get('men_tipo_icono')!.value,
               men_tipo_menu: this.tipoPlataforma,
               men_estado: 1
-      
+
             }
-  
+
 
 
           }else{
@@ -1334,7 +1334,7 @@ export class MenuComponent implements OnInit {
               men_tipo_icono: this.menuForm.get('men_tipo_icono')!.value,
               men_tipo_menu: this.tipoPlataforma,
               men_estado: 1
-      
+
             }
 
 
@@ -1342,7 +1342,7 @@ export class MenuComponent implements OnInit {
 
           this.serviceMenu.createMenus(menuMovil).subscribe({
             next: (data) => {
-              
+
               if(data){
                 if(this.selectTipoMenu.tim_codigo == 0){
                   this.msg.info('Menú Movil Principal Creado')
@@ -1359,14 +1359,14 @@ export class MenuComponent implements OnInit {
                   this.serviceMenu.updateMenuPrincipal.next(true);
 
                 }
-                
+
               }else{
                 this.msg.error('Error', data)
                 this.isLoadingCrearMenu = false
 
               }
-             
-           
+
+
             },
             error: (err) => {
               this.msg.error(`Ha ocurrido un error al Crear Menu Principal Movil, ${err.error.message}`);
@@ -1374,7 +1374,7 @@ export class MenuComponent implements OnInit {
 
             }
           })
-  
+
 
         }
     }
@@ -1382,7 +1382,7 @@ export class MenuComponent implements OnInit {
   }
 
   tipoMenuPlataforma(tipo: number){
-    
+
     if(tipo == 1){
       this.tipoPlataforma = 1
       this.menuForm.reset();
@@ -1391,7 +1391,7 @@ export class MenuComponent implements OnInit {
       this.menuForm.reset();
     }
 
-    
+
   }
 
   isNotSelected(value: any): boolean {
@@ -1400,13 +1400,13 @@ export class MenuComponent implements OnInit {
 
 
   drop(event: CdkDragDrop<string[]>, tipoAsignar: any) {
-    
-   
-    if (event.previousContainer === event.container) {     
+
+
+    if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
 
-      const prev_idx = event.previousIndex;    
+      const prev_idx = event.previousIndex;
       this.itemMenu = event.previousContainer.data[prev_idx];
 
 
@@ -1430,16 +1430,16 @@ export class MenuComponent implements OnInit {
           men_asignacion: 1
 
         }
-      
-      
-        //console.log(objetMenu);
+
+
+        ////console.log(objetMenu);
 
         this.serviceMenu.updateMenus(objetMenu).subscribe({
           next: (data) => {
-            
-            //console.log('respuesta---');
-            //console.log(data);
-            
+
+            ////console.log('respuesta---');
+            ////console.log(data);
+
             if(data){
               this.msg.info('Submenu Agregado')
             }
@@ -1471,16 +1471,16 @@ export class MenuComponent implements OnInit {
           men_asignacion: 1
 
         }
-      
-      
-        //console.log(objetMenu);
+
+
+        ////console.log(objetMenu);
 
         this.serviceMenu.updateMenus(objetMenu).subscribe({
           next: (data) => {
-            
-            
+
+
             if(data){
-              
+
                 this.msg.info('Submenu Desactivado')
             }
           },
@@ -1507,10 +1507,10 @@ export class MenuComponent implements OnInit {
   getListaMenusAsignacion(men_padre: any, plataforma: any){
 
     this.menuasignacion$ = this.serviceMenu.getListAllMenuAsignacion$(men_padre,plataforma)
-      
+
     this.subAsignacion = this.menuasignacion$.subscribe(p => {
-      //console.log(p);
-      
+      ////console.log(p);
+
       this.listMenuAsignacion = p.listMenuAsignacion
 
       this.cargandoMenuAsignacion = p.cargando
@@ -1518,22 +1518,22 @@ export class MenuComponent implements OnInit {
       if(this.cargandoMenuAsignacion == false){
 
 
-        
+
         this.listAsignado = this.listMenuAsignacion.misMenus
         this.listSinAsignado = this.listMenuAsignacion.menusSinPadres
 
         this.subAsignacion.unsubscribe()
-       
+
       }
     });
-    
+
   }
 
 
 
   openModalMenu(menu: any){
 
-    
+
     this.modalGestionMenu = true
     this.getListaMenusAsignacion(menu.men_codigo, menu.men_tipo_menu)
     this.codigoMenu = menu.men_codigo
@@ -1546,18 +1546,18 @@ export class MenuComponent implements OnInit {
 
   getListMenuPrincipal(tipoMenu: number){
     this.menupadre$ = this.serviceMenu.getListAllMenuPadre$(tipoMenu)
-    
+
     this.sub = this.menupadre$.subscribe(p => {
-      //console.log(p);
-      
+      ////console.log(p);
+
       this.listMenuPadre = p.listMenuPadre
 
       this.cargandoMenuPadre = p.cargando
 
       if(this.cargandoMenuPadre == false){
-       
+
         this.sub.unsubscribe()
-       
+
       }
     });
 
@@ -1573,7 +1573,7 @@ export class MenuComponent implements OnInit {
       this.codigoMenu = item.men_codigo
       this.menuForm.setValue({
 
-       
+
         men_titulo: item.men_titulo,
         men_descripcion: item.men_descripcion,
         men_path: item.men_path,
@@ -1585,7 +1585,7 @@ export class MenuComponent implements OnInit {
         men_color_descripcion: '',
       })
 
-      
+
 
     }else{
       this.tipoPlataforma = 2
@@ -1595,7 +1595,7 @@ export class MenuComponent implements OnInit {
       this.codigoMenu = item.men_codigo
       this.menuForm.setValue({
 
-        
+
         men_titulo: item.men_titulo,
         men_descripcion: item.men_color_descripcion,
         men_path: item.men_path,
@@ -1605,10 +1605,10 @@ export class MenuComponent implements OnInit {
         men_color_descripcion: item.men_color_descripcion,
         men_tipo_icono: item.men_tipo_icono,
         men_tipo_menu: item.men_tipo_menu,
-      
+
 
       })
-  
+
     }
 
 
@@ -1626,7 +1626,7 @@ export class MenuComponent implements OnInit {
         let menuPadre: any
 
         if(this.selectTipoMenu.tim_codigo == 0){
-          
+
           menuPadre = {
 
             men_codigo: this.codigoMenu,
@@ -1639,9 +1639,9 @@ export class MenuComponent implements OnInit {
             men_tipo_menu: Number(this.tipoPlataforma),
             men_estado: 1,
             men_asignacion: 0
-  
+
           }
-  
+
         }else{
 
           menuPadre = {
@@ -1656,19 +1656,19 @@ export class MenuComponent implements OnInit {
             men_tipo_menu: Number(this.tipoPlataforma),
             men_estado: 1,
             men_asignacion: 0
-  
+
           }
 
         }
 
         this.isLoadingUpdate = true
 
-        //console.log(menuPadre);
-        
+        ////console.log(menuPadre);
+
 
         this.serviceMenu.updateMenus(menuPadre).subscribe({
           next: (data) => {
-            
+
             if(data){
               if(this.selectTipoMenu.tim_codigo == 0){
                 this.msg.info('Menú Principal Actualizado')
@@ -1685,12 +1685,12 @@ export class MenuComponent implements OnInit {
                 this.menuForm.reset()
                 this.serviceMenu.updateMenuPrincipal.next(true);
               }
-              
+
             }else{
               this.msg.error('Error', data)
             }
-           
-         
+
+
           },
           error: (err) => {
             this.msg.error(`Ha ocurrido un error al Actualizar Menu Principal, ${err.error.message}`);
@@ -1726,9 +1726,9 @@ export class MenuComponent implements OnInit {
               men_tipo_menu: this.tipoPlataforma,
               men_estado: 1,
               men_asignacion: 0
-      
+
             }
-  
+
 
 
           }else{
@@ -1749,7 +1749,7 @@ export class MenuComponent implements OnInit {
               men_tipo_menu: this.tipoPlataforma,
               men_estado: 1,
               men_asignacion: 0
-      
+
             }
 
 
@@ -1759,7 +1759,7 @@ export class MenuComponent implements OnInit {
 
           this.serviceMenu.updateMenus(menuMovil).subscribe({
             next: (data) => {
-                            
+
               if(data){
                 if(this.selectTipoMenu.tim_codigo == 0){
                   this.msg.info('Menú Movil Principal Actualizado')
@@ -1778,12 +1778,12 @@ export class MenuComponent implements OnInit {
                   this.serviceMenu.updateMenuPrincipal.next(true);
 
                 }
-                
+
               }else{
                 this.msg.error('Error', data)
               }
-             
-           
+
+
             },
             error: (err) => {
               this.msg.error(`Ha ocurrido un error al Actualizar Menu Principal Movil, ${err.error.message}`);
@@ -1810,28 +1810,28 @@ export class MenuComponent implements OnInit {
         rol_marca: 1,
         rol_descripcion: this.rolForm.get('rol_descripcion')!.value,
         rol_estado: 1
-       
+
       }
-      
+
 
       this.serviceMenu.createRol(rol).subscribe({
         next: (data) => {
-          
+
           if(data){
-           
+
             this.msg.info('Rol Creado')
             this.getListRoles()
             this.rolForm.reset()
             this.isLoadingCrearRol = false
 
-            
+
           }else{
             this.msg.error('Error', data)
             this.isLoadingCrearRol = false
 
           }
-         
-       
+
+
         },
         error: (err) => {
           this.msg.error(`Ha ocurrido un error al Crear Rol, ${err.error.message}`);
@@ -1850,7 +1850,7 @@ export class MenuComponent implements OnInit {
 
   openModalGestionRol(rol: any){
 
-  
+
     this.modalGestionRol = true
     this.getListaRolesAsignacion(rol.rol_codigo)
     this.codigoRol = rol.rol_codigo
@@ -1864,24 +1864,24 @@ export class MenuComponent implements OnInit {
     this.codigoRol = rol.rol_codigo
     this.rolForm.setValue({
       rol_descripcion: rol.rol_descripcion,
-      
+
     })
 
   }
 
   getListRoles(){
     this.rol$ = this.serviceMenu.getListAllRol$()
-    
+
     this.subRol = this.rol$.subscribe(p => {
-      //console.log(p);
-      
+      ////console.log(p);
+
       this.listRol = p.listRol
 
       this.cargandoRol = p.cargando
 
       if(this.cargandoRol == false){
         this.subRol.unsubscribe()
-       
+
       }
     });
 
@@ -1891,10 +1891,10 @@ export class MenuComponent implements OnInit {
   getListaRolesAsignacion(rol_codigo: any){
 
     this.rolasignacion$ = this.serviceMenu.getListAllRolesAsignacion$(rol_codigo)
-      
+
     this.subRolAsignacion = this.rolasignacion$.subscribe(p => {
-      //console.log(p);
-      
+      ////console.log(p);
+
       this.listRolAsignacion = p.listRolAsignacion
 
       this.cargandoRolAsignacion = p.cargando
@@ -1902,15 +1902,15 @@ export class MenuComponent implements OnInit {
       if(this.cargandoRolAsignacion == false){
 
 
-        
+
         this.listAsignadoRol = this.listRolAsignacion.misMenus
         this.listSinAsignadoRol = this.listRolAsignacion.menusSinPadres
 
         this.subRolAsignacion.unsubscribe()
-       
+
       }
     });
-    
+
   }
 
   aceptarRol(){
@@ -1920,11 +1920,11 @@ export class MenuComponent implements OnInit {
 
   dropRol(event: CdkDragDrop<string[]>, tipoAsignar: any) {
 
-    if (event.previousContainer === event.container) {     
+    if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
 
-      const prev_idx = event.previousIndex;    
+      const prev_idx = event.previousIndex;
       this.itemMenu = event.previousContainer.data[prev_idx];
 
       if(tipoAsignar == 'asignado'){
@@ -1937,11 +1937,11 @@ export class MenuComponent implements OnInit {
           mer_estado: this.itemMenu.men_estado,
 
         }
-      
+
 
         this.serviceMenu.asignacionRolMenu(rolmenu).subscribe({
           next: (data) => {
-            
+
             if(data){
               this.msg.info('Menú Rol Agregado')
             }
@@ -1962,11 +1962,11 @@ export class MenuComponent implements OnInit {
           mer_estado: 0,
 
         }
-      
+
 
         this.serviceMenu.asignacionRolMenu(rolmenu).subscribe({
           next: (data) => {
-            
+
             if(data){
               this.msg.info('Menú Rol Desactivado')
             }
@@ -1995,10 +1995,10 @@ export class MenuComponent implements OnInit {
   getListaPermisosAsignacion(rol_codigo: any){
 
     this.permisoasignacion$ = this.serviceMenu.getListAllPermisoAsignacion$(rol_codigo)
-      
+
     this.subPermisoAsignacion = this.permisoasignacion$.subscribe(p => {
-      //console.log(p);
-      
+      ////console.log(p);
+
       this.listPermisoAsignacion = p.listPermisoAsignacion
 
       this.cargandoPermisoAsignacion = p.cargando
@@ -2006,15 +2006,15 @@ export class MenuComponent implements OnInit {
       if(this.cargandoPermisoAsignacion == false){
 
 
-        
+
         this.listAsignadoPermiso = this.listPermisoAsignacion.misPermisos
         this.listSinAsignadoPermiso = this.listPermisoAsignacion.noPermisosAsigandos
 
         this.subPermisoAsignacion.unsubscribe()
-       
+
       }
     });
-    
+
   }
 
 
@@ -2034,11 +2034,11 @@ export class MenuComponent implements OnInit {
 
   dropPermiso(event: CdkDragDrop<string[]>, tipoAsignar: any) {
 
-    if (event.previousContainer === event.container) {     
+    if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
 
-      const prev_idx = event.previousIndex;    
+      const prev_idx = event.previousIndex;
       this.itemPermiso = event.previousContainer.data[prev_idx];
 
       if(tipoAsignar == 'asignado'){
@@ -2050,13 +2050,13 @@ export class MenuComponent implements OnInit {
           rop_estado: this.itemPermiso.per_estado,
 
         }
-      
-      
-        console.log(rolpermiso);
+
+
+        //console.log(rolpermiso);
 
         this.serviceMenu.asignacionRolPermiso(rolpermiso).subscribe({
           next: (data) => {
-            
+
             if(data){
               this.msg.info('Menú Permiso Agregado')
             }
@@ -2076,13 +2076,13 @@ export class MenuComponent implements OnInit {
           rop_estado: 0,
 
         }
-      
-      
-        console.log(rolmenu);
+
+
+        //console.log(rolmenu);
 
         this.serviceMenu.asignacionRolPermiso(rolmenu).subscribe({
           next: (data) => {
-            
+
             if(data){
               this.msg.info('Menú Permiso Desactivado')
             }
@@ -2111,17 +2111,17 @@ export class MenuComponent implements OnInit {
 
   getListEmpresas(){
     this.empresa$ = this.serviceMenu.getListAllEmpresa$()
-    
+
     this.subEmpresa = this.empresa$.subscribe(p => {
-      //console.log(p);
-      
+      ////console.log(p);
+
       this.listEmpresa = p.listEmpresa
 
       this.cargandoEmpresa = p.cargando
 
       if(this.cargandoEmpresa == false){
         this.subEmpresa.unsubscribe()
-       
+
       }
     });
 

@@ -27,14 +27,14 @@ export class AuthService {
   }
 
 
-  //LOGIN 
+  //LOGIN
 
 
   loginUser(data: any): Observable<any> {
-  
+
     let marca = 100//this.serviceGlobal.getCodigoMarca()
-    
-    
+
+
     return this.http.post(`${this.baseUrl}api/auth/login/${marca}/${1}`, data, {
       headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -42,21 +42,21 @@ export class AuthService {
     });
   }
 
-  setCredentials(credentials:any, login: any){   
-    
-    console.log('add login');
-    //console.log(login);
-    //console.log(credentials);
-    
+  setCredentials(credentials:any, login: any){
+
+    //console.log('add login');
+    ////console.log(login);
+    ////console.log(credentials);
+
     localStorage.setItem("login",JSON.stringify(login.usrlogin));
-    localStorage.setItem("usuario",JSON.stringify(credentials.usuario)); 
+    localStorage.setItem("usuario",JSON.stringify(credentials.usuario));
     localStorage.setItem("token",credentials.token);
-   
-  
+
+
   }
 
   setCredencialesUpdate(credentials:any){
-    localStorage.setItem("usuario",JSON.stringify(credentials.usuario)); 
+    localStorage.setItem("usuario",JSON.stringify(credentials.usuario));
     localStorage.setItem("token",credentials.token);
   }
 
@@ -71,9 +71,9 @@ export class AuthService {
 
   getCredentials(){
 
-    //console.log('ejecuta get credenciales--------------->>>>>>>>>>>>');
-    
-    
+    ////console.log('ejecuta get credenciales--------------->>>>>>>>>>>>');
+
+
     let usuario = localStorage.getItem("usuario");
     let token = localStorage.getItem("token");
     let login = localStorage.getItem("login");

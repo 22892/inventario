@@ -19,7 +19,7 @@
               <nz-row [nzGutter]="16">
                 <nz-col nzSpan="24">
                     <div *ngIf="index == 0" nzOffset="6">
-  
+
                         <nz-row [nzGutter]="16">
                             <nz-col nzSpan="12" nzOffset="6">
                                 <form nz-form [nzLayout]="'vertical'" style="margin-top: 30px;" [formGroup]="usuarioForm" (ngSubmit)="submitForm()">
@@ -71,12 +71,19 @@
                                             <input nz-input formControlName="usr_clave" type="password"/>
                                         </nz-form-control>
                                     </nz-form-item>
-        
-        
+                                    <nz-form-item>
+                                        <nz-form-control [nzSm]="24" [nzXs]="24">
+                                            <label nz-checkbox formControlName="totalAccess">
+                                              Activar permiso total
+                                            </label>
+                                        </nz-form-control>
+                                    </nz-form-item>
+
+
                                 </form>
                             </nz-col>
                         </nz-row>
-  
+
                     </div>
                     <div *ngIf="index == 1" nzOffset="6">
                         <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
@@ -119,25 +126,25 @@
                             </nz-col>
                         </nz-row>
                     </div>
-  
+
                     <div *ngIf="index == 2" nzOffset="6">
 
                         <nz-result nzStatus="success" nzTitle="Usuario Creado!!!">
                             <div nz-result-extra>
                               <button nz-button nzType="primary" (click)="irListaUsuario()" style="margin: 20px;">Ver Usuario</button>
-                            
+
                             </div>
                         </nz-result>
-                    
-                    
+
+
                     </div>
-  
-  
-  
+
+
+
                 </nz-col>
               </nz-row>
             </div>
-  
+
             <div nz-row class="steps-action" nzJustify="space-around" nzAlign="middle">
               <button nz-button nzType="default" (click)="pre()" *ngIf="index > 0 && index < 2"
                 [disabled]="isLoadingCrearUsuario">
@@ -154,6 +161,5 @@
         </div>
       </div>
     </nz-tab>
-  
+
 </nz-tabset>
-  

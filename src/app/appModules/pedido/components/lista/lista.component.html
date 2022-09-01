@@ -2,9 +2,9 @@
     <ng-template #subtitle>
 
         <nz-space>
-            <div *nzSpaceItem>
+            <!-- <div *nzSpaceItem>
               <button nz-button nzType="dashed" nzShape="round" (click)="openModalVin()"><i nz-icon nzType="plus"></i>Nuevo</button>
-            </div>
+            </div> -->
             <ng-container *ngIf="estadoExcel == false">
                 <div  *nzSpaceItem>
                     <nz-input-group [nzSuffix]="suffixIconSearch">
@@ -17,38 +17,37 @@
                           (keyup.enter)="filtroBuscarPedido()"
                         />
                       </nz-input-group>
-              
-              
+
+
                       <ng-template #suffixIconSearch>
                         <i (click)="filtroBuscarPedido()" nz-icon nzType="search"></i>
                       </ng-template>
                 </div>
 
-               
-                
-      
+
+
+
             </ng-container>
             <div *nzSpaceItem>
-              
 
-                <ng-container *ngIf="estadoExcel == false; else returnListado">
+
+                <!-- <ng-container *ngIf="estadoExcel == false; else returnListado">
                     <nz-space>
                         <div *nzSpaceItem style="text-align: end; color: #b3b3b3;">
-                            <!--<nz-avatar  [nzIcon]="'file-excel'" style="background:white;border: solid 1px #2bff18; color:#2bff18" (click)="visualizaSubirExcel(1)" [nzTooltipTitle]="'Subir Excel'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>-->
                             <fa-icon class="fa-2x" [icon]="['fas', 'file-csv']" (click)="visualizaSubirExcel(1)"></fa-icon>
                         </div>
                         <div *nzSpaceItem style="text-align: start; margin-top: 10px;">
                             <nz-tag [nzColor]="'lime'">Subir Datos Excel</nz-tag>
                         </div>
-    
+
                     </nz-space>
 
-                </ng-container>
+                </ng-container> -->
 
                 <ng-template #returnListado>
 
                     <nz-col style="text-align: end" class="gutter-row">
-                        
+
                         <nz-avatar  [nzIcon]="'car'" style="background:white;border: solid 1px #1890ff; color:#1890ff" (click)="visualizaSubirExcel(2)" [nzTooltipTitle]="'Lista Vins'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>
 
                     </nz-col>
@@ -59,13 +58,13 @@
                 </ng-template>
 
 
-               
-        
+
+
             </div>
-      
+
         </nz-space>
-      
-  
+
+
     </ng-template>
     <nz-page-header-extra>
 
@@ -81,9 +80,9 @@
             [nzMode]="mode" [(ngModel)]="hasta" style="margin-bottom:8px" [nzDisabled]="cargarPedido" (nzOnOpenChange)="actualizarFecha($event)">
           </nz-date-picker>
         </div>
-      
+
       </nz-space>
-     
+
       <i nz-icon nzType="reload" nzTheme="outline" style="cursor: pointer;" (click)="realoadPedido()"></i>
     </nz-page-header-extra>
 </nz-page-header>
@@ -94,14 +93,14 @@
 <nz-card>
     <div class="steps-content">
 
-       
+
 
         <ng-container *ngIf="estadoExcel; else listaPedido">
 
             <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
-        
+
                 <nz-col class="gutter-row" nzSpan="24" nzOffset="8" >
-    
+
                     <!--<div class="contenedorExcel" *ngFor="let item of listTotalExcel ; let $index = index">
                         <div class="tarjetaExcel" (click)="tipoExcel(item, $index)" [class.selected]="item === indexTipoExcel">
                             <p style="margin-top: 8px; color: rgb(158, 173, 240);">{{item.exe_name}}</p>
@@ -131,9 +130,9 @@
                     </ng-template>
 
 
-    
-                   
-    
+
+
+
                 </nz-col>
             </nz-row>
 
@@ -148,30 +147,30 @@
                     Click o arrastrar archivos de tipo Excel
                     </p>
                 </nz-upload>
-    
+
             </div>
-    
+
             <ng-container *ngIf="tipoExcelItem == 1" >
 
                 <nz-table *ngIf="listExcel.length > 0" #filterTable [nzData]="listExcel" nzBordered nzSize="middle" nzTableLayout="fixed"
                     [nzLoading]="cargarPedido" [nzFrontPagination]="true" [nzScroll]="{ x: '3000px' }">
                     <thead *ngIf="listExcel.length > 0">
                         <tr>
-    
+
                             <th *ngFor="let column of listOfColumns" [nzSortOrder]="column.sortOrder"
                                 [nzSortFn]="column.sortFn" [nzSortDirections]="column.sortDirections"
                                 [nzFilterMultiple]="column.filterMultiple" [nzFilters]="column.listOfFilter"
                                 [nzFilterFn]="column.filterFn" [nzShowFilter]="column.filterFn ? true : false"
                                 [nzWidth]="column.width ? column.width : null" style="text-align: center; background-color: black; color: white; font-size: 13px;">
-    
+
                                 {{ column.name }}
-    
+
                             </th>
                         </tr>
                     </thead>
                     <tbody *ngIf="listExcel.length > 0">
                         <tr *ngFor="let item of filterTable.data" style="font-size: 12px;">
-    
+
                             <td>
                                 <small>
                                    {{item['Unit Order No.']}}
@@ -222,13 +221,13 @@
                                     {{item['Mes Producción (Fatura)']}}
                                 </small>
                             </td>
-    
+
                             <td style="text-align: center;">
                                 <small>
                                     {{item['Fecha de llegada']}}
                                 </small>
                             </td>
-    
+
                             <td>
                                 <small>
                                     {{item['Nombre Buque']}}
@@ -294,8 +293,8 @@
                                     {{item['Orden compra']}}
                                 </small>
                             </td>
-    
-                          
+
+
                         </tr>
                     </tbody>
                 </nz-table>
@@ -310,21 +309,21 @@
                     [nzLoading]="cargarPedido" [nzFrontPagination]="true" [nzScroll]="{ x: '5000px' }">
                     <thead *ngIf="listExcel.length > 0">
                         <tr>
-    
+
                             <th *ngFor="let column of listOfColumnsFactura" [nzSortOrder]="column.sortOrder"
                                 [nzSortFn]="column.sortFn" [nzSortDirections]="column.sortDirections"
                                 [nzFilterMultiple]="column.filterMultiple" [nzFilters]="column.listOfFilter"
                                 [nzFilterFn]="column.filterFn" [nzShowFilter]="column.filterFn ? true : false"
                                 [nzWidth]="column.width ? column.width : null" style="text-align: center; background-color: black; color: white; font-size: 13px;">
-    
+
                                 {{ column.name }}
-    
+
                             </th>
                         </tr>
                     </thead>
                     <tbody *ngIf="listExcel.length > 0">
                         <tr *ngFor="let item of filterTable.data" style="font-size: 12px;">
-    
+
                             <td>
                                 <small>
                                    {{item.SOC}}
@@ -375,13 +374,13 @@
                                     {{item.MATERIAL}}
                                 </small>
                             </td>
-    
+
                             <td style="text-align: center;">
                                 <small>
                                     {{item.DESCRIPCION_MATERIAL}}
                                 </small>
                             </td>
-    
+
                             <td>
                                 <small>
                                     {{item.CANT_FACT}}
@@ -517,8 +516,8 @@
                                     {{item.TIPO_CAMBIO}}
                                 </small>
                             </td>
-    
-                          
+
+
                         </tr>
                     </tbody>
                 </nz-table>
@@ -533,21 +532,21 @@
                     [nzLoading]="cargarPedido" [nzFrontPagination]="true" [nzScroll]="{ x: '7000px' }">
                     <thead *ngIf="listExcel.length > 0">
                         <tr>
-    
+
                             <th *ngFor="let column of listOfColumnsNacionalizacion" [nzSortOrder]="column.sortOrder"
                                 [nzSortFn]="column.sortFn" [nzSortDirections]="column.sortDirections"
                                 [nzFilterMultiple]="column.filterMultiple" [nzFilters]="column.listOfFilter"
                                 [nzFilterFn]="column.filterFn" [nzShowFilter]="column.filterFn ? true : false"
                                 [nzWidth]="column.width ? column.width : null" style="text-align: center; background-color: black; color: white; font-size: 13px;">
-    
+
                                 {{ column.name }}
-    
+
                             </th>
                         </tr>
                     </thead>
                     <tbody *ngIf="listExcel.length > 0">
                         <tr *ngFor="let item of filterTable.data" style="font-size: 12px;">
-    
+
                             <td>
                                 <small>
                                    {{item.ITEM}}
@@ -598,13 +597,13 @@
                                     {{item['B/L No.']}}
                                 </small>
                             </td>
-    
+
                             <td style="text-align: center;">
                                 <small>
                                     {{item['FACTURA']}}
                                 </small>
                             </td>
-    
+
                             <td>
                                 <small>
                                     {{item['FECHA FACTURA']}}
@@ -880,8 +879,8 @@
                                     {{item['L/C']}}
                                 </small>
                             </td>
-    
-                          
+
+
                         </tr>
                     </tbody>
                 </nz-table>
@@ -897,21 +896,21 @@
                     [nzLoading]="cargarPedido" [nzFrontPagination]="true" [nzScroll]="{ x: '3000px' }">
                     <thead *ngIf="listExcel.length > 0">
                         <tr>
-    
+
                             <th *ngFor="let column of listOfColumnsLogistica" [nzSortOrder]="column.sortOrder"
                                 [nzSortFn]="column.sortFn" [nzSortDirections]="column.sortDirections"
                                 [nzFilterMultiple]="column.filterMultiple" [nzFilters]="column.listOfFilter"
                                 [nzFilterFn]="column.filterFn" [nzShowFilter]="column.filterFn ? true : false"
                                 [nzWidth]="column.width ? column.width : null" style="text-align: center; background-color: black; color: white; font-size: 13px;">
-    
+
                                 {{ column.name }}
-    
+
                             </th>
                         </tr>
                     </thead>
                     <tbody *ngIf="listExcel.length > 0">
                         <tr *ngFor="let item of filterTable.data" style="font-size: 12px;">
-    
+
                             <td>
                                 <small>
                                    {{item.VIN}}
@@ -962,13 +961,13 @@
                                     {{item.Parte}}
                                 </small>
                             </td>
-    
+
                             <td style="text-align: center;">
                                 <small>
                                     {{item.Proceso}}
                                 </small>
                             </td>
-    
+
                             <td>
                                 <small>
                                     {{item.Referencia}}
@@ -984,8 +983,8 @@
                                     {{item['__EMPTY']}}
                                 </small>
                             </td>
-    
-                          
+
+
                         </tr>
                     </tbody>
                 </nz-table>
@@ -993,13 +992,13 @@
 
             </ng-container>
 
-    
+
 
             <nz-row style="display: flex; justify-content: center; margin-bottom: 15px;" [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
                 <button nz-button nzType="primary" (click)="uploadDataExcel()" *ngIf="listExcel.length > 0" [nzLoading]="isLoadingUploadExcel">
                     <i nz-icon nzType="upload"></i>
                     <span>Subir Datos Excel</span>
-                </button>                
+                </button>
             </nz-row>
 
 
@@ -1009,8 +1008,8 @@
 
             <div nz-row *ngIf="listVin.length == 0 && !cargarPedido">
                 <div nz-col nzSpan="24">
-                  
-                  <nz-empty 
+
+                  <nz-empty
                     nzNotFoundImage="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg" [nzNotFoundContent]="contentTpl"
                     [nzNotFoundFooter]="footerTpl">
                     <ng-template #contentTpl>
@@ -1030,26 +1029,26 @@
 
                         <tr>
 
-    
+
                             <th *ngFor="let column of listOfColumnsLista" [nzSortOrder]="column.sortOrder"
                                 [nzSortFn]="column.sortFn" [nzSortDirections]="column.sortDirections"
                                 [nzFilterMultiple]="column.filterMultiple" [nzFilters]="column.listOfFilter"
                                 [nzFilterFn]="column.filterFn" [nzShowFilter]="column.filterFn ? true : false"
                                 [nzWidth]="column.width ? column.width : null" style="text-align: center; background-color: black; color: white; font-size: 13px;">
-    
+
                                 {{ column.name }}
-    
+
                             </th>
                         </tr>
                     </thead>
                     <tbody *ngIf="listVin.length > 0">
                         <tr *ngFor="let item of filterTable.data" style="font-size: 12px; text-align: center;">
-                            
+
                             <td>
                                 <small>
                                     <nz-row  [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
                                         <nz-col style="text-align: center; margin-left: 10px; height: 50px;" class="gutter-row">
-                                            
+
                                             <ng-container *ngIf="item.veh_url_img_modelo; else noImage">
                                                 <img nz-image  style="object-fit: contain;"  width="50px" height="50px" [nzSrc]="item.veh_url_img_modelo" alt="" />
 
@@ -1057,13 +1056,13 @@
 
                                             <ng-template #noImage>
                                                 <img nz-image  style="object-fit: contain;"  width="40px" height="40px" nzSrc="../../../assets/images/no-photo.png" alt="" />
-                                               
+
                                             </ng-template>
 
 
-                                            
+
                                         </nz-col>
- 
+
                                     </nz-row>
                                     <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
                                         <nz-col style="margin-left: 12px;" class="gutter-row">
@@ -1071,11 +1070,11 @@
 
                                         </nz-col>
                                     </nz-row>
-                                    
+
                                 </small>
                             </td>
-                           
-                          
+
+
                             <td style="text-align: center;">
                                 <small>
 
@@ -1083,12 +1082,12 @@
                                         <i nz-icon nzType="car" nzTheme="outline"></i>
                                     </nz-col>
                                     <nz-col class="gutter-row">
-                                        {{item.veh_modelo}} 
+                                        {{item.veh_modelo}}
                                     </nz-col>
-                                
-                                   
+
+
                                 </small>
-                            </td>   
+                            </td>
                             <td>
                                 <small>
                                     {{item.veh_version}}
@@ -1109,7 +1108,7 @@
                                     {{item.veh_motor}}
                                 </small>
                             </td>
-                           
+
                             <td>
                                 <small>
 
@@ -1117,7 +1116,7 @@
                             </td>
                             <td>
                                 <small>
-                                   
+
                                 </small>
                             </td>
 
@@ -1126,37 +1125,37 @@
                                     <nz-tag style="border-radius: 10px; font-size: 10px;" [nzColor]="'red'"> {{item.estadoActual.estadoEtapa.est_nombre}}</nz-tag>
                                     <br>
                                     <div style="font-size: 8px; margin-top: 5px; font-weight: bold;">{{item.estadoActual.veh_est_fecha}}</div>
- 
-                                 
+
+
                                 </small>
                             </td>
 
                             <td>
                                 <small>
-                                    
+
                                     <nz-row style="margin-top: 0px;" [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
                                         <nz-col  nzSpan="24" class="gutter-row">
 
                                             <div  style="width: auto; height: 70px; overflow-y: hidden; overflow-x: scroll; " *ngIf="item.listaEstado.length>0; else NoEstados">
-                                                
+
                                                 <div class="contenedorEstado" *ngFor="let estado of item.listaEstado ; let $index = index">
 
                                                     <div class="tarjetaEstado">
-                                                
-                                                            
+
+
                                                             <ng-container *ngFor="let item of listImagenesEstado">
                                                                 <ng-container *ngIf="item.codigo == estado.estadoEtapa.est_codigo">
-                                                                    <nz-avatar style="width: 20px; height: 20px;"  nzSrc="{{item.url}}" nzTheme="outline"></nz-avatar>    
+                                                                    <nz-avatar style="width: 20px; height: 20px;"  nzSrc="{{item.url}}" nzTheme="outline"></nz-avatar>
                                                                 </ng-container>
                                                             </ng-container>
 
-        
-                                                  
+
+
 
                                                         <div style="text-align: center; align-items: center; align-self: center; align-content: center; font-size: 8px; color: #1890ff;" >
                                                             {{estado.estadoEtapa.est_nombre}}
                                                         </div>
-                                                            
+
                                                     </div>
 
                                                 </div>
@@ -1164,14 +1163,14 @@
                                             </div>
 
                                             <ng-template #NoEstados>
-                                                
+
                                                     <nz-list-empty nzNoResult="VIN SIN ESTADOS"></nz-list-empty>
 
-                                              
+
                                             </ng-template>
 
 
-                                            
+
                                         </nz-col>
                                     </nz-row>
 
@@ -1200,7 +1199,7 @@
                                 <nz-avatar [nzIcon]="'file-pdf'" (click)="openModalPdf(item)"   style="background:white;border: solid 1px #cb4b54; color:#cb4b54" [nzTooltipTitle]="'PDF RECEPCIÓN'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>
 
                             </td>
-                          
+
                         </tr>
                     </tbody>
             </nz-table>-->
@@ -1217,7 +1216,7 @@
 
                         <tr>
 
-                            <th *ngFor="let column of listOfColumnsEstados" 
+                            <th *ngFor="let column of listOfColumnsEstados"
                                 [colspan]="column.colnum"
                                 nzWidth="10px" style="text-align: center; font-size: 11px; color: #1890ff;">
 
@@ -1225,14 +1224,14 @@
 
                             </th>
 
-                            
+
 
                         </tr>
 
                         <tr>
 
-    
-                            <th *ngFor="let column of listOfColumnsLista" 
+
+                            <th *ngFor="let column of listOfColumnsLista"
                                 [colspan]="column.colnum"
                                 [nzFilterMultiple]="column.filterMultiple" [nzFilters]="column.listOfFilter"
                                 [nzFilterFn]="column.filterFn" [nzShowFilter]="column.filterFn ? true : false"
@@ -1247,19 +1246,19 @@
 
                                 </ng-template>
 
-    
+
                             </th>
                         </tr>
                     </thead>
                     <tbody *ngIf="listVin.length > 0">
                         <tr *ngFor="let item of filterTable.data ; let $indexTable = index" style="font-size: 12px; text-align: center;">
-                            
-                      
+
+
                             <td>
                                 <small>
                                     <nz-row  [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
                                         <nz-col style="text-align: center; margin-left: 10px; height: 50px;" class="gutter-row">
-                                            
+
                                             <ng-container *ngIf="item.veh_url_img_modelo; else noImage">
                                                 <img nz-image  style="object-fit: contain;"  width="50px" height="50px" [nzSrc]="item.veh_url_img_modelo" alt="" />
 
@@ -1267,13 +1266,13 @@
 
                                             <ng-template #noImage>
                                                 <img nz-image  style="object-fit: contain;"  width="40px" height="40px" nzSrc="../../../assets/images/no-photo.png" alt="" />
-                                               
+
                                             </ng-template>
 
 
-                                            
+
                                         </nz-col>
- 
+
                                     </nz-row>
                                     <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
                                         <nz-col style="margin-left: 12px;" class="gutter-row">
@@ -1281,11 +1280,11 @@
 
                                         </nz-col>
                                     </nz-row>
-                                    
+
                                 </small>
                             </td>
-                           
-                          
+
+
                             <td style="text-align: center;">
                                 <small>
 
@@ -1293,12 +1292,12 @@
                                         <i nz-icon nzType="car" nzTheme="outline"></i>
                                     </nz-col>
                                     <nz-col class="gutter-row">
-                                        {{item.veh_modelo}} 
+                                        {{item.veh_modelo}}
                                     </nz-col>
-                                
-                                   
+
+
                                 </small>
-                            </td>   
+                            </td>
                             <td>
                                 <small>
                                     {{item.veh_version}}
@@ -1319,7 +1318,7 @@
                                     {{item.veh_motor}}
                                 </small>
                             </td>
-                           
+
                             <td>
                                 <small>
 
@@ -1327,13 +1326,13 @@
                             </td>
                             <td>
                                 <small>
-                                   
+
                                 </small>
                             </td>
 
                             <td>
                                 <small>
-                                 
+
                                    <nz-tag style="border-radius: 10px; font-size: 10px;" [nzColor]="'red'"> {{item.estadoActual.estadoEtapa.est_nombre}}</nz-tag>
                                    <br>
                                    <div style="font-size: 8px; margin-top: 5px; font-weight: bold;">{{item.estadoActual.veh_est_fecha}}</div>
@@ -1373,28 +1372,28 @@
 
                                             <div *ngFor="let estado of item.listaEstadosPadres ; let $index = index ">
 
-                                               
+
                                                 <ng-container *ngIf="itemEst.cod_estado == estado.est_codigo; else NoCheckEstado">
 
 
                                                     <ng-container *ngIf="estado.listaHijos.length>0; else NoEstadosHijos">
 
                                                         <ng-container *ngIf="controlSi">
-                                                        
+
                                                             <!--<input type="checkbox" (click)="chechselect(estado, item.veh_vin)"  [(ngModel)]="estado.check" class="form-check-input" id="{{item.veh_vin+itemEst.cod_estado}}">
                                                             <nz-divider nzType="vertical"></nz-divider>-->
                                                             <button nz-button nzType="primary" (click)="openModalEstados(estado, item.veh_vin)"><i nz-icon nzType="car"></i></button>
                                                             {{cambio('si',-100,-100)}}
-        
+
                                                         </ng-container>
 
                                                     </ng-container>
 
                                                     <ng-template #NoEstadosHijos>
-                                                       
+
                                                             <input type="checkbox" disabled="false" [(ngModel)]="checkControl" class="form-check-input" id="{{item.veh_vin+itemEst.cod_estado}}">
                                                             {{cambio('si',-100,-100)}}
-                                                        
+
 
                                                     </ng-template>
 
@@ -1402,11 +1401,11 @@
 
                                                 <ng-template #NoCheckEstado>
 
-                                                   
+
                                                     {{cambio('no',$index+1, item.listaEstadosPadres.length )}}
 
                                                     <ng-container *ngIf="controlNo">
-                                                       
+
                                                         <input type="checkbox" disabled="false"  [(ngModel)]="checkControl" class="form-check-input" id="{{item.veh_vin+itemEst.cod_estado}}">
 
                                                     </ng-container>
@@ -1439,17 +1438,17 @@
 
 
     </div>
-    
+
 </nz-card>
 
 
-<nz-modal nzWrapClassName="vertical-center-modal"  [(nzVisible)]="isModalEstados" nzTitle="Información Estados Vin : {{vin}}" 
+<nz-modal nzWrapClassName="vertical-center-modal"  [(nzVisible)]="isModalEstados" nzTitle="Información Estados Vin : {{vin}}"
 (nzOnCancel)="isModalEstados = false" (nzOnOk)="isModalEstados = false"  nzWidth="450px">
     <ng-container *nzModalContent>
 
         <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
             <nz-col nzSpan="24" class="gutter-row">
-                
+
                 <!--<nz-collapse nzAccordion >
                     <nz-collapse-panel *ngFor="let panel of listaHijosEstados" [nzHeader]="extraTpl">
 
@@ -1460,9 +1459,9 @@
 
                             </nz-col>
 
-                          
+
                             <nz-col nzSpan="14" class="gutter-row">
-                               
+
                                 <ng-container *ngIf="panel.veh_est_fecha">
                                     <nz-steps  nzSize="small" [nzCurrent]="indexTiempo" (nzIndexChange)="onIndexChange($event)">
                                         <nz-step
@@ -1470,7 +1469,7 @@
                                             nzTitle="Fecha Inicio:"
                                             nzSubtitle="{{panel.veh_est_fecha_inicio}}"
                                             nzStatus="finish"
-                                          
+
                                         ></nz-step>
                                     </nz-steps>
 
@@ -1485,7 +1484,7 @@
                     </nz-collapse-panel>
                 </nz-collapse>-->
 
-               
+
                 <nz-timeline >
                     <nz-timeline-item style="background-color: red;" *ngFor="let panel of listaHijosEstados">{{panel.estadoEtapa.est_nombre}} <div *ngIf="panel.veh_est_fecha">{{panel.veh_est_fecha_inicio}}</div> </nz-timeline-item>
                 </nz-timeline>
@@ -1493,14 +1492,14 @@
 
             </nz-col>
         </nz-row>
-    
+
     </ng-container>
 
 </nz-modal>
 
 
 
-<nz-modal nzWrapClassName="vertical-center-modal"  [(nzVisible)]="isModalPedf" nzTitle="Información Recepción" 
+<nz-modal nzWrapClassName="vertical-center-modal"  [(nzVisible)]="isModalPedf" nzTitle="Información Recepción"
 (nzOnCancel)="isModalPedf = false"  (nzOnOk)="downloadPDFRecepcion()" nzOkText="Descargar" nzWidth="550px">
     <ng-container *nzModalContent>
 
@@ -1518,17 +1517,17 @@
 </nz-modal>
 
 
-<nz-modal nzWrapClassName="vertical-center-modal"  [(nzVisible)]="modalCreate" nzTitle="Creación de Vin" 
+<nz-modal nzWrapClassName="vertical-center-modal"  [(nzVisible)]="modalCreate" nzTitle="Creación de Vin"
 (nzOnCancel)="modalCreate = false"  (nzOnOk)="createVinPedido()" nzWidth="950px">
     <ng-container *nzModalContent>
 
-        
+
             <div class="steps-content">
 
                 <form nz-form [nzLayout]="'vertical'" style="margin-top: 30px;" [formGroup]="vinForm" (ngSubmit)="submitForm()">
 
                     <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
-                            
+
                         <nz-col class="gutter-row" nzSpan="12">
 
                             <nz-form-item>
@@ -1750,20 +1749,20 @@
                 </form>
 
             </div>
-        
+
 
     </ng-container>
 </nz-modal>
 
 
-<nz-modal nzWrapClassName="vertical-center-modal"  [(nzVisible)]="isModalExcelError" nzTitle="ERRORES DE ARCHIVOS" 
+<nz-modal nzWrapClassName="vertical-center-modal"  [(nzVisible)]="isModalExcelError" nzTitle="ERRORES DE ARCHIVOS"
 (nzOnCancel)="isModalExcelError = false" [nzOkLoading]="isLoadingErrorExcel" (nzOnOk)="cerrarModalError()" nzWidth="600px" nzOkText="Descargar">
 
 <ng-container *nzModalContent>
     <cdk-virtual-scroll-viewport itemSize="10" class="demo-infinite-container" >
         <nz-list nzItemLayout="horizontal" [nzLoading]="isLoadingErrorExcel" [nzDataSource]="listErrorExcel" [nzRenderItem]="item" id="PDF">
             <ng-template #item let-item  >
-                <nz-comment [nzAuthor]="'Error Excel'" [ngClass]="{'seg-solucion':1 == 1}">  
+                <nz-comment [nzAuthor]="'Error Excel'" [ngClass]="{'seg-solucion':1 == 1}">
 
                     <nz-comment-content>
 
@@ -1771,57 +1770,57 @@
                             <nz-col class="gutter-row" nzSpan="4">
                                 <ng-container *ngIf="item.codigo == 0">
                                     <nz-avatar nz-comment-avatar style="background:white;border: solid 1px #ca5c60; color:#ca5c60" nzIcon="warning"></nz-avatar>
-            
+
                                 </ng-container>
-            
+
                                 <ng-container *ngIf="item.codigo == 1">
                                     <nz-avatar nz-comment-avatar style="background:white;border: solid 1px #18ff59; color:#18ff59" nzIcon="exclamation"></nz-avatar>
-            
-            
+
+
                                 </ng-container>
-            
+
                                 <ng-container *ngIf="item.codigo == 2">
                                     <nz-avatar nz-comment-avatar style="background:white;border: solid 1px #1890ff; color:#1890ff" nzIcon="check"></nz-avatar>
-            
-            
+
+
                                 </ng-container>
-        
+
                             </nz-col>
-    
+
                             <nz-col style="text-align: start;" class="gutter-row" nzSpan="20">
-    
+
                                 <ng-container *ngIf="item.codigo == 0">
                                     <div style="color:#c98083;">{{item.mensaje}}</div>
                                 </ng-container>
-        
+
                                 <ng-container *ngIf="item.codigo == 1">
                                     <div style="color:#91ebaa;">{{item.mensaje}}</div>
                                 </ng-container>
-        
+
                                 <ng-container *ngIf="item.codigo == 2">
                                     <div style="color:#8db9e2;">{{item.mensaje}}</div>
                                 </ng-container>
-        
-    
+
+
                             </nz-col>
-    
+
                         </nz-row>
 
 
-              
 
 
-                
+
+
                     </nz-comment-content>
                 </nz-comment>
-    
-                
+
+
             </ng-template>
-    
+
         </nz-list>
-    
+
       </cdk-virtual-scroll-viewport>
-    
+
 </ng-container>
 
 

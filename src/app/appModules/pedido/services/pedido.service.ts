@@ -15,7 +15,7 @@ export class PedidoService {
   baseUrl: string = '';
 
   private listVin: any[] = [];
-  
+
   private vin$! : BehaviorSubject<any>;
   private vinFecha$! : BehaviorSubject<any>;
 
@@ -66,7 +66,7 @@ export class PedidoService {
 
 
   reenviarVinCurbe$(veh_codigo: any): Observable<any> {
-   
+
     if(this.renviarVinCurbe)
       this.reenviarVin(veh_codigo);
     return this.reenviarVin$.asObservable();
@@ -74,10 +74,10 @@ export class PedidoService {
 
   reenviarVin(veh_codigo: any){
     let marca = this.serviceGlobal.getCodigoMarca()
-    
+
     this.renviarVinCurbe = [];
     this.reenviarVin$.next({ renviarVinCurbe: this.renviarVinCurbe, cargando: true });
-    
+
     this.http.get(`${this.baseUrl}api/vehiculo/uploadCurbe/${marca}/${veh_codigo}`,this.httpOptions).subscribe({
       next: (data) => {
 
@@ -87,14 +87,14 @@ export class PedidoService {
         this.createNotification('error', 'Error', 'ha ocurrido un error al Reenviar Vins');
         this.reenviarVin$.next({ renviarVinCurbe: [], cargando: false });
       }
-    });    
+    });
 
   }
 
 
 
   getListAllDetalleEstadosVin$(veh_codigo: any): Observable<any> {
-   
+
     if(this.listDetalleEstadoVin)
       this.getDetalleEstadosVins(veh_codigo);
     return this.detallevin$.asObservable();
@@ -102,11 +102,11 @@ export class PedidoService {
 
   getDetalleEstadosVins(veh_codigo: any){
     let marca = this.serviceGlobal.getCodigoMarca()
-    
+
     this.listDetalleEstadoVin = [];
     this.detallevin$.next({ listDetalleEstadoVin: this.listDetalleEstadoVin, cargando: true });
-    console.log(`${this.baseUrl}api/vehiculo/detalleEstado/${marca}/${veh_codigo}`);
-    
+    //console.log(`${this.baseUrl}api/vehiculo/detalleEstado/${marca}/${veh_codigo}`);
+
     this.http.get(`${this.baseUrl}api/vehiculo/detalleEstado/${marca}/${veh_codigo}`,this.httpOptions).subscribe({
       next: (data) => {
 
@@ -116,14 +116,14 @@ export class PedidoService {
         this.createNotification('error', 'Error', 'ha ocurrido un error al listado de Detalle Estados Vins');
         this.detallevin$.next({ listDetalleEstadoVin: [], cargando: false });
       }
-    });    
+    });
 
   }
 
 
 
   getListAllEstadosVin$(): Observable<any> {
-   
+
     if(this.listEstadoVin)
       this.getEstadosVins();
     return this.estadovin$.asObservable();
@@ -131,11 +131,11 @@ export class PedidoService {
 
   getEstadosVins(){
     let marca = this.serviceGlobal.getCodigoMarca()
-    
+
     this.listEstadoVin = [];
     this.estadovin$.next({ listEstadoVin: this.listEstadoVin, cargando: true });
-    console.log(`${this.baseUrl}api/vehiculo/getAllEstados/${marca}`);
-    
+    //console.log(`${this.baseUrl}api/vehiculo/getAllEstados/${marca}`);
+
     this.http.get(`${this.baseUrl}api/vehiculo/getAllEstados/${marca}`,this.httpOptions).subscribe({
       next: (data) => {
 
@@ -145,7 +145,7 @@ export class PedidoService {
         this.createNotification('error', 'Error', 'ha ocurrido un error al listado de Estados Vins');
         this.estadovin$.next({ listEstadoVin: [], cargando: false });
       }
-    });    
+    });
 
   }
 
@@ -157,7 +157,7 @@ export class PedidoService {
 
 
   getListAllVinMarca$(gur_codigo: any): Observable<any> {
-   
+
     if(this.listVin){
       this.getVinsMarca(gur_codigo);
     }else{
@@ -168,20 +168,32 @@ export class PedidoService {
     }
     return this.vin$.asObservable();
   }
+  getListAllVins$(gur_codigo: any): Observable<any> {
+
+    if(this.listVin){
+      this.getVinsTotal();
+    }else{
+      this.vin$.subscribe((x)=>{
+        x.control = false
+      })
+
+    }
+    return this.vin$.asObservable();
+  }
 
   getVinsMarca(gur_codigo: any){
-   
+
     let marca = this.serviceGlobal.getCodigoMarca()
     let cod_empresa = this.serviceGlobal.getCodigoEmpresa()
 
-    console.log('codigo empresaaaa');
-    console.log(cod_empresa);
+    //console.log('codigo empresaaaa');
+    //console.log(cod_empresa);
 
 
     this.listVin = [];
     this.vin$.next({ listVin: this.listVin, cargando: true, control: true });
-    console.log(`${this.baseUrl}api/vehiculo/getAllVehiculosMarca/${marca}/${0}/${gur_codigo}`);
-    
+    //console.log(`${this.baseUrl}api/vehiculo/getAllVehiculosMarca/${marca}/${0}/${gur_codigo}`);
+
     this.http.get(`${this.baseUrl}api/vehiculo/getAllVehiculosMarca/${marca}/${226}/${gur_codigo}`,this.httpOptions).subscribe({
       next: (data) => {
 
@@ -191,14 +203,39 @@ export class PedidoService {
         this.createNotification('error', 'Error', 'Ha ocurrido un error al listado de Vins');
         this.vin$.next({ listVin: [], cargando: false, control: true });
       }
-    });    
+    });
+
+  }
+  getVinsTotal(){
+
+    let marca = this.serviceGlobal.getCodigoMarca()
+    let cod_empresa = this.serviceGlobal.getCodigoEmpresa()
+
+    //console.log('codigo empresaaaa');
+    //console.log(cod_empresa);
+
+
+    this.listVin = [];
+    this.vin$.next({ listVin: this.listVin, cargando: true, control: true });
+    //console.log(`${this.baseUrl}api/vehiculo/getAllVehiculos/${marca}`);
+
+    this.http.get(`${this.baseUrl}api/vehiculo/getAllVehiculos/${marca}`,this.httpOptions).subscribe({
+      next: (data) => {
+
+        this.vin$.next({ listVin: data, cargando: false, control: true});
+      },
+      error: (err) => {
+        this.createNotification('error', 'Error', 'Ha ocurrido un error al listado de Vins');
+        this.vin$.next({ listVin: [], cargando: false, control: true });
+      }
+    });
 
   }
 
 
 
   getListAllVin$(): Observable<any> {
-   
+
     if(this.listVin)
       this.getVins();
     return this.vin$.asObservable();
@@ -206,12 +243,12 @@ export class PedidoService {
 
   getVins(){
     let emp_codigo = this.serviceGlobal.getCodigoEmpresa()
-    console.log('codigo empresa');
-    console.log(emp_codigo);
-    
+    //console.log('codigo empresa');
+    //console.log(emp_codigo);
+
     this.listVin = [];
     this.vin$.next({ listVin: this.listVin, cargando: true });
-    
+
     this.http.get(`${this.baseUrl}api/vehiculo/getAllVehiculos`,this.httpOptions).subscribe({
       next: (data) => {
 
@@ -221,32 +258,32 @@ export class PedidoService {
         this.createNotification('error', 'Error', 'ha ocurrido un error al listado de Vins');
         this.vin$.next({ listVin: [], cargando: false });
       }
-    });    
+    });
 
   }
 
 
   getAllVinsFechas$(): Observable<any>{
 
-    
+
     this.getListVinByFecha();
-    
+
     this.vinFecha$.subscribe((x)=>{
       x.control = true
     })
-    
 
-   
+
+
     return this.vinFecha$.asObservable();
   }
-   
+
   getListVinByFecha(){
     this.listVin = [];
     this.vinFecha$.next({listVin:this.listVin,cargando:true, control: true});
     let desde = this.serviceGlobal.getFechaDesde();
     let hasta = this.serviceGlobal.getFechaHasta();
     let marca = this.serviceGlobal.getCodigoMarca()
-    
+
     this.http.get<any>(`${this.baseUrl}api/vehiculo/getAllVehiculosByFecha/${marca}/${formatDate(desde,'yyyy-MM-dd','es')}/${formatDate(hasta,'yyyy-MM-dd','es')}`,this.httpOptions ).subscribe({
       next: (data) => {
         this.vinFecha$.next({listVin:data,cargando:false, control: true});
@@ -266,7 +303,7 @@ export class PedidoService {
       reportProgress: true,
       //observe: 'events',
       headers: new HttpHeaders({
-        'Authorization': `Bearer `+this.serviceAuth.token     
+        'Authorization': `Bearer `+this.serviceAuth.token
       })
     });
   }
@@ -279,34 +316,34 @@ export class PedidoService {
       reportProgress: true,
       //observe: 'events',
       headers: new HttpHeaders({
-        'Authorization': `Bearer `+this.serviceAuth.token     
+        'Authorization': `Bearer `+this.serviceAuth.token
       })
     });
   }
 
   uploadFileExelFactura(file:any):Observable<any>{
 
-  
+
     let marca = this.serviceGlobal.getCodigoMarca()
 
     return this.http.post(`${this.baseUrl}api/factura/upload_document_excel/${marca}`, file,{
       reportProgress: true,
       //observe: 'events',
       headers: new HttpHeaders({
-        'Authorization': `Bearer `+this.serviceAuth.token      
+        'Authorization': `Bearer `+this.serviceAuth.token
       })
     });
   }
 
   uploadFileExelNacionalizacion(file:any):Observable<any>{
-   
+
     let marca = this.serviceGlobal.getCodigoMarca()
 
     return this.http.post(`${this.baseUrl}api/nacionalizacion/upload_document_excel/${marca}`, file,{
       reportProgress: true,
       //observe: 'events',
       headers: new HttpHeaders({
-        'Authorization': `Bearer `+this.serviceAuth.token      
+        'Authorization': `Bearer `+this.serviceAuth.token
       })
     });
   }
@@ -315,15 +352,15 @@ export class PedidoService {
 
   getDetalleVin(vin:any): Observable<any> {
     let marca = this.serviceGlobal.getCodigoMarca()
-    console.log(`${this.baseUrl}api/vehiculo/detalle/${marca}/${vin}`);
-    
+    //console.log(`${this.baseUrl}api/vehiculo/detalle/${marca}/${vin}`);
+
     return this.http.get(`${this.baseUrl}api/vehiculo/detalle/${marca}/${vin}`, {
-      
+
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
           'Authorization': `Bearer `+this.serviceAuth.token
         }),
-      
+
     });
   }
 

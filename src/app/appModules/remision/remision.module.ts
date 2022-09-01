@@ -10,15 +10,19 @@ import {SearchComponent } from '../remision/components/search/search.component'
 import { SpinerModule } from './../../init/spiner/spiner.module'
 import { NzElementPatchModule } from 'ng-zorro-antd/core/element-patch'
 import { NgxPaginationModule } from 'ngx-pagination';
+import { VinesComponent } from './components/vines/vines.component';
+import  {  PdfViewerModule  }  from  'ng2-pdf-viewer';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 const routes: Routes = [
   { path: 'lista', component: ListaComponent },
-  
+  { path: 'vines', component: VinesComponent },
+
 ];
 
 
 @NgModule({
-  declarations: [ListaComponent,  SearchComponent],
+  declarations: [ListaComponent,  SearchComponent, VinesComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
@@ -29,7 +33,9 @@ const routes: Routes = [
     ReactiveFormsModule,
     SpinerModule,
     NzElementPatchModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    PdfViewerModule,
+    ScrollingModule
 
   ],exports: [SearchComponent]
 })

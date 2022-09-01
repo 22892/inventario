@@ -18,7 +18,7 @@ import { ActivatedRoute} from '@angular/router';
 import { NzSegmentedOption } from 'ng-zorro-antd/segmented';
 
 interface ColumnItem {
-  
+
   name: string;
   sortOrder: NzTableSortOrder | null;
   sortFn: NzTableSortFn | null;
@@ -31,7 +31,7 @@ interface ColumnItem {
 }
 
 interface ColumnItemVin {
-  
+
   name: string;
   sortOrder: NzTableSortOrder | null;
   sortFn: NzTableSortFn | null;
@@ -112,7 +112,7 @@ export class ListaComponent implements OnInit {
       listOfFilter:[],
       filterFn: null
     },
-   
+
     {
       width:'50px',
       name: 'Fecha',
@@ -133,7 +133,7 @@ export class ListaComponent implements OnInit {
       listOfFilter: [],
       filterFn: null,
     },
-   
+
     {
       width:'80px',
       name: 'Movilización',
@@ -248,7 +248,7 @@ export class ListaComponent implements OnInit {
       listOfFilter:[],
       filterFn: null
     },
-   
+
     {
       width:'50px',
       name: 'Familia',
@@ -269,7 +269,7 @@ export class ListaComponent implements OnInit {
       listOfFilter: [],
       filterFn: null,
     },
-   
+
     {
       width:'80px',
       name: 'Fecha Creación',
@@ -487,7 +487,7 @@ export class ListaComponent implements OnInit {
       listOfFilter: [],
       filterFn: null,
     },*/
-  
+
     {
       width:'40px',
       name: 'Modelo',
@@ -501,7 +501,7 @@ export class ListaComponent implements OnInit {
       color2: 'white',
       colnum: '1'
     },
-   
+
     {
       width:'60px',
       name: 'Versión',
@@ -528,7 +528,7 @@ export class ListaComponent implements OnInit {
       color2: 'white',
       colnum: '1'
     },
-    
+
     {
       width:'60px',
       name: 'Chasis',
@@ -582,7 +582,7 @@ export class ListaComponent implements OnInit {
       color2: 'white',
       colnum: '1'
     },
-   
+
     {
       width:'50px',
       name: 'Estado Actual',
@@ -590,7 +590,7 @@ export class ListaComponent implements OnInit {
       sortFn: (a: any, b: any) => a.estadoActual.estadoEtapa.est_id_padre - b.estadoActual.estadoEtapa.est_id_padre,
       sortDirections: ['ascend','descend', null],
       listOfFilter: [],
-      filterFn: (list: number[], item: any) => list.some(ban => item.estadoActual.estadoEtapa.est_id_padre == ban),      
+      filterFn: (list: number[], item: any) => list.some(ban => item.estadoActual.estadoEtapa.est_id_padre == ban),
       filterMultiple: true,
       color: 'black',
       color2: 'white',
@@ -609,7 +609,7 @@ export class ListaComponent implements OnInit {
       color2: 'white',
       colnum: '1'
     },*/
-   
+
     {
       width:'50px',
       name: 'Detalle',
@@ -695,7 +695,7 @@ export class ListaComponent implements OnInit {
       listOfFilter:[],
       filterFn: null
     },
-   
+
     {
       width:'50px',
       name: 'NUM_PED',
@@ -716,7 +716,7 @@ export class ListaComponent implements OnInit {
       listOfFilter: [],
       filterFn: null,
     },
-   
+
     {
       width:'80px',
       name: 'NIF',
@@ -1081,7 +1081,7 @@ export class ListaComponent implements OnInit {
       listOfFilter:[],
       filterFn: null
     },
-   
+
     {
       width:'50px',
       name: 'NUM NACIONALIZACIÓN',
@@ -1102,7 +1102,7 @@ export class ListaComponent implements OnInit {
       listOfFilter: [],
       filterFn: null,
     },
-   
+
     {
       width:'60px',
       name: 'ENTREGA ENTRANTE',
@@ -1739,13 +1739,13 @@ export class ListaComponent implements OnInit {
   vinForm!: FormGroup;
   isLoadingUploadExcel: boolean = false
 
-  listTotalExcel: any[] = [{label: 'Pedido',value: 'Pedido', useTemplate: true }, {label: 'Facturación',value: 'Pedido', useTemplate: true }, 
+  listTotalExcel: any[] = [{label: 'Pedido',value: 'Pedido', useTemplate: true }, {label: 'Facturación',value: 'Pedido', useTemplate: true },
                            {label: 'Nacionalización',value: 'Pedido', useTemplate: true }, {label: 'Logistica',value: 'Pedido', useTemplate: true }]
 
 
   tipoExcelItem: number = 1
   indexTipoExcel: any
-  
+
   isModalExcelError: boolean = false
   listErrorExcel:  any[] = []
   isLoadingErrorExcel: boolean = false
@@ -1772,7 +1772,7 @@ export class ListaComponent implements OnInit {
   subFecha: any
   control: boolean = true
   controlFecha: boolean = false
-  
+
   codigo_guia: any
   isModalEstados: boolean = false
   listaHijosEstados: any [] = []
@@ -1819,10 +1819,10 @@ export class ListaComponent implements OnInit {
         veh_rev_observacion: [null, [Validators.required]],
         veh_marca: [null, [Validators.required]],
         veh_vin: [null, [Validators.required]],
-      
+
 
       });
-  
+
 
       this.desde = new Date()
       this.hasta = new Date()
@@ -1830,16 +1830,16 @@ export class ListaComponent implements OnInit {
       this.servicePedido.updateListaVins.subscribe( value => {
 
         if(value == true){
-          console.log('Activa Vins');
-          
+          //console.log('Activa Vins');
+
           this.servicePedido.updateListAllVinMarca(this.codigo_guia)
         }
 
       })
 
       this.codigo_guia = this.rutaActiva.snapshot.paramMap.get('guia')
-      console.log('parametros');
-      console.log(this.codigo_guia);
+      //console.log('parametros');
+      //console.log(this.codigo_guia);
       this.serviceGlobal.setCodigoGuia(this.codigo_guia)
       //this.servicePedido.updateListAllVinMarca(this.codigo_guia)
 
@@ -1858,10 +1858,10 @@ export class ListaComponent implements OnInit {
   chechselect(estado: any, vinSlect: any){
 
     let posicion = 0
-    
+
     this.listVin.forEach((vin: any, index: any)=>{
       if(vin.veh_vin.toUpperCase() == vinSlect.toUpperCase()){
-        posicion = index 
+        posicion = index
       }
     })
 
@@ -1872,23 +1872,23 @@ export class ListaComponent implements OnInit {
           item.check = true
         }
       })
-  
+
     }, 1)
 
-    
+
   }
 
 
   openModalEstados(estadosHijos: any, vin: any){
-    console.log(estadosHijos);
+    //console.log(estadosHijos);
     this.isModalEstados = true
     this.listaHijosEstados = estadosHijos.listaHijos
     this.vin = vin
     this.listaHijosEstados.forEach((estado: any, index: any)=>{
-      estado.veh_est_fecha_inicio = this.transformDate(estado.veh_est_fecha) 
+      estado.veh_est_fecha_inicio = this.transformDate(estado.veh_est_fecha)
     })
 
-    
+
   }
 
   onIndexChange(event: number): void {
@@ -1909,7 +1909,7 @@ export class ListaComponent implements OnInit {
 
   actualizarFecha(e: any) {
     if (!e) {
-      
+
       this.serviceGlobal.setFechaDesde(this.desde);
       this.serviceGlobal.setfechaHasta(this.hasta);
       this.getListVinsFecha()
@@ -1930,7 +1930,7 @@ export class ListaComponent implements OnInit {
         this.msg.warning("Ingrese todos los datos requeridos para Crear Vin");
         this.submitForm()
         return false;
-      
+
       }
 
     return v;
@@ -1939,17 +1939,17 @@ export class ListaComponent implements OnInit {
 
   beforeUpload = (file: any): boolean => {
 
-    console.log('mmmmmmmmmmmmmmmmm');
-    
+    //console.log('mmmmmmmmmmmmmmmmm');
+
 
     this.listExcel = []
-    
+
     if (this.fileList.length > 0) {
       this.msg.error('Solo puede Cargar un Archivo');
     } else {
       this.fileList = this.fileList.concat(file);
 
-     
+
         this.excelToJson(file)
 
     }
@@ -1957,35 +1957,35 @@ export class ListaComponent implements OnInit {
     return false;
   };
 
-  
+
 
 
   public excelToJson(file: File){
-   
-    this.file= file;     
-    let fileReader = new FileReader();    
-    fileReader.readAsArrayBuffer(this.file);     
+
+    this.file= file;
+    let fileReader = new FileReader();
+    fileReader.readAsArrayBuffer(this.file);
     fileReader.onload = (e) => {
-      this.arrayBuffer = fileReader.result;    
-      var data = new Uint8Array(this.arrayBuffer);    
-      var arr = new Array(); 
-     
-         
-      for(var i = 0; i != data.length; ++i) arr[i] = String.fromCharCode(data[i]);    
-      var bstr = arr.join("");    
-      var workbook = XLSX.read(bstr, {type:"binary"});  
-      
-    
-      var first_sheet_name = workbook.SheetNames[0];  
-      var worksheet = workbook.Sheets[first_sheet_name];    
-      //console.log(XLSX.utils.sheet_to_json(worksheet,{raw:true}));  
-      //var arraydatos =  XLSX.utils.sheet_to_json(worksheet,{raw:true}); 
-     
-      this.listExcel = XLSX.utils.sheet_to_json(worksheet,{raw:true});   
-      console.log(this.listExcel)      
-    
-    
-    } 
+      this.arrayBuffer = fileReader.result;
+      var data = new Uint8Array(this.arrayBuffer);
+      var arr = new Array();
+
+
+      for(var i = 0; i != data.length; ++i) arr[i] = String.fromCharCode(data[i]);
+      var bstr = arr.join("");
+      var workbook = XLSX.read(bstr, {type:"binary"});
+
+
+      var first_sheet_name = workbook.SheetNames[0];
+      var worksheet = workbook.Sheets[first_sheet_name];
+      ////console.log(XLSX.utils.sheet_to_json(worksheet,{raw:true}));
+      //var arraydatos =  XLSX.utils.sheet_to_json(worksheet,{raw:true});
+
+      this.listExcel = XLSX.utils.sheet_to_json(worksheet,{raw:true});
+      //console.log(this.listExcel)
+
+
+    }
   }
 
   openModalVin(){
@@ -2025,12 +2025,12 @@ export class ListaComponent implements OnInit {
   getListEstadosVin(){
 
     this.estadovin$ = this.servicePedido.getListAllEstadosVin$()
-    
+
     this.subEstado = this.estadovin$.subscribe(p => {
-      console.log(p);
-      
+      //console.log(p);
+
       this.listEstadoVin = p.listEstadoVin
-      
+
       this.cargandoEstado = p.cargando
 
       if(this.cargandoEstado == false){
@@ -2040,21 +2040,21 @@ export class ListaComponent implements OnInit {
           return {text: c.est_nombre, value: c.est_codigo}
         });
 
-       
-       
+
+
         //@ts-ignore
         this.listOfColumnsLista.find(x => x.name == 'Estado Actual').listOfFilter = filtros;
 
-       
+
 
 
 
         //OPCION 2222222 ///////////////////////////////////////
-        
+
 
         this.listOfColumnsLista.forEach((listavin: any, index: any)=>{
 
-          
+
           let columna = {
             width:'200px',
             name: '',
@@ -2067,19 +2067,19 @@ export class ListaComponent implements OnInit {
             color: '',
             color2: '',
             colnum: index + 1
-           
+
           }
 
-         
+
 
           if(this.listOfColumnsLista.length == columna.colnum){
             this.listOfColumnsEstados = [... this.listOfColumnsEstados, columna]
 
           }
-          
 
 
-          
+
+
         })
 
 
@@ -2103,24 +2103,24 @@ export class ListaComponent implements OnInit {
 
           if(item.est_codigo == 1 || item.est_codigo == 2 || item.est_codigo == 3 || item.est_codigo == 4 || item.est_codigo == 5 || item.est_codigo == 6 || item.est_codigo == 8  ){
 
-           
+
             this.totalEstados.push({est_codigo: item.est_codigo, cod_estado: item.est_codigo, estado_activado: false})
             this.listOfColumnsEstados = [... this.listOfColumnsEstados, columna]
-            
+
 
           }
-          
+
         })
 
 
-        console.log('total estados');
-        console.log(this.totalEstados);
-        
+        //console.log('total estados');
+        //console.log(this.totalEstados);
+
 
 
         this.listEstadoVin.forEach((item: any, index: any)=>{
 
-          
+
 
           let columna = {
             width:'10px',
@@ -2136,23 +2136,23 @@ export class ListaComponent implements OnInit {
             colnum: ''
           }
 
-          
+
 
           if(item.est_codigo == 1 || item.est_codigo == 2 || item.est_codigo == 3 || item.est_codigo == 4 || item.est_codigo == 5 || item.est_codigo == 6 || item.est_codigo == 8 ){
-            
-           
+
+
             this.listOfColumnsLista = [... this.listOfColumnsLista, columna]
 
           }
         })
 
-        
+
         //////////////////////////////////////
 
 
         this.subEstado.unsubscribe()
 
-       
+
       }
     });
 
@@ -2161,10 +2161,10 @@ export class ListaComponent implements OnInit {
 
   cambio(estado: any, index: any, lista: any){
 
-    
+
     if(estado == 'si'){
       this.controlSi = false
-     
+
     }
 
     if(estado == 'no'){
@@ -2177,7 +2177,7 @@ export class ListaComponent implements OnInit {
         }else{
 
         }
-  
+
       }
 
     }
@@ -2186,9 +2186,9 @@ export class ListaComponent implements OnInit {
       this.controlSi = true
       this.controlNo = false
     }
-    
 
-    
+
+
   }
 
 
@@ -2196,13 +2196,13 @@ export class ListaComponent implements OnInit {
 
 
     this.vin$ = this.servicePedido.getListAllVinMarca$(this.codigo_guia)
-    
+
     this.sub = this.vin$.subscribe(p => {
-      
-      console.log('mmmmmmmmm');
-      console.log(p);
-      
-      
+
+      //console.log('mmmmmmmmm');
+      //console.log(p);
+
+
       this.listVin = p.listVin
       this.listVinAux = p.listVin
       //this.control = p.control
@@ -2210,13 +2210,13 @@ export class ListaComponent implements OnInit {
       this.cargarPedido = p.cargando
 
       if(this.cargarPedido == false){
-       
+
 
 
         if(this.control){
 
           this.listVin.forEach((item, index)=>{
-            
+
             if(item.veh_estado_subir_curbe == 1){
               item.estado_curbe = true
             }else{
@@ -2225,8 +2225,8 @@ export class ListaComponent implements OnInit {
             item.veh_fecha_crea_pedido = this.transformDate(item.veh_fecha_crea_pedido)
             item.veh_fecha_llegada = this.transformDate(item.veh_fecha_llegada)
             item.estadoActual.veh_est_fecha = this.transformDate(item.estadoActual.veh_est_fecha)
-            console.log(item.estadoActual.veh_est_fecha);
-            
+            //console.log(item.estadoActual.veh_est_fecha);
+
 
             item.listaEstadosPadres.forEach((est: any)=>{
               est.check = true
@@ -2238,14 +2238,14 @@ export class ListaComponent implements OnInit {
           this.control = false
 
         }
-       
+
       }
 
-      console.log('lista vin');
-      console.log(this.listVin);
-      
-     
-      
+      //console.log('lista vin');
+      //console.log(this.listVin);
+
+
+
     });
 
   }
@@ -2256,8 +2256,8 @@ export class ListaComponent implements OnInit {
     this.vin$ = this.servicePedido.getAllVinsFechas$()
     this.controlFecha = true
     this.sub = this.vin$.subscribe(p => {
-      
-      
+
+
       this.listVin = p.listVin
       this.listVinAux = p.listVin
 
@@ -2265,11 +2265,11 @@ export class ListaComponent implements OnInit {
 
       if(this.cargarPedido == false){
 
-        
+
         if(this.controlFecha){
-          
+
           this.listVin.forEach((item, index)=>{
-              
+
             if(item.veh_estado_subir_curbe == 1){
               item.estado_curbe = true
             }else{
@@ -2289,11 +2289,11 @@ export class ListaComponent implements OnInit {
         }
       }
 
-      console.log('lista vin fecha');
-      console.log(this.listVin);
-      
-     
-      
+      //console.log('lista vin fecha');
+      //console.log(this.listVin);
+
+
+
     });
 
 
@@ -2323,14 +2323,14 @@ export class ListaComponent implements OnInit {
       formdata.append('files[]', file);
     });
     this.isLoadingUploadExcel = true;
-    console.log('llega');
-    
+    //console.log('llega');
+
     if(this.tipoExcelItem == 1){
 
       this.servicePedido.uploadFileExelPedido(formdata).subscribe({
         next: (data) =>  {
-          console.log('response');
-          console.log(data);
+          //console.log('response');
+          //console.log(data);
 
           if(data.length>0){
             this.listErrorExcel = data
@@ -2347,7 +2347,7 @@ export class ListaComponent implements OnInit {
             this.msg.success('Datos Subidos Correctamente!!!')
             this.servicePedido.updateListAllVinMarca(this.codigo_guia)
           }
-          
+
         },
         error: (error) => {
           this.isLoadingUploadExcel = false;
@@ -2362,9 +2362,9 @@ export class ListaComponent implements OnInit {
 
       this.servicePedido.uploadFileExelFactura(formdata).subscribe({
         next: (data)  => {
-          console.log('response');
-          
-          console.log(data);
+          //console.log('response');
+
+          //console.log(data);
           if(data.length>0){
             this.listErrorExcel = data
             this.isModalExcelError = true
@@ -2380,7 +2380,7 @@ export class ListaComponent implements OnInit {
             this.msg.success('Datos Subidos Correctamente!!!')
             this.servicePedido.updateListAllVinMarca(this.codigo_guia)
           }
-          
+
         },
         error: (err) => {
           this.isLoadingUploadExcel = false;
@@ -2395,9 +2395,9 @@ export class ListaComponent implements OnInit {
 
       this.servicePedido.uploadFileExelNacionalizacion(formdata).subscribe({
         next: (data) => {
-          console.log('response');
-          
-          console.log(data);
+          //console.log('response');
+
+          //console.log(data);
           if(data.length>0){
             this.listErrorExcel = data
             this.isModalExcelError = true
@@ -2413,7 +2413,7 @@ export class ListaComponent implements OnInit {
             this.msg.success('Datos Subidos Correctamente!!!')
             this.servicePedido.updateListAllVinMarca(this.codigo_guia)
           }
-          
+
         },
         error: (err) => {
           this.isLoadingUploadExcel = false;
@@ -2426,9 +2426,9 @@ export class ListaComponent implements OnInit {
 
       this.servicePedido.uploadFileExelLogistica(formdata).subscribe({
         next: (data) => {
-          console.log('response');
-          
-          console.log(data);
+          //console.log('response');
+
+          //console.log(data);
           if(data.length>0){
             this.listErrorExcel = data
             this.isModalExcelError = true
@@ -2444,7 +2444,7 @@ export class ListaComponent implements OnInit {
             this.msg.success('Datos Subidos Correctamente!!!')
             this.servicePedido.updateListAllVinMarca(this.codigo_guia)
           }
-          
+
         },
         error: (err) => {
           this.isLoadingUploadExcel = false;
@@ -2459,8 +2459,8 @@ export class ListaComponent implements OnInit {
   tipoExcel(index: any){
 
 
-    
-    
+
+
     this.indexExcel = index + 1
 
 
@@ -2500,7 +2500,7 @@ export class ListaComponent implements OnInit {
 
   reporErrorExcel() {
 
-   
+
     const doc = new jsPDF();
 
     this.datos = [];
@@ -2527,10 +2527,10 @@ export class ListaComponent implements OnInit {
 
 
     this.reenviarVin$ = this.servicePedido.reenviarVinCurbe$(item.veh_vin)
-    
+
     this.subReenvia = this.reenviarVin$.subscribe(p => {
-      console.log(p);
-      
+      //console.log(p);
+
       this.renviarVinCurbe = p.renviarVinCurbe
 
       this.cargandoReenviar = p.cargando
@@ -2541,8 +2541,8 @@ export class ListaComponent implements OnInit {
         this.getListVins()
         this.subReenvia.unsubscribe()
       }
-     
-      
+
+
     });
 
 
@@ -2558,22 +2558,22 @@ export class ListaComponent implements OnInit {
 
   visualizarPDF(veh_vin: any){
 
-    console.log(veh_vin);
+    //console.log(veh_vin);
 
     this.filePdf = '../../../assets/files/ejemplo.pdf'
     //saveAs(this.filePdf, 'Recepción Vin');
 
-    console.log('pedfff');
-    console.log(this.filePdf);
-    
-    
+    //console.log('pedfff');
+    //console.log(this.filePdf);
+
+
 
     /*this.servicePedido.downloadPDFRecepcion(veh_vin).subscribe({
       next: (data) => {
-       console.log(data);
+       //console.log(data);
 
 
-      
+
        //saveAs(data, 'Recepción Vin');
        this.isModalPedf = false
       },

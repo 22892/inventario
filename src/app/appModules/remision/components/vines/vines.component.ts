@@ -1,20 +1,19 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import * as moment from 'moment'
-import 'moment/locale/es';
-import {NzTableFilterFn, NzTableFilterList, NzTableSortFn, NzTableSortOrder } from 'ng-zorro-antd/table';
-import { Observable} from 'rxjs';
-import * as XLSX from 'xlsx'
-import { NzUploadFile } from 'ng-zorro-antd/upload';
+import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { Router } from '@angular/router';
-import { PedidoService } from '../../services/pedido.service';
-import {FormBuilder,FormControl,FormGroup,ValidationErrors,Validators,} from '@angular/forms';
-import { GlobalserviceService } from '../../../../core/globalservice.service'
-import jsPDF from 'jspdf';
-import 'jspdf-autotable'
-import { SpinerService } from '../../../../core/spiner.service'
-import { saveAs } from "file-saver";
+import { NzSegmentedOption } from 'ng-zorro-antd/segmented';
+import { NzTableFilterFn, NzTableFilterList, NzTableSortFn, NzTableSortOrder } from 'ng-zorro-antd/table';
+import { NzUploadFile } from 'ng-zorro-antd/upload';
+import { Observable } from 'rxjs';
+import { PedidoService } from 'src/app/appModules/pedido/services/pedido.service';
+import { GlobalserviceService } from 'src/app/core/globalservice.service';
+import { SpinerService } from 'src/app/core/spiner.service';
 
+import { saveAs } from "file-saver";
+import jsPDF from 'jspdf';
+import * as moment from 'moment';
+import * as XLSX from 'xlsx';
 
 interface ColumnItem {
 
@@ -44,14 +43,163 @@ interface ColumnItemVin {
   colnum: any;
 }
 
-
-
 @Component({
-  selector: 'app-lista2',
-  templateUrl: './lista2.component.html',
-  styleUrls: ['./lista2.component.scss']
+  selector: 'app-vines',
+  templateUrl: './vines.component.html',
+  styleUrls: ['./vines.component.scss']
 })
-export class Lista2Component implements OnInit {
+export class VinesComponent implements OnInit {
+
+  @ViewChild('temp', { static: true, read: TemplateRef }) templateRef!: TemplateRef<{
+    $implicit: NzSegmentedOption;
+    index: number;
+  }>;
+
+  listOfColumnsLogistica: ColumnItem[] = [
+    {
+      width:'50px',
+      name: 'VIN',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width: '80px',
+      name: 'Buque',
+      sortOrder: null,
+      sortDirections: ['ascend', 'descend', null],
+      sortFn: null,
+      filterMultiple: true,
+      listOfFilter: [],
+      filterFn: null,
+    },
+    {
+      width: '50px',
+      name: 'Color',
+      sortOrder: null,
+      sortDirections: ['ascend', 'descend', null],
+      sortFn: null,
+      filterMultiple: true,
+      listOfFilter: [],
+      filterFn: null,
+    },
+    {
+      width:'50px',
+      name: 'ETA',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'Estado',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+
+    {
+      width:'50px',
+      name: 'Fecha',
+      sortOrder: null,
+      sortDirections: ['ascend', 'descend', null],
+      sortFn: null,
+      filterMultiple: false,
+      listOfFilter: [],
+      filterFn: null
+    },
+    {
+      width: '50px',
+      name: 'Marca',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter: [],
+      filterFn: null,
+    },
+
+    {
+      width:'80px',
+      name: 'Movilización',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'70px',
+      name: 'Novedad',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'70px',
+      name: 'Parte',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'70px',
+      name: 'Proceso',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'Referencia',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'Tipo',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+    {
+      width:'50px',
+      name: 'Número Novedades',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter:[],
+      filterFn: null
+    },
+  ];
+
 
   listOfColumns: ColumnItem[] = [
     {
@@ -442,7 +590,7 @@ export class Lista2Component implements OnInit {
       color2: 'white',
       colnum: '1'
     },
-    {
+    /*{
       width:'80px',
       name: 'Trazabilidad',
       sortOrder: null,
@@ -454,7 +602,7 @@ export class Lista2Component implements OnInit {
       color: 'black',
       color2: 'white',
       colnum: '1'
-    },
+    },*/
 
     {
       width:'50px',
@@ -1551,6 +1699,7 @@ export class Lista2Component implements OnInit {
     },
   ];
 
+
   listOfColumnsEstados: ColumnItemVin[] =[
 
 
@@ -1584,7 +1733,10 @@ export class Lista2Component implements OnInit {
   vinForm!: FormGroup;
   isLoadingUploadExcel: boolean = false
 
-  listTotalExcel: any[] = [{exe_codigo: 1,exe_name: 'Pedido'}, {exe_codigo: 2,exe_name: 'Facturación'}, {exe_codigo: 3,exe_name: 'Nacionalización'}]
+  listTotalExcel: any[] = [{label: 'Pedido',value: 'Pedido', useTemplate: true }, {label: 'Facturación',value: 'Pedido', useTemplate: true },
+                           {label: 'Nacionalización',value: 'Pedido', useTemplate: true }, {label: 'Logistica',value: 'Pedido', useTemplate: true }]
+
+
   tipoExcelItem: number = 1
   indexTipoExcel: any
 
@@ -1612,9 +1764,16 @@ export class Lista2Component implements OnInit {
   controlSi: boolean = true
   controlNo: boolean = false
   subFecha: any
-  control: boolean = false
+  control: boolean = true
   controlFecha: boolean = false
 
+  codigo_guia: any
+  isModalEstados: boolean = false
+  listaHijosEstados: any [] = []
+  indexTiempo = 0
+  indexExcel = 1
+
+  vin: any
 
 
   constructor(private msg: NzMessageService,
@@ -1623,7 +1782,8 @@ export class Lista2Component implements OnInit {
     private servicePedido: PedidoService,
     private fb: FormBuilder,
     private serviceGlobal: GlobalserviceService,
-    private serviceSpiner: SpinerService) {
+    private serviceSpiner: SpinerService,
+    private rutaActiva: ActivatedRoute,) {
 
       this.vinForm = this.fb.group({
 
@@ -1666,10 +1826,16 @@ export class Lista2Component implements OnInit {
         if(value == true){
           //console.log('Activa Vins');
 
-          this.servicePedido.updateListAllVinMarca(1)
+          this.servicePedido.updateListAllVinMarca(this.codigo_guia)
         }
 
       })
+
+      this.codigo_guia = this.rutaActiva.snapshot.paramMap.get('guia')
+      //console.log('parametros');
+      //console.log(this.codigo_guia);
+      this.serviceGlobal.setCodigoGuia(this.codigo_guia)
+      //this.servicePedido.updateListAllVinMarca(this.codigo_guia)
 
   }
 
@@ -1683,8 +1849,15 @@ export class Lista2Component implements OnInit {
   }
 
 
-  chechselect(estado: any, posicion: any){
+  chechselect(estado: any, vinSlect: any){
 
+    let posicion = 0
+
+    this.listVin.forEach((vin: any, index: any)=>{
+      if(vin.veh_vin.toUpperCase() == vinSlect.toUpperCase()){
+        posicion = index
+      }
+    })
 
     setTimeout(() => {
 
@@ -1700,15 +1873,32 @@ export class Lista2Component implements OnInit {
   }
 
 
+  openModalEstados(estadosHijos: any, vin: any){
+    //console.log(estadosHijos);
+    this.isModalEstados = true
+    this.listaHijosEstados = estadosHijos.listaHijos
+    this.vin = vin
+    this.listaHijosEstados.forEach((estado: any, index: any)=>{
+      estado.veh_est_fecha_inicio = this.transformDate(estado.veh_est_fecha)
+    })
+
+
+  }
+
+  onIndexChange(event: number): void {
+    this.indexTiempo = event;
+  }
+
+
   inicio(){
-    this.router.navigate(['/pedido/lista'])
+    this.router.navigate(['/remision/lista'])
     this.estadoExcel = false
   }
 
   realoadPedido(){
     this.desde = new Date()
     this.hasta = new Date()
-    this.servicePedido.updateListAllVinMarca(1)
+    this.servicePedido.updateListAllVinMarca(this.codigo_guia)
   }
 
   actualizarFecha(e: any) {
@@ -1742,6 +1932,9 @@ export class Lista2Component implements OnInit {
 
 
   beforeUpload = (file: any): boolean => {
+
+    //console.log('mmmmmmmmmmmmmmmmm');
+
 
     this.listExcel = []
 
@@ -1812,9 +2005,13 @@ export class Lista2Component implements OnInit {
   visualizaSubirExcel(tipo: number){
     if(tipo == 1){
       this.estadoExcel = true
+      this.indexExcel = 1
+      this.tipoExcelItem = 1
     }
     if(tipo == 2){
       this.estadoExcel = false
+      this.indexExcel = 1
+      this.tipoExcelItem = 1
     }
   }
 
@@ -1849,6 +2046,100 @@ export class Lista2Component implements OnInit {
         //OPCION 2222222 ///////////////////////////////////////
 
 
+        this.listOfColumnsLista.forEach((listavin: any, index: any)=>{
+
+
+          let columna = {
+            width:'200px',
+            name: '',
+            sortOrder: null,
+            sortFn: null,
+            sortDirections: [],
+            filterMultiple: true,
+            listOfFilter:[],
+            filterFn: null,
+            color: '',
+            color2: '',
+            colnum: index + 1
+
+          }
+
+
+
+          if(this.listOfColumnsLista.length == columna.colnum){
+            this.listOfColumnsEstados = [... this.listOfColumnsEstados, columna]
+
+          }
+
+
+
+
+        })
+
+
+
+
+        this.listEstadoVin.forEach((item: any, index: any)=>{
+
+          let columna = {
+            width:'200px',
+            name: item?.est_nombre,
+            sortOrder: null,
+            sortFn: null,
+            sortDirections: [],
+            filterMultiple: true,
+            listOfFilter:[],
+            filterFn: null,
+            color: '',
+            color2: '',
+            colnum: '1'
+          }
+
+          if(item.est_codigo == 1 || item.est_codigo == 2 || item.est_codigo == 3 || item.est_codigo == 4 || item.est_codigo == 5 || item.est_codigo == 6 || item.est_codigo == 8  ){
+
+
+            this.totalEstados.push({est_codigo: item.est_codigo, cod_estado: item.est_codigo, estado_activado: false})
+            this.listOfColumnsEstados = [... this.listOfColumnsEstados, columna]
+
+
+          }
+
+        })
+
+
+        //console.log('total estados');
+        //console.log(this.totalEstados);
+
+
+
+        this.listEstadoVin.forEach((item: any, index: any)=>{
+
+
+
+          let columna = {
+            width:'10px',
+            name: 'z',
+            sortOrder: null,
+            sortFn: null,
+            sortDirections: [],
+            filterMultiple: true,
+            listOfFilter:[],
+            filterFn: null,
+            color: 'black',
+            color2: '#1890ff',
+            colnum: ''
+          }
+
+
+
+          if(item.est_codigo == 1 || item.est_codigo == 2 || item.est_codigo == 3 || item.est_codigo == 4 || item.est_codigo == 5 || item.est_codigo == 6 || item.est_codigo == 8 ){
+
+
+            this.listOfColumnsLista = [... this.listOfColumnsLista, columna]
+
+          }
+        })
+
 
         //////////////////////////////////////
 
@@ -1863,7 +2154,6 @@ export class Lista2Component implements OnInit {
   }
 
   cambio(estado: any, index: any, lista: any){
-
 
 
     if(estado == 'si'){
@@ -1899,17 +2189,18 @@ export class Lista2Component implements OnInit {
   getListVins(){
 
 
-    this.vin$ = this.servicePedido.getListAllVinMarca$(1)
+    this.vin$ = this.servicePedido.getListAllVins$(this.codigo_guia);
+
 
     this.sub = this.vin$.subscribe(p => {
 
-      //console.log('mmmmmmmmm');
+      //console.log('VINES TOTALES: ');
       //console.log(p);
 
 
       this.listVin = p.listVin
       this.listVinAux = p.listVin
-      this.control = p.control
+      //this.control = p.control
 
       this.cargarPedido = p.cargando
 
@@ -1929,10 +2220,12 @@ export class Lista2Component implements OnInit {
             item.veh_fecha_crea_pedido = this.transformDate(item.veh_fecha_crea_pedido)
             item.veh_fecha_llegada = this.transformDate(item.veh_fecha_llegada)
             item.estadoActual.veh_est_fecha = this.transformDate(item.estadoActual.veh_est_fecha)
+            //console.log(item.estadoActual.veh_est_fecha);
 
-            item.listaEstadosPadres.forEach((est: any)=>{
+
+            /* item.listaEstadosPadres.forEach((est: any)=>{
               est.check = true
-            })
+            }) */
 
 
           })
@@ -2040,6 +2333,14 @@ export class Lista2Component implements OnInit {
             this.isLoadingUploadExcel = false
             this.listExcel = []
             this.fileList = []
+            this.servicePedido.updateListAllVinMarca(this.codigo_guia)
+
+          }else{
+            this.isLoadingUploadExcel = false
+            this.listExcel = []
+            this.fileList = []
+            this.msg.success('Datos Subidos Correctamente!!!')
+            this.servicePedido.updateListAllVinMarca(this.codigo_guia)
           }
 
         },
@@ -2065,6 +2366,14 @@ export class Lista2Component implements OnInit {
             this.isLoadingUploadExcel = false
             this.listExcel = []
             this.fileList = []
+            this.servicePedido.updateListAllVinMarca(this.codigo_guia)
+
+          }else{
+            this.isLoadingUploadExcel = false
+            this.listExcel = []
+            this.fileList = []
+            this.msg.success('Datos Subidos Correctamente!!!')
+            this.servicePedido.updateListAllVinMarca(this.codigo_guia)
           }
 
         },
@@ -2090,6 +2399,14 @@ export class Lista2Component implements OnInit {
             this.isLoadingUploadExcel = false
             this.listExcel = []
             this.fileList = []
+            this.servicePedido.updateListAllVinMarca(this.codigo_guia)
+
+          }else{
+            this.isLoadingUploadExcel = false
+            this.listExcel = []
+            this.fileList = []
+            this.msg.success('Datos Subidos Correctamente!!!')
+            this.servicePedido.updateListAllVinMarca(this.codigo_guia)
           }
 
         },
@@ -2098,31 +2415,73 @@ export class Lista2Component implements OnInit {
           this.msg.error(`Ha ocurrido un error al subir el archivo Nacionalización, ${err.error.message}`);
         }
      });
+    }
 
+    if(this.tipoExcelItem == 4){
 
+      this.servicePedido.uploadFileExelLogistica(formdata).subscribe({
+        next: (data) => {
+          //console.log('response');
+
+          //console.log(data);
+          if(data.length>0){
+            this.listErrorExcel = data
+            this.isModalExcelError = true
+            this.isLoadingUploadExcel = false
+            this.listExcel = []
+            this.fileList = []
+            this.servicePedido.updateListAllVinMarca(this.codigo_guia)
+
+          }else{
+            this.isLoadingUploadExcel = false
+            this.listExcel = []
+            this.fileList = []
+            this.msg.success('Datos Subidos Correctamente!!!')
+            this.servicePedido.updateListAllVinMarca(this.codigo_guia)
+          }
+
+        },
+        error: (err) => {
+          this.isLoadingUploadExcel = false;
+          this.msg.error(`Ha ocurrido un error al subir el archivo Logisticas, ${err.error.message}`);
+        }
+     });
     }
 
   }
 
 
-  tipoExcel(item: any, index: any){
+  tipoExcel(index: any){
 
-    this.indexTipoExcel = this.listTotalExcel[index]
 
-    if(item.exe_codigo == 1){ //Pedido
+
+
+    this.indexExcel = index + 1
+
+
+
+    //this.indexTipoExcel = this.listTotalExcel[index]
+
+    if(this.indexExcel == 1){ //Pedido
       this.tipoExcelItem = 1
       this.fileList = []
       this.listExcel = []
     }
 
-    if(item.exe_codigo == 2){ //facturacion
+    if(this.indexExcel == 2){ //facturacion
       this.tipoExcelItem = 2
       this.fileList = []
       this.listExcel = []
     }
 
-    if(item.exe_codigo == 3){ // nacionalizción
+    if(this.indexExcel == 3){ // nacionalizción
       this.tipoExcelItem = 3
+      this.fileList = []
+      this.listExcel = []
+    }
+
+    if(this.indexExcel == 4){ // logistica
+      this.tipoExcelItem = 4
       this.fileList = []
       this.listExcel = []
     }
@@ -2227,7 +2586,5 @@ export class Lista2Component implements OnInit {
     saveAs(this.filePdf, 'Recepción Vin');
     this.isModalPedf = false
   }
-
-
 
 }

@@ -9,7 +9,7 @@ import { NzTableFilterFn, NzTableFilterList, NzTableSortFn, NzTableSortOrder } f
 
 
 interface ColumnItem {
-  
+
   name: string;
   sortOrder: NzTableSortOrder | null;
   sortFn: NzTableSortFn | null;
@@ -83,21 +83,22 @@ export class NuevoComponent implements OnInit {
 
 
 
-  constructor(private router: Router, 
-    private msg: NzMessageService, 
-    private fb: FormBuilder, 
+  constructor(private router: Router,
+    private msg: NzMessageService,
+    private fb: FormBuilder,
     private serviceUsuario: UsuarioService,
     private serviceMenu: MenuService) {
 
       this.usuarioForm = this.fb.group({
-      
+
         usr_id: ['', [Validators.required]],
         usr_nombre: ['', [Validators.required]],
         usr_telefono:['', [Validators.required]],
         usr_email:['', [Validators.required]],
         usr_cedula:['', [Validators.required]],
         usr_clave:['', [Validators.required]],
-      
+        totalAccess:[false],
+
       });
 
   }
@@ -105,12 +106,12 @@ export class NuevoComponent implements OnInit {
   ngOnInit(): void {
 
     this.getListRoles()
-    
+
   }
 
   handleStepChage(index: any) {
-   
-    
+
+
     if (index == 0) {
       this.usuariostep.status = 'process';
       this.rolstep.status = 'wait';
@@ -140,13 +141,13 @@ export class NuevoComponent implements OnInit {
 
 
   onIndexChange(index: number): void {
-    
+
     if(index == 0){
 
       this.index = index;
       this.handleStepChage(this.index);
     }
-    
+
     if(index == 1){
       if (!this.validateForms())
         return;
@@ -155,7 +156,7 @@ export class NuevoComponent implements OnInit {
     }
 
     if(index == 2){
-      
+
     }
 
 
@@ -174,7 +175,7 @@ export class NuevoComponent implements OnInit {
         this.msg.warning("Ingrese todos los datos requeridos para Crear Usuario");
         this.submitForm()
         return false;
-      
+
       }
 
     return v;
@@ -188,16 +189,16 @@ export class NuevoComponent implements OnInit {
 
   next(){
 
-    console.log('indexxxxx');
-    console.log(this.index);
-    
+    //console.log('indexxxxx');
+    //console.log(this.index);
+
 
     if(this.index == 0){
-      
+
       let validaForm = this.validateForms()
 
       if(validaForm){
-        
+
         this.index += 1;
         this.handleStepChage(this.index);
 
@@ -205,25 +206,25 @@ export class NuevoComponent implements OnInit {
 
     }
 
-    
+
   }
 
   done(){
     if(this.index == 1 && this.seleectListRol.length == 0){
       this.msg.warning('Seleecione un Rol para Usuario');
     } else {
-     
-      this.crearUsuario()  
+
+      this.crearUsuario()
     }
 
-        
+
   }
 
 
   crearUsuario(){
-    
-    console.log('crear---');
-    
+
+    //console.log('crear---');
+
 
     let usuario = {
       usr_id: this.usuarioForm.get('usr_id')!.value,
@@ -232,17 +233,19 @@ export class NuevoComponent implements OnInit {
       usr_email: this.usuarioForm.get('usr_email')!.value,
       usr_cedula: this.usuarioForm.get('usr_cedula')!.value,
       usr_clave: this.usuarioForm.get('usr_clave')!.value,
-      rol_codigo: this.seleectListRol[0].rol_codigo
+      rol_codigo: this.seleectListRol[0].rol_codigo,
+      totalAccess: this.usuarioForm.get('totalAccess')!.value
     }
 
-    console.log(usuario);
+    //console.log('USUARIO PARA CREAR');
+    //console.log(usuario);
     this.isLoadingCrearUsuario = true
 
     this.serviceUsuario.createUsuario(usuario).subscribe({
       next: (data) => {
-        
-        console.log('respuesta---');
-        console.log(data);
+
+        //console.log('respuesta---');
+        //console.log(data);
         if(data){
           this.usuarioForm.reset()
           this.seleectListRol = []
@@ -255,7 +258,7 @@ export class NuevoComponent implements OnInit {
           this.msg.warning('Error al crear')
           this.isLoadingCrearUsuario = false
         }
-        
+
       },
       error: (err) => {
         this.msg.error(`Ha ocurrido un error al Crear Usuario, ${err.error.message}`);
@@ -265,17 +268,17 @@ export class NuevoComponent implements OnInit {
 
 
 
-    
+
 
   }
 
 
   getListRoles(){
     this.rol$ = this.serviceMenu.getListAllRol$()
-    
+
     this.subRol = this.rol$.subscribe(p => {
-      console.log(p);
-      
+      //console.log(p);
+
       this.listRol = p.listRol
 
       this.cargandoRol = p.cargando
@@ -286,33 +289,33 @@ export class NuevoComponent implements OnInit {
           this.listRol[i].rol_verificacion_check = false;
         }
         this.subRol.unsubscribe()
-       
+
       }
     });
 
   }
 
   saveSelectRolCheckList(rol: any){
-   
+
 
     this.seleectListRol = []
 
     this.listRol.forEach((item: any, index: any)=>{
- 
+
       if(item.rol_verificacion_check == rol.rol_verificacion_check && item.rol_codigo == rol.rol_codigo){
-       
+
         item.rol_verificacion_check = true
         this.seleectListRol = [...this.seleectListRol, item]
-       
+
       }else{
-       
+
         item.rol_verificacion_check = false
-       
+
       }
     })
-    
 
-    
+
+
   }
 
   irListaUsuario(){
@@ -322,17 +325,17 @@ export class NuevoComponent implements OnInit {
 
   getListUsuarios(){
     this.usuario$ = this.serviceUsuario.getListAllUsuarios$()
-    
+
     this.subUsuario = this.usuario$.subscribe(p => {
-      console.log(p);
-      
+      //console.log(p);
+
       this.listUsuario = p.listUsuario
 
       this.cargandoUsuario = p.cargando
 
       if(this.cargandoUsuario == false){
         this.subUsuario.unsubscribe()
-       
+
       }
     });
 

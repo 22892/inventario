@@ -56,12 +56,12 @@ export class VinobsComponent implements OnInit, AfterViewInit {
 
   initLienzo(){
 
-    console.log('nitial');
-    
+    //console.log('nitial');
+
     this.sigPadElement = this.sigPad.nativeElement
     this.context = this.sigPadElement.getContext('2d');
     var img = new Image();
-    img.src = "../../../assets/images/imagencarro.png";  
+    img.src = "../../../assets/images/imagencarro.png";
 
     var dimensiones ={
       x: this.ancho,
@@ -71,8 +71,8 @@ export class VinobsComponent implements OnInit, AfterViewInit {
     img.onload = function(){
       self.context.drawImage(img, 0,0, dimensiones.x, dimensiones.y);
     }
-   
-    
+
+
   }
 
   clear() {
@@ -85,24 +85,24 @@ export class VinobsComponent implements OnInit, AfterViewInit {
   @HostListener('document:mouseup', ['$event'])
 
   onMouseUp(e: any) {
-   
-    
+
+
     var y = window.pageYOffset;
-    
-    this.ejeYOpe = (e.screenY + e.y) 
+
+    this.ejeYOpe = (e.screenY + e.y)
     this.ejeXOpe = (e.x + e.screenX)
-    var aux1 = (this.alto + this.windowHeight - 200) - this.ejeYOpe 
+    var aux1 = (this.alto + this.windowHeight - 200) - this.ejeYOpe
 
     if(this.ejeXOpe < this.windowWidth-100){
-      
+
       if(this.ejeYOpe >= aux1){
-        if(this.isDrawing){   
-          console.log('antraaaaaaa'); 
-        
+        if(this.isDrawing){
+          //console.log('antraaaaaaa');
+
           this.clear()
           this.initLienzo()
-        
-        
+
+
         }
         this.isDrawing = false
         this.ejeYOpe = 0
@@ -114,7 +114,7 @@ export class VinobsComponent implements OnInit, AfterViewInit {
 
 
   onMouseDown(e: any) {
-    
+
     this.isDrawing = true;
     const coords = this.relativeCoords(e);
     this.context.moveTo(coords.x, coords.y);
@@ -122,9 +122,9 @@ export class VinobsComponent implements OnInit, AfterViewInit {
 
 
   onMouseMove(e: any) {
-    
-    console.log('qqqqqqqqqqqqqq');
-    
+
+    //console.log('qqqqqqqqqqqqqq');
+
 
     if (this.isDrawing) {
 

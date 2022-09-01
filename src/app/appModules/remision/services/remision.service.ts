@@ -13,7 +13,7 @@ export class RemisionService {
   baseUrl: string = '';
   private listGuiaRemision: any[] = [];
   private guia$! : BehaviorSubject<any>;
-  
+
 
   constructor(private notification: NzNotificationService,
     @Inject('BASE_URL') baseUrl: string,
@@ -23,12 +23,12 @@ export class RemisionService {
 
       this.baseUrl = baseUrl;
       this.guia$ = new BehaviorSubject({listGuiaRemision:[],cargando:false, control: false});
-      
-      
+
+
   }
 
   httpOptions = {
-   
+
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `Bearer `+this.serviceAuth.token
@@ -48,32 +48,32 @@ export class RemisionService {
 
   filterDate(valueSearch: any){
     const query = {}
-    console.log('llega data');
-    console.log(valueSearch.value);
+    //console.log('llega data');
+    //console.log(valueSearch.value);
 
 
     let lista: any[]
     lista = this.serviceGlobal.getListGuiaRemision()
 
-    console.log('lista guardada');
-    console.log(lista);
-    
-    
+    //console.log('lista guardada');
+    //console.log(lista);
+
+
     this.listGuiaRemision = lista.filter((item: any) => item.veh_vin.toUpperCase().indexOf(valueSearch.value.toUpperCase()) !== -1 || item.veh_motor.toUpperCase().indexOf(valueSearch.value.toUpperCase()) !== -1 || item.veh_modelo.toUpperCase().indexOf(valueSearch.value.toUpperCase()) !== -1);
-    console.log('lista filtrada');
-    console.log(this.listGuiaRemision);
-    
+    //console.log('lista filtrada');
+    //console.log(this.listGuiaRemision);
+
     this.guia$.next({ listGuiaRemision: [], cargando: false, control: true});
-    
+
 
   }
 
   getListAllRemision$(): Observable<any> {
-   
-    if(this.listGuiaRemision){ 
+
+    if(this.listGuiaRemision){
       this.getListRemision();
     }else{
-      
+
       this.guia$.subscribe((x)=>{
         x.control = false
       })
@@ -83,17 +83,17 @@ export class RemisionService {
   }
 
   getListRemision(){
-   
-    console.log('tokeenn');
-      
-    console.log(this.httpOptions);
+
+    //console.log('tokeenn');
+
+    //console.log(this.httpOptions);
 
     let marca = this.serviceGlobal.getCodigoMarca()
     let empresa = this.serviceGlobal.getCodigoEmpresa()
 
     this.listGuiaRemision = [];
     this.guia$.next({ listGuiaRemision: this.listGuiaRemision, cargando: true, control: true });
-    
+
     this.http.get(`${this.baseUrl}api/guia/getAllGuias/${marca}/${empresa}/${this.serviceAuth.user.usr_codigo}`,this.httpOptions).subscribe({
       next: (data) => {
 
@@ -103,7 +103,7 @@ export class RemisionService {
         this.createNotification('error', 'Error', 'Ha ocurrido un error al listado de Remisiones');
         this.guia$.next({ listGuiaRemision: [], cargando: false, control: true });
       }
-    });    
+    });
 
   }
 

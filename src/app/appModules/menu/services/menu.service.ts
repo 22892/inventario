@@ -107,8 +107,8 @@ export class MenuService {
 
     this.listMenuPadre = [];
     this.menupadre$.next({ listMenuPadre: this.listMenuPadre, cargando: true });
-    console.log(`${this.baseUrl}api/menu/getAll/${marca}/${men_padre}`);
-    
+    //console.log(`${this.baseUrl}api/menu/getAll/${marca}/${men_padre}`);
+
     this.http.get(`${this.baseUrl}api/menu/getAll/${marca}/${men_padre}`,this.httpOptions).subscribe({
       next: (data) => {
 
@@ -118,7 +118,7 @@ export class MenuService {
         this.createNotification('error', 'Error', 'ha ocurrido un error al listado de Menu Principal');
         this.menupadre$.next({ listMenuPadre: [], cargando: false });
       }
-    });    
+    });
 
   }
 
@@ -135,7 +135,7 @@ export class MenuService {
   getMenusAsignacion(marca: any, men_padre: any, plataforma: any){
     this.listMenuAsignacion = [];
     this.menuasignacion$.next({ listMenuAsignacion: this.listMenuAsignacion, cargando: true });
-    
+
     this.http.get(`${this.baseUrl}api/menu/getAllSinHijos/${marca}/${men_padre}/${plataforma}`,this.httpOptions).subscribe({
       next: (data) => {
 
@@ -145,7 +145,7 @@ export class MenuService {
         this.createNotification('error', 'Error', 'ha ocurrido un error al obtener listado de asignacion menu');
         this.menuasignacion$.next({ listMenuAsignacion: [], cargando: false });
       }
-    });    
+    });
 
   }
 
@@ -174,10 +174,10 @@ export class MenuService {
   }
 
   getRoles(marca: any){
-    
+
     this.listRol = [];
     this.rol$.next({ listRol: this.listRol, cargando: true });
-    
+
     this.http.get(`${this.baseUrl}api/gestionusuario/getAllRol/${marca}`,this.httpOptions).subscribe({
       next: (data) => {
 
@@ -187,7 +187,7 @@ export class MenuService {
         this.createNotification('error', 'Error', 'ha ocurrido un error al listado de Roles');
         this.rol$.next({ listRol: [], cargando: false });
       }
-    });    
+    });
 
   }
 
@@ -202,10 +202,10 @@ export class MenuService {
   }
 
   getRolAsignacion(marca: any, rol_codigo: any){
-    
+
     this.listRolAsignacion = [];
     this.rolasignacion$.next({ listRolAsignacion: this.listRolAsignacion, cargando: true });
-    
+
     this.http.get(`${this.baseUrl}api/gestionusuario/getAllMenuRol/${marca}/${rol_codigo}`,this.httpOptions).subscribe({
       next: (data) => {
 
@@ -215,14 +215,14 @@ export class MenuService {
         this.createNotification('error', 'Error', 'Ha ocurrido un error al obtener listado de asignaciones para Rol');
         this.rolasignacion$.next({ listRolAsignacion: [], cargando: false });
       }
-    });    
+    });
 
   }
 
-  
+
   //LISTADO DE PERMISOS PARA ASIGNACION A ROLES
-  
-  
+
+
   getListAllPermisoAsignacion$(rol_codigo: any): Observable<any> {
     let marca = this.serviceGlobal.getCodigoMarca()
     if(this.listPermisoAsignacion)
@@ -231,10 +231,10 @@ export class MenuService {
   }
 
   getPermisoAsignacion(marca: any, rol_codigo: any){
-    
+
     this.listPermisoAsignacion = [];
     this.permisoasignacion$.next({ listPermisoAsignacion: this.listPermisoAsignacion, cargando: true });
-    
+
     this.http.get(`${this.baseUrl}api/gestionusuario/getAllPermisoRol/${marca}/${rol_codigo}`,this.httpOptions).subscribe({
       next: (data) => {
 
@@ -244,7 +244,7 @@ export class MenuService {
         this.createNotification('error', 'Error', 'ha ocurrido un error al listado de Permisos');
         this.permisoasignacion$.next({ listPermisoAsignacion: [], cargando: false });
       }
-    });    
+    });
 
   }
 
@@ -284,10 +284,10 @@ export class MenuService {
   }
 
   getEmpresas(marca: any){
-    
+
     this.listEmpresa = [];
     this.empresa$.next({ listEmpresa: this.listEmpresa, cargando: true });
-    
+
     this.http.get(`${this.baseUrl}api/gestionusuario/getAllEmpresas/${marca}`,this.httpOptions).subscribe({
       next: (data) => {
 
@@ -297,7 +297,7 @@ export class MenuService {
         this.createNotification('error', 'Error', 'ha ocurrido un error al listar Empresas');
         this.empresa$.next({ listEmpresa: [], cargando: false });
       }
-    });    
+    });
 
   }
 

@@ -73,8 +73,8 @@ export class ObservacionService {
 
     this.listObservacionVin = [];
     this.observacionvin$.next({ listObservacionVin: this.listObservacionVin, cargando: true });
-    console.log(`${this.baseUrl}api/observacion/getObservacionVin/${marca}/${veh_codigo}`);
-    
+    //console.log(`${this.baseUrl}api/observacion/getObservacionVin/${marca}/${veh_codigo}`);
+
     this.http.get(`${this.baseUrl}api/observacion/getObservacionVin/${marca}/${veh_codigo}`,this.httpOptions).subscribe({
       next: (data) => {
 
@@ -84,7 +84,7 @@ export class ObservacionService {
         this.createNotification('error', 'Error', 'Ha ocurrido un error al listar las Observaciones de Vin '+error);
         this.observacionvin$.next({ listObservacionVin: [], cargando: false });
       }
-    });    
+    });
 
   }
 
@@ -104,8 +104,8 @@ export class ObservacionService {
 
     this.listGrupos = [];
     this.grupos$.next({ listGrupos: this.listGrupos, cargando: true });
-    console.log(`${this.baseUrl}api/observacion/getGupos/${marca}`);
-    
+    //console.log(`${this.baseUrl}api/observacion/getGupos/${marca}`);
+
     this.http.get(`${this.baseUrl}api/observacion/getGupos/${marca}`,this.httpOptions).subscribe(
       data => {
 
@@ -115,11 +115,11 @@ export class ObservacionService {
         this.createNotification('error', 'Error', 'Ha ocurrido un error al listar los Grupos Revisión');
         this.grupos$.next({ listGrupos: [], cargando: false });
       }
-    );    
+    );
 
   }
 
-  
+
   //OBTENER LISTADO DE TAMAÑOS PARA OBSERVACIÓN
 
   getListAllTamano$(): Observable<any> {
@@ -130,10 +130,10 @@ export class ObservacionService {
   }
 
   getTamano(marca: any){
-    
+
     this.listTamano = [];
     this.tamano$.next({ listTamano: this.listTamano, cargando: true });
-    
+
     this.http.get(`${this.baseUrl}api/observacion/getTamano/${marca}`,this.httpOptions).subscribe(
       data => {
 
@@ -143,7 +143,7 @@ export class ObservacionService {
         this.createNotification('error', 'Error', 'Ha ocurrido un error al listar los Tamaños para Revisión');
         this.tamano$.next({ listTamano: [], cargando: false });
       }
-    );    
+    );
 
   }
 
@@ -161,7 +161,7 @@ export class ObservacionService {
 
     this.listDano = [];
     this.dano$.next({ listDano: this.listDano, cargando: true });
-    
+
     this.http.get(`${this.baseUrl}api/observacion/getDanos/${marca}`,this.httpOptions).subscribe({
       next: (data) => {
 
@@ -171,7 +171,7 @@ export class ObservacionService {
         this.createNotification('error', 'Error', 'Ha ocurrido un error al listar los Daños para Revisión');
         this.dano$.next({ listDano: [], cargando: false });
       }
-    });    
+    });
 
   }
 
@@ -179,8 +179,8 @@ export class ObservacionService {
   // CREAR GRUPO PARTE
 
   createGrupo(grupo: any): Observable<any> {
-    console.log(`${this.baseUrl}api/observacion/createGParte/`);
-    
+    //console.log(`${this.baseUrl}api/observacion/createGParte/`);
+
     return this.http.post(`${this.baseUrl}api/observacion/createGParte/`, grupo, {
       headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -193,7 +193,7 @@ export class ObservacionService {
   // ACTUALIZAR GRUPO PARTE
 
   updateGrupo(grupo: any): Observable<any> {
-   
+
     return this.http.post(`${this.baseUrl}api/observacion/updateGParte/`, grupo, {
       headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -202,13 +202,13 @@ export class ObservacionService {
     });
   }
 
-  
+
 
 
   // CREAR PARTE
 
   createParte(parte: any): Observable<any> {
-   
+
     return this.http.post(`${this.baseUrl}api/observacion/createParte/`, parte, {
       headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -221,7 +221,7 @@ export class ObservacionService {
   // ACTUALIZAR PARTE
 
   updateParte(parte: any): Observable<any> {
-   
+
     return this.http.post(`${this.baseUrl}api/observacion/updateParte/`, parte, {
       headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -234,7 +234,7 @@ export class ObservacionService {
   // CREAR DAÑO
 
   createDano(dano: any): Observable<any> {
-   
+
     return this.http.post(`${this.baseUrl}api/observacion/createDano/`, dano, {
       headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -247,7 +247,7 @@ export class ObservacionService {
   // ACTUALIZAR DAÑO
 
   updateDano(dano: any): Observable<any> {
-   
+
     return this.http.post(`${this.baseUrl}api/observacion/updateDano/`, dano, {
       headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -259,7 +259,7 @@ export class ObservacionService {
   // CREAR TAMAÑO
 
   createTamano(tamano: any): Observable<any> {
-   
+
     return this.http.post(`${this.baseUrl}api/observacion/createTamano/`, tamano, {
       headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -272,7 +272,7 @@ export class ObservacionService {
   // ACTUALIZAR TAMAÑO
 
   updateTamano(tamano: any): Observable<any> {
-   
+
     return this.http.post(`${this.baseUrl}api/observacion/updateTamao/`, tamano, {
       headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -287,10 +287,10 @@ export class ObservacionService {
 
 
   createObservacionVin(listarevision: any): Observable<any> {
-   
+
     return this.http.post(`${this.baseUrl}api/observacion/create/`, listarevision, {
       headers: new HttpHeaders({
-     
+
         Authorization: 'Bearer ' + this.serviceAuth.token,
       }),
     });
@@ -301,7 +301,7 @@ export class ObservacionService {
 
   uploadFileGeneralVin(file: any, veh_codigo: any): Observable<any> {
     let marca = this.serviceGlobal.getCodigoMarca()
-    
+
     return this.http.post(`${this.baseUrl}api/documento/documento_vehiculo/${marca}/${veh_codigo}`,file,
       {
         headers: new HttpHeaders({
@@ -325,7 +325,7 @@ export class ObservacionService {
 
     this.listDocumentoGeneral = [];
     this.documentogeneral$.next({ listDocumentoGeneral: this.listDocumentoGeneral, cargando: true });
-    
+
     this.http.get(`${this.baseUrl}api/documento/getDocumentosVin/${marca}/${veh_codigo}`,this.httpOptions).subscribe({
       next: (data) => {
 
@@ -335,7 +335,7 @@ export class ObservacionService {
         this.createNotification('error', 'Error', 'Ha ocurrido un error al listar los Documentos');
         this.documentogeneral$.next({ listDocumentoGeneral: [], cargando: false });
       }
-    });    
+    });
 
   }
 

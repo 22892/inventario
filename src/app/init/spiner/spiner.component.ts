@@ -13,10 +13,10 @@ export class SpinerComponent implements OnInit {
   constructor(private serviceSpiner: SpinerService ) { }
 
   ngOnInit(): void {
-    console.log('lllammaa espinerrrrrrrrrrrrrrrr');
-    console.log(this.isLoading$);
-    
-    
+    //console.log('lllammaa espinerrrrrrrrrrrrrrrr');
+    //console.log(this.isLoading$);
+
+
   }
 
 }

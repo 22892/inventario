@@ -16,15 +16,16 @@ export class HomeComponent implements OnInit {
 
   baseUrl: string = ''
   baseUrlUri: string = ''
+  totalAccess: boolean= true;
 
 
-  
+
   usuario:any
   isCollapsed:boolean = true;
 
   configuracion: any =  {men_codigo:0, men_titulo: 'Configuración',men_icono:'tool',men_path:'/menu', level: 0, menusHijos: null}
-   
-  
+
+
   menus: any [] = []
   menupadre$!: Observable<any>;
   sub: any
@@ -53,27 +54,28 @@ export class HomeComponent implements OnInit {
     private servicePedido: PedidoService) {
 
       this.baseUrl = baseUrl
-      
+
       if(this.serviceAuth.user){
-        
+
         this.serviceMenu.updateMenuPrincipal.subscribe( value => {
-         
+
           if(value == true){
 
-            console.log('activaaaaaaaaaaaaaaaaaaaaaaa');
-            
-         
+            //console.log('activaaaaaaaaaaaaaaaaaaaaaaa');
+
+
             this.serviceAuth.loginUser(this.serviceAuth.login).subscribe({
               next: (res) =>{
-       
-              console.log(res);
-            
-              this.serviceAuth.setCredencialesUpdate(res)
-              this.serviceAuth.getCredentials()
-              this.getListMenuPrincipal() 
+
+              //console.log(res);
+
+              this.serviceAuth.setCredencialesUpdate(res);
+              this.serviceAuth.getCredentials();
+              this.validaPermisos(this.serviceAuth.user);
+              this.getListMenuPrincipal()
               this.listEmpresas = this.serviceAuth.user.misEmpresas
               this.empresaSelect = this.listEmpresas[0]
-             
+
               },
               error: (err) => {
                 this.msg.info('Error Ejecutar Actualización Menu Login')
@@ -81,21 +83,31 @@ export class HomeComponent implements OnInit {
             })
 
           }else{
-            console.log('donde entra----->>>>>>>>>>');
-            
-            this.serviceAuth.getCredentials()
-            this.getListMenuPrincipal()
+            //console.log('donde entra----->>>>>>>>>>');
+
+            this.serviceAuth.getCredentials();
+            this.validaPermisos(this.serviceAuth.user);
+            this.getListMenuPrincipal();
             this.usuario = this.serviceAuth.user
             this.listEmpresas = this.serviceAuth.user.misEmpresas
             this.empresaSelect = this.listEmpresas[0]
 
 
           }
-          
+
         });
-  
+
       }
 
+  }
+
+  validaPermisos(user: any){
+    for (const permiso of user.misPermisos) {
+      if(permiso.per_codigo===6){
+        this.totalAccess=false;
+        break;
+      }
+    }
   }
 
   ngAfterViewChecked(){
@@ -104,7 +116,7 @@ export class HomeComponent implements OnInit {
 
 
   ngOnInit(): void {
-    console.log('inicia home------');
+    //console.log('inicia home------');
     this.serviceAuth.getCredentials()
 
     if (this.serviceAuth.token == undefined || this.serviceAuth.token == '') {
@@ -113,9 +125,9 @@ export class HomeComponent implements OnInit {
 
       this.listEmpresas = this.serviceAuth.user.misEmpresas
       this.empresaSelect = this.listEmpresas[0]
-      console.log('empresa---select');
-      
-      console.log(this.empresaSelect);
+      //console.log('empresa---select');
+
+      //console.log(this.empresaSelect);
       if(this.empresaSelect){
         this.serviceGlobal.setCodigoEmpresa(this.empresaSelect.emp_codigo)
       }else{
@@ -125,17 +137,17 @@ export class HomeComponent implements OnInit {
       this.usuario = this.serviceAuth.user
       this.getListMenuPrincipal()
     }
-    
-   
+
+
   }
 
   getSelectNewEmpresa(item: any){
-    console.log('empresa');
-    console.log(item);
+    //console.log('empresa');
+    //console.log(item);
     this.serviceGlobal.setCodigoEmpresa(item.emp_codigo)
     this.empresaSelect = item
     this.servicePedido.updateListaVins.next(true)
-    
+
   }
 
   cerrarSesion(){
@@ -149,8 +161,8 @@ export class HomeComponent implements OnInit {
 
   getListMenuPrincipal(){
 
-    this.menus = [] 
-    this.menus = this.serviceAuth.user.menusWeb    
+    this.menus = []
+    this.menus = this.serviceAuth.user.menusWeb
 
     if(this.menus){
 
@@ -162,19 +174,19 @@ export class HomeComponent implements OnInit {
           padre.menusHijos.forEach((hijo: any, index: number)=>{
             hijo.level = 1
           })
-  
+
         }else{
           padre.menusHijos = null
         }
       })
-  
+
       //this.menus.unshift(this.configuracion)
-  
-    }    
+
+    }
   }
 
 
-  
+
 
 
 

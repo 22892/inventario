@@ -21,8 +21,8 @@
               <span [ngStyle]="{ 'background-color': colorPrimario }">{{ menu.men_titulo }}</span>
             </li>
             <li
-             
-            
+
+
               *ngIf="menu.menusHijos"
               nz-submenu
               [nzPaddingLeft]="menu.level * 24"
@@ -30,7 +30,7 @@
               [nzTitle]="menu.men_titulo"
               [nzIcon]="menu.men_icono"
               [nzDisabled]="menu.disabled"
-             
+
             >
               <ul [ngStyle]="{ 'background-color': colorPrimario }">
                 <ng-container *ngTemplateOutlet="menuTpl; context: { $implicit: menu.menusHijos }"></ng-container>
@@ -39,7 +39,7 @@
           </ng-container>
         </ng-template>
       </ul>
-  
+
     </nz-sider>
     <nz-layout>
       <nz-header>
@@ -51,7 +51,7 @@
                 <i class="trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'" (click)="isCollapsed = !isCollapsed"></i>
 
               </nz-col>
-              <nz-col class="gutter-row" nzSpan="22" >
+              <nz-col class="gutter-row" nzSpan="22" *ngIf="totalAccess">
 
                 <nz-button-group>
                   <ng-container *ngIf="empresaSelect; else NoEmpresa">
@@ -68,7 +68,7 @@
                 <nz-dropdown-menu #menu2="nzDropdownMenu">
                   <ul nz-menu *ngFor="let item of listEmpresas">
                     <li nz-menu-item (click)="getSelectNewEmpresa(item)"> {{item.emp_nombre_comercial}} </li>
-                   
+
                   </ul>
                 </nz-dropdown-menu>
 
@@ -77,7 +77,7 @@
 
             <!--<img *ngIf='isCollapsed' [src]="logo2" alt="" width="150px" height="22px" >-->
           </nz-col>
-  
+
           <nz-col class="gutter-row" nzSpan="6" style="text-align: right;">
             <a nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu" *ngIf="usuario">
               <i nz-icon nzType="down"></i>
@@ -102,13 +102,13 @@
       <div *ngIf="usuario">
         <nz-footer>{{usuario.usr_nombre}} ©{{date}}</nz-footer>
       </div>
-      
+
     </nz-layout>
 </nz-layout>
 
 
 <ng-template #drawerTemplate let-data let-drawerRef="drawerRef" >
-    
+
 </ng-template>
- 
-  
+
+

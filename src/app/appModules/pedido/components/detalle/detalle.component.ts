@@ -14,7 +14,7 @@ import { GlobalserviceService } from '../../../../core/globalservice.service'
 
 
 interface ColumnItem {
-  
+
   name: string;
   sortOrder: NzTableSortOrder | null;
   sortFn: NzTableSortFn | null;
@@ -55,8 +55,8 @@ export class DetalleComponent implements OnInit, AfterViewInit {
       listOfFilter: [],
       filterFn: null,
     },
-    
-  
+
+
     {
       width: '140px',
       name: 'Sección',
@@ -101,7 +101,7 @@ export class DetalleComponent implements OnInit, AfterViewInit {
       listOfFilter: [],
       filterFn: null,
     },
-   
+
   ];
 
 
@@ -109,24 +109,24 @@ export class DetalleComponent implements OnInit, AfterViewInit {
     {
       name: 'Información Vin',
       icon: 'form',
-    },   
-   
+    },
+
   ];
 
   tabsObs = [
     {
       name: 'Observaciones de Vin',
       icon: 'form',
-    },   
+    },
     {
       name: 'Accesorios',
       icon: 'check',
-    }, 
+    },
     {
       name: 'Documentos',
       icon: 'file-search',
-    },  
-   
+    },
+
   ];
 
 
@@ -204,20 +204,20 @@ export class DetalleComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.veh_codigo = this.rutaActiva.snapshot.paramMap.get('vin')
     //this.getVinDetalle(this.veh_codigo)
-    
+
     this.getListObservacionVin()
     this.getDetalleEstadoVin(this.veh_codigo)
     this.getListDocumentsVin()
     this.ancho = this.porcentaje(40)
     this.alto = this.ancho / 1.4036
-   
+
     this.listImagenesEstado = this.serviceGlobal.getListImagesEstado()
-    
-    
+
+
   }
 
   ngAfterViewInit(): void {
-    console.log('iniciaaaa');
+    //console.log('iniciaaaa');
     //this.initLienzo()
   }
 
@@ -240,7 +240,7 @@ export class DetalleComponent implements OnInit, AfterViewInit {
 
       setTimeout(() => {
         this.initLienzo()
-        
+
       }, 40);
 
       setTimeout(() => {
@@ -249,7 +249,7 @@ export class DetalleComponent implements OnInit, AfterViewInit {
       }, 500);
 
     }
-  
+
   }
 
 
@@ -260,8 +260,8 @@ export class DetalleComponent implements OnInit, AfterViewInit {
 
   initLienzo(){
 
-    console.log('nitial');
-    
+    //console.log('nitial');
+
     this.sigPadElement = this.sigPad.nativeElement
     this.context = this.sigPadElement.getContext('2d');
     var img = new Image();
@@ -274,42 +274,42 @@ export class DetalleComponent implements OnInit, AfterViewInit {
     img.onload = function(){
       self.context.drawImage(img, 0,0, dimensiones.x, dimensiones.y);
     }
-   
-    
+
+
   }
 
 
   paintPointObservacion(){
 
-    console.log('llega observaciones');
+    //console.log('llega observaciones');
 
-    console.log(this.listObservacionVin);
-    
+    //console.log(this.listObservacionVin);
+
     if(this.listObservacionVin.length>0){
 
-  
+
       this.listObservacionVin.forEach((obs)=>{
 
         if(obs.obs_pos_x > 0 && obs.obs_pos_y >0){
 
           let aux = (obs.obs_pos_x * this.ancho) / 100
           let auy = (obs.obs_pos_y * this.alto) / 100
-          
+
           this.context.beginPath();
           this.context.fillStyle = 'red';
           this.context.strokeStyle = 'black';
           this.context.arc(aux, auy, 10, 0, 2 * Math.PI);
           this.context.fill();
           this.context.stroke();
-  
+
         }
-  
+
       })
-  
-  
+
+
     }
-    
-   
+
+
   }
 
 
@@ -319,10 +319,10 @@ export class DetalleComponent implements OnInit, AfterViewInit {
 
     this.detallevin$ = this.servicePedido.getListAllDetalleEstadosVin$(veh_codigo);
     this.subDetalleVin = this.detallevin$.subscribe((p) => {
-      console.log('detallessss nuevo');
-      console.log(p);
-      
-      
+      //console.log('detallessss nuevo');
+      //console.log(p);
+
+
       this.objetoDetalle = p.listDetalleEstadoVin;
       this.cargandoDetalleVin = p.cargando;
 
@@ -335,16 +335,16 @@ export class DetalleComponent implements OnInit, AfterViewInit {
 
         this.listDetalleEstadoVin.forEach((item: any, index: any)=>{
           if(item.estadoEtapa.est_id_padre == 6){
-            console.log('siiiiii');
-            
+            //console.log('siiiiii');
+
             listaTransito = this.listDetalleEstadoVin.slice(index-1, index)
           }
         })
 
-        
+
 
         ///////////////////////////////////////////
-        
+
         this.listDetalleEstadoVin.push(this.objEstadoEtapaObservacion)
         this.listDetalleEstadoVin.unshift(this.objInformacionVin)
 
@@ -354,13 +354,13 @@ export class DetalleComponent implements OnInit, AfterViewInit {
           if(this.listDetalleEstadoVin[j].veh_est_fecha){
 
 
-            
+
             this.listDetalleEstadoVin[j].veh_est_fecha_inicio = this.transformDate(this.listDetalleEstadoVin[j].veh_est_fecha)
-            
+
             if(j == this.listDetalleEstadoVin.length-2){
 
               this.listDetalleEstadoVin[j].veh_est_fecha_salida = this.transformDate(new Date())
-              
+
               var fecha1 = moment(this.listDetalleEstadoVin[j].veh_est_fecha)
               var fecha2 = moment(new Date())
 
@@ -369,13 +369,13 @@ export class DetalleComponent implements OnInit, AfterViewInit {
             }else{
 
               this.listDetalleEstadoVin[j].veh_est_fecha_salida = this.transformDate(this.listDetalleEstadoVin[j+1].veh_est_fecha)
-              
+
               var fecha1 = moment(this.listDetalleEstadoVin[j].veh_est_fecha)
               var fecha2 = moment(this.listDetalleEstadoVin[j+1].veh_est_fecha)
 
               this.listDetalleEstadoVin[j].veh_dias = fecha2.diff(fecha1, 'days')
 
-            
+
             }
 
           }
@@ -383,17 +383,17 @@ export class DetalleComponent implements OnInit, AfterViewInit {
         }
 
 
-       
+
         this.listDetalleEstadoVin.forEach((item)=>{
           this.total_dias_proceso = this.total_dias_proceso + item.veh_dias
-          
+
         })
 
-        console.log('este otrooooooooooooooooooo');
-        
-        console.log(this.listDetalleEstadoVin);
-        console.log(this.total_dias_proceso);
-        
+        //console.log('este otrooooooooooooooooooo');
+
+        //console.log(this.listDetalleEstadoVin);
+        //console.log(this.total_dias_proceso);
+
 
         this.subDetalleVin.unsubscribe()
       }
@@ -403,16 +403,16 @@ export class DetalleComponent implements OnInit, AfterViewInit {
   }
 
 
-  
 
-  
+
+
   getVinDetalle(veh_vin: any){
 
     this.cargandoDatosVin = true
     this.servicePedido.getDetalleVin(veh_vin).subscribe({
       next: (data) => {
-        console.log('detallee');
-        
+        //console.log('detallee');
+
         /*if(data){
           this.detalleVin = data.vehiculoDetalle
           this.detalleVinDatos = data
@@ -431,27 +431,27 @@ export class DetalleComponent implements OnInit, AfterViewInit {
         this.msg.error(`Ha ocurrido un error al obtener detalle Vin, ${err.error.message}`);
       }
     })
-  
+
 
   }
 
 
   getListObservacionVin(){
     this.observacionvin$ = this.serviceObservacion.getListAllObservacionVin$(this.veh_codigo)
-    
+
     this.sub = this.observacionvin$.subscribe(p => {
-      console.log('lista detalle obs');
-      
-      console.log(p);
-  
+      //console.log('lista detalle obs');
+
+      //console.log(p);
+
       this.listObservacionVin = p.listObservacionVin.observaciones
-      
+
       this.listAccesorioVin = p.listObservacionVin.accesorios
       this.cargandoObservacion = p.cargando
 
       if(this.cargandoObservacion == false){
-        
-        
+
+
         this.sub.unsubscribe()
       }
     });
@@ -476,12 +476,12 @@ export class DetalleComponent implements OnInit, AfterViewInit {
   }
 
   getListDocumentsVin() {
-    
+
     this.documentogeneral$ = this.serviceObservacion.getListAllDocuemtoVin$(this.veh_codigo);
     this.subDocumento = this.documentogeneral$.subscribe((p) => {
-      console.log('docuemtos ngeneral');
-      console.log(p);
-      
+      //console.log('docuemtos ngeneral');
+      //console.log(p);
+
       this.listDocumentoGeneral = p.listDocumentoGeneral;
       this.cargandoDocumento = p.cargando;
 
@@ -495,21 +495,21 @@ export class DetalleComponent implements OnInit, AfterViewInit {
 
 
   clickAcordion(item: any){
-    console.log(item);
+    //console.log(item);
 
 
     if(this.listObservacionVin.length>0){
       this.initLienzo()
       if(item == 0){
         setTimeout(() => {
-  
+
           this.paintPointObservacion()
         }, 50);
       }
-  
+
     }
 
-    
+
   }
 
 

@@ -24,7 +24,7 @@ export class ListaComponent implements OnInit {
                              {codigo: 15, name: 'Guia 15', conductor: 'Karmita Lazo', placa: 'AAS-1234',estado:{codigo: 2, estado:'Finalizado'}}, {codigo: 15, name: 'Guia 15', conductor: 'Pedro Ortiz', placa: 'UPP-1234',estado:{codigo: 1, estado:'Pendiente'}}]*/
 
   listGuiaRemision: any[] = []
-                        
+
 
   desde!: Date;
   hasta!: Date;
@@ -61,7 +61,7 @@ export class ListaComponent implements OnInit {
 
   inicio(){
 
-    
+
     this.router.navigate(['/remision/lista'])
 
   }
@@ -78,10 +78,10 @@ export class ListaComponent implements OnInit {
 
   }
 
-  
+
   actualizarFecha(e: any) {
     if (!e) {
-    
+
 
     }
   }
@@ -95,11 +95,11 @@ export class ListaComponent implements OnInit {
 
 
     this.guia$ = this.serviceRemision.getListAllRemision$()
-    
+
     this.sub = this.guia$.subscribe(p => {
-     
-      console.log(p);
-      
+
+      //console.log(p);
+
       this.listGuiaRemision = p.listGuiaRemision
       this.listGuiaRemisionAux = p.listGuiaRemision
       this.cargandoRemision = p.cargando
@@ -117,27 +117,27 @@ export class ListaComponent implements OnInit {
         this.sub.unsubscribe()
 
       }
-      
+
     });
 
   }
 
   irListaVins(codigo_guia: number){
 
-    console.log(codigo_guia);
-    
+    //console.log(codigo_guia);
+
   }
 
   onPageIndexChange($event: any) {
     //do something here to go to next page
-    console.log($event);
-    
+    //console.log($event);
+
   }
 
   modalInfoGuia(guia: any){
-    console.log('modaaaaaaaaaaaaaaaaaaaa');
-    console.log(guia);
-    
+    //console.log('modaaaaaaaaaaaaaaaaaaaa');
+    //console.log(guia);
+
     this.modalGuia = true
     this.itemGuia = guia.recepcion
   }

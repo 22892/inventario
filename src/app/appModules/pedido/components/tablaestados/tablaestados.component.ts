@@ -5,7 +5,7 @@ import 'moment/locale/es';
 import { GlobalserviceService } from '../../../../core/globalservice.service'
 
 interface ColumnItem {
-  
+
   name: string | undefined;
   sortOrder: NzTableSortOrder | null;
   sortFn: NzTableSortFn | null;
@@ -34,7 +34,7 @@ export class TablaestadosComponent implements OnInit {
   radioValue = 'A';
   tipoVista: number = 1
 
-  
+
   @Input() listColumnsTable: any
   @Input() estadoVin: any
   @Input() informacionVin: any
@@ -66,7 +66,7 @@ export class TablaestadosComponent implements OnInit {
   {name: 'PV Cliente', icon:'', ancho:'50px'}, {name: 'Descuento Neto', icon:'', ancho:'40px'}, {name: 'Interes', icon:'', ancho:'40px'}, {name: 'valor Iva', icon:'', ancho:'40px'}, {name: 'Org. Venta', icon:'', ancho:'40px'}, {name: 'Cond. Pago', icon:'', ancho:'40px'}, {name: 'CLVALORAC', icon:'', ancho:'40px'},
   {name: 'Bultos', icon:'', ancho:'40px'}, {name: 'Canal', icon:'', ancho:'40px'}, , {name: 'Tipo Cambio', icon:'', ancho:'40px'}, , {name: 'Fecha Actualización', icon:'', ancho:'40px'}, {name: 'Ciudad LLegada', icon:'', ancho:'40px'}, {name: 'Vitrina', icon:'', ancho:'40px'}, {name: 'Responsable', icon:'', ancho:'40px'},
   {name: 'Observación', icon:'', ancho:'40px'}, {name: 'Fecha Salida', icon:'', ancho:'40px'}, {name: 'Fecha LLegada', icon:'', ancho:'40px'}]
-  
+
 
   objColumnNacionalizacion = [{name: 'Vin', icon:'', ancho:'60px'},{name: 'Marca Emp.', icon:'', ancho:'40px'}, {name: 'ITEM', icon:'', ancho:'50px'}, {name: 'Mes Arribo', icon:'', ancho:'60px'}, {name: 'Cobro Liberación', icon:'', ancho:'60px'}, {name: 'Factura Porteo', icon:'', ancho:'60px'}, {name: 'Número Nacionalizción', icon:'', ancho:'60px'},
   {name: 'SAP', icon:'', ancho:'50px'}, {name: 'Entrega Entrante', icon:'', ancho:'50px'}, {name: 'ZGRE', icon:'', ancho:'50px'},{name: 'Buque', icon:'', ancho:'60px'},{name: 'BL Número', icon:'', ancho:'50px'},{name: 'Factura', icon:'', ancho:'50px'},{name: 'Fecha Factura', icon:'', ancho:'50px'},
@@ -81,15 +81,15 @@ export class TablaestadosComponent implements OnInit {
   objColumnTraslado = [{name: 'Nombre Conductor', icon:'', ancho:'60px'},{name: 'Nombre Empresa', icon:'', ancho:'40px'}, {name: 'Placa', icon:'', ancho:'50px'}, {name: 'Estado Proceso', icon:'', ancho:'60px'}, {name: 'Logistica', icon:'', ancho:'60px'}, {name: 'Comercial', icon:'', ancho:'60px'}, {name: 'Transportista', icon:'', ancho:'60px'}]
 
   listImagenesEstado: any
-  
+
   constructor(private serviceGlobal: GlobalserviceService) {
   }
 
   ngOnInit(): void {
-    console.log('lleggaaaaaaaaaaa');
+    //console.log('lleggaaaaaaaaaaa');
     this.listImagenesEstado = this.serviceGlobal.getListImagesEstado()
     this.generarColumnas()
-    
+
   }
 
 
@@ -121,44 +121,44 @@ export class TablaestadosComponent implements OnInit {
 
     if(this.listColumnsTable){
 
-      
+
       listAux = Object.values(this.listColumnsTable)
       listInfo = Object.values(this.informacionVin)
 
-      var i=0  
+      var i=0
 
 
       if(this.estadoVin.est_codigo == 100){
 
-      
+
         this.objColumnInfoVin.forEach((item) =>{
 
           if(listInfo[i] != null){
 
             let columna: any
             let result: any
-  
+
             var resNum = this.isNum(listInfo[i])
-            
+
             if(resNum){
               result = false
             }else{
-             
-              //console.log('objeto');
+
+              ////console.log('objeto');
               if(typeof listInfo[i] == 'undefined'){
-                console.log('siiii');
-                
+                //console.log('siiii');
+
               }else{
-                //console.log('noooo');
-                
+                ////console.log('noooo');
+
               }
 
               result = moment(new Date(listInfo[i]), 'YYYY-MM-DD',true).isValid();
-           
+
             }
-            
+
             if(result){
-  
+
               columna = {
                 width:'100px',
                 name: item?.name,
@@ -171,7 +171,7 @@ export class TablaestadosComponent implements OnInit {
                 value: this.transformDate(listInfo[i]),
                 icon: item?.icon
               }
-  
+
             }else{
               columna = {
                 width:'100px',
@@ -185,52 +185,52 @@ export class TablaestadosComponent implements OnInit {
                 value: listInfo[i],
                 icon: item?.icon
               }
-    
+
             }
-  
-        
+
+
             this.listOfColumns = [... this.listOfColumns, columna]
-  
+
 
           }
 
-          
-    
+
+
           i++
 
-        }) 
+        })
 
         this.listDetalleEstado = [... this.listDetalleEstado, this.informacionVin]
 
-        //console.log('infooooooooo');
-        //console.log(this.listOfColumns);
-        
- 
+        ////console.log('infooooooooo');
+        ////console.log(this.listOfColumns);
+
+
       }
 
 
       if(this.estadoVin.est_codigo == 11){
 
-         
+
         this.objColumnPedido.forEach((item) =>{
 
 
           let columna: any
           let result: any
 
-        
+
 
           if(listAux[i] != null){
 
-            
-  
+
+
             var resNum = this.isNum(listAux[i])
-  
+
             if(resNum){
               result = false
             }else{
               result = moment(new Date(listAux[i].replace(/ /g, "")), 'YYYY-MM-DD',true).isValid();
-           
+
             }
 
             if(result){
@@ -247,7 +247,7 @@ export class TablaestadosComponent implements OnInit {
                 value: this.transformDate(listAux[i]),
                 icon: item?.icon
               }
-  
+
             }else{
               columna = {
                 width:'100px',
@@ -261,25 +261,25 @@ export class TablaestadosComponent implements OnInit {
                 value: listAux[i],
                 icon: item?.icon
               }
-    
+
             }
-  
-  
-        
+
+
+
             this.listOfColumns = [... this.listOfColumns, columna]
 
 
           }
 
 
-    
+
           i++
 
-        }) 
+        })
 
         this.listDetalleEstado = [... this.listDetalleEstado, this.listColumnsTable]
-        //console.log('listofcolumn');
-        //console.log(this.listOfColumns);
+        ////console.log('listofcolumn');
+        ////console.log(this.listOfColumns);
 
       }
 
@@ -287,23 +287,23 @@ export class TablaestadosComponent implements OnInit {
 
         this.objColumnFactura.forEach((item) =>{
 
-          
+
           let columna: any
           let result: any
 
-        
+
 
           if(listAux[i] != null){
 
-            
-  
+
+
             var resNum = this.isNum(listAux[i])
-  
+
             if(resNum){
               result = false
             }else{
               result = moment(new Date(listAux[i].replace(/ /g, "")), 'YYYY-MM-DD',true).isValid();
-           
+
             }
 
             if(result){
@@ -320,7 +320,7 @@ export class TablaestadosComponent implements OnInit {
                 value: this.transformDate(listAux[i]),
                 icon: item?.icon
               }
-  
+
             }else{
               columna = {
                 width:'100px',
@@ -334,11 +334,11 @@ export class TablaestadosComponent implements OnInit {
                 value: listAux[i],
                 icon: item?.icon
               }
-    
+
             }
-  
-  
-        
+
+
+
             this.listOfColumns = [... this.listOfColumns, columna]
 
 
@@ -347,7 +347,7 @@ export class TablaestadosComponent implements OnInit {
 
           i++
 
-        }) 
+        })
 
         this.listDetalleEstado = [... this.listDetalleEstado, this.listColumnsTable]
 
@@ -361,19 +361,19 @@ export class TablaestadosComponent implements OnInit {
           let columna: any
           let result: any
 
-        
+
 
           if(listAux[i] != null){
 
-            
-  
+
+
             var resNum = this.isNum(listAux[i])
-  
+
             if(resNum){
               result = false
             }else{
               result = moment(new Date(listAux[i].replace(/ /g, "")), 'YYYY-MM-DD',true).isValid();
-           
+
             }
 
             if(result){
@@ -390,7 +390,7 @@ export class TablaestadosComponent implements OnInit {
                 value: this.transformDate(listAux[i]),
                 icon: item?.icon
               }
-  
+
             }else{
               columna = {
                 width:'100px',
@@ -404,11 +404,11 @@ export class TablaestadosComponent implements OnInit {
                 value: listAux[i],
                 icon: item?.icon
               }
-    
+
             }
-  
-  
-        
+
+
+
             this.listOfColumns = [... this.listOfColumns, columna]
 
 
@@ -417,36 +417,36 @@ export class TablaestadosComponent implements OnInit {
 
           i++
 
-        }) 
+        })
 
         this.listDetalleEstado = [... this.listDetalleEstado, this.listColumnsTable]
 
 
       }
 
-      
+
 
       if(this.estadoVin.est_codigo == 16 || this.estadoVin.est_codigo == 17 || this.estadoVin.est_codigo == 18){
 
-        
-        
+
+
 
         this.objColumnTraslado.forEach((item) =>{
 
           let columna: any
           let result: any
 
-        
+
 
           if(listAux[i] != null){
 
-            
-  
+
+
             var resNum = this.isNum(listAux[i])
 
-            
-            
-  
+
+
+
             if(resNum){
               result = false
             }else{
@@ -467,7 +467,7 @@ export class TablaestadosComponent implements OnInit {
                 value: this.transformDate(listAux[i]),
                 icon: item?.icon
               }
-  
+
             }else{
               columna = {
                 width:'100px',
@@ -481,11 +481,11 @@ export class TablaestadosComponent implements OnInit {
                 value: listAux[i],
                 icon: item?.icon
               }
-    
+
             }
-  
-  
-            
+
+
+
             this.listOfColumns = [... this.listOfColumns, columna]
 
 
@@ -494,19 +494,19 @@ export class TablaestadosComponent implements OnInit {
 
           i++
 
-        }) 
+        })
 
         this.listDetalleEstado = [... this.listDetalleEstado, this.listColumnsTable]
 
 
       }
 
-    
-    
+
+
       /*for (const property in this.informacionVin) {
-        
-        console.log(property);
-        
+
+        //console.log(property);
+
         let columna = {
           width:'130px',
           name: property,
@@ -519,27 +519,27 @@ export class TablaestadosComponent implements OnInit {
           value: listAux[i],
           icon: ''
         }
-    
+
         this.listOfColumns = [... this.listOfColumns, columna]
-  
+
         i++
-  
-  
+
+
       }
-  
+
       this.listDetalleEstado = [... this.listDetalleEstado, this.listColumnsTable]
-      console.log('listofcolumn');
-      console.log(this.listOfColumns);*/
-      
-      
-      
-      
-      
+      //console.log('listofcolumn');
+      //console.log(this.listOfColumns);*/
+
+
+
+
+
 
     }
 
-    
-  
+
+
   }
 
 
