@@ -2153,6 +2153,7 @@ export class VinesComponent implements OnInit {
 
   }
 
+
   cambio(estado: any, index: any, lista: any){
 
 
@@ -2195,7 +2196,7 @@ export class VinesComponent implements OnInit {
     this.sub = this.vin$.subscribe(p => {
 
       //console.log('VINES TOTALES: ');
-      //console.log(p);
+      console.log(p);
 
 
       this.listVin = p.listVin
@@ -2223,9 +2224,24 @@ export class VinesComponent implements OnInit {
             //console.log(item.estadoActual.veh_est_fecha);
 
 
-            /* item.listaEstadosPadres.forEach((est: any)=>{
-              est.check = true
-            }) */
+            item.listaEstadosPadres.forEach((est: any)=>{
+              let total = 0
+              if(est.listaHijos.length>0){
+                
+               
+                est.listaHijos.forEach((hijos: any)=>{
+
+                  total = total + hijos.conteo
+
+                })
+
+               
+
+              }
+
+              est.averias = total
+
+            }) 
 
 
           })
@@ -2585,6 +2601,18 @@ export class VinesComponent implements OnInit {
   downloadPDFRecepcion(){
     saveAs(this.filePdf, 'Recepción Vin');
     this.isModalPedf = false
+  }
+
+  descargarPDF(vin: any) {
+    this.servicePedido.downloadPDFRecepcion(vin).subscribe({
+      next: (data) =>{
+        saveAs(data, 'Reporte Recepción');
+      },
+      error: (err) =>{
+        this.msg.error('PROBLEMAS AL DESCARGAR PDF '+err)
+      }
+
+    });
   }
 
 }

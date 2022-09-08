@@ -1360,8 +1360,10 @@
                           </td>
 
                           <td>
-                              <nz-avatar [nzIcon]="'file-pdf'" (click)="openModalPdf(item)"   style="background:white;border: solid 1px #cb4b54; color:#cb4b54" [nzTooltipTitle]="'PDF RECEPCIÓN'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>
-
+                            <!--<nz-avatar [nzIcon]="'file-pdf'" (click)="openModalPdf(item)"   style="background:white;border: solid 1px #cb4b54; color:#cb4b54" [nzTooltipTitle]="'PDF RECEPCIÓN'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>-->
+                             <nz-avatar [nzIcon]="'file-excel'" (click)="descargarPDF(item.veh_vin)"
+                                style="background:white;border: solid 1px rgb(5, 180, 58); color:rgb(9, 180, 60)"
+                                [nzTooltipTitle]="'Reporte Excel'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>
                           </td>
 
 
@@ -1381,10 +1383,21 @@
 
                                                       <ng-container *ngIf="controlSi">
 
-                                                          <!--<input type="checkbox" (click)="chechselect(estado, item.veh_vin)"  [(ngModel)]="estado.check" class="form-check-input" id="{{item.veh_vin+itemEst.cod_estado}}">
-                                                          <nz-divider nzType="vertical"></nz-divider>-->
-                                                          <button nz-button nzType="primary" (click)="openModalEstados(estado, item.veh_vin)"><i nz-icon nzType="car"></i></button>
-                                                          {{cambio('si',-100,-100)}}
+                                                        <!--<input type="checkbox" (click)="chechselect(estado, item.veh_vin)"  [(ngModel)]="estado.check" class="form-check-input" id="{{item.veh_vin+itemEst.cod_estado}}">
+                                                        <nz-divider nzType="vertical"></nz-divider>-->
+                                                        
+                                                       
+                                                       
+                                                    
+                                                        
+
+                                                        <nz-badge [nzCount]="estado.averias" style="margin-right: 24px;">
+                                                            
+                                                            <button nz-button nzType="primary" (click)="openModalEstados(estado, item.veh_vin)"><i nz-icon nzType="car"></i></button>
+                                                            
+                                                        </nz-badge>
+
+                                                        {{cambio('si',-100,-100)}}
 
                                                       </ng-container>
 
@@ -1504,8 +1517,7 @@
 (nzOnCancel)="isModalPedf = false"  (nzOnOk)="downloadPDFRecepcion()" nzOkText="Descargar" nzWidth="550px">
   <ng-container *nzModalContent>
 
-      <!--<img nz-image  style="object-fit: contain;"  width="100%" height="100%" nzSrc="{{filePdf}}" alt="" />-->
-
+     
       <pdf-viewer [src]="filePdf"
             [render-text]="true"
             [original-size]="false"

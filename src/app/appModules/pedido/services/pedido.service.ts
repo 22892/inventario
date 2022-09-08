@@ -366,15 +366,18 @@ export class PedidoService {
 
 
 
-  downloadPDFRecepcion(veh_codigo: any,): Observable<any> {
+  downloadPDFRecepcion(vin: any,): Observable<any> {
 
+    
     let marca = this.serviceGlobal.getCodigoMarca()
+    let empresa = this.serviceGlobal.getCodigoEmpresa()
 
     return this.http.get(
-      `${this.baseUrl}api/vehiculo/get_pdf_vin/${marca}/${veh_codigo}/`,
+      `${this.baseUrl}api/vehiculo/getVehiculoPDFEntrega/${marca}/${empresa}/${vin}`,
       {
         headers: new HttpHeaders({
-          'Content-Type': 'application/pdf'
+          'Content-Type': 'application/pdf',
+          'Authorization': `Bearer `+this.serviceAuth.token
         },
         ),
         reportProgress: true,
@@ -382,5 +385,7 @@ export class PedidoService {
       }
     );
   }
+
+
 
 }
