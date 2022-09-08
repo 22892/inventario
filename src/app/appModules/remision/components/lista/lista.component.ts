@@ -5,6 +5,7 @@ import { GlobalserviceService } from '../../../../core/globalservice.service'
 import { Router } from '@angular/router';
 import * as moment from 'moment'
 import 'moment/locale/es';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 
 @Component({
@@ -48,6 +49,7 @@ export class ListaComponent implements OnInit {
   constructor(private serviceRemision: RemisionService,
     private serviceGlobal: GlobalserviceService,
     private router: Router,
+    private msg: NzMessageService,
     @Inject('BASE_URL') baseUrl: string,) {
 
       this.baseUrl = baseUrl
@@ -98,7 +100,7 @@ export class ListaComponent implements OnInit {
 
     this.sub = this.guia$.subscribe(p => {
 
-      //console.log(p);
+      console.log(p);
 
       this.listGuiaRemision = p.listGuiaRemision
       this.listGuiaRemisionAux = p.listGuiaRemision
@@ -136,10 +138,16 @@ export class ListaComponent implements OnInit {
 
   modalInfoGuia(guia: any){
     //console.log('modaaaaaaaaaaaaaaaaaaaa');
-    //console.log(guia);
+    console.log(guia);
 
-    this.modalGuia = true
-    this.itemGuia = guia.recepcion
+    if(guia.recepcion != null){
+      this.modalGuia = true
+      this.itemGuia = guia.recepcion
+  
+    }else{
+      this.msg.info('NO TIENE FINALIZADA LA RECEPCIÓN')
+    }
+
   }
 
   cerrarModalGuia(){
