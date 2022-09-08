@@ -2609,7 +2609,7 @@ export class VinesComponent implements OnInit {
         saveAs(data, 'Reporte Recepción');
       },
       error: (err) =>{
-        this.msg.error('PROBLEMAS AL DESCARGAR PDF '+err)
+        this.msg.error('PROBLEMAS AL DESCARGAR PDF '+err.message)
       }
 
     });
