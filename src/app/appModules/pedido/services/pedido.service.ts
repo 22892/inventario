@@ -371,9 +371,13 @@ export class PedidoService {
     
     let marca = this.serviceGlobal.getCodigoMarca()
     let empresa = this.serviceGlobal.getCodigoEmpresa()
+    console.log('usuario');
+    
+    console.log(this.serviceAuth.user.usr_codigo);
+    
 
     return this.http.get(
-      `${this.baseUrl}api/vehiculo/getVehiculoPDFEntrega/${marca}/${empresa}/${vin}`,
+      `${this.baseUrl}api/vehiculo/getVehiculoPDFEntrega/${marca}/${empresa}/${vin}/${this.serviceAuth.user.usr_codigo}`,
       {
         headers: new HttpHeaders({
           'Content-Type': 'application/pdf',
