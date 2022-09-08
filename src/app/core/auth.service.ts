@@ -20,7 +20,7 @@ export class AuthService {
     private http: HttpClient,
     private serviceGlobal: GlobalserviceService) {
 
-      console.warn('Auth started');
+      //console.warn('Auth started');
       this.getCredentials();
       this.baseUrl = baseUrl;
 
@@ -51,6 +51,11 @@ export class AuthService {
     localStorage.setItem("login",JSON.stringify(login.usrlogin));
     localStorage.setItem("usuario",JSON.stringify(credentials.usuario));
     localStorage.setItem("token",credentials.token);
+    this.token=credentials.token;
+    //console.log('TOKEN EN SET CREDENTIALS: ');
+    //console.log(this.token);
+
+
 
 
   }
