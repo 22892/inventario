@@ -2606,6 +2606,8 @@ export class VinesComponent implements OnInit {
   descargarPDF(vin: any) {
     this.servicePedido.downloadPDFRecepcion(vin).subscribe({
       next: (data) =>{
+        console.log(data);
+        
         saveAs(data, 'Reporte Recepción');
       },
       error: (err) =>{
