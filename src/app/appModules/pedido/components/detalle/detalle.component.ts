@@ -174,7 +174,7 @@ export class DetalleComponent implements OnInit, AfterViewInit {
   cargandoDetalleVin: boolean = false
 
 
-  objEstadoEtapaObservacion = {estadoEtapa:{est_codigo: 0, est_nombre: 'OBSERVACIONES DE CONSECIONARIO', est_marca: 100}, detalleEstado:{}, veh_est_fecha: null, veh_dias:0}
+  objEstadoEtapaObservacion = {estadoEtapa:{est_codigo: 0, est_nombre: 'OBSERVACIONES DE CONCESIONARIO', est_marca: 100}, detalleEstado:{}, veh_est_fecha: null, veh_dias:0}
   objInformacionVin = {estadoEtapa:{est_codigo: 100, est_nombre: 'INFORMACIÓN DE VIN', est_marca: 100}, detalleEstado:{}, veh_est_fecha: null, veh_dias: 0}
   objTraslado = {estadoEtapa:{est_codigo: 200, est_nombre: 'TRASLADO', est_marca: 100}, detalleEstado:{}, veh_est_fecha: null, veh_dias: 0}
 
