@@ -82,7 +82,7 @@
                     <nz-row style="margin-bottom: 1%;" [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
                         <nz-col style="text-align: start;" class="gutter-row" nzSpan="12">
 
-                            <div style="color: rgb(199, 199, 199);">GUIA DE REMISIÓN: <label style="color: rgb(117, 117, 117);"> {{guia.gur_id}}</label></div>
+                            <div style="color: rgb(199, 199, 199);">GUIA DE REMISIÓN: <label style="color: rgb(117, 117, 117);"> {{guia.gur_nombre}}</label></div>
                         </nz-col>
                         <nz-col style="text-align: end;" class="gutter-row" nzSpan="12" nzOffset="6">
                             <div style="color: rgb(169, 169, 169); font-size: 12px;">OPCIONES DE GUIA</div>
@@ -90,34 +90,26 @@
                     </nz-row>
 
                     <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
-                        <nz-col style="align-self: center;" class="gutter-row" nzSpan="6">
+                        <nz-col style="align-self: center;" class="gutter-row" nzSpan="5">
                             <div class="imagen">
                                 <fa-icon class="fa-3x" style="color: rgb(214, 214, 214);" [icon]="['fas', 'calendar-day']"></fa-icon>
                             </div>
 
                         </nz-col>
-                        <nz-col class="gutter-row" style=" text-align: justify;  color: rgb(204, 204, 204); " nzSpan="3">
+                        <nz-col class="gutter-row" style=" text-align: justify;  color: rgb(204, 204, 204); " nzSpan="4">
 
-                            <div >CÉDULA:</div>
+                            <div >EMPRESA TANSPORTE:</div>
                             <div >CONDUCTOR:</div>
                             <div >PLACA:</div>
 
                         </nz-col>
                         <nz-col class="gutter-row" style="color: rgb(117, 117, 117);" nzSpan="5">
 
-                            <ng-container *ngIf="guia.conductor; else NoConductor">
-                                <div>{{guia.conductor.con_cedula}}</div>
-                                <div>{{guia.conductor.con_nombre}} {{guia.conductor.con_apellido}}</div>
-                                <div>{{guia.conductor.con_placa}}</div>
+                        
+                            <div>{{guia.gur_emp_transportista}}</div>
+                            <div>{{guia.gur_conductor}}</div>
+                            <div>{{guia.gur_placa}}</div>
 
-                            </ng-container>
-
-                            <ng-template #NoConductor>
-                                <div></div>
-                                <div></div>
-                                <div></div>
-
-                            </ng-template>
 
                         </nz-col>
 

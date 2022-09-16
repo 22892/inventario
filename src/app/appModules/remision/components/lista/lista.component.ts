@@ -108,14 +108,15 @@ export class ListaComponent implements OnInit {
 
       if(this.cargandoRemision == false){
 
-        if(this.control){
+        /*if(this.control){
           this.listGuiaRemision.forEach((item: any, index: any)=>{
+            
             item.gur_fecha = this.transformDate(item.gur_fecha)
 
           })
         }
+        this.control = false*/
 
-        this.control = false
         this.sub.unsubscribe()
 
       }
