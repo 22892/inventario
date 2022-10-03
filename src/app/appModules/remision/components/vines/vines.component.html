@@ -1348,8 +1348,8 @@
 
                           <td>
                               <ng-container *ngIf="item.veh_estado_observacion == 0; else tieneObservacion">
-                                  <!--<nz-avatar [nzIcon]="'check-circle'" [routerLink]="['/observacion', item.veh_vin]" style="background:white;border: solid 1px #eb767e; color:#eb767e" [nzTooltipTitle]="'REALIZAR REVISIÓN VIN'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>-->
-                                  <nz-avatar [nzIcon]="'check-circle'"  style="background:white;border: solid 1px #eb767e; color:#eb767e" [nzTooltipTitle]="'FALTA REVISIÓN'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>
+                                  <nz-avatar [nzIcon]="'check-circle'" [routerLink]="['/observacion', item.veh_vin]" style="background:white;border: solid 1px #eb767e; color:#eb767e" [nzTooltipTitle]="'REALIZAR REVISIÓN VIN'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>
+                                  <!--<nz-avatar [nzIcon]="'check-circle'"  style="background:white;border: solid 1px #eb767e; color:#eb767e" [nzTooltipTitle]="'FALTA REVISIÓN'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>-->
                               </ng-container>
 
                               <ng-template #tieneObservacion>
