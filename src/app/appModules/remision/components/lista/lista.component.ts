@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild, TemplateRef, AfterViewInit } from '@angular/core';
 import { RemisionService } from '../../services/remision.service'
 import { Observable} from 'rxjs';
 import { GlobalserviceService } from '../../../../core/globalservice.service'
@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import * as moment from 'moment'
 import 'moment/locale/es';
 import { NzMessageService } from 'ng-zorro-antd/message';
-
+import { NzSegmentedOption } from 'ng-zorro-antd/segmented';
 
 @Component({
   selector: 'app-lista',
@@ -15,16 +15,10 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 })
 export class ListaComponent implements OnInit {
 
-  /*listGuiaRemision: any[] = [{codigo: 1, name: 'Guia 1', conductor: 'Jimi Ortiz', placa: 'HAP-1234', estado:{codigo: 1, estado:'Pendiente'}}, {codigo: 2, name: 'Guia 1', conductor: 'Pedro Ortiz', placa: 'PLP-1234' , estado:{codigo: 2, estado:'Finalizado'}},
-                             {codigo: 3, name: 'Guia 3', conductor: 'Karina Perez', placa: 'LAP-1234', estado:{codigo: 1, estado:'Pendiente'}}, {codigo: 4, name: 'Guia 4', conductor: 'Juan Ortiz', placa: 'TYP-1234', estado:{codigo: 2, estado:'Finalizado'}},
-                             {codigo: 5, name: 'Guia 5', conductor: 'Alvaro Gonzales', placa: 'AOL-1234', estado:{codigo: 2, estado:'Finalizado'}}, {codigo: 6, name: 'Guia 6', conductor: 'Mauricio Avila', placa: 'XCP-1234',estado:{codigo: 1, estado:'Pendiente'}},
-                             {codigo: 7, name: 'Guia 7', conductor: 'Mario Ochoa', placa: 'AKK-1234',estado:{codigo: 1, estado:'Pendiente'}}, {codigo: 8, name: 'Guia 8', conductor: 'Carlos Perez', placa: 'WWP-1234',estado:{codigo: 2, estado:'Finalizado'}},
-                             {codigo: 9, name: 'Guia 9', conductor: 'Kiara Pezantes', placa: 'MAP-1234',estado:{codigo: 2, estado:'Finalizado'}}, {codigo: 10, name: 'Guia 10', conductor: 'Jhon Ortiz', placa: 'BYP-1234',estado:{codigo: 1, estado:'Pendiente'}},
-                             {codigo: 11, name: 'Guia 11', conductor: 'Paola Alvarez', placa: 'NNP-1234',estado:{codigo: 1, estado:'Pendiente'}}, {codigo: 12, name: 'Guia 12', conductor: 'Oswaldo Tapia', placa: 'AAP-1234',estado:{codigo: 2, estado:'Finalizado'}},
-                             {codigo: 13, name: 'Guia 13', conductor: 'Talia Merino', placa: 'LLP-1234',estado:{codigo: 2, estado:'Finalizado'}}, {codigo: 14, name: 'Guia 14', conductor: 'Juan Coro', placa: 'UPP-1234',estado:{codigo: 1, estado:'Pendiente'}},
-                             {codigo: 15, name: 'Guia 15', conductor: 'Karmita Lazo', placa: 'AAS-1234',estado:{codigo: 2, estado:'Finalizado'}}, {codigo: 15, name: 'Guia 15', conductor: 'Pedro Ortiz', placa: 'UPP-1234',estado:{codigo: 1, estado:'Pendiente'}}]*/
 
   listGuiaRemision: any[] = []
+  listFinalizda: any [] = []
+  listPendiente: any [] = []
 
 
   desde!: Date;
@@ -46,6 +40,34 @@ export class ListaComponent implements OnInit {
   baseUrl: string = '';
 
 
+
+  tabs = [
+    {
+      name: 'PENDIENTES',
+      icon: 'issues-close'
+    },
+    {
+      name: 'FINALIZADOS',
+      icon: 'check'
+    }
+  ];
+  index: number = 0;
+  modalRecepcion: boolean = false
+  itemGuiaInfo: any
+
+  firmaConductor: any
+  ctx: any
+
+  panels = [
+   
+    {
+      active: false,
+      name: 'RECEPCIÓN'
+    }
+  ];
+
+  
+
   constructor(private serviceRemision: RemisionService,
     private serviceGlobal: GlobalserviceService,
     private router: Router,
@@ -56,8 +78,22 @@ export class ListaComponent implements OnInit {
 
   }
 
+
+
   ngOnInit(): void {
     this.getListRemisionVins()
+
+
+  }
+
+
+  onMouseMove(e: any) {
+    console.log('mousssssssssssss');
+    
+  }
+
+
+  selectTipoLista(event: any){
 
   }
 
@@ -73,7 +109,7 @@ export class ListaComponent implements OnInit {
       this.listGuiaRemision = this.listGuiaRemisionAux
     }else{
 
-      this.listGuiaRemision = this.listGuiaRemisionAux.filter((item: any) => item.gur_id.toUpperCase().replace(/ /g, '').indexOf(this.buscarGuia.toUpperCase().replace(/ /g, '')) !== -1  );
+      this.listGuiaRemision = this.listGuiaRemisionAux.filter((item: any) => item.gur_nombre.toUpperCase().replace(/ /g, '').indexOf(this.buscarGuia.toUpperCase().replace(/ /g, '')) !== -1  );
 
     }
 
@@ -117,6 +153,17 @@ export class ListaComponent implements OnInit {
         }
         this.control = false*/
 
+        this.listGuiaRemision.forEach((item: any, index: any)=>{
+            
+          if(item.recepcion != null && item.pendientes === false){
+            this.listFinalizda.push(item)
+          }else{
+            this.listPendiente.push(item)
+          }
+
+        })
+
+
         this.sub.unsubscribe()
 
       }
@@ -143,7 +190,10 @@ export class ListaComponent implements OnInit {
 
     if(guia.recepcion != null){
       this.modalGuia = true
+
       this.itemGuia = guia.recepcion
+      this.itemGuia.rec_fecha =  this.transformDate(this.itemGuia.rec_fecha)
+      this.itemGuia.rec_hora = this.transformHora(this.itemGuia.rec_fecha)
   
     }else{
       this.msg.info('NO TIENE FINALIZADA LA RECEPCIÓN')
@@ -155,6 +205,17 @@ export class ListaComponent implements OnInit {
     this.modalGuia = false
   }
 
+  transformHora(newDate: any): any{
+    var hora = moment(newDate,'HH:mm:ss').format("HH");
+    var minuto = moment(newDate,'HH:mm:ss').format("mm");
+    var segundo = moment(newDate,'HH:mm:ss').format("ss");
+
+    let horas = hora + " : "+ minuto +" : "+segundo
+
+    return horas
+
+  }
+
   transformDate(newDate: any): any{
     var dia = moment(newDate,'YYYY-MM-DD').format("DD");
     var mes = moment(newDate,'YYYY-MM-DD').format("MMMM");
@@ -163,6 +224,15 @@ export class ListaComponent implements OnInit {
     let fecha = dia + " de "+ mes +" del "+anio
 
     return fecha
+  }
+
+  openModalRecepcion(guia: any){
+    this.modalRecepcion = true
+    this.itemGuiaInfo = guia
+  }
+
+  guardarRecepcion(){
+
   }
 
 

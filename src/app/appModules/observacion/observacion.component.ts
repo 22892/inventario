@@ -204,6 +204,7 @@ export class ObservacionComponent implements OnInit, AfterViewInit {
   isLoadingFoto: boolean = false
   verificaPuntoGrafica: boolean = false
   veh_codigo: any
+  cod_guia: any
 
   listCheckListAccesorio: any[] = []
   listChecRespuesta: any[] = []
@@ -241,6 +242,11 @@ export class ObservacionComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
 
     this.veh_codigo = this.rutaActiva.snapshot.paramMap.get('vin')
+    this.cod_guia = this.rutaActiva.snapshot.paramMap.get('guia')
+    console.log('cod  gioaaa');
+    console.log(this.cod_guia);
+    
+    
     this.getListGrupos()
     this.getListDocumentsVin()
     this.ancho = this.porcentaje(40)
@@ -467,7 +473,7 @@ export class ObservacionComponent implements OnInit, AfterViewInit {
       }
 
 
-      this.isLoadinCreateObs = true
+      //this.isLoadinCreateObs = true
 
       const formData = new FormData();
       var j=0
@@ -485,7 +491,9 @@ export class ObservacionComponent implements OnInit, AfterViewInit {
         formData.append('observaciones.observaciones['+j+'].obs_pos_y', item.obs_pos_y)
 
         item.file.forEach((doc: any)=>{
-          //console.log('iiiiiiiiiiiiiiiii');
+          console.log('iiiiiiiiiiiiiiiii');
+          console.log(doc);
+          
           formData.append("observaciones.observaciones[" + j + "].file", doc)
 
         })
@@ -522,7 +530,7 @@ export class ObservacionComponent implements OnInit, AfterViewInit {
             this.listCheckListAccesorio = []
             this.servicePedido.updateListAllVinMarca(this.serviceGlobal.getCodigoGuia())
             this.msg.success('Observaciones de Vin Realizadas');
-            this.router.navigate(['/pedido/lista']);
+            this.router.navigate([`/pedido/vins/${this.cod_guia}`]);
 
 
           }else{
@@ -624,12 +632,15 @@ export class ObservacionComponent implements OnInit, AfterViewInit {
       (d) => d.uid !== item.uid
     );
 
-    //console.log('foto eliminar');
+    this.listFoto = this.listFoto.filter(
+      (d) => d.uid !== item.uid
+    );
+
+    console.log('foto eliminar');
     //console.log(item);
 
     //console.log('revision-->');
     //console.log(this.listObservacionVin);
-
 
     for(var i=0; i<this.listObservacionVin.length; i++){
       if(this.listObservacionVin[i].cod_observacion == this.codObservacion){
@@ -674,7 +685,7 @@ export class ObservacionComponent implements OnInit, AfterViewInit {
   }
 
   cerrarModalFoto(){
-    this.isVisibleModalFoto == false;
+    this.isVisibleModalFoto = false;
   }
 
 
@@ -764,7 +775,7 @@ export class ObservacionComponent implements OnInit, AfterViewInit {
     this.dano$ = this.serviceObservacion.getListAllDano$()
 
     this.subdano = this.dano$.subscribe(p => {
-      ////console.log(p);
+      console.log(p);
 
       this.listDano = p.listDano
       this.cargandoDano = p.cargando

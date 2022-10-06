@@ -1847,7 +1847,7 @@ export class ListaComponent implements OnInit {
 
   ngOnInit(): void {
     this.listImagenesEstado = this.serviceGlobal.getListImagesEstado()
-    this.getListVins()
+    this.getListVins(this.codigo_guia)
     this.getListEstadosVin()
     this.desde = this.serviceGlobal.getFechaDesde();
     this.hasta = this.serviceGlobal.getFechaHasta();
@@ -2192,15 +2192,15 @@ export class ListaComponent implements OnInit {
   }
 
 
-  getListVins(){
+  getListVins(codigo_guia: any){
 
 
-    this.vin$ = this.servicePedido.getListAllVinMarca$(this.codigo_guia)
+    this.vin$ = this.servicePedido.getListAllVinMarca$(codigo_guia)
 
     this.sub = this.vin$.subscribe(p => {
 
-      //console.log('mmmmmmmmm');
-      //console.log(p);
+      console.log('vinsss x guiaaaaa------');
+      console.log(p);
 
 
       this.listVin = p.listVin
@@ -2538,7 +2538,7 @@ export class ListaComponent implements OnInit {
       if(this.cargandoReenviar == false){
         this.serviceSpiner.hide()
         this.msg.success('Datos Actualizados Curbe')
-        this.getListVins()
+        this.getListVins(this.codigo_guia)
         this.subReenvia.unsubscribe()
       }
 

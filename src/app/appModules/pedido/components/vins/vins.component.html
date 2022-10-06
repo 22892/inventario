@@ -1,0 +1,152 @@
+<nz-page-header class="site-page-header" nzBackIcon nzTitle="Listado Vins" [nzSubtitle]="subtitle" >
+    <ng-template #subtitle>
+
+        <nz-space>
+
+            <div  *nzSpaceItem>
+                <nz-input-group [nzSuffix]="suffixIconSearch">
+                    <input
+                      type="text"
+                      [(ngModel)]="buscarVins"
+                      nz-input
+                      placeholder="Buscar Vin "
+                      (ngModelChange) = "filtroBuscarVin()"
+                      (keyup.enter)="filtroBuscarVin()"
+                    />
+                  </nz-input-group>
+
+
+                  <ng-template #suffixIconSearch>
+                    <i (click)="filtroBuscarVin()" nz-icon nzType="search"></i>
+                  </ng-template>
+            </div>
+
+        </nz-space>
+
+    </ng-template>
+</nz-page-header>
+
+    <div class="steps-content">
+
+
+        <nz-table  #filterTable  [nzData]="listVin" nzTableLayout="fixed" [nzLoading]="cargandoVins">
+            <thead *ngIf="listVin.length > 0">
+              <tr>
+                <th 
+                  *ngFor="let column of listOfColumns"
+                  [nzSortOrder]="column.sortOrder"
+                  [nzSortFn]="column.sortFn"
+                  [nzSortDirections]="column.sortDirections"
+                  [nzFilterMultiple]="column.filterMultiple"
+                  [nzFilters]="column.listOfFilter"
+                  [nzFilterFn]="column.filterFn"
+                  [nzShowFilter]="column.filterFn ? true : false"
+                  [nzWidth]="column.width ? column.width : null"
+                  style="text-align: center; background-color: black; color: white; font-size: 13px;"
+                >
+                  {{ column.name }}
+                </th>
+              </tr>
+            </thead>
+
+            <tbody *ngIf="listVin.length > 0">
+                <tr *ngFor="let item of filterTable.data ; let $indexTable = index" style="font-size: 12px; text-align: center;">
+
+
+                    <td>
+                        <small>
+                            <nz-row  [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                                <nz-col style="text-align: center; margin-left: 10px; height: 50px;" class="gutter-row">
+
+                                    <ng-container *ngIf="item.veh_url_img_modelo; else noImage">
+                                        <img nz-image  style="object-fit: contain;"  width="50px" height="50px" [nzSrc]="item.veh_url_img_modelo" alt="" />
+
+                                    </ng-container>
+
+                                    <ng-template #noImage>
+                                        <img nz-image  style="object-fit: contain;"  width="40px" height="40px" nzSrc="../../../assets/images/no-photo.png" alt="" />
+
+                                    </ng-template>
+
+
+
+                                </nz-col>
+
+                            </nz-row>
+                            <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                                <nz-col style="margin-left: 12px;" class="gutter-row">
+                                    {{item.veh_cod_color_ext}}/{{item.veh_cod_color_int}}
+
+                                </nz-col>
+                            </nz-row>
+
+                        </small>
+                    </td>
+
+
+                    <td style="text-align: center;">
+                        <small>
+
+                            <nz-col class="gutter-row">
+                                <i nz-icon nzType="car" nzTheme="outline"></i>
+                            </nz-col>
+                            <nz-col class="gutter-row">
+                                {{item.veh_modelo}}
+                            </nz-col>
+
+
+                        </small>
+                    </td>
+                    <td>
+                        <small>
+                            {{item.veh_version}}
+                        </small>
+                    </td>
+                    <td>
+                        <small>
+                            {{item.veh_year_modelo}}
+                        </small>
+                    </td>
+                    <td>
+                        <small>
+                            {{item.veh_vin}}
+                        </small>
+                    </td>
+                    <td>
+                        <small>
+                            {{item.veh_motor}}
+                        </small>
+                    </td>
+
+                    <td>
+                        <small>
+
+                        </small>
+                    </td>
+                    <td>
+                        <small>
+
+                        </small>
+                    </td>
+
+                    <td>
+                        <ng-container *ngIf="item.veh_estado_observacion == 0; else tieneObservacion">
+                            <nz-avatar [nzIcon]="'check-circle'" [routerLink]="['/observacion', item.veh_vin, codigo_guia]" style="background:white;border: solid 1px #eb767e; color:#eb767e" [nzTooltipTitle]="'REALIZAR REVISIÓN VIN'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>
+                            <!--<nz-avatar [nzIcon]="'check-circle'"  style="background:white;border: solid 1px #eb767e; color:#eb767e" [nzTooltipTitle]="'FALTA REVISIÓN'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>-->
+                        </ng-container>
+
+                        <ng-template #tieneObservacion>
+                            <nz-avatar [nzIcon]="'check-circle'" style="background:white;border: solid 1px #18ff4a; color:#18ff4a" [nzTooltipTitle]="'REVISADO'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>
+                        </ng-template>
+
+
+                    </td>
+
+
+
+                </tr>
+            </tbody>
+        </nz-table>
+    </div>
+
+

@@ -16,6 +16,7 @@ export class GlobalserviceService {
   private marca: any = 0
   private listGuiasRemision: any[] = []
   private codigoGuia: any = 0
+  private usr_codigo: any
 
   listImagesEstados: any[] = [
     
@@ -40,6 +41,21 @@ export class GlobalserviceService {
 
     return this.listImagesEstados
 
+  }
+
+
+  getCodigoUsuario(): any{
+
+    let usuario: any = localStorage.getItem("usuario");
+    let user = JSON.parse(usuario)
+    return this.usr_codigo = user.usr_codigo
+    
+    
+  }
+
+
+  setCodigoUsuario(usr_codigo: any){
+    this.usr_codigo = usr_codigo
   }
 
   getCodigoMarca(): any{

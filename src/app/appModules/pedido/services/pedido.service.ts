@@ -194,7 +194,7 @@ export class PedidoService {
     this.vin$.next({ listVin: this.listVin, cargando: true, control: true });
     //console.log(`${this.baseUrl}api/vehiculo/getAllVehiculosMarca/${marca}/${0}/${gur_codigo}`);
 
-    this.http.get(`${this.baseUrl}api/vehiculo/getAllVehiculosMarca/${marca}/${226}/${gur_codigo}`,this.httpOptions).subscribe({
+    this.http.get(`${this.baseUrl}api/vehiculo/getVehiculoByGuia/${marca}/${cod_empresa}/${gur_codigo}`,this.httpOptions).subscribe({
       next: (data) => {
 
         this.vin$.next({ listVin: data, cargando: false, control: true});

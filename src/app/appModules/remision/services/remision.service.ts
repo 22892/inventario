@@ -94,7 +94,7 @@ export class RemisionService {
     this.listGuiaRemision = [];
     this.guia$.next({ listGuiaRemision: this.listGuiaRemision, cargando: true, control: true });
 
-    this.http.get(`${this.baseUrl}api/guia/getAllGuias/${marca}/${empresa}/${this.serviceAuth.user.usr_codigo}`,this.httpOptions).subscribe({
+    this.http.get(`${this.baseUrl}api/guia/getAllGuiasMovil/${marca}/${empresa}/${this.serviceAuth.user.usr_codigo}`,this.httpOptions).subscribe({
       next: (data) => {
 
         this.guia$.next({ listGuiaRemision: data, cargando: false, control: true});
@@ -106,6 +106,15 @@ export class RemisionService {
     });
 
   }
+
+
+
+  finalizarRecepcionVins(objetoRecepcion: any): Observable<any> {
+
+
+    return this.http.post(`${this.baseUrl}api/guia/finalizarEntrega`, objetoRecepcion, this.httpOptions);
+  }
+
 
 
 

@@ -13,16 +13,19 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { VinesComponent } from './components/vines/vines.component';
 import  {  PdfViewerModule  }  from  'ng2-pdf-viewer';
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import { RecepcionComponent } from './components/recepcion/recepcion.component';
+
 
 const routes: Routes = [
   { path: 'lista', component: ListaComponent },
   { path: 'vines', component: VinesComponent },
+  { path: 'recepcion/:guia', component: RecepcionComponent },
 
 ];
 
 
 @NgModule({
-  declarations: [ListaComponent,  SearchComponent, VinesComponent],
+  declarations: [ListaComponent,  SearchComponent, VinesComponent, RecepcionComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),

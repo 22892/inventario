@@ -31,6 +31,7 @@
     "ng2-pdf-viewer": "^9.0.0",
     "ngx-pagination": "^6.0.2",
     "rxjs": "~7.5.0",
+    "signature_pad": "^4.0.9",
     "tslib": "^2.3.0",
     "xlsx": "^0.18.5",
     "zone.js": "~0.11.4"

@@ -68,7 +68,8 @@ export class HomeComponent implements OnInit {
               next: (res) =>{
 
               //console.log(res);
-
+              console.log('validaaaaaa permisososos');
+              
               this.serviceAuth.setCredencialesUpdate(res);
               this.serviceAuth.getCredentials();
               this.validaPermisos(this.serviceAuth.user);
@@ -83,7 +84,7 @@ export class HomeComponent implements OnInit {
             })
 
           }else{
-            //console.log('donde entra----->>>>>>>>>>');
+            console.log('donde entra----->>>>>>>>>>');
 
             this.serviceAuth.getCredentials();
             this.validaPermisos(this.serviceAuth.user);
@@ -102,6 +103,8 @@ export class HomeComponent implements OnInit {
   }
 
   validaPermisos(user: any){
+    console.log('entrNNNNNNNN');
+    
     for (const permiso of user.misPermisos) {
       if(permiso.per_codigo===6){
         this.totalAccess=false;
@@ -142,7 +145,7 @@ export class HomeComponent implements OnInit {
   }
 
   getSelectNewEmpresa(item: any){
-    //console.log('empresa');
+    console.log('empresa');
     //console.log(item);
     this.serviceGlobal.setCodigoEmpresa(item.emp_codigo)
     this.empresaSelect = item

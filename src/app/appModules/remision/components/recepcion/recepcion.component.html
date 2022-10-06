@@ -1,0 +1,125 @@
+<nz-page-header class="site-page-header" nzBackIcon nzTitle="RECEPCIÓN DE VINS" >
+
+</nz-page-header>
+
+
+<div class="contenedor">
+
+    <nz-row  [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+
+        <nz-col nzSpan="6" class="gutter-row">
+    
+        </nz-col>
+    
+        <nz-col nzSpan="12" class="gutter-row">
+    
+            <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+    
+                <nz-col  nzSpan="8" class="gutter-row">
+                    <div class="tarjetaDetalleIcono">
+                        <fa-icon nzTooltipPlacement="top" nz-tooltip class="fa-3x" style="color: blue;"   [icon]="['fas', 'calendar-day']" ></fa-icon>
+                    </div>
+                </nz-col>
+    
+                <nz-col  nzSpan="5" class="gutter-row">
+                    <div>TRANSPORTE:</div>
+                    <div>CONDUCTOR:</div>
+                    <div>PLACA:</div>
+                </nz-col>
+    
+                <nz-col style="text-align: start;"  nzSpan="11" class="gutter-row">
+                    <div style="color: rgb(193, 193, 193);">Transporte Ortiz</div>
+                    <div style="color: rgb(193, 193, 193);">Juan Perez Angamarca</div>
+                    <div style="color: rgb(193, 193, 193);">PACT4235</div>
+                </nz-col>
+    
+            </nz-row>
+    
+            <nz-row  [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+    
+                <nz-col nzSpan="24" class="gutter-row">
+                    <p style="text-align: center; padding: 10px; color: blue;">FIRMAS DE RECEPCIÓN</p>
+    
+                </nz-col>
+    
+            </nz-row>
+    
+            <nz-row style="margin-bottom: 2%"  [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+    
+                <nz-col nzSpan="12" class="gutter-row">
+                    <nz-row  [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                        <div class="firmas">
+                           
+                            <canvas #firmaConductor width="260" height="100" style="touch-action: none;"></canvas>
+    
+                           
+                        </div>
+    
+                    </nz-row>
+                    <nz-row style="display: flex; justify-content: center; padding: 20px;" [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+    
+                        <div>
+                            CONDUCTOR
+                        </div>
+    
+                    </nz-row>
+                </nz-col>
+    
+                <nz-col nzSpan="12" class="gutter-row">
+                    <nz-row  [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                        <div class="firmas">
+                            
+                            <canvas #firmaRecepcion width="260" height="100" style="touch-action: none;"></canvas>
+    
+                        </div>
+    
+                    </nz-row>
+                    <nz-row style="display: flex; justify-content: center; padding: 20px;"  [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                        <div>RECEPCIÓN</div>
+                    </nz-row>
+    
+                </nz-col>
+    
+            </nz-row>
+
+            <nz-row  [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+
+                <textarea nz-input placeholder="DETALLE OBSERVACIÓN PARA RECEPCIÓN" [nzAutosize]="{ minRows: 3, maxRows: 5 }"  [(ngModel)]="observacion"></textarea>
+
+            </nz-row>
+
+            <nz-row style="padding: 20px;"  [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+
+                <nz-col  nzSpan="6" class="gutter-row">
+                   
+                </nz-col>
+
+                <nz-col  nzSpan="12" class="gutter-row">
+                    <nz-space>
+                        <button *nzSpaceItem nz-button [nzSize]="size" nzType="dashed" nzDanger (click)="limpiarFirmas()">LIMPIAR</button>
+                        <button *nzSpaceItem nz-button [nzSize]="size" nzType="dashed" nzDanger (click)="regresar()">REGRESAR</button>
+                        <button *nzSpaceItem nz-button [nzSize]="size" nzType="dashed" [nzLoading]="loadingRecepcion" (click)="generarRecepcion()" >RECEPCIÓN</button>
+    
+                    </nz-space>
+                </nz-col>
+
+                <nz-col  nzSpan="6" class="gutter-row">
+                   
+                </nz-col>
+
+            </nz-row>
+    
+    
+        </nz-col>
+    
+       
+    
+        <nz-col nzSpan="6" class="gutter-row">
+    
+        </nz-col>
+    </nz-row>
+    
+    
+
+</div>
+

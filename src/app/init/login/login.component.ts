@@ -75,12 +75,12 @@ export class LoginComponent implements OnInit {
       this.serviceAuth.loginUser(data).subscribe({
         next: (res) =>{
 
-          //console.log('loginnnnn');
+          console.log('loginnnnn');
 
-          //console.log(res);
+          console.log(res);
           usr.usrlogin.marca = res.usuario.usr_marca
           this.serviceAuth.setCredentials(res, usr)
-          this.router.navigate(['/remision/lista']);
+          this.validaInicioPagina(res.usuario.menusWeb)
           this.createNotification('success','Bienvenido','');
           this.cargando = false
 
@@ -99,6 +99,26 @@ export class LoginComponent implements OnInit {
     }
   }
 
+
+  
+  validaInicioPagina(menuWeb: any){
+    console.log('valigggg');
+   
+    for (const menu of menuWeb) {
+      if(menu.men_codigo===4){
+        this.router.navigate(['/remision/vines']);     
+        break;
+      }
+      if(menu.men_codigo===1){
+        this.router.navigate(['/remision/lista']);     
+        break;
+      }
+      if(menu.men_codigo===2 || menu.men_codigo===3){
+        this.router.navigate(['/usuario/lista']);     
+        break;
+      }
+    }
+  }
 
 
   openModalRecoverPassword(){
