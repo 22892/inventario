@@ -6,6 +6,7 @@ import { AuthService } from '../../core/auth.service'
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { GlobalserviceService } from '../../core/globalservice.service'
 import { PedidoService } from '../../appModules/pedido/services/pedido.service'
+import { RemisionService } from '../../appModules/remision/services/remision.service'
 
 @Component({
   selector: 'app-home',
@@ -51,7 +52,8 @@ export class HomeComponent implements OnInit {
     private serviceAuth: AuthService,
     private msg: NzMessageService,
     private serviceGlobal: GlobalserviceService,
-    private servicePedido: PedidoService) {
+    private servicePedido: PedidoService,
+    private serviceRemision: RemisionService) {
 
       this.baseUrl = baseUrl
 
@@ -145,11 +147,10 @@ export class HomeComponent implements OnInit {
   }
 
   getSelectNewEmpresa(item: any){
-    console.log('empresa');
-    //console.log(item);
+    
     this.serviceGlobal.setCodigoEmpresa(item.emp_codigo)
     this.empresaSelect = item
-    this.servicePedido.updateListaVins.next(true)
+    this.serviceRemision.updateListaRemision.next(true)
 
   }
 

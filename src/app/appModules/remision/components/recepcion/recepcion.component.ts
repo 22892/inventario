@@ -40,7 +40,7 @@ export class RecepcionComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    console.log('mmmmmmmm');
+    //console.log('mmmmmmmm');
     this.signaturePadE = new SignaturePad(this.signaturePadElement.nativeElement)
     this.signaturePadR = new SignaturePad(this.signaturePadElementR.nativeElement)
   }
@@ -56,8 +56,8 @@ export class RecepcionComponent implements OnInit, AfterViewInit {
 
   generarRecepcion(){
 
-    console.log('metodo reccion');
-    console.log(this.observacion);
+    //console.log('metodo reccion');
+    //console.log(this.observacion);
 
     if(this.signaturePadE.isEmpty() || this.signaturePadR.isEmpty()){
       this.msg.info('TIENE QUE REALIZAR LAS FIRMAS')
@@ -70,11 +70,9 @@ export class RecepcionComponent implements OnInit, AfterViewInit {
 
       var arrayFirmaConductor = this.urlConductor.split(',');
       var arrayFirmaRecepcion = this.urlRecepcion.split(',');
-
-
-      console.log('ararrra');
       
-      console.log(arrayFirmaConductor[0]);
+      //console.log('ararrra');
+      //console.log(arrayFirmaConductor[0]);
       
 
       var objetoRecepcion = {
@@ -86,13 +84,13 @@ export class RecepcionComponent implements OnInit, AfterViewInit {
         rec_firma_recepcion: arrayFirmaRecepcion[1]
       }
 
-      console.log(objetoRecepcion);
+      //console.log(objetoRecepcion);
       this.loadingRecepcion = true
 
       this.serviceRemision.finalizarRecepcionVins(objetoRecepcion).subscribe({
         next: (data) => {
           
-          console.log(data);
+          //console.log(data);
           
           this.msg.success('RECEPCIÓN FINALIZADA')
           this.signaturePadE.clear()

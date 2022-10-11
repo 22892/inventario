@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute} from '@angular/router';
+import { ActivatedRoute, Router} from '@angular/router';
 import { Observable} from 'rxjs';
 import { PedidoService } from '../../services/pedido.service';
 import {NzTableFilterFn, NzTableFilterList, NzTableSortFn, NzTableSortOrder } from 'ng-zorro-antd/table';
@@ -114,29 +114,7 @@ export class VinsComponent implements OnInit {
        filterFn: null,
      
      },
-     {
-       width:'40px',
-       name: 'Consecionario',
-       sortOrder: null,
-       sortFn: null,
-       sortDirections: [],
-       filterMultiple: true,
-       listOfFilter:[],
-       filterFn: null,
-      
-     },
- 
-     {
-       width:'40px',
-       name: 'Vitrina',
-       sortOrder: null,
-       sortFn: null,
-       sortDirections: [],
-       filterMultiple: true,
-       listOfFilter:[],
-       filterFn: null,
-      
-     },
+    
  
      {
       width:'40px',
@@ -166,6 +144,7 @@ export class VinsComponent implements OnInit {
 
   constructor(private rutaActiva: ActivatedRoute,
     private servicePedido: PedidoService,
+    private router: Router,
     ) {
 
     this.codigo_guia = this.rutaActiva.snapshot.paramMap.get('guia')
@@ -182,6 +161,7 @@ export class VinsComponent implements OnInit {
 
   inicio(){
 
+    this.router.navigate(['/remision/lista']);
   }
 
   getListVins(){
@@ -191,10 +171,8 @@ export class VinsComponent implements OnInit {
 
     this.sub = this.vin$.subscribe(p => {
 
-      console.log('vinsss x guiaaaaa------');
-      console.log(p);
-
-
+      //console.log('vinsss x guiaaaaa------');
+      //console.log(p);
       this.listVin = p.listVin
       this.listVinAux = p.listVin
       this.cargandoVins = p.cargando

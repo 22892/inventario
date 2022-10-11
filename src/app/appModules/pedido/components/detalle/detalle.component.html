@@ -275,7 +275,7 @@
                                                                                         <div nz-row  [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
                                                     
                                                                                             <div nz-col nzSpan="12" class="gutter-row">
-                                                        
+                                                                                                
                                                                                             </div>
                                                         
                                                                                             <div nz-col nzSpan="12" class="gutter-row">
@@ -288,13 +288,21 @@
                                                                                     </ng-container>
                                                     
                                                                                     <div nz-row  [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
-                                                    
+
+                                                                                        <div nz-col nzSpan="6" class="gutter-row">
+                                                                                           
+                                                                                        </div>
+
                                                                                         <div nz-col nzSpan="12" class="gutter-row">
-                                                                                            <canvas #sigPad width="{{ancho}}" height="{{alto}}" ></canvas>
+                                                                                            <canvas #sigPad width="{{ancho}}" height="{{alto}}" (click)="getInfoVin($event)" ></canvas>
                                                         
                                                                                         </div>
                                                     
-                                                                                        <div nz-col nzSpan="12" class="gutter-row">
+                                                                                        <div nz-col nzSpan="6" class="gutter-row">
+                                                                                           
+                                                                                        </div>
+                                                    
+                                                                                        <!--<div nz-col nzSpan="12" class="gutter-row">
                                                     
                                                                                             <ng-container *ngIf="listObservacionVin">
                                                     
@@ -382,7 +390,7 @@
                                                         
                                                         
                                                                                             </ng-container>
-                                                                                        </div>
+                                                                                        </div>-->
                                                         
                                                         
                                                     
@@ -485,9 +493,6 @@
                                                                         </nz-row>
                                     
                                                                     </ng-template>
-                                                    
-                                    
-                                    
                                     
                                                                 </div>
                                     
@@ -640,6 +645,130 @@
     </ng-template>
 </nz-modal>
 
+
+
+
+<nz-modal nzWrapClassName="vertical-center-modal" nzWidth="700px" [(nzVisible)]="modalObservacion"
+    nzTitle="OBSERVACIÓN VIN" (nzOnCancel)="modalObservacion = false" (nzOnOk)="cerrarModalObs()">
+    <ng-template nzModalContent class="steps-content">
+
+        <div class="steps-content">
+            <nz-row>
+                <nz-col nzSpan="24">
+
+                    <table >
+
+                        <thead>
+                            <tr >
+                                <th scope="col">Daño</th>
+                                <th scope="col">Tamaño</th>
+                                <th scope="col">Parte</th>
+                               
+                            </tr>
+        
+    
+                        </thead>
+    
+                        <tbody>
+                            <tr>
+                              <td>
+
+                                <nz-row>
+                                    <nz-col nzSpan="6">
+
+                                        <ng-container *ngIf="itemInfoObservacion.dano.dan_nombre_ico; else noIcono" >
+                                            <fa-icon class="fa-1x" [icon]="['fas', itemInfoObservacion.dano.dan_nombre_ico]"></fa-icon>
+                                        </ng-container>
+                                        <ng-template #noIcono>
+                                            <fa-icon class="fa-1x" [icon]="['fas', 'arrow-alt-circle-right']"></fa-icon>
+                                        </ng-template>
+
+                                    </nz-col>
+                                    <nz-col nzSpan="18">
+
+                                        {{itemInfoObservacion.dano.dan_nombre}}
+
+                                    </nz-col>
+                                </nz-row>
+
+
+                              </td>
+                              <td>
+
+                                <nz-row>
+                                    <nz-col style="text-align: center;" nzSpan="6">
+
+                                        <ng-container *ngIf="itemInfoObservacion.tamano.tam_nombre_ico; else noIcono" >
+                                            <fa-icon class="fa-1x" [icon]="['fas', itemInfoObservacion.tamano.tam_nombre_ico]"></fa-icon>
+                                        </ng-container>
+                                        <ng-template #noIcono>
+                                            <fa-icon class="fa-1x" [icon]="['fas', 'arrow-alt-circle-right']"></fa-icon>
+                                        </ng-template>
+        
+
+                                    </nz-col>
+                                    <nz-col nzSpan="18">
+
+                                        {{itemInfoObservacion.tamano.tam_nombre}}
+
+
+
+                                    </nz-col>
+                                </nz-row>
+
+
+                              </td>
+                              <td>
+
+                                <nz-row>
+                                    <nz-col style="text-align: center;" nzSpan="6">
+
+                                        <ng-container *ngIf="itemInfoObservacion.parte.gparte.grp_nombre_ico; else noIcono" >
+                                            <fa-icon class="fa-1x" [icon]="['fas', itemInfoObservacion.parte.gparte.grp_nombre_ico]"></fa-icon>
+                                        </ng-container>
+                                        <ng-template #noIcono>
+                                            <fa-icon class="fa-1x" [icon]="['fas', 'arrow-alt-circle-right']"></fa-icon>
+                                        </ng-template>
+        
+
+                                    </nz-col>
+                                    <nz-col nzSpan="18">
+
+                                        {{itemInfoObservacion.parte.gparte.grp_nombre}}
+
+
+                                    </nz-col>
+                                </nz-row>
+
+                              </td>
+                             
+                            </tr>
+                        </tbody>
+    
+
+                    </table>
+
+                    
+                </nz-col>
+            </nz-row>
+
+            <nz-row style="padding-top: 10px;">
+                <nz-col nzSpan="24">
+
+                    <nz-carousel nzAutoPlay>
+                        <div nz-carousel-content *ngFor="let item of listObservacionVinFoto">
+                         
+                          <img style="object-fit: contain;" [src]="baseUrl + item.documento.doc_url" alt="" width="100%"
+                                                    height="100%">
+                        </div>
+                    </nz-carousel>
+
+                </nz-col>
+            </nz-row>
+
+        </div>
+    </ng-template>
+</nz-modal>
 
 
 

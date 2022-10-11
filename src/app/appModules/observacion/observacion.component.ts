@@ -243,8 +243,8 @@ export class ObservacionComponent implements OnInit, AfterViewInit {
 
     this.veh_codigo = this.rutaActiva.snapshot.paramMap.get('vin')
     this.cod_guia = this.rutaActiva.snapshot.paramMap.get('guia')
-    console.log('cod  gioaaa');
-    console.log(this.cod_guia);
+    //console.log('cod  gioaaa');
+    //console.log(this.cod_guia);
     
     
     this.getListGrupos()
@@ -365,7 +365,7 @@ export class ObservacionComponent implements OnInit, AfterViewInit {
         } else {
           //console.log('nooooooooooooooooooo');
         }*/
-      }, 50);
+      }, 60);
     }
   }
 
@@ -636,7 +636,7 @@ export class ObservacionComponent implements OnInit, AfterViewInit {
       (d) => d.uid !== item.uid
     );
 
-    console.log('foto eliminar');
+    //console.log('foto eliminar');
     //console.log(item);
 
     //console.log('revision-->');
@@ -775,7 +775,7 @@ export class ObservacionComponent implements OnInit, AfterViewInit {
     this.dano$ = this.serviceObservacion.getListAllDano$()
 
     this.subdano = this.dano$.subscribe(p => {
-      console.log(p);
+      //console.log(p);
 
       this.listDano = p.listDano
       this.cargandoDano = p.cargando

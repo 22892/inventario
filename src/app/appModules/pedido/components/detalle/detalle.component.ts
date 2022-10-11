@@ -188,6 +188,14 @@ export class DetalleComponent implements OnInit, AfterViewInit {
 
   listImagenesEstado: any
 
+  ejex: any
+  ejey: any
+
+  listPuntoDibujados: any[] = []
+  modalObservacion: boolean = false
+  indexPunto: number = 0
+  itemInfoObservacion: any
+
   constructor(@Inject('BASE_URL') baseUrl: string,
     private servicePedido: PedidoService,
     private router: Router,
@@ -278,12 +286,22 @@ export class DetalleComponent implements OnInit, AfterViewInit {
 
   }
 
+  private relativeCoords(event: any) {
+
+    const bounds = event.target.getBoundingClientRect();
+    const x = event.clientX - bounds.left;
+    const y = event.clientY - bounds.top;
+    return { x: x, y: y };
+  }
+
+
 
   paintPointObservacion(){
 
     //console.log('llega observaciones');
-
     //console.log(this.listObservacionVin);
+    this.listPuntoDibujados = []
+
 
     if(this.listObservacionVin.length>0){
 
@@ -295,6 +313,15 @@ export class DetalleComponent implements OnInit, AfterViewInit {
           let aux = (obs.obs_pos_x * this.ancho) / 100
           let auy = (obs.obs_pos_y * this.alto) / 100
 
+          //console.log('intate');
+          
+          let puntos={
+            xp: aux,
+            yp: auy
+          }
+          
+          this.listPuntoDibujados.push(puntos)
+         
           this.context.beginPath();
           this.context.fillStyle = 'red';
           this.context.strokeStyle = 'black';
@@ -312,6 +339,33 @@ export class DetalleComponent implements OnInit, AfterViewInit {
 
   }
 
+
+  getInfoVin(e: any){
+    
+    this.indexPunto = 0
+    const coords = this.relativeCoords(e);
+
+
+    for (const p of this.listPuntoDibujados) {
+      this.indexPunto ++
+      if(Math.pow(coords.x-p.xp,2)+Math.pow(coords.y-p.yp,2) < Math.pow(10,2))   {
+        
+        this.modalObservacion = true
+        
+        break;
+      }
+
+    }
+
+    this.itemInfoObservacion = this.listObservacionVin[this.indexPunto - 1 ]
+    this.listObservacionVinFoto = this.itemInfoObservacion.listaDocumentos
+
+  }
+
+
+  cerrarModalObs(){
+    this.modalObservacion = false
+  }
 
   getDetalleEstadoVin(veh_codigo: any){
 

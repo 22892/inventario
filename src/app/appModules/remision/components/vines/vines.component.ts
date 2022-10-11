@@ -549,33 +549,7 @@ export class VinesComponent implements OnInit {
       color2: 'white',
       colnum: '1'
     },
-    {
-      width:'40px',
-      name: 'Consecionario',
-      sortOrder: null,
-      sortFn: null,
-      sortDirections: [],
-      filterMultiple: true,
-      listOfFilter:[],
-      filterFn: null,
-      color: 'black',
-      color2: 'white',
-      colnum: '1'
-    },
-
-    {
-      width:'40px',
-      name: 'Vitrina',
-      sortOrder: null,
-      sortFn: null,
-      sortDirections: [],
-      filterMultiple: true,
-      listOfFilter:[],
-      filterFn: null,
-      color: 'black',
-      color2: 'white',
-      colnum: '1'
-    },
+   
 
     {
       width:'50px',
@@ -1774,6 +1748,7 @@ export class VinesComponent implements OnInit {
   indexExcel = 1
 
   vin: any
+  cargandoPdf: boolean = false
 
 
   constructor(private msg: NzMessageService,
@@ -1821,15 +1796,15 @@ export class VinesComponent implements OnInit {
       this.desde = new Date()
       this.hasta = new Date()
 
-      this.servicePedido.updateListaVins.subscribe( value => {
+      /*this.servicePedido.updateListaVins.subscribe( value => {
 
         if(value == true){
-          //console.log('Activa Vins');
+          console.log('Activa Vins');
 
           this.servicePedido.updateListAllVinMarca(this.codigo_guia)
         }
 
-      })
+      })*/
 
       this.codigo_guia = this.rutaActiva.snapshot.paramMap.get('guia')
       //console.log('parametros');
@@ -2196,23 +2171,19 @@ export class VinesComponent implements OnInit {
     this.sub = this.vin$.subscribe(p => {
 
       //console.log('VINES TOTALES: ');
-      console.log(p);
-
-
+      //console.log(p);
       this.listVin = p.listVin
       this.listVinAux = p.listVin
       //this.control = p.control
-
       this.cargarPedido = p.cargando
 
       if(this.cargarPedido == false){
-
-
-
         if(this.control){
 
           this.listVin.forEach((item, index)=>{
 
+            item.cargandoPDF = false
+            item.index = index
             if(item.veh_estado_subir_curbe == 1){
               item.estado_curbe = true
             }else{
@@ -2235,15 +2206,11 @@ export class VinesComponent implements OnInit {
 
                 })
 
-               
-
               }
 
               est.averias = total
 
             }) 
-
-
           })
 
           this.control = false
@@ -2254,8 +2221,6 @@ export class VinesComponent implements OnInit {
 
       //console.log('lista vin');
       //console.log(this.listVin);
-
-
 
     });
 
@@ -2603,14 +2568,20 @@ export class VinesComponent implements OnInit {
     this.isModalPedf = false
   }
 
-  descargarPDF(vin: any) {
+  descargarPDF(vin: any, index: any) {
+
+    //console.log('mmmmmm');
+    //console.log(this.listVin);
+    this.listVin[index].cargandoPDF = true
     this.servicePedido.downloadPDFRecepcion(vin).subscribe({
       next: (data) =>{
         console.log(data);
-        
+        this.listVin[index].cargandoPDF = false
         saveAs(data, 'Reporte Recepción');
+        
       },
       error: (err) =>{
+        this.listVin[index].cargandoPDF = false
         this.msg.error('PROBLEMAS AL DESCARGAR PDF '+err.message)
       }
 

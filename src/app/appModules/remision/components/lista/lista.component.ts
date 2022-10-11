@@ -8,6 +8,7 @@ import 'moment/locale/es';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzSegmentedOption } from 'ng-zorro-antd/segmented';
 
+
 @Component({
   selector: 'app-lista',
   templateUrl: './lista.component.html',
@@ -16,20 +17,26 @@ import { NzSegmentedOption } from 'ng-zorro-antd/segmented';
 export class ListaComponent implements OnInit {
 
 
-  listGuiaRemision: any[] = []
-  listFinalizda: any [] = []
-  listPendiente: any [] = []
 
 
   desde!: Date;
   hasta!: Date;
   mode = 'date';
 
-  //listGuiaRemision: any[] = []
   listGuiaRemisionAux: any[] = []
-  guia$!: Observable<any>;
-  cargandoRemision: boolean = false
-  sub: any
+
+
+  listGuiaPendiente: any[] = []
+  guiapendiente$!: Observable<any>;
+  cargandoPendientes: boolean = false
+  subPendiente: any
+
+  listGuiaFinalizada: any[] = []
+  guiafinalizada$!: Observable<any>;
+  cargandoFinalizado: boolean = false
+  subFinaliza: any
+
+
   buscarGuia: any
   p: number = 1;
   codigo_guia: any
@@ -66,39 +73,55 @@ export class ListaComponent implements OnInit {
     }
   ];
 
+  tipoLista: number = 0
+  listGuiaPendienteAux: any[] = []
+  listGuiaFinalizadaAux: any[] = []
+
   
 
   constructor(private serviceRemision: RemisionService,
     private serviceGlobal: GlobalserviceService,
     private router: Router,
     private msg: NzMessageService,
+   
+
     @Inject('BASE_URL') baseUrl: string,) {
 
       this.baseUrl = baseUrl
+
+      this.serviceRemision.updateListaRemision.subscribe( value => {
+
+        if(value == true){
+
+         
+          //console.log('codigo cambiando');
+          //console.log(this.serviceGlobal.getCodigoEmpresa());
+          
+          const fecha = new Date();
+          const anioActual = fecha.getFullYear();
+          const mesActual = fecha.getMonth() + 1; 
+
+          this.getListRemisionFinalizadas(mesActual,anioActual)
+          this.getListRemisionPendientes()
+        }
+
+      })
 
   }
 
 
 
   ngOnInit(): void {
-    this.getListRemisionVins()
-
-
-  }
-
-
-  onMouseMove(e: any) {
-    console.log('mousssssssssssss');
     
-  }
-
-
-  selectTipoLista(event: any){
+    const fecha = new Date();
+    const anioActual = fecha.getFullYear();
+    const mesActual = fecha.getMonth() + 1; 
+    this.getListRemisionFinalizadas(mesActual,anioActual)
+    this.getListRemisionPendientes()
 
   }
 
   inicio(){
-
 
     this.router.navigate(['/remision/lista'])
 
@@ -106,10 +129,24 @@ export class ListaComponent implements OnInit {
 
   filtroBuscarGuia(){
     if (this.buscarGuia == '' || this.buscarGuia == null) {
-      this.listGuiaRemision = this.listGuiaRemisionAux
+      if(this.tipoLista == 0){
+        this.listGuiaPendiente = this.listGuiaPendienteAux
+      }
+      if(this.tipoLista == 1){
+        this.listGuiaFinalizada = this.listGuiaFinalizadaAux
+      }
+
     }else{
 
-      this.listGuiaRemision = this.listGuiaRemisionAux.filter((item: any) => item.gur_nombre.toUpperCase().replace(/ /g, '').indexOf(this.buscarGuia.toUpperCase().replace(/ /g, '')) !== -1  );
+      if(this.tipoLista == 0){
+        this.listGuiaPendiente = this.listGuiaPendienteAux.filter((item: any) => item.gur_nombre.toUpperCase().replace(/ /g, '').indexOf(this.buscarGuia.toUpperCase().replace(/ /g, '')) !== -1  );
+
+      }
+      if(this.tipoLista == 1){
+        this.listGuiaFinalizada = this.listGuiaFinalizadaAux.filter((item: any) => item.gur_nombre.toUpperCase().replace(/ /g, '').indexOf(this.buscarGuia.toUpperCase().replace(/ /g, '')) !== -1  );
+
+      }
+
 
     }
 
@@ -125,52 +162,67 @@ export class ListaComponent implements OnInit {
   }
 
   reloadGuias(){
-    this.getListRemisionVins()
+    
+  }
+
+  pestanaItem(index: any){
+    //console.log('indexxx');
+    //console.log(index);
+    this.tipoLista = index
+    this.buscarGuia = ""
+    this.listGuiaPendiente = this.listGuiaPendienteAux
+    this.listGuiaFinalizada = this.listGuiaFinalizadaAux
+    
   }
 
 
-  getListRemisionVins(){
+  getListRemisionPendientes(){
 
+    this.guiapendiente$ = this.serviceRemision.getListAllRemisionPendiente$()
 
-    this.guia$ = this.serviceRemision.getListAllRemision$()
+    this.subPendiente = this.guiapendiente$.subscribe(p => {
 
-    this.sub = this.guia$.subscribe(p => {
+      //console.log(p);
 
-      console.log(p);
+      this.listGuiaPendiente = p.listGuiaPendiente
+      this.listGuiaPendienteAux = p.listGuiaPendiente
+      this.cargandoPendientes = p.cargando
 
-      this.listGuiaRemision = p.listGuiaRemision
-      this.listGuiaRemisionAux = p.listGuiaRemision
-      this.cargandoRemision = p.cargando
-
-      if(this.cargandoRemision == false){
-
-        /*if(this.control){
-          this.listGuiaRemision.forEach((item: any, index: any)=>{
-            
-            item.gur_fecha = this.transformDate(item.gur_fecha)
-
-          })
-        }
-        this.control = false*/
-
-        this.listGuiaRemision.forEach((item: any, index: any)=>{
-            
-          if(item.recepcion != null && item.pendientes === false){
-            this.listFinalizda.push(item)
-          }else{
-            this.listPendiente.push(item)
-          }
-
-        })
-
-
-        this.sub.unsubscribe()
-
+      if(this.cargandoPendientes == false){
+        this.subPendiente.unsubscribe()
       }
 
     });
 
   }
+
+
+
+
+
+  getListRemisionFinalizadas(mes: number, anio: number){
+
+    this.guiafinalizada$ = this.serviceRemision.getListAllRemisionFinalizada$(mes, anio)
+
+    this.subFinaliza = this.guiafinalizada$.subscribe(p => {
+
+      //console.log(p);
+
+      this.listGuiaFinalizada = p.listGuiaFinalizada
+      this.listGuiaFinalizadaAux = p.listGuiaFinalizada
+      
+      this.cargandoFinalizado = p.cargando
+
+      if(this.cargandoFinalizado == false){
+        this.subFinaliza.unsubscribe()
+      }
+
+    });
+
+  }
+
+
+
 
   irListaVins(codigo_guia: number){
 

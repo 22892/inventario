@@ -50,7 +50,7 @@
 </nz-page-header>
 
 
-<ng-container *ngIf="cargandoRemision; else NoDatoCargados">
+<ng-container *ngIf="cargandoFinalizado && cargandoPendientes; else NoDatoCargados">
 
     <div class="loader" id="loader">Loading...</div>
 
@@ -65,7 +65,7 @@
     <div class="contenedorPrincipal">
 
 
-        <nz-tabset [(nzSelectedIndex)]="index"  nzType="card"
+        <nz-tabset [(nzSelectedIndex)]="index" (nzSelectedIndexChange)="pestanaItem(index)" nzType="card"
             nzSize="large">
             <nz-tab *ngFor="let tab of tabs" [nzTitle]="titleTemplate" nzType="card">
                 <ng-template #titleTemplate>
@@ -92,8 +92,25 @@
                                 </pagination-controls>
             
                             </nz-row>
+
+                            <div nz-row *ngIf="listGuiaPendiente.length == 0 && !cargandoPendientes">
+                                <div nz-col nzSpan="24">
+                
+                                  <nz-empty
+                                    nzNotFoundImage="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg" [nzNotFoundContent]="contentTpl"
+                                    [nzNotFoundFooter]="footerTpl">
+                                    <ng-template #contentTpl>
+                                      <span>NO EXISTE GUIAS PENDIENTES</span>
+                                    </ng-template>
+                                    <ng-template #footerTpl>
+                                    </ng-template>
+                                  </nz-empty>
+                
+                                </div>
+                            </div>
+
             
-                            <div class="tarjeta" *ngFor="let guia of listPendiente | paginate: { itemsPerPage: 2, currentPage: p }">
+                            <div class="tarjeta" *ngFor="let guia of listGuiaPendiente | paginate: { itemsPerPage: 4, currentPage: p }">
             
                                 <nz-row style="margin-bottom: 1%;" [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
                                     <nz-col style="text-align: start;" class="gutter-row" nzSpan="12">
@@ -245,8 +262,25 @@
                                 </pagination-controls>
             
                             </nz-row>
+
+                            <div nz-row *ngIf="listGuiaFinalizada.length == 0 && !cargandoFinalizado">
+                                <div nz-col nzSpan="24">
+                
+                                  <nz-empty
+                                    nzNotFoundImage="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg" [nzNotFoundContent]="contentTpl"
+                                    [nzNotFoundFooter]="footerTpl">
+                                    <ng-template #contentTpl>
+                                      <span>NO EXISTE GUIAS FINALIZADAS</span>
+                                    </ng-template>
+                                    <ng-template #footerTpl>
+                                    </ng-template>
+                                  </nz-empty>
+                
+                                </div>
+                            </div>
+
             
-                            <div class="tarjeta" *ngFor="let guia of listFinalizda | paginate: { itemsPerPage: 4, currentPage: p }">
+                            <div class="tarjeta" *ngFor="let guia of listGuiaFinalizada | paginate: { itemsPerPage: 4, currentPage: p }">
             
                                 <nz-row style="margin-bottom: 1%;" [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
                                     <nz-col style="text-align: start;" class="gutter-row" nzSpan="12">

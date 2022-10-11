@@ -2199,8 +2199,8 @@ export class ListaComponent implements OnInit {
 
     this.sub = this.vin$.subscribe(p => {
 
-      console.log('vinsss x guiaaaaa------');
-      console.log(p);
+      //console.log('vinsss x guiaaaaa------');
+      //console.log(p);
 
 
       this.listVin = p.listVin

@@ -93,6 +93,51 @@ nz-list-item:hover {
 }
 
 
+//TABLA DE INFORMACION PARA CADA OBSERVACION
+
+
+table {
+  width: 100%;
+  border: 1px solid #000;
+}
+th, td {
+  width: 15%;
+  text-align: left;
+  vertical-align: top;
+  border: 1px solid #000;
+  border-collapse: collapse;
+  padding: 0.3em;
+  caption-side: bottom;
+}
+caption {
+  padding: 0.3em;
+  color: #fff;
+   background: #000;
+}
+th {
+  background: #eee;
+}
+
+
+//LISTA DE IMAGENES POR CADA OBSERVACION
+
+[nz-carousel-content] {
+  text-align: center;
+  height: 160px;
+  line-height: 160px;
+  background: #edeeef;
+  color: #fff;
+  overflow: hidden;
+}
+
+h3 {
+  color: #fff;
+  margin-bottom: 0;
+  user-select: none;
+}
+
+
+//CARGANDO DE LA PAGINA PRINCIPAL
 
 .loader {
   font-size: 20px;
