@@ -130,7 +130,10 @@
                                                     <nz-card class="tarjetaDano" (click)="selectDano(dano, $index)" [class.selected]="dano === indexDano">
                                                 
                                                         <div style="text-align: center; align-items: center; align-self: center; align-content: center; color: #1890ff;">
-                                                            <fa-icon class="fa-3x" [icon]="['fas', dano.dan_nombre_ico]"></fa-icon>
+                                                            <ng-container *ngIf="dano.dan_nombre_ico != null">
+                                                                <fa-icon class="fa-3x" [icon]="['fas', dano.dan_nombre_ico]"></fa-icon>
+
+                                                            </ng-container>
                                                         </div>
 
                                                         <div style="text-align: center; align-items: center; align-self: center; align-content: center;" >

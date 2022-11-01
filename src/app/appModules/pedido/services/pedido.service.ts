@@ -211,8 +211,8 @@ export class PedidoService {
     let marca = this.serviceGlobal.getCodigoMarca()
     let cod_empresa = this.serviceGlobal.getCodigoEmpresa()
 
-    console.log('tokrnnnnnnnnnnnnnnn');
-    console.log(this.httpOptions);
+    //console.log('tokrnnnnnnnnnnnnnnn');
+    //console.log(this.httpOptions);
 
 
     this.listVin = [];

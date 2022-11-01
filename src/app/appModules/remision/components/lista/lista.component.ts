@@ -214,6 +214,9 @@ export class ListaComponent implements OnInit {
       this.cargandoFinalizado = p.cargando
 
       if(this.cargandoFinalizado == false){
+        this.listGuiaFinalizada.forEach(item =>{
+          item.click = false
+        })
         this.subFinaliza.unsubscribe()
       }
 
@@ -237,19 +240,26 @@ export class ListaComponent implements OnInit {
   }
 
   modalInfoGuia(guia: any){
-    //console.log('modaaaaaaaaaaaaaaaaaaaa');
+
     console.log(guia);
-
+    
     if(guia.recepcion != null){
-      this.modalGuia = true
-
+     
       this.itemGuia = guia.recepcion
-      this.itemGuia.rec_fecha =  this.transformDate(this.itemGuia.rec_fecha)
-      this.itemGuia.rec_hora = this.transformHora(this.itemGuia.rec_fecha)
+     
+      if(guia.click == false){
+        this.itemGuia.rec_fecha =  this.transformDate(this.itemGuia.rec_fecha)
+        this.itemGuia.rec_hora = this.transformHora(this.itemGuia.rec_fecha)
+        guia.click = true
   
+      }
+      this.modalGuia = true
+      
     }else{
       this.msg.info('NO TIENE FINALIZADA LA RECEPCIÓN')
     }
+
+    
 
   }
 

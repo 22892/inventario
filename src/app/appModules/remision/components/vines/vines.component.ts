@@ -2171,7 +2171,7 @@ export class VinesComponent implements OnInit {
     this.sub = this.vin$.subscribe(p => {
 
       //console.log('VINES TOTALES: ');
-      //console.log(p);
+      console.log(p);
       this.listVin = p.listVin
       this.listVinAux = p.listVin
       //this.control = p.control
@@ -2570,9 +2570,13 @@ export class VinesComponent implements OnInit {
 
   descargarPDF(vin: any, index: any) {
 
-    //console.log('mmmmmm');
-    //console.log(this.listVin);
+   
+    if(this.listVin.length == 1){
+      index = 0
+    }
+    
     this.listVin[index].cargandoPDF = true
+    
     this.servicePedido.downloadPDFRecepcion(vin).subscribe({
       next: (data) =>{
         console.log(data);

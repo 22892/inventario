@@ -775,7 +775,7 @@ export class ObservacionComponent implements OnInit, AfterViewInit {
     this.dano$ = this.serviceObservacion.getListAllDano$()
 
     this.subdano = this.dano$.subscribe(p => {
-      //console.log(p);
+      console.log(p);
 
       this.listDano = p.listDano
       this.cargandoDano = p.cargando
