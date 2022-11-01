@@ -1866,7 +1866,7 @@ export class VinesComponent implements OnInit {
 
 
   inicio(){
-    this.router.navigate(['/remision/lista'])
+    this.router.navigate(['/remision/vines'])
     this.estadoExcel = false
   }
 
