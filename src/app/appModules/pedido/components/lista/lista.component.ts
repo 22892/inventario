@@ -1713,6 +1713,7 @@ export class ListaComponent implements OnInit {
 
 
 
+  listAux: any[] = [];
   listVinAux: any[] = [];
   //listVin: any[] = [{veh_url_img_modelo: '', veh_cod_color_ext: 'HGT', veh_cod_color_int: 'NUYT', veh_modelo: 'HUNFAI', veh_version: 'CRETA', veh_anio: '2013', veh_vin:'HYGHGFVFGFGHG', veh_motor: 'hGGG',
   //estadoActual:{est_nombre: 'Nuevo'}  }];
@@ -2253,7 +2254,7 @@ export class ListaComponent implements OnInit {
 
   getListVinsFecha(){
 
-    this.vin$ = this.servicePedido.getAllVinsFechas$()
+    this.vin$ = this.servicePedido.getAllVinsFechas$(0)
     this.controlFecha = true
     this.sub = this.vin$.subscribe(p => {
 

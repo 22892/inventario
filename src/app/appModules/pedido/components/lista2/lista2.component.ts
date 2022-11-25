@@ -1955,7 +1955,7 @@ export class Lista2Component implements OnInit {
 
   getListVinsFecha(){
 
-    this.vin$ = this.servicePedido.getAllVinsFechas$()
+    this.vin$ = this.servicePedido.getAllVinsFechas$(0)
     this.controlFecha = true
     this.sub = this.vin$.subscribe(p => {
 

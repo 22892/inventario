@@ -1206,7 +1206,7 @@
           </nz-table>-->
 
 
-          <nz-table #filterTable [nzData]="listVin" nzBordered nzSize="middle" nzTableLayout="fixed"
+          <nz-table #filterTable [nzData]="listVin" nzBordered nzSize="middle" nzTableLayout="fixed"  (nzPageIndexChange)="cargarMasDatos($event)"
                   [nzLoading]="cargarPedido" [nzFrontPagination]="true" [nzScroll]="{ x: '2000px' }" nzSize="middle" nzBordered>
                   <thead *ngIf="listVin.length > 0">
 

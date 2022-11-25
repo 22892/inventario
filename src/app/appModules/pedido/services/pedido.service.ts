@@ -263,10 +263,10 @@ export class PedidoService {
   }
 
 
-  getAllVinsFechas$(): Observable<any>{
+  getAllVinsFechas$(codigo: number): Observable<any>{
 
 
-    this.getListVinByFecha();
+    this.getListVinByFecha(codigo);
 
     this.vinFecha$.subscribe((x)=>{
       x.control = true
@@ -277,14 +277,15 @@ export class PedidoService {
     return this.vinFecha$.asObservable();
   }
 
-  getListVinByFecha(){
+  getListVinByFecha(codigo: number){
     this.listVin = [];
     this.vinFecha$.next({listVin:this.listVin,cargando:true, control: true});
     let desde = this.serviceGlobal.getFechaDesde();
     let hasta = this.serviceGlobal.getFechaHasta();
     let marca = this.serviceGlobal.getCodigoMarca()
-
-    this.http.get<any>(`${this.baseUrl}api/vehiculo/getAllVehiculosByFecha/${marca}/${formatDate(desde,'yyyy-MM-dd','es')}/${formatDate(hasta,'yyyy-MM-dd','es')}`,this.httpOptions ).subscribe({
+    console.log(`${this.baseUrl}api/vehiculo/getAllVehiculosByFecha/${marca}/${formatDate(desde,'yyyy-MM-dd','es')}/${formatDate(hasta,'yyyy-MM-dd','es')}`);
+    
+    this.http.get<any>(`${this.baseUrl}api/vehiculo/getAllVehiculosByFecha/${marca}/${formatDate(desde,'yyyy-MM-dd','es')}/${formatDate(hasta,'yyyy-MM-dd','es')}/${codigo}`,this.httpOptions ).subscribe({
       next: (data) => {
         this.vinFecha$.next({listVin:data,cargando:false, control: true});
       },

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, OnChanges, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -48,7 +48,7 @@ interface ColumnItemVin {
   templateUrl: './vines.component.html',
   styleUrls: ['./vines.component.scss']
 })
-export class VinesComponent implements OnInit {
+export class VinesComponent implements OnInit{
 
   @ViewChild('temp', { static: true, read: TemplateRef }) templateRef!: TemplateRef<{
     $implicit: NzSegmentedOption;
@@ -1680,7 +1680,7 @@ export class VinesComponent implements OnInit {
   ]
 
 
-
+  listAux: any[] = []
   listVinAux: any[] = [];
   //listVin: any[] = [{veh_url_img_modelo: '', veh_cod_color_ext: 'HGT', veh_cod_color_int: 'NUYT', veh_modelo: 'HUNFAI', veh_version: 'CRETA', veh_anio: '2013', veh_vin:'HYGHGFVFGFGHG', veh_motor: 'hGGG',
   //estadoActual:{est_nombre: 'Nuevo'}  }];
@@ -1749,6 +1749,9 @@ export class VinesComponent implements OnInit {
 
   vin: any
   cargandoPdf: boolean = false
+  tamano: number = 5
+  generarCodigo: number = 0
+
 
 
   constructor(private msg: NzMessageService,
@@ -1793,8 +1796,14 @@ export class VinesComponent implements OnInit {
       });
 
 
+      
+
       this.desde = new Date()
       this.hasta = new Date()
+      var date = new Date();
+      var primerDia = new Date(date.getFullYear(), date.getMonth(), 1);
+      this.serviceGlobal.setFechaDesde(primerDia);
+      this.serviceGlobal.setfechaHasta(this.hasta);
 
       /*this.servicePedido.updateListaVins.subscribe( value => {
 
@@ -1814,14 +1823,23 @@ export class VinesComponent implements OnInit {
 
   }
 
+
+
   ngOnInit(): void {
     this.listImagenesEstado = this.serviceGlobal.getListImagesEstado()
-    this.getListVins()
+    
+    //this.getListVins()
+    this.getListVinsFecha(0)
     this.getListEstadosVin()
     this.desde = this.serviceGlobal.getFechaDesde();
     this.hasta = this.serviceGlobal.getFechaHasta();
+    
+
+
     this.indexTipoExcel = this.listTotalExcel[0]
   }
+
+
 
 
   chechselect(estado: any, vinSlect: any){
@@ -1871,9 +1889,14 @@ export class VinesComponent implements OnInit {
   }
 
   realoadPedido(){
-    this.desde = new Date()
-    this.hasta = new Date()
-    this.servicePedido.updateListAllVinMarca(this.codigo_guia)
+    //this.desde = new Date()
+    //this.hasta = new Date()
+    //this.servicePedido.updateListAllVinMarca(this.codigo_guia)
+    this.listVin = []
+    this.listVinAux = []
+    this.tamano = 5
+    this.generarCodigo = 0
+    this.getListVinsFecha(0)
   }
 
   actualizarFecha(e: any) {
@@ -1881,7 +1904,11 @@ export class VinesComponent implements OnInit {
 
       this.serviceGlobal.setFechaDesde(this.desde);
       this.serviceGlobal.setfechaHasta(this.hasta);
-      this.getListVinsFecha()
+      this.listVin = []
+      this.listVinAux = []
+      this.tamano = 5
+      this.generarCodigo = 0
+      this.getListVinsFecha(0)
 
     }
   }
@@ -2162,7 +2189,7 @@ export class VinesComponent implements OnInit {
   }
 
 
-  getListVins(){
+  /*getListVins(){
 
 
     this.vin$ = this.servicePedido.getListAllVins$(this.codigo_guia);
@@ -2181,7 +2208,8 @@ export class VinesComponent implements OnInit {
         if(this.control){
 
           this.listVin.forEach((item, index)=>{
-
+           
+            
             item.cargandoPDF = false
             item.index = index
             if(item.veh_estado_subir_curbe == 1){
@@ -2224,28 +2252,52 @@ export class VinesComponent implements OnInit {
 
     });
 
+  }*/
+
+
+  cargarMasDatos(dato: any){
+  
+
+    console.log('tttttttttttt');
+    
+    console.log(dato+ " "+this.tamano);
+
+    if(dato == this.tamano){
+      this.tamano = this.tamano + 5
+      this.generarCodigo = this.generarCodigo + 1
+      this.getListVinsFecha(this.generarCodigo)
+    }
+    
+    
   }
 
 
-  getListVinsFecha(){
+  getListVinsFecha(codigo: number){
 
-    this.vin$ = this.servicePedido.getAllVinsFechas$()
+    this.vin$ = this.servicePedido.getAllVinsFechas$(codigo)
     this.controlFecha = true
+
+
     this.sub = this.vin$.subscribe(p => {
 
-
-      this.listVin = p.listVin
-      this.listVinAux = p.listVin
-
+      console.log(p);
+      
+      this.listAux = p.listVin
+      //this.listVinAux = p.listVin
+      //this.control = p.control
       this.cargarPedido = p.cargando
 
+      console.log('despues');
+      console.log(this.cargarPedido);
+     
       if(this.cargarPedido == false){
-
-
+        
         if(this.controlFecha){
 
-          this.listVin.forEach((item, index)=>{
+          this.listAux.forEach((item, index)=>{
 
+            item.cargandoPDF = false
+            item.index = index
             if(item.veh_estado_subir_curbe == 1){
               item.estado_curbe = true
             }else{
@@ -2254,21 +2306,40 @@ export class VinesComponent implements OnInit {
             item.veh_fecha_crea_pedido = this.transformDate(item.veh_fecha_crea_pedido)
             item.veh_fecha_llegada = this.transformDate(item.veh_fecha_llegada)
             item.estadoActual.veh_est_fecha = this.transformDate(item.estadoActual.veh_est_fecha)
+            //console.log(item.estadoActual.veh_est_fecha);
+
 
             item.listaEstadosPadres.forEach((est: any)=>{
-              est.check = true
-            })
+              let total = 0
+              if(est.listaHijos.length>0){
+                
+               
+                est.listaHijos.forEach((hijos: any)=>{
 
+                  total = total + hijos.conteo
 
+                })
+
+              }
+
+              est.averias = total
+
+            }) 
           })
+
+          for(var j=0; j<this.listAux.length; j++){
+            this.listVin = [...this.listVin, this.listAux[j]]
+          }
+          this.listVinAux = this.listVin
+
+
           this.controlFecha = false
+
         }
+        console.log('lista vin');
+        console.log(this.listVin);
+
       }
-
-      //console.log('lista vin fecha');
-      //console.log(this.listVin);
-
-
 
     });
 
@@ -2514,7 +2585,7 @@ export class VinesComponent implements OnInit {
       if(this.cargandoReenviar == false){
         this.serviceSpiner.hide()
         this.msg.success('Datos Actualizados Curbe')
-        this.getListVins()
+        //this.getListVins()
         this.subReenvia.unsubscribe()
       }
 
