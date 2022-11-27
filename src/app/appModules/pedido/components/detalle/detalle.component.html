@@ -87,11 +87,11 @@
             
                                             
                            
-                                                <nz-col nzSpan="6" class="gutter-row">
+                                                <nz-col nzSpan="5" class="gutter-row">
                                                     <div>{{panel.estadoEtapa.est_nombre}}</div>
             
                                                 </nz-col>
-                                                <nz-col nzSpan="11" class="gutter-row">
+                                                <nz-col nzSpan="12" class="gutter-row">
 
                                                     <div *ngIf="cargandoObservacion == false">
                                                         
@@ -231,7 +231,8 @@
                                         </ng-template>
         
                                         <ng-container *ngIf="panel.estadoEtapa.est_codigo > 0; else datosObservacion">
-                                          
+                                            
+                                            
                                             <app-tablaestados [listColumnsTable]="panel.detalleEstado" [estadoVin]="panel.estadoEtapa" [informacionVin]="objetoDetalle"  ></app-tablaestados>
                                             
                                         </ng-container>

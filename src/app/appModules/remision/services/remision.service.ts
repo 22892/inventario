@@ -22,6 +22,10 @@ export class RemisionService {
   private listGuiaPendiente: any[] = [];
   private guiapendiente$! : BehaviorSubject<any>;
 
+  private listAverias: any[] = [];
+  private averias$! : BehaviorSubject<any>;
+
+
   public updateListaRemision: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
 
@@ -35,7 +39,7 @@ export class RemisionService {
       this.guia$ = new BehaviorSubject({listGuiaRemision:[],cargando:false, control: false});
       this.guiafinalizada$ = new BehaviorSubject({listGuiaFinalizada:[],cargando:false, control: false});
       this.guiapendiente$ = new BehaviorSubject({listGuiaPendiente:[],cargando:false, control: false});
-
+      this.averias$ = new BehaviorSubject({listAverias:[],cargando:false, control: false});
 
   }
 
@@ -207,6 +211,45 @@ export class RemisionService {
   }
 
 
+
+  getListAllAverias$(vin: any): Observable<any> {
+
+    if(this.listGuiaRemision){
+      this.getListAverias(vin);
+    }else{
+
+      this.averias$.subscribe((x)=>{
+        x.control = false
+      })
+
+    }
+    return this.averias$.asObservable();
+  }
+
+  getListAverias(vin: any){
+
+
+    let marca = this.serviceGlobal.getCodigoMarca()
+    let empresa = this.serviceGlobal.getCodigoEmpresa()
+
+    this.listAverias = [];
+    this.averias$.next({ listAverias: this.listAverias, cargando: true, control: true });
+
+    this.http.get(`${this.baseUrl}api/vehiculo/getObservacionesVin/${marca}/${vin}`,this.httpOptions).subscribe({
+      next: (data) => {
+
+        this.averias$.next({ listAverias: data, cargando: false, control: true});
+      },
+      error: (err) => {
+        this.createNotification('error', 'Error', 'HA OCURRIDO UN ERROR AL OBTENER LISTADO AVERIAS');
+        this.averias$.next({ listAverias: [], cargando: false, control: true });
+      }
+    });
+
+  }
+
+
+  
 
 
 }

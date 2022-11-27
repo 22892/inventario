@@ -10,17 +10,17 @@
                   <nz-input-group [nzSuffix]="suffixIconSearch">
                       <input
                         type="text"
-                        [(ngModel)]="buscarPedido"
+                        [(ngModel)]="buscaGeneral"
                         nz-input
-                        placeholder="Buscar Vin "
-                        (ngModelChange) = "filtroBuscarPedido()"
-                        (keyup.enter)="filtroBuscarPedido()"
+                        placeholder="Buscar Vin"
+                        (ngModelChange) = "buscaGeneralVin(0)"
+                        (keyup.enter)="buscaGeneralVin(0)"
                       />
                     </nz-input-group>
 
 
                     <ng-template #suffixIconSearch>
-                      <i (click)="filtroBuscarPedido()" nz-icon nzType="search"></i>
+                      <i (click)="buscaGeneralVin(0)" nz-icon nzType="search"></i>
                     </ng-template>
               </div>
 
@@ -1206,16 +1206,45 @@
           </nz-table>-->
 
 
-          <nz-table #filterTable [nzData]="listVin" nzBordered nzSize="middle" nzTableLayout="fixed"  (nzPageIndexChange)="cargarMasDatos($event)"
+            <nz-table #filterTable [nzData]="listVin" nzBordered nzSize="middle" nzTableLayout="fixed"  (nzPageIndexChange)="cargarMasDatos($event)"
                   [nzLoading]="cargarPedido" [nzFrontPagination]="true" [nzScroll]="{ x: '2000px' }" nzSize="middle" nzBordered>
                   <thead *ngIf="listVin.length > 0">
 
-                      <tr>
-                          <th  style="color: #1890ff;" [colspan]="listOfColumnsLista.length-listOfColumnsEstados.length+1">INFORMACIÓN VIN</th>
-                          <th  style="color: #1890ff;" [colspan]="listOfColumnsEstados.length-1">ESTADOS VIN</th>
+                      <tr *ngIf="listVin.length > 0">
+                            <th  style="color: #1890ff;" [colspan]="listOfColumnsLista.length-listOfColumnsEstados.length+1">INFORMACIÓN VIN</th>
+                            <th  style="color: #1890ff;" [colspan]="listOfColumnsEstados.length-1">
+
+                                <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                                    <nz-col nzSpan="12" class="gutter-row">
+                                        ESTADOS VIN
+                                    </nz-col>
+                                    <nz-col nzSpan="12" class="gutter-row">
+                                        
+                                            <nz-input-group [nzSuffix]="iconSearch">
+                                                <input
+                                                  type="text"
+                                                  [(ngModel)]="buscarPedido"
+                                                  nz-input
+                                                  placeholder="Buscar Vin "
+                                                  (ngModelChange) = "filtroBuscarPedido()"
+                                                  (keyup.enter)="filtroBuscarPedido()"
+                                                />
+                                              </nz-input-group>
+                          
+                          
+                                              <ng-template #iconSearch>
+                                                <i (click)="filtroBuscarPedido()" nz-icon nzType="search"></i>
+                                              </ng-template>
+                                       
+                                    </nz-col>
+                                </nz-row>
+                                
+                                
+                        
+                            </th>
                       </tr>
 
-                      <tr>
+                      <tr *ngIf="listVin.length > 0">
 
                           <th *ngFor="let column of listOfColumnsEstados"
                               [colspan]="column.colnum"
@@ -1229,7 +1258,7 @@
 
                       </tr>
 
-                      <tr>
+                      <tr *ngIf="listVin.length > 0">
 
 
                           <th *ngFor="let column of listOfColumnsLista"
@@ -1389,14 +1418,11 @@
                                                         <nz-divider nzType="vertical"></nz-divider>-->
                                                         
                                                        
-                                                       
-                                                    
-                                                        
 
                                                         <nz-badge [nzCount]="estado.averias" style="margin-right: 24px;">
                                                             
-                                                            <button nz-button nzType="primary" (click)="openModalEstados(estado, item.veh_vin)"><i nz-icon nzType="car"></i></button>
-                                                            
+                                                            <button nz-button nzType="primary" (click)="openModalEstados(estado, item.veh_vin, estado.est_codigo)"><i nz-icon nzType="car"></i></button>
+                                                           
                                                         </nz-badge>
 
                                                         {{cambio('si',-100,-100)}}
@@ -1449,6 +1475,9 @@
                   </tbody>
           </nz-table>
 
+    
+
+
       </ng-template>
 
 
@@ -1459,7 +1488,7 @@
 
 
 <nz-modal nzWrapClassName="vertical-center-modal"  [(nzVisible)]="isModalEstados" nzTitle="Información Estados Vin : {{vin}}"
-(nzOnCancel)="isModalEstados = false" (nzOnOk)="isModalEstados = false"  nzWidth="450px">
+(nzOnCancel)="isModalEstados = false" (nzOnOk)="isModalEstados = false"  nzWidth="650px">
   <ng-container *nzModalContent>
 
       <nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
@@ -1501,11 +1530,100 @@
               </nz-collapse>-->
 
 
-              <nz-timeline >
-                  <nz-timeline-item style="background-color: red;" *ngFor="let panel of listaHijosEstados">{{panel.estadoEtapa.est_nombre}} <div *ngIf="panel.veh_est_fecha">{{panel.veh_est_fecha_inicio}}</div> </nz-timeline-item>
-              </nz-timeline>
+            <nz-timeline >
+                <nz-timeline-item style="background-color: red;" *ngFor="let panel of listaHijosEstados">{{panel.estadoEtapa.est_nombre}} <div *ngIf="panel.veh_est_fecha">{{panel.veh_est_fecha_inicio}}</div> </nz-timeline-item>
+            </nz-timeline>
 
+            <ng-container *ngIf="codigoEstadoModal === 27">
 
+                <div nz-row *ngIf="listAverias.length == 0">
+                    <div nz-col nzSpan="24">
+                      
+                      <nz-empty 
+                        nzNotFoundImage="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg" [nzNotFoundContent]="contentTpl"
+                        [nzNotFoundFooter]="footerTpl">
+                        <ng-template #contentTpl>
+                          <span> NO TIENE AVERIAS</span>
+                        </ng-template>
+                        <ng-template #footerTpl>
+                        </ng-template>
+                      </nz-empty>
+                
+                    </div>
+                </div>
+    
+                <nz-table  #filterTableDos  [nzData]="listAverias" nzTableLayout="fixed" [nzLoading]="cargandoAverias">
+                    <thead *ngIf="listAverias.length > 0">
+                      <tr>
+                        <th 
+                          *ngFor="let column of listColumLogistica"
+                          [nzSortOrder]="column.sortOrder"
+                          [nzSortFn]="column.sortFn"
+                          [nzSortDirections]="column.sortDirections"
+                          [nzFilterMultiple]="column.filterMultiple"
+                          [nzFilters]="column.listOfFilter"
+                          [nzFilterFn]="column.filterFn"
+                          [nzShowFilter]="column.filterFn ? true : false"
+                          [nzWidth]="column.width ? column.width : null"
+                          style="text-align: center; background-color: black; color: white; font-size: 13px;"
+                        >
+                          {{ column.name }}
+                        </th>
+                      </tr>
+                    </thead>
+        
+                    <tbody *ngIf="listAverias.length > 0">
+                        <tr *ngFor="let item of filterTableDos.data ; let $indexTable = index" style="font-size: 12px; text-align: center;">
+        
+        
+                            <td>
+                                <small>
+                                    {{item.obs_veh_vin}}
+                                </small>
+                            </td>
+        
+        
+                            <td style="text-align: center;">
+                                <small>
+        
+                                    {{item.obs_estado}}
+        
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.obs_movilizacion}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.obs_nivel}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                   {{item.obs_novedad}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.obs_parte}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.obs_proceso}}
+                                </small>
+                            </td>
+        
+                         
+                        </tr>
+                    </tbody>
+                </nz-table>
+    
+
+            </ng-container>
+            
           </nz-col>
       </nz-row>
 

@@ -297,6 +297,42 @@ export class PedidoService {
   }
 
 
+
+
+
+  getListVinBusqueda$(busqueda: any, codigo: any): Observable<any> {
+
+    if(this.listVin)
+     
+      this.getAllVinByBusqueda(busqueda, codigo);
+   return this.vin$.asObservable();
+    
+  }
+
+  getAllVinByBusqueda(busqueda: any, codigo: any) {
+    this.listVin = [];
+
+   
+    this.vin$.next({ listVin: this.listVin, cargando: true });
+    let marca = this.serviceGlobal.getCodigoMarca()
+    console.log();
+    
+    this.http.get<any>(`${this.baseUrl}api/vehiculo/getAllVehiculos/${marca}/${codigo}/${busqueda}`,this.httpOptions ).subscribe({
+      next: (data) => {
+        this.vin$.next({listVin:data,cargando:false, control: true});
+      },
+      error: (err) => {
+        this.createNotification('error','Error','HA OCURRIDO UN ERROR AL BUSCAR VINS');
+        this.vin$.next({listVin:[],cargando:false, control: true});
+      }
+    });
+
+  }
+
+
+
+
+
   uploadFileExelLogistica(file:any):Observable<any>{
     let marca = this.serviceGlobal.getCodigoMarca()
 

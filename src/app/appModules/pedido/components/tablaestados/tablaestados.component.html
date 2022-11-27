@@ -2,7 +2,11 @@
     <nz-col nzSpan="24" class="gutter-row">
         <nz-radio-group [(ngModel)]="radioValue">
             <label nz-radio nzValue="A" (click)="cambioVista(1)">Vista Tabla</label>
-            <label nz-radio nzValue="B" (click)="cambioVista(2)">Vista Tarjeta</label>
+
+            <ng-container *ngIf="estadoVin.est_codigo != 28">
+                <label nz-radio nzValue="B" (click)="cambioVista(2)">Vista Tarjeta</label>
+
+            </ng-container>
            
         </nz-radio-group>
         
@@ -15,21 +19,25 @@
 
         <ng-container *ngIf="tipoVista == 1; else tipoVistaTarjeta">
 
-            <div nz-row *ngIf="listDetalleEstado.length == 0">
-                <div nz-col nzSpan="24">
-                  
-                  <nz-empty 
-                    nzNotFoundImage="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg" [nzNotFoundContent]="contentTpl"
-                    [nzNotFoundFooter]="footerTpl">
-                    <ng-template #contentTpl>
-                      <span> No Existe Datos Estado</span>
-                    </ng-template>
-                    <ng-template #footerTpl>
-                    </ng-template>
-                  </nz-empty>
-            
+            <ng-container *ngIf="estadoVin.est_codigo != 28">
+                <div nz-row *ngIf="listDetalleEstado.length == 0">
+                    <div nz-col nzSpan="24">
+                      
+                      <nz-empty 
+                        nzNotFoundImage="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg" [nzNotFoundContent]="contentTpl"
+                        [nzNotFoundFooter]="footerTpl">
+                        <ng-template #contentTpl>
+                          <span> No Existe Datos Estado</span>
+                        </ng-template>
+                        <ng-template #footerTpl>
+                        </ng-template>
+                      </nz-empty>
+                
+                    </div>
                 </div>
-            </div>
+    
+            </ng-container>
+
             
             <nz-table #filterTable [nzData]="listDetalleEstado" nzBordered nzSize="middle" nzTableLayout="fixed"
                 [nzLoading]="cargarDetalle" [nzFrontPagination]="true" [nzScroll]="{ x: '1000px' }">
@@ -50,7 +58,7 @@
                 <tbody *ngIf="listDetalleEstado.length > 0">
                     <tr *ngFor="let item of filterTable.data" style="font-size: 12px;">
             
-                        <ng-container *ngFor="let itemcol of listOfColumns">
+                        <ng-container *ngFor="let itemcol of listOfColumns; index as i">
                             <td>
                                 <small>
                                     {{itemcol.value}}
@@ -64,6 +72,98 @@
                     </tr>
                 </tbody>
             </nz-table>
+
+
+            <ng-container *ngIf="estadoVin.est_codigo === 28">
+
+                <div nz-row *ngIf="listOfColumnsDatos.length == 0">
+                    <div nz-col nzSpan="24">
+                      
+                      <nz-empty 
+                        nzNotFoundImage="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg" [nzNotFoundContent]="contentTpl"
+                        [nzNotFoundFooter]="footerTpl">
+                        <ng-template #contentTpl>
+                          <span> No Existe Datos Estado</span>
+                        </ng-template>
+                        <ng-template #footerTpl>
+                        </ng-template>
+                      </nz-empty>
+                
+                    </div>
+                </div>
+
+                <nz-table  #filterTableDos  [nzData]="listOfColumnsDatos" nzTableLayout="fixed" [nzLoading]="cargarDetalle">
+                    <thead *ngIf="listOfColumnsDatos.length > 0">
+                      <tr>
+                        <th 
+                          *ngFor="let column of listOfColumnsLogistica"
+                          [nzSortOrder]="column.sortOrder"
+                          [nzSortFn]="column.sortFn"
+                          [nzSortDirections]="column.sortDirections"
+                          [nzFilterMultiple]="column.filterMultiple"
+                          [nzFilters]="column.listOfFilter"
+                          [nzFilterFn]="column.filterFn"
+                          [nzShowFilter]="column.filterFn ? true : false"
+                          [nzWidth]="column.width ? column.width : null"
+                          style="text-align: center; background-color: black; color: white; font-size: 13px;"
+                        >
+                          {{ column.name }}
+                        </th>
+                      </tr>
+                    </thead>
+        
+                    <tbody *ngIf="listOfColumnsDatos.length > 0">
+                        <tr *ngFor="let item of filterTableDos.data ; let $indexTable = index" style="font-size: 12px; text-align: center;">
+        
+        
+                            <td>
+                                <small>
+                                    {{item.obs_veh_vin}}
+                                </small>
+                            </td>
+        
+        
+                            <td style="text-align: center;">
+                                <small>
+        
+                                    {{item.obs_estado}}
+        
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.obs_movilizacion}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.obs_nivel}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                   {{item.obs_novedad}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.obs_parte}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.obs_proceso}}
+                                </small>
+                            </td>
+        
+                         
+                        </tr>
+                    </tbody>
+                </nz-table>
+    
+            </ng-container>
+
+    
 
 
         </ng-container>

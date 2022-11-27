@@ -358,8 +358,10 @@ export class DetalleComponent implements OnInit, AfterViewInit {
     }
 
     this.itemInfoObservacion = this.listObservacionVin[this.indexPunto - 1 ]
+    
     this.listObservacionVinFoto = this.itemInfoObservacion.listaDocumentos
-
+    
+    
   }
 
 
@@ -452,6 +454,10 @@ export class DetalleComponent implements OnInit, AfterViewInit {
         this.subDetalleVin.unsubscribe()
       }
 
+      console.log('verrrrrrrrrrrrrrrrr');
+      console.log(this.listDetalleEstadoVin);
+      
+
     });
 
   }
@@ -494,9 +500,9 @@ export class DetalleComponent implements OnInit, AfterViewInit {
     this.observacionvin$ = this.serviceObservacion.getListAllObservacionVin$(this.veh_codigo)
 
     this.sub = this.observacionvin$.subscribe(p => {
-      //console.log('lista detalle obs');
+      console.log('lista detalle obs');
 
-      //console.log(p);
+      console.log(p);
 
       this.listObservacionVin = p.listObservacionVin.observaciones
 

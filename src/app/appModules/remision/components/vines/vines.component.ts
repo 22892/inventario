@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 import { PedidoService } from 'src/app/appModules/pedido/services/pedido.service';
 import { GlobalserviceService } from 'src/app/core/globalservice.service';
 import { SpinerService } from 'src/app/core/spiner.service';
+import { RemisionService } from '../../services/remision.service'
 
 import { saveAs } from "file-saver";
 import jsPDF from 'jspdf';
@@ -1680,6 +1681,94 @@ export class VinesComponent implements OnInit{
   ]
 
 
+  listColumLogistica: ColumnItem[] = [
+
+    {
+      width: '80px',
+      name: 'Vin',
+      sortOrder: null,
+      sortDirections: ['ascend', 'descend', null],
+      sortFn: null,
+      filterMultiple: true,
+      listOfFilter: [],
+      filterFn: null,
+      
+    },
+
+
+    {
+      width: '80px',
+      name: 'Estado',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter: [],
+      filterFn: null,
+    },
+
+    {
+      width: '80px',
+      name: 'Movilización',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter: [],
+      filterFn: null,
+    },
+
+
+    {
+      width: '80px',
+      name: 'Nivel',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter: [],
+      filterFn: null,
+    },
+
+    {
+      width: '80px',
+      name: 'Novedad',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter: [],
+      filterFn: null,
+    },
+
+    {
+      width: '80px',
+      name: 'Parte Vin',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter: [],
+      filterFn: null,
+    },
+
+    {
+      width: '80px',
+      name: 'Proceso',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter: [],
+      filterFn: null,
+    },
+
+
+  ];
+
+
+
+
   listAux: any[] = []
   listVinAux: any[] = [];
   //listVin: any[] = [{veh_url_img_modelo: '', veh_cod_color_ext: 'HGT', veh_cod_color_int: 'NUYT', veh_modelo: 'HUNFAI', veh_version: 'CRETA', veh_anio: '2013', veh_vin:'HYGHGFVFGFGHG', veh_motor: 'hGGG',
@@ -1707,6 +1796,8 @@ export class VinesComponent implements OnInit{
   vinForm!: FormGroup;
   isLoadingUploadExcel: boolean = false
 
+  buscaGeneral: any
+
   listTotalExcel: any[] = [{label: 'Pedido',value: 'Pedido', useTemplate: true }, {label: 'Facturación',value: 'Pedido', useTemplate: true },
                            {label: 'Nacionalización',value: 'Pedido', useTemplate: true }, {label: 'Logistica',value: 'Pedido', useTemplate: true }]
 
@@ -1728,6 +1819,11 @@ export class VinesComponent implements OnInit{
   reenviarVin$!: Observable<any>;
   cargandoReenviar: boolean = false
   subReenvia: any
+
+  listAverias: any[] = [];
+  averias$!: Observable<any>;
+  cargandoAverias: boolean = false
+  subAveria: any
 
 
   listImagenesEstado: any
@@ -1751,13 +1847,15 @@ export class VinesComponent implements OnInit{
   cargandoPdf: boolean = false
   tamano: number = 5
   generarCodigo: number = 0
-
+  tipoElementoCodigo: number = 2
+  codigoEstadoModal: number = 0
 
 
   constructor(private msg: NzMessageService,
     private cdRef:ChangeDetectorRef,
     private router: Router,
     private servicePedido: PedidoService,
+    private serviceRemision: RemisionService,
     private fb: FormBuilder,
     private serviceGlobal: GlobalserviceService,
     private serviceSpiner: SpinerService,
@@ -1834,6 +1932,7 @@ export class VinesComponent implements OnInit{
     this.desde = this.serviceGlobal.getFechaDesde();
     this.hasta = this.serviceGlobal.getFechaHasta();
     
+    this.getListAveriasVin('9BHCP41CAPP362972')
 
 
     this.indexTipoExcel = this.listTotalExcel[0]
@@ -1866,11 +1965,17 @@ export class VinesComponent implements OnInit{
   }
 
 
-  openModalEstados(estadosHijos: any, vin: any){
+  openModalEstados(estadosHijos: any, vin: any, codigoEstado: number){
+
+    if(codigoEstado === 27){
+      this.getListAveriasVin(vin)
+    }
     //console.log(estadosHijos);
     this.isModalEstados = true
     this.listaHijosEstados = estadosHijos.listaHijos
+    this.codigoEstadoModal = codigoEstado
     this.vin = vin
+
     this.listaHijosEstados.forEach((estado: any, index: any)=>{
       estado.veh_est_fecha_inicio = this.transformDate(estado.veh_est_fecha)
     })
@@ -1901,7 +2006,8 @@ export class VinesComponent implements OnInit{
 
   actualizarFecha(e: any) {
     if (!e) {
-
+      this.tipoElementoCodigo = 2
+      this.listVin = []
       this.serviceGlobal.setFechaDesde(this.desde);
       this.serviceGlobal.setfechaHasta(this.hasta);
       this.listVin = []
@@ -1989,17 +2095,111 @@ export class VinesComponent implements OnInit{
 
   }
 
+
+  getListBusquedaVins(codigo: number){
+
+    this.vin$ = this.servicePedido.getListVinBusqueda$(this.buscaGeneral.toUpperCase(), codigo);
+    this.controlFecha = true
+
+    this.sub = this.vin$.subscribe(p => {
+      console.log('busqueadaaaaaaaaaaaaaa');
+      
+      console.log(p);
+
+      this.listAux = p.listVin
+      this.cargarPedido = p.cargando
+     
+      if(this.cargarPedido == false){
+      
+        if(this.controlFecha){
+
+          this.listAux.forEach((item, index)=>{
+
+            item.cargandoPDF = false
+            item.index = index
+            if(item.veh_estado_subir_curbe == 1){
+              item.estado_curbe = true
+            }else{
+              item.estado_curbe = false
+            }
+            item.veh_fecha_crea_pedido = this.transformDate(item.veh_fecha_crea_pedido)
+            item.veh_fecha_llegada = this.transformDate(item.veh_fecha_llegada)
+            item.estadoActual.veh_est_fecha = this.transformDate(item.estadoActual.veh_est_fecha)
+            //console.log(item.estadoActual.veh_est_fecha);
+
+
+            item.listaEstadosPadres.forEach((est: any)=>{
+              let total = 0
+              if(est.listaHijos.length>0){
+                
+               
+                est.listaHijos.forEach((hijos: any)=>{
+
+                  total = total + hijos.conteo
+
+                })
+
+              }
+
+              est.averias = total
+
+            }) 
+          })
+
+          for(var j=0; j<this.listAux.length; j++){
+            this.listVin = [...this.listVin, this.listAux[j]]
+          }
+          this.listVinAux = this.listVin
+
+
+          this.controlFecha = false
+
+        }
+       
+
+      }
+     
+    });  
+
+
+  }
+
+
+  buscaGeneralVin(codigo:  number){
+    if (this.buscaGeneral == '' || this.buscaGeneral == null) {
+      this.listVin = []
+    }else{
+
+      this.tipoElementoCodigo = 1
+      this.listVin = []
+      this.tamano = 5
+      this.generarCodigo = 0
+      this.getListBusquedaVins(codigo)
+  
+    }
+
+  }
+
+
   filtroBuscarPedido(){
 
+    //console.log('llll');
+    //console.log(this.buscarPedido);
+
+    
     if (this.buscarPedido == '' || this.buscarPedido == null) {
 
+      //console.log('eeeeeeeeeeeeeeeeeeeeeeeeeeee');
+      
       this.listVin = this.listVinAux
 
     }else{
 
 
-    this.listVin = this.listVinAux.filter((item: any) => item.veh_vin.toUpperCase().indexOf(this.buscarPedido.toUpperCase()) !== -1 || item.veh_motor.toUpperCase().indexOf(this.buscarPedido.toUpperCase()) !== -1 || item.veh_modelo.toUpperCase().indexOf(this.buscarPedido.toUpperCase()) !== -1);
-
+      this.listVin = this.listVinAux.filter((item: any) => item.veh_vin.toUpperCase().indexOf(this.buscarPedido.toUpperCase()) !== -1 || item.veh_motor.toUpperCase().indexOf(this.buscarPedido.toUpperCase()) !== -1 || item.veh_modelo.toUpperCase().indexOf(this.buscarPedido.toUpperCase()) !== -1);
+     
+      
+      
     }
 
   }
@@ -2018,12 +2218,36 @@ export class VinesComponent implements OnInit{
   }
 
 
+  getListAveriasVin(vin: any){
+
+    this.averias$ = this.serviceRemision.getListAllAverias$(vin)
+
+    this.subAveria = this.averias$.subscribe(p => {
+
+      console.log(p);
+
+      this.listAverias = p.listAverias
+    
+      this.cargandoAverias = p.cargando
+
+      if(this.cargandoAverias == false){
+        this.subAveria.unsubscribe()
+      }
+
+    });
+
+  }
+
+
+
   getListEstadosVin(){
 
     this.estadovin$ = this.servicePedido.getListAllEstadosVin$()
 
     this.subEstado = this.estadovin$.subscribe(p => {
-      //console.log(p);
+      console.log('lista estos vin---->>>>>>>>>>');
+      
+      console.log(p);
 
       this.listEstadoVin = p.listEstadoVin
 
@@ -2097,7 +2321,7 @@ export class VinesComponent implements OnInit{
             colnum: '1'
           }
 
-          if(item.est_codigo == 1 || item.est_codigo == 2 || item.est_codigo == 3 || item.est_codigo == 4 || item.est_codigo == 5 || item.est_codigo == 6 || item.est_codigo == 8  ){
+          if(item.est_codigo == 1 || item.est_codigo == 2 || item.est_codigo == 3 || item.est_codigo == 4 || item.est_codigo == 5 || item.est_codigo == 6 || item.est_codigo == 8 || item.est_codigo == 27  ){
 
 
             this.totalEstados.push({est_codigo: item.est_codigo, cod_estado: item.est_codigo, estado_activado: false})
@@ -2134,7 +2358,7 @@ export class VinesComponent implements OnInit{
 
 
 
-          if(item.est_codigo == 1 || item.est_codigo == 2 || item.est_codigo == 3 || item.est_codigo == 4 || item.est_codigo == 5 || item.est_codigo == 6 || item.est_codigo == 8 ){
+          if(item.est_codigo == 1 || item.est_codigo == 2 || item.est_codigo == 3 || item.est_codigo == 4 || item.est_codigo == 5 || item.est_codigo == 6 || item.est_codigo == 8 || item.est_codigo == 27 ){
 
 
             this.listOfColumnsLista = [... this.listOfColumnsLista, columna]
@@ -2265,7 +2489,15 @@ export class VinesComponent implements OnInit{
     if(dato == this.tamano){
       this.tamano = this.tamano + 5
       this.generarCodigo = this.generarCodigo + 1
-      this.getListVinsFecha(this.generarCodigo)
+
+      if(this.tipoElementoCodigo == 2){
+        this.getListVinsFecha(this.generarCodigo)
+
+      }
+      if(this.tipoElementoCodigo == 1){
+        this.getListBusquedaVins(this.generarCodigo)
+      }
+
     }
     
     

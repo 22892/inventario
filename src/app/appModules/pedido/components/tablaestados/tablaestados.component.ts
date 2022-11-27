@@ -4,6 +4,20 @@ import * as moment from 'moment';
 import 'moment/locale/es';
 import { GlobalserviceService } from '../../../../core/globalservice.service'
 
+
+interface ColumnItemDos {
+
+  name: string;
+  sortOrder: NzTableSortOrder | null;
+  sortFn: NzTableSortFn | null;
+  listOfFilter: NzTableFilterList;
+  filterFn: NzTableFilterFn | null;
+  filterMultiple: boolean;
+  sortDirections: NzTableSortOrder[];
+  width:string;
+}
+
+
 interface ColumnItem {
 
   name: string | undefined;
@@ -29,10 +43,98 @@ interface ColumnItem {
 export class TablaestadosComponent implements OnInit {
 
   listOfColumns: ColumnItem[] = [];
+  listOfColumnsDatos: any[] = []
   listDetalleEstado:  any[] = []
   cargarDetalle: boolean = false
   radioValue = 'A';
   tipoVista: number = 1
+
+  listOfColumnsLogistica: ColumnItemDos[] = [
+
+    {
+      width: '80px',
+      name: 'Vin',
+      sortOrder: null,
+      sortDirections: ['ascend', 'descend', null],
+      sortFn: null,
+      filterMultiple: true,
+      listOfFilter: [],
+      filterFn: null,
+      
+    },
+
+
+    {
+      width: '80px',
+      name: 'Estado',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter: [],
+      filterFn: null,
+    },
+
+    {
+      width: '80px',
+      name: 'Movilización',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter: [],
+      filterFn: null,
+    },
+
+
+    {
+      width: '80px',
+      name: 'Nivel',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter: [],
+      filterFn: null,
+    },
+
+    {
+      width: '80px',
+      name: 'Novedad',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter: [],
+      filterFn: null,
+    },
+
+    {
+      width: '80px',
+      name: 'Parte Vin',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter: [],
+      filterFn: null,
+    },
+
+    {
+      width: '80px',
+      name: 'Proceso',
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [],
+      filterMultiple: true,
+      listOfFilter: [],
+      filterFn: null,
+    },
+
+
+  ];
+
+
 
 
   @Input() listColumnsTable: any
@@ -80,7 +182,13 @@ export class TablaestadosComponent implements OnInit {
 
   objColumnTraslado = [{name: 'Nombre Conductor', icon:'', ancho:'60px'},{name: 'Nombre Empresa', icon:'', ancho:'40px'}, {name: 'Placa', icon:'', ancho:'50px'}, {name: 'Estado Proceso', icon:'', ancho:'60px'}, {name: 'Logistica', icon:'', ancho:'60px'}, {name: 'Comercial', icon:'', ancho:'60px'}, {name: 'Transportista', icon:'', ancho:'60px'}]
 
+  objColumnLogisticaz = [{name: 'Codigo', icon: '', ancho:'60px'},{name: 'Marca', icon: '', ancho:'60px'},{name: 'Comentario', icon: '', ancho:'60px'},{name: 'Vin', icon: '', ancho:'60px'},{name: 'Grupo', icon: '', ancho:'60px'},{name: 'Daño', icon: '', ancho:'60px'},{name: 'Tamaño', icon: '', ancho:'60px'},{name: 'Parte', icon: '', ancho:'60px'},{name: 'X', icon: '', ancho:'60px'},{name: 'Y', icon: '', ancho:'60px'},
+  {name: 'Parte', icon: '', ancho:'60px'},{name: 'Proceso', icon: '', ancho:'60px'},{name: 'Estado', icon: '', ancho:'60px'}, {name: 'Movilización', icon: '', ancho:'60px'},{name: 'Novedad', icon: '', ancho:'60px'},{name: 'Parte', icon: '', ancho:'60px'},{name: 'Nivel', icon: '', ancho:'60px'},{name: 'Estado', icon: '', ancho:'60px'}]
+
   listImagenesEstado: any
+
+
+  
 
   constructor(private serviceGlobal: GlobalserviceService) {
   }
@@ -122,11 +230,23 @@ export class TablaestadosComponent implements OnInit {
     if(this.listColumnsTable){
 
 
+      console.log('list comuk');
+      
+      console.log(this.listColumnsTable);
+      
+
       listAux = Object.values(this.listColumnsTable)
       listInfo = Object.values(this.informacionVin)
 
+      
+      
+     
       var i=0
 
+      console.log('estado vinnnnn--->>>>>>>>>>>>>>>>>');
+      console.log(this.estadoVin);
+      
+      
 
       if(this.estadoVin.est_codigo == 100){
 
@@ -190,7 +310,6 @@ export class TablaestadosComponent implements OnInit {
 
 
             this.listOfColumns = [... this.listOfColumns, columna]
-
 
           }
 
@@ -268,7 +387,6 @@ export class TablaestadosComponent implements OnInit {
 
             this.listOfColumns = [... this.listOfColumns, columna]
 
-
           }
 
 
@@ -341,7 +459,6 @@ export class TablaestadosComponent implements OnInit {
 
             this.listOfColumns = [... this.listOfColumns, columna]
 
-
           }
 
 
@@ -361,7 +478,7 @@ export class TablaestadosComponent implements OnInit {
           let columna: any
           let result: any
 
-
+         
 
           if(listAux[i] != null){
 
@@ -410,7 +527,6 @@ export class TablaestadosComponent implements OnInit {
 
 
             this.listOfColumns = [... this.listOfColumns, columna]
-
 
           }
 
@@ -437,6 +553,7 @@ export class TablaestadosComponent implements OnInit {
           let result: any
 
 
+          
 
           if(listAux[i] != null){
 
@@ -488,7 +605,6 @@ export class TablaestadosComponent implements OnInit {
 
             this.listOfColumns = [... this.listOfColumns, columna]
 
-
           }
 
 
@@ -501,6 +617,22 @@ export class TablaestadosComponent implements OnInit {
 
       }
 
+      
+      if(this.estadoVin.est_codigo == 28 ){
+
+        
+        this.listOfColumnsDatos = this.listColumnsTable
+
+        console.log('kkkkkkkkkkkkkk');
+        console.log(this.listOfColumnsDatos);
+        
+        
+        
+      }
+
+
+    
+      
 
 
       /*for (const property in this.informacionVin) {
