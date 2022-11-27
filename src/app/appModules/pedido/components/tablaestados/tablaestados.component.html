@@ -3,7 +3,7 @@
         <nz-radio-group [(ngModel)]="radioValue">
             <label nz-radio nzValue="A" (click)="cambioVista(1)">Vista Tabla</label>
 
-            <ng-container *ngIf="estadoVin.est_codigo != 28">
+            <ng-container *ngIf="estadoVin.est_codigo != 27">
                 <label nz-radio nzValue="B" (click)="cambioVista(2)">Vista Tarjeta</label>
 
             </ng-container>
@@ -19,7 +19,7 @@
 
         <ng-container *ngIf="tipoVista == 1; else tipoVistaTarjeta">
 
-            <ng-container *ngIf="estadoVin.est_codigo != 28">
+            <ng-container *ngIf="estadoVin.est_codigo != 27">
                 <div nz-row *ngIf="listDetalleEstado.length == 0">
                     <div nz-col nzSpan="24">
                       
@@ -74,7 +74,7 @@
             </nz-table>
 
 
-            <ng-container *ngIf="estadoVin.est_codigo === 28">
+            <ng-container *ngIf="estadoVin.est_codigo === 27">
 
                 <div nz-row *ngIf="listOfColumnsDatos.length == 0">
                     <div nz-col nzSpan="24">

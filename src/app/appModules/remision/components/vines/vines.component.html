@@ -1007,7 +1007,7 @@
 
       <ng-template #listaPedido>
 
-          <div nz-row *ngIf="listVin.length == 0 && !cargarPedido">
+          <!--<div nz-row *ngIf="listVin.length == 0 && !cargarPedido">
               <div nz-col nzSpan="24">
 
                 <nz-empty
@@ -1021,7 +1021,7 @@
                 </nz-empty>
 
               </div>
-          </div>
+          </div>-->
 
 
           <!--<nz-table #filterTable [nzData]="listVin" nzBordered nzSize="middle" nzTableLayout="fixed"
@@ -1208,9 +1208,9 @@
 
             <nz-table #filterTable [nzData]="listVin" nzBordered nzSize="middle" nzTableLayout="fixed"  (nzPageIndexChange)="cargarMasDatos($event)"
                   [nzLoading]="cargarPedido" [nzFrontPagination]="true" [nzScroll]="{ x: '2000px' }" nzSize="middle" nzBordered>
-                  <thead *ngIf="listVin.length > 0">
+                  <thead >
 
-                      <tr *ngIf="listVin.length > 0">
+                      <tr >
                             <th  style="color: #1890ff;" [colspan]="listOfColumnsLista.length-listOfColumnsEstados.length+1">INFORMACIÓN VIN</th>
                             <th  style="color: #1890ff;" [colspan]="listOfColumnsEstados.length-1">
 
@@ -1244,7 +1244,7 @@
                             </th>
                       </tr>
 
-                      <tr *ngIf="listVin.length > 0">
+                      <tr >
 
                           <th *ngFor="let column of listOfColumnsEstados"
                               [colspan]="column.colnum"
@@ -1258,7 +1258,7 @@
 
                       </tr>
 
-                      <tr *ngIf="listVin.length > 0">
+                      <tr >
 
 
                           <th *ngFor="let column of listOfColumnsLista"
@@ -1280,7 +1280,7 @@
                           </th>
                       </tr>
                   </thead>
-                  <tbody *ngIf="listVin.length > 0">
+                  <tbody >
                       <tr *ngFor="let item of filterTable.data ; let $indexTable = index" style="font-size: 12px; text-align: center;">
 
 
@@ -1534,7 +1534,7 @@
                 <nz-timeline-item style="background-color: red;" *ngFor="let panel of listaHijosEstados">{{panel.estadoEtapa.est_nombre}} <div *ngIf="panel.veh_est_fecha">{{panel.veh_est_fecha_inicio}}</div> </nz-timeline-item>
             </nz-timeline>
 
-            <ng-container *ngIf="codigoEstadoModal === 27">
+            <ng-container *ngIf="codigoEstadoModal === 28">
 
                 <div nz-row *ngIf="listAverias.length == 0">
                     <div nz-col nzSpan="24">

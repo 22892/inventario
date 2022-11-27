@@ -2135,13 +2135,13 @@ export class VinesComponent implements OnInit{
                
                 est.listaHijos.forEach((hijos: any)=>{
 
-                  total = total + hijos.conteo
+                  total = total + hijos.cantidad_aberias
 
                 })
 
               }
 
-              est.averias = total
+              est.averias = total 
 
             }) 
           })
@@ -2224,7 +2224,7 @@ export class VinesComponent implements OnInit{
 
     this.subAveria = this.averias$.subscribe(p => {
 
-      console.log(p);
+      //console.log(p);
 
       this.listAverias = p.listAverias
     
@@ -2245,9 +2245,9 @@ export class VinesComponent implements OnInit{
     this.estadovin$ = this.servicePedido.getListAllEstadosVin$()
 
     this.subEstado = this.estadovin$.subscribe(p => {
-      console.log('lista estos vin---->>>>>>>>>>');
+      //console.log('lista estos vin---->>>>>>>>>>');
       
-      console.log(p);
+      //console.log(p);
 
       this.listEstadoVin = p.listEstadoVin
 
@@ -2321,7 +2321,7 @@ export class VinesComponent implements OnInit{
             colnum: '1'
           }
 
-          if(item.est_codigo == 1 || item.est_codigo == 2 || item.est_codigo == 3 || item.est_codigo == 4 || item.est_codigo == 5 || item.est_codigo == 6 || item.est_codigo == 8 || item.est_codigo == 27  ){
+          if(item.est_codigo == 1 || item.est_codigo == 2 || item.est_codigo == 3 || item.est_codigo == 4 || item.est_codigo == 5 || item.est_codigo == 6 || item.est_codigo == 8 || item.est_codigo == 28  ){
 
 
             this.totalEstados.push({est_codigo: item.est_codigo, cod_estado: item.est_codigo, estado_activado: false})
@@ -2358,7 +2358,7 @@ export class VinesComponent implements OnInit{
 
 
 
-          if(item.est_codigo == 1 || item.est_codigo == 2 || item.est_codigo == 3 || item.est_codigo == 4 || item.est_codigo == 5 || item.est_codigo == 6 || item.est_codigo == 8 || item.est_codigo == 27 ){
+          if(item.est_codigo == 1 || item.est_codigo == 2 || item.est_codigo == 3 || item.est_codigo == 4 || item.est_codigo == 5 || item.est_codigo == 6 || item.est_codigo == 8 || item.est_codigo == 28 ){
 
 
             this.listOfColumnsLista = [... this.listOfColumnsLista, columna]
@@ -2482,9 +2482,9 @@ export class VinesComponent implements OnInit{
   cargarMasDatos(dato: any){
   
 
-    console.log('tttttttttttt');
+    //console.log('tttttttttttt');
     
-    console.log(dato+ " "+this.tamano);
+    //console.log(dato+ " "+this.tamano);
 
     if(dato == this.tamano){
       this.tamano = this.tamano + 5
@@ -2512,15 +2512,15 @@ export class VinesComponent implements OnInit{
 
     this.sub = this.vin$.subscribe(p => {
 
-      console.log(p);
+      //console.log(p);
       
       this.listAux = p.listVin
       //this.listVinAux = p.listVin
       //this.control = p.control
       this.cargarPedido = p.cargando
 
-      console.log('despues');
-      console.log(this.cargarPedido);
+      //console.log('despues');
+      //console.log(this.cargarPedido);
      
       if(this.cargarPedido == false){
         
@@ -2548,13 +2548,13 @@ export class VinesComponent implements OnInit{
                
                 est.listaHijos.forEach((hijos: any)=>{
 
-                  total = total + hijos.conteo
-
+                  //total = total + hijos.conteo
+                  total = total + hijos.cantidad_aberias
                 })
 
               }
 
-              est.averias = total
+              est.averias = total 
 
             }) 
           })
@@ -2568,8 +2568,8 @@ export class VinesComponent implements OnInit{
           this.controlFecha = false
 
         }
-        console.log('lista vin');
-        console.log(this.listVin);
+        //console.log('lista vin');
+        //console.log(this.listVin);
 
       }
 

@@ -375,8 +375,8 @@ export class DetalleComponent implements OnInit, AfterViewInit {
 
     this.detallevin$ = this.servicePedido.getListAllDetalleEstadosVin$(veh_codigo);
     this.subDetalleVin = this.detallevin$.subscribe((p) => {
-      console.log('detallessss nuevo');
-      console.log(p);
+      //console.log('detallessss nuevo');
+      //console.log(p);
 
 
       this.objetoDetalle = p.listDetalleEstadoVin;
@@ -452,11 +452,7 @@ export class DetalleComponent implements OnInit, AfterViewInit {
 
 
         this.subDetalleVin.unsubscribe()
-      }
-
-      console.log('verrrrrrrrrrrrrrrrr');
-      console.log(this.listDetalleEstadoVin);
-      
+      }      
 
     });
 
@@ -500,9 +496,8 @@ export class DetalleComponent implements OnInit, AfterViewInit {
     this.observacionvin$ = this.serviceObservacion.getListAllObservacionVin$(this.veh_codigo)
 
     this.sub = this.observacionvin$.subscribe(p => {
-      console.log('lista detalle obs');
-
-      console.log(p);
+      //console.log('lista detalle obs');
+      //console.log(p);
 
       this.listObservacionVin = p.listObservacionVin.observaciones
 

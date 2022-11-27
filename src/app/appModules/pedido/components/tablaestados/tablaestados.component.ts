@@ -229,24 +229,11 @@ export class TablaestadosComponent implements OnInit {
 
     if(this.listColumnsTable){
 
-
-      console.log('list comuk');
-      
-      console.log(this.listColumnsTable);
-      
-
       listAux = Object.values(this.listColumnsTable)
       listInfo = Object.values(this.informacionVin)
-
-      
-      
      
       var i=0
 
-      console.log('estado vinnnnn--->>>>>>>>>>>>>>>>>');
-      console.log(this.estadoVin);
-      
-      
 
       if(this.estadoVin.est_codigo == 100){
 
@@ -618,13 +605,13 @@ export class TablaestadosComponent implements OnInit {
       }
 
       
-      if(this.estadoVin.est_codigo == 28 ){
+      if(this.estadoVin.est_codigo == 27 ){
 
         
         this.listOfColumnsDatos = this.listColumnsTable
 
-        console.log('kkkkkkkkkkkkkk');
-        console.log(this.listOfColumnsDatos);
+        //console.log('kkkkkkkkkkkkkk');
+        //console.log(this.listOfColumnsDatos);
         
         
         
