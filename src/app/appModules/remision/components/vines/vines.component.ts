@@ -1932,7 +1932,7 @@ export class VinesComponent implements OnInit{
     this.desde = this.serviceGlobal.getFechaDesde();
     this.hasta = this.serviceGlobal.getFechaHasta();
     
-    this.getListAveriasVin('9BHCP41CAPP362972')
+    //this.getListAveriasVin('9BHCP41CAPP362972')
 
 
     this.indexTipoExcel = this.listTotalExcel[0]
@@ -1967,7 +1967,10 @@ export class VinesComponent implements OnInit{
 
   openModalEstados(estadosHijos: any, vin: any, codigoEstado: number){
 
-    if(codigoEstado === 27){
+
+    if(codigoEstado === 28){
+      console.log('enenenenenens');
+      
       this.getListAveriasVin(vin)
     }
     //console.log(estadosHijos);
