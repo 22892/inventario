@@ -254,7 +254,7 @@ export class DetalleComponent implements OnInit, AfterViewInit {
       setTimeout(() => {
 
         this.paintPointObservacion()
-      }, 500);
+      }, 900);
 
     }
 
@@ -559,7 +559,7 @@ export class DetalleComponent implements OnInit, AfterViewInit {
         setTimeout(() => {
 
           this.paintPointObservacion()
-        }, 50);
+        }, 500);
       }
 
     }

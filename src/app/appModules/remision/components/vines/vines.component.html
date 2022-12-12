@@ -1380,19 +1380,34 @@
                           <td>
                             <!--<nz-avatar [nzIcon]="'file-pdf'" (click)="openModalPdf(item)"   style="background:white;border: solid 1px #cb4b54; color:#cb4b54" [nzTooltipTitle]="'PDF RECEPCIÓN'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>-->
                             
-                            <ng-container *ngIf="item.cargandoPDF; else Nocarga">
-                                <span nz-icon [nzType]="'sync'" [nzSpin]="true"></span>
+                            <ng-container *ngIf="item.veh_estado_observacion == 0; else tieneDatosPdf">
+
+                               
+    
+                                <nz-avatar [nzIcon]="'file-pdf'" (click)="mensajeErrorPdf()"
+                                style="background:white;border: solid 1px #cb4b54; color:#cb4b54"
+                                [nzTooltipTitle]="'FALTA REALIZAR LA REVISIÓN'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>
+                              
+    
 
                             </ng-container>
 
-                            <ng-template #Nocarga>
+                            <ng-template #tieneDatosPdf>
 
-                                <nz-avatar [nzIcon]="'file-pdf'" (click)="descargarPDF(item.veh_vin, item.index)"
-                                style="background:white;border: solid 1px #cb4b54; color:#cb4b54"
-                                [nzTooltipTitle]="'Reporte Excel'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>
-
+                                <ng-container *ngIf="item.cargandoPDF; else Nocarga">
+                                    <span nz-icon [nzType]="'sync'" [nzSpin]="true"></span>
+    
+                                </ng-container>
+    
+                                <ng-template #Nocarga>
+    
+                                    <nz-avatar [nzIcon]="'file-pdf'" (click)="descargarPDF(item.veh_vin, item.index)"
+                                    style="background:white;border: solid 1px #64ed5c; color:#64ed5c"
+                                    [nzTooltipTitle]="'Reporte Excel'" nzTooltipPlacement="top" nz-tooltip></nz-avatar>
+                                </ng-template>
 
                             </ng-template>
+
 
 
                           </td>

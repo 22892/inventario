@@ -1964,6 +1964,9 @@ export class VinesComponent implements OnInit{
 
   }
 
+  mensajeErrorPdf(){
+    this.msg.warning('PARA GENERAR EL PDF TIENE QUE REALIZAR LA REVISIÓN DEL VIN')
+  }
 
   openModalEstados(estadosHijos: any, vin: any, codigoEstado: number){
 

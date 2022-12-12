@@ -650,7 +650,7 @@
 
 
 <nz-modal nzWrapClassName="vertical-center-modal" nzWidth="700px" [(nzVisible)]="modalObservacion"
-    nzTitle="OBSERVACIÓN VIN" (nzOnCancel)="modalObservacion = false" (nzOnOk)="cerrarModalObs()">
+    nzTitle="OBSERVACIÓN VIN:  {{veh_codigo}}" (nzOnCancel)="modalObservacion = false" (nzOnOk)="cerrarModalObs()">
     <ng-template nzModalContent class="steps-content">
 
         <div class="steps-content">
