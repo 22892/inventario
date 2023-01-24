@@ -150,6 +150,8 @@ export class ObservacionComponent implements OnInit, AfterViewInit {
 
   size: NzButtonSize = 'large';
   listObservacionVin: any[] = [];
+  listObservacionVinFinal: any[] = [];
+  
   isLoadinCreateObs: boolean = false
   index: number = 0;
   fileList: NzUploadFile[] = [];
@@ -218,7 +220,7 @@ export class ObservacionComponent implements OnInit, AfterViewInit {
   loadingDocumento: boolean = false
   subDocumento: any
   cargandoDocumento: boolean = false
-
+  listFotoAveriaEnviar: any[] = []
 
   constructor(@Inject('BASE_URL') baseUrl: string,
     private element: ElementRef,
@@ -231,6 +233,9 @@ export class ObservacionComponent implements OnInit, AfterViewInit {
     private servicePedido: PedidoService) {
 
       this.baseUrl = baseUrl.substring(0, baseUrl.length-1);
+
+      console.log(this.baseUrl);
+      
 
       this.observacionForm = this.fb.group({
         dov_observaciones_estado_fisico: ['', [Validators.required]],
@@ -412,6 +417,7 @@ export class ObservacionComponent implements OnInit, AfterViewInit {
         dano: this.dano.dan_nombre,
         tamano: this.tamano.tam_nombre,
         grupo: this.grupo.grp_nombre,
+        listDocumentos: []
       }
 
       //console.log('item observacion');
@@ -430,9 +436,6 @@ export class ObservacionComponent implements OnInit, AfterViewInit {
     }else{
       this.msg.warning('Tiene que seleccionar Daños y Tamanño')
     }
-
-
-
   }
 
 
@@ -449,10 +452,10 @@ export class ObservacionComponent implements OnInit, AfterViewInit {
 
   saveObservacionVin(){
 
-    //console.log(this.listObservacionVin);
 
+    //METODO PARA GUARDAR DE LA FORMA ANTERIOR------------>>>>>>>>>>>>>>>>>>>>>
 
-    if(this.listObservacionVin.length>0){
+    /*if(this.listObservacionVin.length>0){
 
       let accesorio: any
 
@@ -466,14 +469,9 @@ export class ObservacionComponent implements OnInit, AfterViewInit {
             acc_veh_par_codigo: respuesta.par_codigo,
             acc_veh_par_grp_codigo: respuesta.grp_codigo
           }
-
           this.listAccesorios = [...this.listAccesorios, accesorio]
-
         })
       }
-
-
-      //this.isLoadinCreateObs = true
 
       const formData = new FormData();
       var j=0
@@ -491,9 +489,7 @@ export class ObservacionComponent implements OnInit, AfterViewInit {
         formData.append('observaciones.observaciones['+j+'].obs_pos_y', item.obs_pos_y)
 
         item.file.forEach((doc: any)=>{
-          console.log('iiiiiiiiiiiiiiiii');
-          console.log(doc);
-          
+         
           formData.append("observaciones.observaciones[" + j + "].file", doc)
 
         })
@@ -517,9 +513,6 @@ export class ObservacionComponent implements OnInit, AfterViewInit {
       this.serviceObservacion.createObservacionVin(formData).subscribe({
         next: (data) => {
 
-          //console.log('creaciondo revision vin');
-          //console.log(data);
-
           if(data){
             this.isLoadinCreateObs = false
             this.fileList = []
@@ -531,8 +524,6 @@ export class ObservacionComponent implements OnInit, AfterViewInit {
             this.servicePedido.updateListAllVinMarca(this.serviceGlobal.getCodigoGuia())
             this.msg.success('Observaciones de Vin Realizadas');
             this.router.navigate([`/pedido/vins/${this.cod_guia}`]);
-
-
           }else{
             this.isLoadinCreateObs = false
           }
@@ -543,15 +534,137 @@ export class ObservacionComponent implements OnInit, AfterViewInit {
           this.isLoadinCreateObs = false
 
         }
-
       })
 
     }else{
       this.msg.warning('Tiene que agragar minimo una observación')
+    }*/
+
+
+    // METODO PARA GUARDAR DE LA FORMA NUEVA 
+
+
+    if(this.listObservacionVin.length>0){
+
+      let accesorio: any
+
+      if(this.listChecRespuesta.length>0){
+        this.listChecRespuesta.forEach((respuesta: any, index: number)=>{
+
+          accesorio = {
+            acc_veh_marca: this.serviceGlobal.getCodigoMarca(),
+            acc_veh_vin: this.veh_codigo,
+            acc_veh_respuesta: respuesta.par_check,
+            acc_veh_par_codigo: respuesta.par_codigo,
+            acc_veh_par_grp_codigo: respuesta.grp_codigo
+          }
+          this.listAccesorios = [...this.listAccesorios, accesorio]
+        })
+      }
+
     }
 
+    this.uploadDocumentoRecursivo(0)
 
   }
+
+
+
+  uploadDocumentoRecursivo(aux: number){
+
+    if(this.listObservacionVin[aux].file.length > 0){
+
+      const formData = new FormData();
+      formData.append("file", this.listObservacionVin[aux].file[0])
+
+      this.serviceObservacion.uploadDocumento(formData, this.veh_codigo).subscribe({
+        next: (data) => {
+
+          console.log(data);
+          this.listObservacionVin[aux].listDocumentos.push(data)
+          this.listObservacionVin[aux].file.shift();
+          this.uploadDocumentoRecursivo(aux)
+        },
+        error: (err) => {
+         
+          this.msg.error('ERROR AL SUBIR FOTOS '+err.message);
+        }
+      });
+
+    }else{
+
+      if(this.listObservacionVin.length > aux + 1){
+        this.uploadDocumentoRecursivo(aux + 1)
+      }else{
+
+        this.listObservacionVin.forEach((item: any, index: number)=>{
+
+          let observacion = {
+
+            obs_marca: item.obs_marca,
+            obs_comentario: item.obs_comentario,
+            obs_veh_vin: item.obs_veh_vin,
+            obs_grp_codigo: item.obs_grp_codigo,
+            obs_dan_codigo: item.obs_dan_codigo,
+            obs_tam_codigo: item.obs_tam_codigo,
+            obs_par_codigo: item.obs_par_codigo,
+            obs_pos_x: item.obs_pos_x,
+            obs_pos_y: item.obs_pos_y,
+            listDocumentos: item.listDocumentos
+
+          }
+
+          this.listObservacionVinFinal = [...this.listObservacionVinFinal, observacion]
+    
+          
+        })
+
+
+        let averia = {
+          "listaAccesorios": this.listAccesorios,
+          "observaciones": this.listObservacionVinFinal,
+        }
+
+        this.isLoadinCreateObs = true
+        
+  
+        this.serviceObservacion.crearAveriasObservacion(averia).subscribe({
+          next: (data) => {
+
+            if(data){
+
+              console.log(data);
+              
+              this.isLoadinCreateObs = false
+              this.fileList = []
+              this.listFoto = []
+              this.listAccesorios = []
+              this.listObservacionVin = []
+              this.listChecRespuesta = []
+              this.listCheckListAccesorio = []
+              this.servicePedido.updateListAllVinMarca(this.serviceGlobal.getCodigoGuia())
+              this.msg.success('OBSERVACIONES DE VIN REALIZADA');
+              this.router.navigate([`/pedido/vins/${this.cod_guia}`]);
+            }else{
+              this.isLoadinCreateObs = false
+              this.msg.error('ERROR AL GENERAR AVERIAS DE OBSERVACIÓN')
+            }
+            
+          },
+          error: (err) => {
+            
+            this.fileList = [];
+            this.msg.error('ERROR AL CREAR OBSERVACIONES '+err.message);
+            
+          }
+        });  
+      }
+      
+    }
+
+  }
+
+
 
   pestanaItem(index: any) {
 

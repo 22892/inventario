@@ -51,6 +51,13 @@ export class ObservacionService {
     })
   };
 
+  httpOptionsfile = {
+    headers: new HttpHeaders({
+      'Authorization': `Bearer `+this.serviceAuth.token
+    })
+  };
+
+
   createNotification(type: string, titulo: string, mensaje: string): void {
     this.notification.create(
       type,
@@ -59,6 +66,20 @@ export class ObservacionService {
       { nzPlacement: 'bottomLeft' }
     );
   }
+
+
+
+   uploadDocumento(file:any, vin: any):Observable<any>{
+    let marca = this.serviceGlobal.getCodigoMarca()    
+    return this.http.post(`${this.baseUrl}api/documento/documento_vehiculo_observacion/${marca}/${vin}`,file,this.httpOptionsfile);
+  }
+
+  crearAveriasObservacion(averias:any):Observable<any>{
+    return this.http.post(`${this.baseUrl}api/observacion/create`,averias,this.httpOptions)
+  }
+
+
+
 
   //OBTENER DETALLE DE REVISION VIN LISTADO DE OBSERVACIONES
 

@@ -2518,7 +2518,7 @@ export class VinesComponent implements OnInit{
 
     this.sub = this.vin$.subscribe(p => {
 
-      //console.log(p);
+      console.log(p);
       
       this.listAux = p.listVin
       //this.listVinAux = p.listVin
